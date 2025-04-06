@@ -1,0 +1,176 @@
+## Geração de Chave e Migrations
+
+# Gerar uma nova chave para o aplicativo
+php artisan key:generate
+
+# Criar uma nova migration
+php artisan make:migration nome_da_migration
+
+# Rodar as migrations
+php artisan migrate
+
+# Resetar as migrations (Remove todas as tabelas e recria)
+php artisan migrate:fresh
+
+# Resetar o banco de dados e rodar as seeds (Limpa e popula o banco com dados)
+php artisan migrate:fresh --seed
+
+# Rodar migrations de um diretório específico
+php artisan migrate --path=database/migrations/clubset
+
+# Rodar migrations em um banco de dados específico
+php artisan migrate --path=database/migrations/clubset --database=mysql_other
+
+# Rodar uma seed específica
+php artisan db:seed --class=Database\\Seeders\\Clubset\\ClubsetDatabaseSeeder
+
+## Comandos para Seeder e Model
+
+# Criar uma nova seed (utilizado para inserir dados automáticos no banco)
+php artisan make:seed nomeDaSeed
+
+# Rodar a seed (para inserir os dados de uma seed)
+php artisan db:seed
+
+# Criar um model com migration (cria o model no singular e já gera a migration)
+php artisan make:model TeamTournament -m
+
+# Criar um model, migration e controller com CRUD (útil para recursos completos)
+php artisan make:model ClubSet/ClubSetUser -mcr
+
+# Criar um controller de recursos (controller para manipulação do CRUD)
+php artisan make:controller NomeController --resource
+
+# Reverter a última migration (para desfazer a última alteração no banco)
+php artisan migrate:rollback
+
+# Rodar uma migration específica sem afetar o banco
+php artisan migrate --path=/database/migrations/2024_10_24_074902_create_connections_table.php
+
+# Criar um comando personalizado (para adicionar comandos específicos)
+php artisan make:command NomeCommand
+
+## Tinker, Factory e Testes
+
+# Acessar o terminal do Laravel (tinker) para testar interações com o banco
+php artisan tinker
+
+# Criar uma factory para gerar dados falsos
+php artisan make:factory NomeDaFactory
+
+# Rodar as cronsJobs (executar tarefas agendadas)
+php artisan schedule:run >> /dev/null 2>&1
+
+# Criar uma classe para envio de email
+php artisan make:mail NomeMail
+
+## Alterações no Banco de Dados
+
+# Alterar uma tabela existente (exemplo para adicionar uma coluna)
+alter_table_users_add_address_column --table=nomeTabela
+
+## Controllers
+
+# Tipos comuns de controllers no Laravel:
+# index - Exibe todos os registros
+# create - Exibe o formulário para criação de um novo registro
+# store - Recebe os dados do formulário e armazena no banco
+# show - Exibe um único registro
+# edit - Exibe o formulário para editar um registro existente
+# update - Atualiza um registro existente
+# destroy - Exclui um registro do banco
+
+## Limpeza de Cache
+
+# Limpar o cache do aplicativo
+php artisan optimize:clear
+
+# Limpar cache de views, configuração, eventos, rotas e agendamentos
+php artisan view:clear
+php artisan config:clear
+php artisan event:clear
+php artisan route:clear
+php artisan schedule:clear-cache
+
+## Utilitários
+
+# Instalar pacotes com NPM
+php artisan npm:install
+
+# Instalar pacotes do Laravel Mix
+npm install laravel-mix --save-dev
+npm install sass sass-loader resolve-url-loader --save-dev
+npm install clean-webpack-plugin --save-dev
+
+# Limpar o cache do NPM
+npm cache clean --force
+
+# Ver dependências do NPM
+npm list --depth=0
+
+# Rodar os scripts de build (otimização de assets)
+npm run build
+
+##Git (Controle de versão)
+# Inicializar um repositório Git
+git init
+
+# Adicionar todos os arquivos ao Git
+git add .
+
+# Fazer o commit de mudanças
+git commit -m "first commit"
+
+# Criar e mudar para o branch principal
+git branch -M main
+
+# Adicionar o repositório remoto do GitHub
+git remote add origin git@github.com:LucasCastro100/exemplo-git-formacao.git
+
+# Enviar alterações para o GitHub
+git push -u origin main
+
+## Laravel Breeze (Autenticação Simples)
+
+# Instalar o Laravel Breeze para autenticação simples
+composer require laravel/breeze --dev
+php artisan breeze:install
+
+## Para Criar e Gerar o Sitemap
+
+# Instalar pacote Spatie para Sitemap
+composer require spatie/laravel-sitemap
+
+# Criar um comando para gerar o Sitemap
+php artisan make:command GenerateSitemap
+
+# Rodar o comando de geração do Sitemap
+php artisan nome_do_comando
+
+## Otimizar o Autoload e Dependências
+
+# Limpar e reinstalar dependências para otimizar o autoload
+rm -rf vendor
+rm -rf node_modules
+rm composer.lock
+rm package-lock.json
+composer install --optimize-autoloader --no-dev
+composer update --optimize-autoloader --no-dev
+composer dump-autoload --optimize
+npm install --production
+
+## Para Trabalhar com Formulários e Validações
+
+# Usar FormRequest para validações em formulários
+php artisan make:request FormRequest
+
+# Criar uma regra de validação personalizada
+php artisan make:rule UserExists
+
+## Livewire
+
+# Criar um componente Livewire (para componentes interativos com Laravel sem necessidade de Javascript adicional)
+php artisan make:livewire NomeComponente
+
+# Rodar o servidor de desenvolvimento para testar Livewire (se necessário)
+php artisan serve
