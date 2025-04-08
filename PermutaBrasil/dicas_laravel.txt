@@ -1,0 +1,157 @@
+PERMUTA BRASIL
+
+php artisan key:generate = para gerar uma nova chave caso seja necessario
+php artisan make:migrate e o nome da migration => para cirar migrations
+
+php artisan migrate => toda vez que eu atualizar uma table ou alguma infomação dentro do alravel
+
+php artisan migrate:fresh => para resetar as migrations
+php artisan migrate:fresh --seed  => aqui reseto o banco de dados e sa insiro os dados junto
+
+php artisan migrate --path=database/migrations/clubset => para rodar as migrations dentro daquele diretorio
+php artisan migrate --path=database/migrations/clubset --database=mysql_other para rodar em outro banco dados la no final
+php artisan db:seed --class=Database\\Seeders\\Clubset\\ClubsetDatabaseSeeder
+
+php artisan make:seed => automatização de dados para banco de dados e tb para inserção ao banco de dados
+php artisan db:seed => para rodar a seed e cadastrar os dados dentro do banco de dados; para o codigo funcionar eu precido ir dentro dao DatabaseSeed, e inserir a seed que eu quero que rode
+
+php artisan make:model TeamTournament -m => nesse modelo criamos o model no singular e o laravel ja cria a migrate na maneira certa
+php artisan make:model ClubSet/ClubSetUser -mcr =>nesse modelo vc ja cria tudo model, migration e controller com os comandos para o CRUD
+php artisan make:controller nomeController --resource => serve para para criar um controle de recursos
+
+php artisan migrate:rollback - refaz a tultima migrations
+php artisan migrate --path=/database/migrations/2024_10_24_074902_create_connections_table.php - roda uma migrate especifica sem apagar o banco
+
+php artisan make:command nomeCommand => para criar comandos
+
+php artisan tinker => utilizamos apra realizar testes em rotas pelo terminal, aqui posso tulizar dos memsos comandos que realizo no Models, Controlers, e tudo mais porem sempre temno que pasar o caminho Ex use App\Models\Task depois Task::all() eu consigo epgar todos os dados da table tasks pelo terminal
+
+php artisan make:factory nomeDaFactory => utilizada apra criar as fabricas de dados para popular o banco de dados
+
+php artisan schedule:run >> /dev/null 2>&1 => para rodar as cronsJob
+
+php artisan make:mail NomeMail => para criar classe de email
+
+alter_table_users_add_address_column --table=noemTabela => ele ja cria parametreos em abse a table que vc passou
+
+TIPOS DE CONTROLLERS
+index - inicio
+create - pega os dados do form e envia para o store para inserir no bd
+store - vai receber os dados do create
+show - ver um dado
+edit - vai receber os dados do update
+update - pega os dados do form e envia para o edir para atualizar um dado no bd
+destroy - exclui um item no banco de dados
+
+SE O COMANDS JA ESTIVER CRIADO E CONFIGURADO BASTA USAR
+php artisan npm:install
+
+PARA LIMPAR TODO O CACHE DO APP
+php artisan optimize:clear
+
+
+INSTALAR O WLS NO WINDOWS (TERMINAL DE LINUX)
+wsl --install -> va no temrinal shell e digite esse comando
+
+WSL DADOS
+user: lucas
+pass: lks123018
+
+GIT
+git init
+git add . | ou git add nome_arquivo
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:LucasCastro100/exemplo-git-formacao.git
+git push -u origin main
+
+//formualrios no larvel nas validações usar FORMREQUEST e chamaos dentro do cntroler
+//quando for fazer query no laravel realizar dentro do model, e não ficar fazendo varias querys repetidas dentro do controller
+//sempre sar construtores nos controllers apra chamar model, service, request
+php artisan make:request FormRequest
+php artisan make:rule UserExists
+
+//PARA CRIAR E GERAR O SITEMAP
+composer require spatie/laravel-sitemap
+php artisan make:command GenerateSitemap
+php artisan $assignatura_do_comando
+
+
+//PARA FORMS USE LARAVEL-BREEZE USE OS DOIS COMANDO UM SEGUIDO DO OUTRO
+composer require laravel/breeze --dev
+php artisan breeze:install
+
+//PARA CRIAR ROUTES APRA API BASTAS SUAR O COMANDO
+php artisan install:api
+
+//INSTALANDO O MIX
+crie o arquivo webpack.mix.cjs
+npm install laravel-mix --save-dev
+npm install sass sass-loader resolve-url-loader --save-dev
+npm install clean-webpack-plugin --save-dev
+
+npm install
+npm cache clean --force
+npm list --depth=0 -para ver as dependecias que estão sendo usadas
+
+//NO ARQUIVO PASKJASON DEVE TER ESSAS CONFIGURADO "scripts": 
+{
+    "dev": "npx mix",
+    "build": "npx mix --production"
+}
+npm run build
+
+//aqui usamos outra tabela users apra verificar
+Auth::guard('club_set_users')->user()
+
+//configurar outra base de dados no env
+DB_CONNECTION_OTHER=mysql
+DB_HOST_OTHER=127.0.0.1
+DB_PORT_OTHER=3306
+DB_DATABASE_OTHER=database_other
+DB_USERNAME_OTHER=root
+DB_PASSWORD_OTHER=
+
+//criando ela no config.database
+'mysql_other' => [
+    'driver' => 'mysql',
+    'host' => env('DB_HOST_OTHER', '127.0.0.1'),
+    'port' => env('DB_PORT_OTHER', '3306'),
+    'database' => env('DB_DATABASE_OTHER', 'database_other'),
+    'username' => env('DB_USERNAME_OTHER', 'root'),
+    'password' => env('DB_PASSWORD_OTHER', ''),
+    'charset' => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+    'prefix' => '',
+    'strict' => true,
+    'engine' => null,
+],
+
+//COMANDOS PARA ACELERAR O AUTOLOAD
+rm -rf vendor
+rm -rf node_modules
+
+rm composer.lock
+rm package-lock.json
+
+composer install --optimize-autoloader --no-dev
+composer update --optimize-autoloader --no-dev
+composer dump-autoload --optimize
+npm install --production
+
+//CASO NAO RECONEHCA ROTA, VIEW, CACHE
+php artisan view:clear
+php artisan config:clear
+php artisan event:clear
+php artisan optimize:clear
+php artisan route:clear
+php artisan schedule:clear-cache
+
+//PARA CRIAR COMANDOS -> EX VAI CRIAR O ARQUIVO APRA SALVAR IP E HORA DE LOGIN CADA FEZ QUE USUSARIO ACESSAR O SISTEMA
+php artisan make:listener UpdateUserLoginInfo
+
+//COMANDO APRA CRIAR UM LIVEWIRE
+php artisan make:livewire Notice
+
+//BIBLIOTECA PARA MANIPULACAO DE IMAGEM
+composer require intervention/image

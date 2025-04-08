@@ -1,5 +1,3 @@
-{{-- @dd($course->modules) --}}
-
 <x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -8,7 +6,7 @@
     </x-slot>
 
     <div class="py-12" x-data="{ openModule: false, openClassroom: false, openEdit: false, openDelete: false, editModule: false, editClassroom: false, selectedCourse: {}, selectModule: {}, selectClassroom: {}, selectedParentUuid: '' }">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if (session('success'))
                     <x-alert-component type="success" :message="session('success')" />
@@ -31,7 +29,7 @@
 
                             <!-- Menu Dropdown -->
                             <div x-show="open" @click.away="open = false"
-                                class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2 z-100"
+                                class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg p-2 z-10"
                                 x-transition>
 
                                 <!-- Itens do menu em linha -->
@@ -113,7 +111,7 @@
                                     </div>
                                 @else
                                     @foreach ($course->modules as $module)
-                                        <div class="mb-4">
+                                        <div class="mb-4 relative z-0">
                                             <div class="border rounded-lg p-4 bg-gray-100">
                                                 <div class="flex justify-between items-center relative">
                                                     <h3 class="font-semibold">{{ $module->title }}</h3>
@@ -137,20 +135,20 @@
 
                                                             <!-- Menu Dropdown -->
                                                             <div x-show="openMenuModule"
-                                                                @click.away="openMenuModule = false"
+                                                            @click.away="openMenuModule = false"                                                                
                                                                 class="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg p-2 z-10"
                                                                 x-transition>
                                                                 <ul class="space-y-1">
                                                                     <li>
                                                                         <button
-                                                                            @click="selectedModule = {{ json_encode($module) }}; openEditModule = true; selectedParentUuid = '{{ $module->uuid }}'"
+                                                                            @click="editModule = true; selectedModule = {{ json_encode($module) }}; openEditModule = true; selectedParentUuid = '{{ $module->uuid }}'"
                                                                             class="w-full text-left px-4 py-2 rounded hover:bg-blue-500 hover:text-white">
                                                                             Editar Módulo
                                                                         </button>
                                                                     </li>
                                                                     <li>
                                                                         <button
-                                                                            @click="selectModule = {{ json_encode($module) }}; selectedType = 'modulo'; openDelete = true"
+                                                                            @click="openDelete = true; selectedItem = {{ json_encode($module) }}; selectedType = 'modulo'"
                                                                             class="w-full text-left px-4 py-2 rounded hover:bg-red-500 hover:text-white">
                                                                             Excluir Módulo
                                                                         </button>
@@ -170,9 +168,8 @@
                                                         </div>
                                                     @else
                                                         @foreach ($module->classrooms as $classroom)
-                                                            <div
-                                                                class="flex justify-between items-center p-2 border-b relative">
-                                                                <div class="flex items-center">
+                                                            <div class="flex justify-between items-center p-2 border-b relative">
+                                                                <div class="flex items-center" @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
                                                                     <span>{{ $classroom->title }}</span>
                                                                 </div>
 
@@ -190,7 +187,7 @@
                                                                         <ul class="space-y-1">
                                                                             <li>
                                                                                 <button
-                                                                                    @click="selectModule = {{ json_encode($module) }}; selectClassroom = {{ json_encode($classroom) }}; editClassroom = true"
+                                                                                    @click="selectedModuleId = {{ ($module->id) }}; selectClassroom = {{ json_encode($classroom) }}; selectedParentUuid = '{{ $classroom->uuid }}';editClassroom = true"
                                                                                     class="w-full text-left px-4 py-2 rounded hover:bg-blue-500 hover:text-white">
                                                                                     Editar Aula
                                                                                 </button>
@@ -244,7 +241,7 @@
                             <label class="block text-gray-700 font-medium">Imagem de capa</label>
                             <label for="dropzone-file"
                                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <div class="flex flex-col items-center justify-center p-4">
                                     <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -260,13 +257,13 @@
 
                                 <!-- Pré-visualização da imagem dentro da área de dropzone -->
                                 <div id="image-preview-container"
-                                    class="absolute inset-0 flex items-center justify-center hidden">
-                                    <img id="image-preview" class="w-full h-full object-contain rounded-lg"
+                                    class="absolute inset-0 flex items-center justify-center hidden h-100 pt-5">
+                                    <img id="image-preview" class="w-full h-full object-contain rounded-lg pt-1"
                                         alt="Pré-visualização da Imagem" />
                                 </div>
 
                                 <div id="image-from-db" x-show="selectedCourse.image"
-                                    class="absolute inset-0 flex items-center justify-center">
+                                    class="absolute inset-0 flex items-center justify-center pt-6">
                                     <img x-bind:src="'/storage/' + selectedCourse.image"
                                         class="w-full h-full object-contain rounded-lg" alt="Imagem do Curso">
                                 </div>
@@ -335,7 +332,7 @@
                     <form method="POST" :action="`/modulo/${selectedModule.uuid}`">
                         @csrf
                         @method('PUT') <!-- Usando PUT para editar -->
-
+                        
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input type="text" id="title" name="title" x-model="selectedModule.title"
@@ -381,8 +378,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="content" class="block text-sm font-medium text-gray-700">Descrição</label>
-                            <textarea id="content" name="content" rows="4"
+                            <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
+                            <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 required></textarea>
                         </div>
@@ -423,35 +420,35 @@
         <template x-if="editClassroom">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 p-1">
                 <div class="bg-white p-6 rounded-lg relative w-full max-w-md max-h-full">
-                    <button @click="openClassroom = false"
+                    <button @click="editClassroom = false"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
-
                     <!-- Formulário de Criação de Aula -->
-                    <form method="POST" :action="`/aula`">
+                    <form method="POST" :action="`/aula/${selectClassroom.uuid}/editar`">
                         @csrf
+                        @method('PUT') <!-- Usando PUT para editar -->
                         
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Nome da Aula</label>
                             <input type="text" id="title" name="title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                required  x-model="selectClassroom.title">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required></textarea>
+                                required x-model="selectClassroom.description"></textarea>
                         </div>
 
                         <div class="mb-4">
-                            <label for="video_url" class="block text-sm font-medium text-gray-700">URL do
+                            <label for="video" class="block text-sm font-medium text-gray-700">URL do
                                 Vídeo</label>
-                            <input type="url" id="video_url" name="video_url"
+                            <input type="url" id="video" name="video"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                required  x-model="selectClassroom.video">
                         </div>
 
                         <div class="mb-4">
@@ -470,7 +467,7 @@
                         </div>
 
                         <div class="flex justify-end">
-                            <button type="button" @click="openClassroom = false"
+                            <button type="button" @click="editClassroom = false"
                                 class="bg-gray-500 text-white px-4 py-2 rounded mr-2 font-medium">Cancelar</button>
                             <button type="submit"
                                 class="bg-blue-500 text-white px-4 py-2 rounded font-medium">Salvar</button>

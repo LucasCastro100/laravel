@@ -26,6 +26,12 @@ class Classroom extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
+
     public function assessments()
     {
         return $this->hasMany(Assessment::class);

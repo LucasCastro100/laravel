@@ -30,8 +30,9 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],            
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'cpf' => ['required', 'string', 'max:14', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
             // Mensagens personalizadas
@@ -43,6 +44,11 @@ class RegisteredUserController extends Controller
             'email.email' => 'Informe um e-mail válido.',
             'email.lowercase' => 'O e-mail deve ser em minúsculas.',
             'email.unique' => 'Já existe uma conta com esse e-mail.',
+
+            'cpf.required' => 'O cpf é obrigatório.',
+            'cpf.string' => 'O cpf deve ser uma string válida.',
+            'cpf.max' => 'O cpf não pode ter mais de 17 caracteres.',
+            'cpf.unique' => 'Já existe uma conta com esse cpf.',
         
             'password.required' => 'A senha é obrigatória.',
             'password.confirmed' => 'As senhas não coincidem.',
@@ -52,6 +58,7 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'cpf' => $request->cpf,
             'password' => Hash::make($request->password),
         ]);
 

@@ -1,0 +1,17 @@
+[
+    { "type_service": "Advogado" },
+    { "type_service": "Cabeleireiro(a)" },
+    { "type_service": "Manicure" },
+    { "type_service": "Pedicure" },
+    { "type_service": "Professor(a) de Inglês" },
+    { "type_service": "Personal Trainer" },
+    { "type_service": "Nutricionista" },
+    { "type_service": "Psicólogo(a)" },
+    { "type_service": "Massoterapeuta" },
+    { "type_service": "Designer de Sobrancelhas" },
+    { "type_service": "Fotógrafo(a)" },
+    { "type_service": "Audiovisual" },
+    { "type_service": "Videomaker" },
+    { "type_service": "Desenvolvedor" }
+  ]
+  

@@ -31,7 +31,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     {{-- TITLE --}}
-    <title>{{ $title ?? '' }}</title>
+    <title>{{ $title ?? 'Comunidade de Alquimistas' }}</title>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -39,7 +39,7 @@
 
 <body class="font-sans antialiased" x-data="{ openAside: false }">
     <div class="w-full min-h-screen transition-all bg-gray-100">
-        <aside class="bg-white text-black fixed h-full border-r border-gray-100 md:block p-4 transition-all"
+        <aside class="bg-white text-black fixed h-full border-r border-gray-100 md:block p-4 transition-all text-center"
             :class="openAside ? 'w-[250px]' : 'w-[85px]'">
 
             <button @click="openAside = !openAside" class="p-2 bg-gray-50 rounded-md mb-4">

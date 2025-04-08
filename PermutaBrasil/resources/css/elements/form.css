@@ -1,0 +1,39 @@
+form .form-group,
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+/* form .form-group:last-child,
+.form-group:last-child {
+    margin-bottom: 0;
+} */
+
+form label,
+label {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+form .form-item,
+.form-item {
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--bgBlack);
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    outline: 0;
+    height: 100%;
+}
+
+form [data-check] {
+    margin-bottom: 1rem;
+}
+
+form .form-btn{
+    display: flex;
+    text-align: center;
+    justify-content: flex-end;
+}

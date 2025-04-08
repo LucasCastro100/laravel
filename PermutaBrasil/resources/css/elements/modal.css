@@ -1,0 +1,70 @@
+#modal {
+    overflow-y: auto;
+    display: none;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-content {
+        width: 100%;
+        max-width: 750px;
+        background-color: var(--bgWhite);
+        box-shadow: 0 0 2px var(--bgWhite);
+        border-radius: 5px;
+        margin: 1rem;
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: solid 2px var(--bgBlack);
+
+            .modal-close {
+                background-color: transparent;
+                border: none;
+
+                i {
+                    font-size: 2rem;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 1rem;
+
+            form{
+                .form-group{
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                }
+            }
+        }
+
+        button {
+            &.btn-save {
+                background-color: rgba(0, 150, 0, 1) !important;
+            }
+
+            &.btn-close {
+                background-color: rgba(255, 0, 0, 1) !important;
+            }
+        }
+
+        .list-prospections{
+            .info-prospeccao{
+                width: 100%;
+
+                img{
+                    width: 55px;
+                }
+            }
+        }
+    }
+}

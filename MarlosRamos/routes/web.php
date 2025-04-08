@@ -92,7 +92,7 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/aula', 'store')->name('classroom.store');
 
-            Route::put('/aula/{uuid_classroom}', 'update')->name('classroom.update');
+            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
             Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
         });

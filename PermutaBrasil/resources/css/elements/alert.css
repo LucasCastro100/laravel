@@ -1,0 +1,43 @@
+.alert {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+}
+
+.alert-success {
+    color: rgba(15, 81, 50, 1);
+    background-color: rgba(209, 231, 221, 1);
+    border-color: rgba(186, 219, 204, 1);
+}
+
+.alert-erro {
+    color: rgba(132, 32, 41, 1);
+    background-color: rgba(248, 215, 218, 1);
+    border-color: rgba(245, 194, 199, 1);
+}
+
+.alert-pending{
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.msg-success{
+    background-color: rgba(209, 231, 221, 1);
+}
+
+.msg-warning{
+    background-color: rgba(252, 248, 227, 1);
+}
+
+.msg-erro{
+    background-color: rgba(248, 215, 218, 1);
+}

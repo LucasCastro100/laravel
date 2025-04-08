@@ -1,0 +1,31 @@
+.list-carousel {
+    .carousel-slide {
+        .carousel {
+            @for $i from 1 through 6 {
+                &-#{$i} {
+                    width: calc(100% / #{$i});
+                }
+            }
+        }
+    }
+}
+
+.carousel-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        height: 35px;
+        width: 35px;
+        background-color: rgba(0, 58, 93, 1);
+        color: rgba(255, 255, 255, 1);
+    }
+}

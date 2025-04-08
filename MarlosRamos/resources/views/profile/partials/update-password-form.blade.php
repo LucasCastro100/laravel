@@ -13,6 +13,7 @@
         @csrf
         @method('put')
 
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div>
             <x-input-label for="update_password_current_password" :value="__('Senha Atual')" />
             <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />

@@ -1,0 +1,14 @@
+details{
+    border: 1px solid var(--bgBlack);
+    border-radius: 0.5rem;
+
+    summary{
+        cursor: pointer;
+        font-weight: bold;
+        padding: 0.5em;
+    }
+
+    &[open] summary {
+        border-bottom: 1px solid var(--bgBlack);
+    }
+}

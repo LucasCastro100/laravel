@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="{{ asset('img/icon.png') }}" />
     <link rel="apple-touch-icon" href="{{ asset('img/icon.png') }}" />
 
-    <title>{{ config('app.name', 'Painel de acesso') }}</title>
+    <title>Comunidade de Alquimistas</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

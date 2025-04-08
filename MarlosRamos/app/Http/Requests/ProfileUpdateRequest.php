@@ -25,6 +25,20 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'cpf' => [
+                'required',
+                'string',                
+                Rule::unique(User::class)->ignore($this->user()->id),
+            ],
+            'phone' => [
+                'required',                
+            ],
+            'iamge' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048', // 2MB
+            ],
         ];
     }
 
@@ -41,6 +55,16 @@ class ProfileUpdateRequest extends FormRequest
             'email.email' => 'Informe um e-mail válido.',
             'email.max' => 'O e-mail não pode ter mais de 255 caracteres.',
             'email.unique' => 'Já existe um usuário registrado com este e-mail.',
+
+            'cpf.required' => 'O campo CPF é obrigatório.',
+            'cpf.string' => 'O CPF deve ser uma string válida.',            
+            'cpf.unique' => 'Já existe um usuário registrado com este CPF.',
+
+            'phone.required' => 'O campo telefone é obrigatório.',                                    
+
+            'image.image' => 'O arquivo deve ser uma imagem.',
+            'image.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif, svg.',
+            'image.max' => 'A imagem não pode ter mais de 2MB.',            
         ];
     }
 }

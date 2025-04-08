@@ -1,1 +1,1 @@
-<img src="{{ asset('img/pnl_480_720.png') }}" alt="LOGO" title="LOGO" class="w-100">
+<img src="{{ asset('img/logo_preta.png') }}" alt="LOGO" title="LOGO" class="w-100">

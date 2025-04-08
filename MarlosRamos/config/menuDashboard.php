@@ -15,18 +15,13 @@ return [
         [
             'icon' => 'fas fa-book',
             'name' => 'Gerenciar Cursos',
+            'route' => 'course.index'
+        ],
+        [
+            'icon' => 'fas fa-users',
+            'name' => 'Gerenciar Usuários',
             'route' => 'course.index',
         ],
-        // [
-        //     'icon' => 'fas fa-cogs',
-        //     'name' => 'Gerenciar Módulos',
-        //     'route' => 'module.index',
-        // ],
-        // [
-        //     'icon' => 'fa-chalkboard-teacher',
-        //     'name' => 'Gerenciar Aulas',
-        //     'route' => 'classroom.index',
-        // ],                
         [
             'icon' => 'fas fa-user',
             'name' => 'Perfil',
