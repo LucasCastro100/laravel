@@ -12,31 +12,37 @@
     @if ($sales->isEmpty())
         <h2 class="bold m-0">Nenhum dado cadastrado!</h2>
     @else
-        <div class="card-container">
-            @foreach ($sales as $shelf)
-                <div class="card">
-                    @if (!empty($shelf->images) && is_array($shelf->images) && count($shelf->images) > 0)
-                        <img src="{{ Storage::url($shelf->images[0]) }}" alt="{{ $shelf->product_name }}"
-                            class="card-img">
-                    @endif
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $shelf->name }}</h5>
-                        <p class="card-text">R$ {{ $shelf->price }}</p>
-                        <div class="d-flex-align-center justidy-center flex-direction-row gap">
-                            <button wire:click="openViewModal({{ $shelf->id }})">VISUALIZAR</button>
+        <div class="card-container grid grid-1 grid-sm-2 grid-md-3 grid-lg-4 grid-xl-5">            
+                @foreach ($sales as $shelf)
+                    <div class="card">
+                        @if (!empty($shelf->images) && is_array($shelf->images) && count($shelf->images) > 0)
+                            <img src="{{ Storage::url($shelf->images[0]) }}" alt="{{ $shelf->product_name }}"
+                                class="card-img">
+                        @endif
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{  mb_strtoupper($shelf->name) }}</h5>
+                            <p class="card-text text-center">R$ {{ $shelf->price }}</p>
+                            <div class="d-flex align-center justify-center flex-direction-row gap">
+                                <button class="btn" wire:click="openViewModal({{ $shelf->id }})">VISUALIZAR</button>
 
-                            @if ($shelf->user_id !== Auth::id())
-                            <form
-                                action="{{ route('dashboard.friend.convity.saleBooth', ['friendId' => $shelf->user_id]) }}"
-                                method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="btn">TENHO INTERESSE</button>
-                            </form>    
-                            @endif                            
+                                @if ($shelf->user_id !== Auth::id())
+                                    <form
+                                        action="{{ route('dashboard.friend.convity.saleBooth', ['friendId' => $shelf->user_id]) }}"
+                                        method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn">TENHO INTERESSE</button>
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach       
+                
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
         </div>
 
         {{ $sales->links() }}
@@ -47,7 +53,7 @@
                     <button type="button" class="modal-close" title="FECHAR MODAL" wire:click="closeViewModal">
                         <i class="fa-solid fa-xmark click" aria-hidden="true"></i>
                     </button>
-                    @if ($selectedItem)                    
+                    @if ($selectedItem)
                         <h2>{{ $selectedItem->user->client->name }}</h2>
                         <h4>{{ $selectedItem->name }}</h4>
                         <p>{{ $selectedItem->description }}</p>

@@ -16,11 +16,14 @@ class MySalesBooth extends Component
     public $showCreateModal = false;
     public $showEditModal = false;
     public $showDeleteModal = false;
+    public $editId;
     public $deleteId = null;    
     public $searchName = '';
     public $searchDate = '';
     public $message;
     public $status;
+    public $isProcessing = false;
+
 
     public function openCreateModal()
     {
@@ -36,6 +39,7 @@ class MySalesBooth extends Component
     public function openEditModal($id)
     {
         $sale = SalesBooth::findOrFail($id);
+        $this->editId = $sale->id;
         $this->name = $sale->name;
         $this->description = $sale->description;
         $this->price = $sale->price;
@@ -66,7 +70,7 @@ class MySalesBooth extends Component
 
         // dd($this->name, $this->description, $this->price, $images);
 
-        SalesBooth::create([
+        $sales = SalesBooth::create([
             'user_id' => Auth::id(),
             'name' => $this->name,
             'description' => $this->description,
@@ -74,7 +78,14 @@ class MySalesBooth extends Component
             'images' => $images,
         ]);
 
-        $this->message = 'Produto cadastrado com sucesso!';
+        if($sales) {            
+            $this->message = 'Produto adicioando com sucesso!';
+            $this->status = 'success';
+        } else {
+            $this->message = 'Ops..., não foi possível adicionar o produto, tente novamente!';
+            $this->status = 'error';
+        }
+
         $this->closeCreateModal();
         $this->resetPage(); // Refresh the list
     }
@@ -103,15 +114,37 @@ class MySalesBooth extends Component
             $sale->update(['images' => $images]);
         }
 
-        $this->message = 'Produto atualizado com sucesso!';
+        if($sale) {            
+            $this->message = 'Produto atualizado com sucesso!';
+            $this->status = 'success';
+        } else {
+            $this->message = 'Ops..., não foi possível atualizar o produto, tente novamente!';
+            $this->status = 'error';
+        }
+        
         $this->closeEditModal();
         $this->resetPage(); // Refresh the list
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        SalesBooth::findOrFail($id)->delete();
-        $this->message = 'Produto excluído com sucesso!';
+        $this->showDeleteModal = true;
+        $this->deleteId = $id;
+    }
+
+    public function delete()
+    {
+        $sale = SalesBooth::findOrFail($this->deleteId)->delete();
+
+        if($sale) {            
+            $this->message = 'Produto excluido com sucesso!';
+            $this->status = 'success';
+        } else {
+            $this->message = 'Ops..., não foi possível excluir o produto, tente novamente!';
+            $this->status = 'error';
+        }
+        
+        $this->showDeleteModal = false;
         $this->resetPage(); // Refresh the list
     }
 
@@ -135,7 +168,7 @@ class MySalesBooth extends Component
             $query->whereDate('created_at', $this->searchDate);
         }
 
-        $sales = $query->paginate(10);
+        $sales = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('livewire.my-sales-booth', [
             'sales' => $sales,

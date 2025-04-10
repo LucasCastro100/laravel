@@ -38,15 +38,22 @@
                         <td>R$ {{ $shelf->price }}</td>
                         <td>
                             @foreach ($shelf->images as $image)
-                                <img src="{{ Storage::url($image) }}" alt="{{ $shelf->name }}"
-                                    class="img-thumbnail" width="50">
+                                <img src="{{ Storage::url($image) }}" alt="{{ $shelf->name }}" class="img-thumbnail"
+                                    width="50">
                             @endforeach
                         </td>
                         <td>
-                            <button wire:click="openEditModal({{ $shelf->id }})"
-                                class="btn btn-warning">Editar</button>
-                            <button wire:click="confirmDelete({{ $shelf->id }})"
-                                class="btn btn-danger">Excluir</button>
+                            <ul class="actions">
+                                <li class="edit">
+                                    <div wire:click='openEditModal({{ $shelf->id }})' class="click"><i
+                                            class="fa-solid fa-pencil"></i></div>
+                                </li>
+
+                                <li class="delete">
+                                    <div wire:click="confirmDelete({{ $shelf->id }})" class="click"><i
+                                            class="fa-solid fa-trash"></i></div>
+                                </li>
+                            </ul>
                         </td>
                     </tr>
                 @endforeach
@@ -58,53 +65,117 @@
 
     <!-- Create Modal -->
     @if ($showCreateModal)
-        <div class="modal">
-            <div class="modal-content">
-                <button type="button" class="modal-close" title="FECHAR MODAL" wire:click="closeCreateModal">
-                    <i class="fa-solid fa-xmark click" aria-hidden="true"></i>
-                </button>
-                <h2>Cadastrar Produto</h2>
-                <form wire:submit.prevent="submit">
-                    <input type="text" wire:model="name" placeholder="Nome do Produto" required>
-                    <textarea wire:model="description" placeholder="Descrição" required></textarea>
-                    <input wire:model="price" placeholder="Preço" required>
-                    <input type="file" wire:model="images" multiple>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+    <div class="modal show" id="modal">
+        <div class="modal-content">
+            <div class="modal-header  d-flex justify-between align-center">
+                <h5 class="modal-title m-0">Cadastrar Produto</h5>
+                <button type="button" class="modal-close" title="FECHAR MODAL"
+                    wire:click="$set('showCreateModal', false)"><i class="fa-solid fa-xmark click"
+                        aria-hidden="true"></i></button>
+            </div>
+
+            <div class="modal-body">                
+                <form wire:submit.prevent="submit" enctype="multipart/form-data">
+                    <div class="row">                        
+                        <div class="form-group col-lg-6 col-12">
+                            <label for="name">Nome</label>
+                            <input type="text" wire:model="name" class="form-item">
+                        </div>
+                        
+                        <div class="form-group col-lg-6 col-12">
+                            <label for="price">Valor</label>
+                            <input wire:model="price" class="form-item">
+                        </div>   
+
+                        <div class="form-group col-12">
+                            <label for="description">Descrição</label>
+                            <textarea wire:model="description" class="form-item"></textarea>
+                        </div>   
+                        
+                        <div class="form-group col-12">
+                            <label for="price">Imagens</label>
+                            <input type="file" wire:model="images" class="form-item" multiple>
+                        </div>                          
+                    </div>
+
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-close"
+                            wire:click="closeCreateMEdit">Fechar</button>
+
+                        <button type="submit" class="btn btn-save"> Salvar</button>
+                            {{-- {{ $isProcessing ? 'disabled' : '' }}>Salvar</button> --}}
+                    </div>
                 </form>
             </div>
         </div>
+    </div>        
     @endif
 
     <!-- Edit Modal -->
     @if ($showEditModal)
-        <div class="modal">
-            <div class="modal-content">
-                <button type="button" class="modal-close" title="FECHAR MODAL" wire:click="closeEditModal">
-                    <i class="fa-solid fa-xmark click" aria-hidden="true"></i>
-                </button>
-                <h2>Editar Produto</h2>
-                <form wire:submit.prevent="update">
-                    <input type="text" wire:model="name" placeholder="Nome do Produto" required>
-                    <textarea wire:model="description" placeholder="Descrição" required></textarea>
-                    <input type="number" wire:model="price" placeholder="Preço" required>
-                    <input type="file" wire:model="images" multiple>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+    <div class="modal show" id="modal">
+        <div class="modal-content">
+            <div class="modal-header  d-flex justify-between align-center">
+                <h5 class="modal-title m-0">Cadastrar Produto</h5>
+                <button type="button" class="modal-close" title="FECHAR MODAL"
+                    wire:click="$set('showEditModal', false)"><i class="fa-solid fa-xmark click"
+                        aria-hidden="true"></i></button>
+            </div>
+
+            <div class="modal-body">                
+                <form wire:submit.prevent="update" enctype="multipart/form-data">
+                    <div class="row">                        
+                        <div class="form-group col-lg-6 col-12">
+                            <label for="name">Nome</label>
+                            <input type="text" wire:model="name" class="form-item">
+                        </div>
+                        
+                        <div class="form-group col-lg-6 col-12">
+                            <label for="price">Valor</label>
+                            <input wire:model="price" class="form-item">
+                        </div>   
+
+                        <div class="form-group col-12">
+                            <label for="description">Descrição</label>
+                            <textarea wire:model="description" class="form-item"></textarea>
+                        </div>   
+                        
+                        <div class="form-group col-12">
+                            <label for="price">Imagens</label>
+                            <input type="file" wire:model="images" class="form-item" multiple>
+                        </div>                          
+                    </div>
+
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-close"
+                            wire:click="closeEditeModal">Fechar</button>
+
+                        <button type="submit" class="btn btn-save"> Salvar</button>
+                            {{-- {{ $isProcessing ? 'disabled' : '' }}>Salvar</button> --}}
+                    </div>
                 </form>
             </div>
         </div>
+    </div>     
     @endif
 
     <!-- Delete Confirmation Modal -->
     @if ($showDeleteModal)
-        <div class="modal">
-            <div class="modal-content">
-                <button type="button" class="modal-close" title="FECHAR MODAL" wire:click="closeDeleteModal">
-                    <i class="fa-solid fa-xmark click" aria-hidden="true"></i>
-                </button>
-                <h2>Confirmar Exclusão</h2>
-                <p>Tem certeza de que deseja excluir este produto?</p>
-                <button wire:click="delete" class="btn btn-danger">Deletar</button>
-                <button wire:click="closeDeleteModal" class="btn btn-secondary">Cancelar</button>
+        <div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title m-0">Confirmar Exclusão</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza que deseja excluir este produto?</p>
+                    </div>
+                    <div class="modal-footer col-12 text-right">
+                        <button type="button" class="btn btn-close" wire:click="closeDeleteModal">Cancelar</button>
+                        <button type="button" class="btn btn-save" wire:click="delete">Confirmar
+                            Exclusão</button>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
