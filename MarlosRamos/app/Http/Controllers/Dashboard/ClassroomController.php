@@ -10,17 +10,10 @@ class ClassroomController extends Controller
 {
     public function show(Request $request)
     {
-        $classroom = Classroom::with('module.course.modules')
+        $classroom = Classroom::with('module.course.modules.classrooms', 'comments.user')
             ->where('uuid', $request->uuid_classroom)
             ->firstOrFail();
 
-        // $classroom: a aula atual
-        // $classroom->module: o módulo da aula
-        // $classroom->module->course: o curso ao qual o módulo pertence
-        // $classroom->module->course->modules: todos os módulos do curso
-
-        $course = $classroom->module->course;
-        $modules = $classroom->module->course->modules;
         $videoUrl = $classroom->video;
 
         // Parse a URL e extrai a query string
@@ -31,11 +24,12 @@ class ClassroomController extends Controller
 
         $dados = [
             'title' => $classroom->title,
-            'classroom' => $classroom,
-            'module_current' => $classroom->module,
-            'course' => $classroom->module->course,
-            'modules' => $classroom->module->course->modules,
+            'classroom_current' => $classroom, // aula atual
+            'module_current' => $classroom->module, // módulo atual
+            'course' => $classroom->module->course, // curso atual
+            'modules' => $classroom->module->course->modules, // todos os módulos do curso com suas aulas
             'videoId' => $videoId,
+            'comments' => $classroom->comments,
         ];
 
         return view('dashboard.admin.classroom_show', $dados);

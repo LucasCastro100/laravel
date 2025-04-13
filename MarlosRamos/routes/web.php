@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(CommentController::class)->group(function () {
-        Route::post('/comentarios', 'store')->name('comment.store');
+        Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
 
         Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
     });
@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
             Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
-        });
+        });       
 
         Route::controller(TestController::class)->group(function () {
             Route::get('/testes', 'index')->name('test.index');
