@@ -8,8 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    <div class="cards col-span-1 lg:col-span-2">
+                <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+                    <div class="cards col-span-1 ">
                         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                             <div class="bg-blue-200 p-4">Item 1</div>
 
