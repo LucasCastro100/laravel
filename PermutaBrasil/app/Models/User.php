@@ -59,17 +59,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'connections', 'user_id', 'connected_user_id');
     }
-    
+
     public function connectedBy()
     {
         return $this->belongsToMany(User::class, 'connections', 'connected_user_id', 'user_id');
     }
 
+    public function redirect()
+    {
+        return $this->hasMany(QrCodeRedirect::class);
+    }
+
     public function messages()
     {
         return $this->belongsToMany(Message::class, 'message_user')
-                    ->withPivot('deleted_at') // Inclui o campo 'deleted_at' da tabela intermediária
-                    ->withTimestamps();
+            ->withPivot('deleted_at') // Inclui o campo 'deleted_at' da tabela intermediária
+            ->withTimestamps();
     }
 
     public function friends()
