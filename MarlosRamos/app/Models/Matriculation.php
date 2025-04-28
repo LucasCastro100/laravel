@@ -11,7 +11,7 @@ class Matriculation extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'curse_id',
+        'course_id',
         'user_id'
     ];
 
@@ -24,7 +24,8 @@ class Matriculation extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function curses()
+    
+    public function course()
     {
         return $this->belongsTo(Course::class);
     }

@@ -14,16 +14,29 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $courses = Auth::user()->role > 0 ? Course::withCount('users')->get() : Course::where('user_id', Auth::user()->id)->withCount('users')->get();
+        if (Auth::user()->role > 0) {
+            // Se for administrador ou papel especial
+            $courses = Course::withCount('users')->get();
+        } else {
+            if ($request->filter != null) {
+                // Se tiver filtro
+                $courses = Course::whereHas('matriculations', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })->get();
+            } else {
+                // Se não tiver filtro
+                $courses = Course::all();
+            }
+        }
 
         $view = Auth::user()->role > 0 ? 'dashboard.admin.courses' : 'dashboard.user.courses';
-
-        dd($request->all());
-
+        
         $dados = [
             'title' => 'Cursos',
             'courses' => $courses,
         ];
+
+        dd($request->filter, $courses);
 
         return view($view, $dados);
     }

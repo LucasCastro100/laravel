@@ -18,7 +18,7 @@ return [
             'icon' => 'fas fa-book',
             'name' => 'Gerenciar Cursos',
             'route' => 'course.index',
-            'role' => 1
+            'role' => 0
         ],
         [
             'icon' => 'fas fa-users',
