@@ -5,20 +5,27 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $courses = Auth::user()->role > 0 ? Course::withCount('users')->get() : Course::where('user_id', Auth::user()->id)->withCount('users')->get();
+
+        $view = Auth::user()->role > 0 ? 'dashboard.admin.courses' : 'dashboard.user.courses';
+
+        dd($request->all());
+
         $dados = [
             'title' => 'Cursos',
-            'courses' => Course::withCount('users')->get()
+            'courses' => $courses,
         ];
 
-        return view('dashboard.admin.courses', $dados);
+        return view($view, $dados);
     }
 
     public function store(Request $request)
