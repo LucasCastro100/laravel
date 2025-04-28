@@ -13,9 +13,11 @@ use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\TypeServiceController;
 use App\Http\Controllers\Dashboard\DesiredProspectingrController;
 use App\Http\Controllers\Dashboard\FriendshipController;
+use App\Http\Controllers\Dashboard\QrCodeController;
 use App\Http\Controllers\Dashboard\SalesBoothController;
 use App\Http\Controllers\Web\ConvityController;
 use App\Http\Controllers\Web\HomeController;
+use App\Models\QrCodeRedirect;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(HomeController::class)->group(function () {
@@ -130,7 +132,16 @@ Route::middleware(['auth', 'permission:1', 'checkProfile'])->group(function(){
     
 });    
 
-// Route::middleware(['auth', 'permission:2', 'checkProfile'])->group(function(){});
+Route::middleware(['auth', 'permission:2', 'checkProfile'])->group(function(){
+    Route::controller(QrCodeController::class)->group(function(){
+        Route::get('/painel/tag-pro', 'index')->name('dashboard.qrCode.index');
+
+        Route::get('/painel/tag-pro/redirecionamento/{codigo}', function ($codigo) {
+            $redirecionamento = QrCodeRedirect::where('codigo', $codigo)->firstOrFail();
+            return redirect()->to($redirecionamento->url_destino);
+        });
+    });
+});
 
 Route::middleware(['auth', 'permission:3', 'checkProfile'])->group(function(){
     Route::controller(DashboardController::class)->group(function(){

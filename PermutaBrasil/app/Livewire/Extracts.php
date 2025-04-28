@@ -25,23 +25,6 @@ class Extracts extends Component
         $this->searchDataEnd = null;
     }
 
-    public function render()
-    {
-        $extractQuery = $this->buildQuery()->paginate(10);
-
-        $exchange = new Extract();
-        $valuesExchange = $exchange->addExtractsAllClients();
-        $this->values = $valuesExchange['values'];
-
-        $userID = Auth::user()->id;
-        $userData = ['id' => $userID, 'dados' => Auth::user()->client];
-
-        return view('livewire.extracts', [
-            'extractQuery' => $extractQuery,
-            'values' => $this->values,
-            'user' => $userData,
-        ]);        
-    }
 
     public function generateReport()
     {
@@ -111,6 +94,24 @@ class Extracts extends Component
               ->orderBy('date_service', 'desc');
 
         return $query;
+    }
+
+    public function render()
+    {
+        $extractQuery = $this->buildQuery()->paginate(10);
+
+        $exchange = new Extract();
+        $valuesExchange = $exchange->addExtractsAllClients();
+        $this->values = $valuesExchange['values'];
+
+        $userID = Auth::user()->id;
+        $userData = ['id' => $userID, 'dados' => Auth::user()->client];
+
+        return view('livewire.extracts', [
+            'extractQuery' => $extractQuery,
+            'values' => $this->values,
+            'user' => $userData,
+        ]);        
     }
 }
 ?>

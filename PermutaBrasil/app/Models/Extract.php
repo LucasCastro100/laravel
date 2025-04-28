@@ -97,12 +97,13 @@ class Extract extends Model
         $newQuery = $this->initializeQuery();        
         $exchanges = $newQuery->where('service_provider_id', $id)->orWhere('service_taker_id', $id)->get();
 
-        $exchangeNew = Auth::user()->role->value > 2 ? $newQuery : $exchanges;
+        $exchangeNew = Auth::user()->role->value > 2 ? $newQuery->get() : $exchanges;
 
         // Inicializa um array para organizar as permutas por usuário vinculado e separar os valores de compra e venda
         $organizedExchanges = [];
-
-        foreach ($exchangeNew as $exchange) {
+        
+        // Itera sobre as permutas e organiza por usuário vinculado
+        foreach ($exchangeNew as $exchange) {            
             $providerId = $exchange->service_provider_id;
             $takerId = $exchange->service_taker_id;
 

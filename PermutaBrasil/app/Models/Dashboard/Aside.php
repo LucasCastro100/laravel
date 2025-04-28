@@ -18,6 +18,7 @@ class Aside extends Model
             ['name' => 'Usuários', 'route' => route('dashboard.usersActivy'), 'role' => 3],
             ['name' => 'Propecções Desejadas', 'route' => route('dashboard.desiredProspectingrs.index'), 'role' => 3],
             ['name' => 'Serviços', 'route' => route('dashboard.typeService.index'), 'role' => 3],
+            ['name' => 'TagPro', 'route' => route('dashboard.qrCode.index'), 'role' => 2],
             ['name' => 'Associados', 'route' => route('dashboard.asociate.index'), 'role' => 1],            
             ['name' => 'Contratos', 'route' => route('dashboard.contract.index'), 'role' => 1],
             ['name' => 'Prospecções', 'route' => route('dashboard.conectionsService.index'), 'role' => 1],            
