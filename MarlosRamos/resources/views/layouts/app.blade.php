@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <meta property="og:site_name" content="Formação PNL">
     <meta property="og:title" content="Formação PNL">
     <meta property="og:image" content="http://127.0.0.1:8000/img/icon.png" />
@@ -54,11 +54,13 @@
             <!-- MENU -->
             <nav class="space-y-2">
                 @foreach ($adminMenu as $item)
-                    <x-responsive-nav-link :href="route($item['route'])" :active="request()->routeIs($item['route'])">
-                        <i class="fas {{ $item['icon'] }} pr-2"></i>
-                        <span class="ml-3 text-sm font-medium transition-all duration-300"
-                            x-show="openAside">{{ __($item['name']) }}</span>
-                    </x-responsive-nav-link>
+                    @if (Auth::user()->role >= $item['role'])
+                        <x-responsive-nav-link :href="route($item['route'])" :active="request()->routeIs($item['route'])">
+                            <i class="fas {{ $item['icon'] }} pr-2"></i>
+                            <span class="ml-3 text-sm font-medium transition-all duration-300"
+                                x-show="openAside">{{ __($item['name']) }}</span>
+                        </x-responsive-nav-link>
+                    @endif
                 @endforeach
 
                 <form method="POST" action="{{ route('logout') }}">
@@ -82,7 +84,7 @@
                 <img src="{{ asset('img/logo_preta.png') }}" class="w-40" alt="logo">
             </div>
         </header>
-        
+
         {{-- MAIN --}}
         <main class="p-5 transition-all" :class="openAside ? 'ml-[250px]' : 'ml-[85px]'">
             {{ $slot }}
