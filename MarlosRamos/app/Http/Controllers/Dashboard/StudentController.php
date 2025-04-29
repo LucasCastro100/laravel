@@ -11,13 +11,14 @@ class StudentController extends Controller
 {
     public function allCourses()
     {
-        $courses = Course::paginate(10);
-        $message = 'Mais cursos em breve!';
+        $user = Auth::user();
+        $courses = Course::with('users')->paginate(10);
+        $userCourseIds = $user->courses->pluck('id')->toArray();
 
         $dados = [
             'title' => 'Todos os cursos',
             'courses' => $courses,
-            'message' => $message,
+            'userCourseIds' => $userCourseIds,
         ];
 
         return view('dashboard.user.course.courses_all', $dados);
@@ -29,12 +30,9 @@ class StudentController extends Controller
             $query->where('user_id', Auth::id());
         })->paginate(10);
 
-        $message = 'Você não possui nehum curso!';
-
         $dados = [
             'title' => 'Meus cursos',
             'courses' => $courses,
-            'message' => $message,
         ];
 
         return view('dashboard.user.course.courses_my', $dados);

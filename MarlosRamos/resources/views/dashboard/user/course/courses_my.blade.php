@@ -21,11 +21,11 @@
                 @endif
 
                 <nav class="text-right">
-                    <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">                       
+                    <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">
                         <span class="ml-3 text-sm font-medium transition-all duration-300">TODOS OS CURSOS</span>
                     </x-nav-link>
 
-                    <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">   
+                    <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">
                         <span class="ml-3 text-sm font-medium transition-all duration-300">MEUS CURSOS</span>
                     </x-nav-link>
                 </nav>
@@ -33,7 +33,7 @@
                 @if ($courses->isEmpty())
                     <div class="text-center
                         text-gray-500">
-                        {{ $message }}
+                        Você não possui nehum curso!
                     </div>
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

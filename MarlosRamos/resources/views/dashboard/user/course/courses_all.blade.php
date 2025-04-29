@@ -21,11 +21,11 @@
                 @endif
 
                 <nav class="text-right">
-                    <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">                       
+                    <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">
                         <span class="ml-3 text-sm font-medium transition-all duration-300">TODOS OS CURSOS</span>
                     </x-nav-link>
 
-                    <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">   
+                    <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">
                         <span class="ml-3 text-sm font-medium transition-all duration-300">MEUS CURSOS</span>
                     </x-nav-link>
                 </nav>
@@ -33,12 +33,13 @@
                 @if ($courses->isEmpty())
                     <div class="text-center
                         text-gray-500">
-                        {{ $message }}
+                        Mais cursos em breve!
                     </div>
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                            <div
+                                class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
 
@@ -48,13 +49,21 @@
                                 </div>
 
                                 <div class="py-4 text-right">
-                                    <form action="{{ route('matriculation.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                            Matrícular
-                                        </button>
-                                    </form>
-                                </div>                                
+                                    @if (in_array($course->id, $userCourseIds))
+                                        <span
+                                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Matriculado</span>
+                                    @else
+                                        <form
+                                            action="{{ route('matriculation.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                                Matrícular
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
                         @endforeach
                     </div>
