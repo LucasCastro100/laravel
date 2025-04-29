@@ -46,23 +46,13 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/matriculas/{id}', 'destroy')->name('matriculation.destroy');
     });
-
-    Route::controller(CourseController::class)->group(function () {
-        Route::get('/cursos', 'index')->name('course.index');
-        Route::get('/curso/{uuid}', 'show')->name('course.show');
-
-        Route::post('/curso', 'store')->name('course.store');
-
-        Route::put('/curso/{uuid}', 'update')->name('course.update');
-
-        Route::delete('/curso/{uuid}', 'destroy')->name('course.destroy');
-    });
-
+  
     Route::middleware(['role:0'])->group(function () {
         Route::controller(StudentController::class)->group(function () {
-            Route::get('/meus-cursos', 'meusCursos')->name('aluno.meusCursos');
-            Route::get('/duvidas', 'duvidas')->name('aluno.duvidas');
-            Route::get('/comentarios-respostas', 'comentariosRespostas')->name('aluno.comentariosRespostas');
+            Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
+            Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
+            Route::get('/duvidas', 'duvidas')->name('student.duvidas');
+            Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
         });
     });
 
@@ -70,14 +60,25 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:1'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('/admin', 'index')->name('admin.index');
+            Route::get('/admin/usuarios', 'allUsers')->name('admin.allUsers');
             Route::get('/admin/comentarios', 'comentarios')->name('admin.comentarios');
+
 
             Route::post('/admin/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
 
             Route::get('/admin/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
         });
 
-        
+        Route::controller(CourseController::class)->group(function () {
+            Route::get('/cursos', 'index')->name('course.index');
+            Route::get('/curso/{uuid}', 'show')->name('course.show');
+    
+            Route::post('/curso', 'store')->name('course.store');
+    
+            Route::put('/curso/{uuid}', 'update')->name('course.update');
+    
+            Route::delete('/curso/{uuid}', 'destroy')->name('course.destroy');
+        });
 
         Route::controller(ModuleController::class)->group(function () {            
             Route::get('/modulo/{uuid_module}', 'index')->name('module.show');
@@ -97,7 +98,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
             Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
-        });       
+        });
 
         Route::controller(TestController::class)->group(function () {
             Route::get('/testes', 'index')->name('test.index');

@@ -18,13 +18,19 @@ return [
             'icon' => 'fas fa-book',
             'name' => 'Gerenciar Cursos',
             'route' => 'course.index',
-            'role' => 0
+            'role' => 1
         ],
         [
             'icon' => 'fas fa-users',
             'name' => 'Gerenciar Usuários',
-            'route' => 'course.index',
+            'route' => 'admin.allUsers',
             'role' => 1
+        ],
+        [
+            'icon' => 'fas fa-book',
+            'name' => 'Cursos',
+            'route' => 'student.allCourses',
+            'role' => 0
         ],
         [
             'icon' => 'fas fa-user',

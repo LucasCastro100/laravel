@@ -1,4 +1,4 @@
-<x-app-layout title="Teste Representacional">
+<x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Curso') }}
@@ -20,15 +20,15 @@
                     </div>
                 @endif
 
-                <div class="text-right">
-                    <button class="bg-gray-500 text-white px-4 py-2 rounded mb-4"
-                        @click="window.location.href='/cursos/'" id="btn-todos">Todos os CURSOS</button>
+                <nav class="text-right">
+                    <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">                       
+                        <span class="ml-3 text-sm font-medium transition-all duration-300">TODOS OS CURSOS</span>
+                    </x-nav-link>
 
-                    <button class="bg-gray-500
-                        text-white px-4 py-2 rounded mb-4"
-                        @click="window.location.href='/cursos?filter=joined'" id="btn-meus">Meus
-                        CURSOS</button>
-                </div>
+                    <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">   
+                        <span class="ml-3 text-sm font-medium transition-all duration-300">MEUS CURSOS</span>
+                    </x-nav-link>
+                </nav>
 
                 @if ($courses->isEmpty())
                     <div class="text-center
@@ -50,32 +50,7 @@
                         @endforeach
                     </div>
                 @endif
-
             </div>
         </div>
     </div>
 </x-app-layout>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const path = window.location.pathname;
-        const search = window.location.search;
-
-        const btnTodos = document.getElementById('btn-todos');
-        const btnMeus = document.getElementById('btn-meus');
-
-        if (search.includes('filter=joined')) {
-            btnMeus.classList.add('bg-blue-600');
-            btnMeus.classList.remove('bg-gray-500');
-
-            btnTodos.classList.add('bg-gray-500');
-            btnTodos.classList.remove('bg-blue-600');
-        } else {
-            btnTodos.classList.add('bg-blue-600');
-            btnTodos.classList.remove('bg-gray-500');
-
-            btnMeus.classList.add('bg-gray-500');
-            btnMeus.classList.remove('bg-blue-600');
-        }
-    });
-</script>

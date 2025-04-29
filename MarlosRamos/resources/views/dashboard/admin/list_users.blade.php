@@ -1,9 +1,10 @@
-<x-app-layout title="Teste Representacional">
+<x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Curso') }}
         </h2>
     </x-slot>
+
 
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-8">
@@ -20,10 +21,7 @@
                     </div>
                 @endif
 
-                <div class="text-right">
-                    <button @click="openCreate = true" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Novo
-                        Curso</button>
-                </div>
+                {{-- CONTEUDO --}}
             </div>
         </div>
     </div>

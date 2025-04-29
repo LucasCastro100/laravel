@@ -12,36 +12,16 @@ use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if (Auth::user()->role > 0) {
-            // Se for administrador ou papel especial
-            $courses = Course::withCount('users')->get();
-            $view = 'dashboard.admin.courses';
-        } else {
-            $view = 'dashboard.user.courses';
-
-            if ($request->filter != null) {
-                // Se tiver filtro
-                $courses = Course::whereHas('matriculations', function ($query) {
-                    $query->where('user_id', Auth::id());
-                })->get();
-
-                $message = 'Você não possui nehum curso!';
-            } else {
-                // Se não tiver filtro
-                $courses = Course::all();
-                $message = 'Mais cursos em breve!';
-            }
-        }
+        $courses = Course::withCount('users')->get();
 
         $dados = [
             'title' => 'Cursos',
             'courses' => $courses,
-            'message' => $message,
         ];
 
-        return view($view, $dados);
+        return view('dashboard.admin.courses', $dados);
     }
 
     public function store(Request $request)
