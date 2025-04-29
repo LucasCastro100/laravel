@@ -41,11 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
     });
 
-    Route::controller(MatriculationController::class)->group(function () {
-        Route::post('/matriculas', 'store')->name('matriculation.store');
-
-        Route::delete('/matriculas/{id}', 'destroy')->name('matriculation.destroy');
-    });
+    
   
     Route::middleware(['role:0'])->group(function () {
         Route::controller(StudentController::class)->group(function () {
@@ -53,6 +49,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
+        });
+
+        Route::controller(MatriculationController::class)->group(function () {
+            Route::post('/matricula/{course_uuid}/{user_uuid}', 'store')->name('matriculation.store');
+    
+            Route::delete('/matriculas/{id}', 'destroy')->name('matriculation.destroy');
         });
     });
 
