@@ -17,26 +17,29 @@ class CourseController extends Controller
         if (Auth::user()->role > 0) {
             // Se for administrador ou papel especial
             $courses = Course::withCount('users')->get();
+            $view = 'dashboard.admin.courses';
         } else {
+            $view = 'dashboard.user.courses';
+
             if ($request->filter != null) {
                 // Se tiver filtro
                 $courses = Course::whereHas('matriculations', function ($query) {
                     $query->where('user_id', Auth::id());
                 })->get();
+
+                $message = 'Você não possui nehum curso!';
             } else {
                 // Se não tiver filtro
                 $courses = Course::all();
+                $message = 'Mais cursos em breve!';
             }
         }
 
-        $view = Auth::user()->role > 0 ? 'dashboard.admin.courses' : 'dashboard.user.courses';
-        
         $dados = [
             'title' => 'Cursos',
             'courses' => $courses,
+            'message' => $message,
         ];
-
-        dd($request->filter, $courses);
 
         return view($view, $dados);
     }
@@ -109,7 +112,7 @@ class CourseController extends Controller
     }
 
     public function update(Request $request, Course $course)
-    {        
+    {
         try {
             $request->validate([
                 'title' => 'required|string|max:255',
