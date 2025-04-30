@@ -126,6 +126,16 @@
                                                                         class="text-xs text-indigo-500 animate-pulse ml-2">ASSISTINDO</span>
                                                                 @endif
                                                             </a>
+
+                                                            <form
+                                                                action="{{ route('classroom.completeClassroom', ['uuid_classroom' => $classroom->uuid]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="text-sm text-blue-500 hover:text-blue-700">
+                                                                    {{ $classroom->completed_at ? 'Desmarcar como concluída' : 'Marcar como concluída' }}
+                                                                </button>
+                                                            </form>
                                                         </li>
                                                     @endforeach
                                                 </ul>
