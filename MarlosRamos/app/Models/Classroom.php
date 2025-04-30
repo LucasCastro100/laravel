@@ -11,10 +11,11 @@ class Classroom extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'module_id',
         'title',
         'description',
         'video',
-        'module_id'
+        'duration',
     ];
 
     public function uniqueIds()
@@ -36,4 +37,11 @@ class Classroom extends Model
     {
         return $this->hasMany(Assessment::class);
     }
+
+    public function completedByUsers()
+    {
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withPivot('completed_at');
+    }    
 }

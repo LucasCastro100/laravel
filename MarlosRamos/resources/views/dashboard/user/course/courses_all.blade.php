@@ -20,13 +20,13 @@
                     </div>
                 @endif
 
-                <nav class="text-right">
+                <nav class="text-right mb-4">
                     <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">
-                        <span class="ml-3 text-sm font-medium transition-all duration-300">TODOS OS CURSOS</span>
+                        <span class="text-sm font-medium transition-all duration-300 cursor-pointer">TODOS OS CURSOS</span>
                     </x-nav-link>
 
                     <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">
-                        <span class="ml-3 text-sm font-medium transition-all duration-300">MEUS CURSOS</span>
+                        <span class="text-sm font-medium transition-all duration-300 cursor-pointer">MEUS CURSOS</span>
                     </x-nav-link>
                 </nav>
 
@@ -51,14 +51,14 @@
                                 <div class="py-4 text-right">
                                     @if (in_array($course->id, $userCourseIds))
                                         <span
-                                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Matriculado</span>
+                                            class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">Acessar</span>
                                     @else
                                         <form
                                             action="{{ route('matriculation.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
                                             method="POST">
                                             @csrf
                                             <button type="submit"
-                                                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                                class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                                 Matrícular
                                             </button>
                                         </form>

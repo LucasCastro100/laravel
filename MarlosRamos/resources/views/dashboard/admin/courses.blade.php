@@ -28,7 +28,7 @@
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
                                 @click="window.location.href = '/curso/' + {{ json_encode($course->uuid) }}">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">

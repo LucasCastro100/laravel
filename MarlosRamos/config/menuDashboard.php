@@ -15,25 +15,25 @@ return [
             'role' => 1
         ],
         [
-            'icon' => 'fas fa-book',
+            'icon' => 'fas fa-chalkboard-teacher',
             'name' => 'Gerenciar Cursos',
             'route' => 'course.index',
             'role' => 1
         ],
         [
-            'icon' => 'fas fa-users',
+            'icon' => 'fas fa-users-cog',
             'name' => 'Gerenciar Usuários',
             'route' => 'admin.allUsers',
             'role' => 1
         ],
         [
-            'icon' => 'fas fa-book',
+            'icon' => 'fas fa-book-reader',
             'name' => 'Cursos',
             'route' => 'student.allCourses',
             'role' => 0
         ],
         [
-            'icon' => 'fas fa-user',
+            'icon' => 'fas fa-user-circle',
             'name' => 'Perfil',
             'route' => 'profile.edit',
             'role' => 0

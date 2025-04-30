@@ -20,31 +20,38 @@
                     </div>
                 @endif
 
-                <nav class="text-right">
+                <nav class="text-right mb-4">
                     <x-nav-link :href="route('student.allCourses')" :active="request()->routeIs('student.allCourses')">
-                        <span class="ml-3 text-sm font-medium transition-all duration-300">TODOS OS CURSOS</span>
+                        <span class="text-sm font-medium transition-all duration-300 cursor-pointer">TODOS OS CURSOS</span>
                     </x-nav-link>
 
                     <x-nav-link :href="route('student.myCourses')" :active="request()->routeIs('student.myCourses')">
-                        <span class="ml-3 text-sm font-medium transition-all duration-300">MEUS CURSOS</span>
+                        <span class="text-sm font-medium transition-all duration-300 cursor-pointer">MEUS CURSOS</span>
                     </x-nav-link>
                 </nav>
 
                 @if ($courses->isEmpty())
                     <div class="text-center
                         text-gray-500">
-                        Você não possui nehum curso!
+                        Você não possui nenhum curso!
                     </div>
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
-                                @click="window.location.href = '/curso/' + {{ json_encode($course->uuid) }}">
+                                onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
+
                                 <div class="p-4">
                                     <h3 class="text-xl font-semibold text-gray-800">{{ $course->title }}</h3>
                                     <p class="text-gray-600 mt-2">{{ Str::limit($course->description, 100) }}</p>
+                                </div>
+
+                                <div class="py-4 text-right">
+                                    <span
+                                        class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                        onclick="window.location.href = '/curso/{{ $course->uuid }}'">Acessar</span>
                                 </div>
                             </div>
                         @endforeach

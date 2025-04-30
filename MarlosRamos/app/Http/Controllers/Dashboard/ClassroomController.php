@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
+use App\Models\ClassroomUser;
 use Illuminate\Http\Request;
+use App\Services\YoutubeService;
+use Illuminate\Support\Facades\Auth;
 
 class ClassroomController extends Controller
 {
@@ -32,12 +35,13 @@ class ClassroomController extends Controller
             'comments' => $classroom->comments,
         ];
 
-        return view('dashboard.admin.classroom_show', $dados);
+        return view('dashboard.user.classroom.classroom_show', $dados);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, YoutubeService $youtube)
     {
         try {
+            // Validação dos dados recebidos
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
@@ -47,24 +51,36 @@ class ClassroomController extends Controller
                 'title.required' => 'O campo título é obrigatório.',
                 'title.string' => 'O título deve ser uma string.',
                 'title.max' => 'O título não pode ter mais de 255 caracteres.',
-
                 'description.string' => 'A descrição deve ser uma string.',
-
                 'video.required' => 'O campo vídeo é obrigatório.',
                 'video.url' => 'Por favor, insira uma URL válida para o vídeo.',
-
                 'module_id.required' => 'O módulo é obrigatório.',
                 'module_id.exists' => 'O módulo selecionado não existe.',
             ]);
 
+            // Extraindo o ID do vídeo a partir da URL
+            $videoId = $youtube->extractVideoId($request->input('video'));
+
+            if ($videoId) {
+                // Extraindo a duração do vídeo
+                $isoDuration = $youtube->getDuration($videoId);
+            } else {
+                return redirect()->back()->with('error', 'Não foi possível extrair o ID do vídeo.');
+            }
+
+            // Adicionando a duração ao array de dados validados
+            $validated['duration'] = $isoDuration;
+
+            // Criando a aula no banco de dados
             Classroom::create($validated);
+
             return redirect()->back()->with('success', 'Aula criada com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', 'Ocorreu um erro: ' . $e->getMessage());
         }
     }
 
-    public function update(Request $request, string $uuid_classroom)
+    public function update(Request $request, string $uuid_classroom, YoutubeService $youtube)
     {
         try {
             $classroom = Classroom::where('uuid', $uuid_classroom)->firstOrFail();
@@ -87,12 +103,51 @@ class ClassroomController extends Controller
                 'module_id.exists' => 'O módulo selecionado não existe.',
             ]);
 
+            // Extraindo o ID do vídeo a partir da URL
+            $videoId = $youtube->extractVideoId($request->input('video'));
+
+            if ($videoId) {
+                // Extraindo a duração do vídeo
+                $isoDuration = $youtube->getDuration($videoId);
+            } else {
+                return redirect()->back()->with('error', 'Não foi possível extrair o ID do vídeo.');
+            }
+
+            // Adicionando a duração ao array de dados validados
+            $validated['duration'] = $isoDuration;
+
             $classroom->update($validated);
             return redirect()->back()->with('success', 'Aula atualizada com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Aula não encontrada!');
+            // return redirect()->back()->with('error', 'Aula não encontrada!');
+            return redirect()->back()->with('error', 'Erro: ' . $e->getMessage());
         }
     }
+
+    public function completeClassroom(Request $request, string $classroom_uuid)
+    {
+        try {
+            $user = Auth::user();
+            $classroom = Classroom::where('uuid', $classroom_uuid)->firstOrFail();
+
+            // Verifica se a relação entre o usuário e a aula já existe
+            $classroomUser = ClassroomUser::firstOrNew([
+                'user_id' => $user->id,
+                'classroom_id' => $classroom->id
+            ]);
+
+            // Marca a aula como concluída
+            $classroomUser->completed_at = $classroomUser->completed_at ? null : now();
+            $classroomUser->save();
+
+            // Retorna sucesso para o front-end
+            return redirect()->back()->with('success', 'Aula concluida com sucesso!');
+        } catch (\Exception $e) {
+            // Em caso de erro, retorna erro para o front-end
+            return redirect()->back()->with('error', 'Erro ao concluir a aula!');
+        }
+    }
+
 
     public function destroy(Request $request, string $uuid_classroom)
     {

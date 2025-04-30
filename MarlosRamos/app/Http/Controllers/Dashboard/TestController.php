@@ -10,7 +10,11 @@ class TestController extends Controller
 {
     public function index()
     {
-        return view('dashboard.admin.tests');
+        $dados = [
+            'title' => 'Testes Representacionais',
+        ];
+
+        return view('dashboard.admin.tests', $dados);
     }
 
     public function create()

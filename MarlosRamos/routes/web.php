@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(StudentController::class)->group(function () {
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
+            Route::get('/meus-curso/{uuid}', 'courseShow')->name('student.courseShow');
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
         });
@@ -56,6 +57,18 @@ Route::middleware('auth')->group(function () {
     
             Route::delete('/matriculas/{id}', 'destroy')->name('matriculation.destroy');
         });
+
+        Route::controller(ClassroomController::class)->group(function () {            
+            Route::get('/aula/{uuid_classroom}', 'show')->name('classroom.show');
+
+            Route::post('/aula', 'store')->name('classroom.store');
+            Route::post('/aula-completa/{uuid_classroom}', 'completeClassroom')->name('classroom.completeClassroom');
+
+            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
+
+            Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
+        });
+
     });
 
     // Rotas da área do administrador
@@ -64,7 +77,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/admin', 'index')->name('admin.index');
             Route::get('/admin/usuarios', 'allUsers')->name('admin.allUsers');
             Route::get('/admin/comentarios', 'comentarios')->name('admin.comentarios');
-
 
             Route::post('/admin/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
 
@@ -91,17 +103,7 @@ Route::middleware('auth')->group(function () {
 
             Route::delete('/modulo/{uuid_module}', 'destroy')->name('module.destroy');
         });
-
-        Route::controller(ClassroomController::class)->group(function () {            
-            Route::get('/aula/{uuid_classroom}', 'show')->name('classroom.show');
-
-            Route::post('/aula', 'store')->name('classroom.store');
-
-            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
-
-            Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
-        });
-
+        
         Route::controller(TestController::class)->group(function () {
             Route::get('/testes', 'index')->name('test.index');
             Route::get('/teste/{uuid}', 'show')->name('test.show');

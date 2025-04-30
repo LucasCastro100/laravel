@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class User extends Authenticatable
 {
     use HasFactory, HasUuids, Notifiable;
-    
+
     protected $fillable = [
         'name',
         'email',
@@ -62,5 +62,12 @@ class User extends Authenticatable
     public function testes()
     {
         return $this->belongsToMany(Test::class, 'users_tests');
+    }
+
+    public function completedClassrooms()
+    {
+        return $this->belongsToMany(Classroom::class)
+            ->withTimestamps()
+            ->withPivot('completed_at');
     }
 }

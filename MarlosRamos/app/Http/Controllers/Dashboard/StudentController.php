@@ -37,4 +37,50 @@ class StudentController extends Controller
 
         return view('dashboard.user.course.courses_my', $dados);
     }
+
+    public function courseShow(Request $request)
+    {
+        $user = Auth::user();
+
+        $course = Course::where('uuid', $request->uuid)
+            ->withCount('users')
+            ->withCount('modules')
+            ->with(['modules.classrooms.completedByUsers']) // carrega aulas e usuários que completaram
+            ->firstOrFail();
+
+        // Total de aulas
+        $totalClasses = $course->modules->sum(fn($m) => $m->classrooms->count());
+
+        // Aulas concluídas pelo usuário
+        $completedClasses = $course->modules->flatMap->classrooms->filter(function ($aula) use ($user) {
+            return $aula->completedByUsers->contains($user->id);
+        })->count();
+
+        // Progresso percentual
+        $progress = $totalClasses > 0 ? round(($completedClasses / $totalClasses) * 100) : 0;
+
+        // Soma da duração em segundos
+        $durationTotalSegundos = $course->modules->flatMap->classrooms->sum(function ($aula) {
+            $duracao = $aula->duration ?? '00:00:00';
+            [$h, $m, $s] = array_pad(explode(':', $duracao), 3, 0);
+            return ($h * 3600) + ($m * 60) + $s;
+        });
+
+        $horas = floor($durationTotalSegundos / 3600);
+        $minutos = floor(($durationTotalSegundos % 3600) / 60);
+        $segundos = $durationTotalSegundos % 60;
+
+        $durationFormatada = sprintf('%02d:%02d:%02d', $horas, $minutos, $segundos);
+
+        $dados = [
+            'title' => $course->title,
+            'course' => $course,
+            'completedClasses' => $completedClasses,
+            'totalClasses' => $totalClasses,
+            'progress' => $progress,
+            'durationTotal' => $durationFormatada,
+        ];
+
+        return view('dashboard.user.course.course_show', $dados);
+    }
 }
