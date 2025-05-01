@@ -64,10 +64,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Test::class, 'users_tests');
     }
 
-    public function completedClassrooms()
+    public function classrooms()
     {
         return $this->belongsToMany(Classroom::class)
-            ->withTimestamps()
-            ->withPivot('completed_at');
+            ->withPivot('completed_at') 
+            ->withTimestamps();
     }
 }

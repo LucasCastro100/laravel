@@ -45,7 +45,7 @@ class StudentController extends Controller
         $course = Course::where('uuid', $request->uuid)
             ->withCount('users')
             ->withCount('modules')
-            ->with(['modules.classrooms.completedByUsers']) // carrega aulas e usuários que completaram
+            ->with(['modules.classrooms.users']) // carrega aulas e usuários que completaram
             ->firstOrFail();
 
         // Total de aulas
@@ -53,18 +53,32 @@ class StudentController extends Controller
 
         // Aulas concluídas pelo usuário
         $completedClasses = $course->modules->flatMap->classrooms->filter(function ($aula) use ($user) {
-            return $aula->completedByUsers->contains($user->id);
+            return $aula->users->contains($user->id);
         })->count();
 
         // Progresso percentual
         $progress = $totalClasses > 0 ? round(($completedClasses / $totalClasses) * 100) : 0;
 
-        // Soma da duração em segundos
-        $durationTotalSegundos = $course->modules->flatMap->classrooms->sum(function ($aula) {
-            $duracao = $aula->duration ?? '00:00:00';
-            [$h, $m, $s] = array_pad(explode(':', $duracao), 3, 0);
-            return ($h * 3600) + ($m * 60) + $s;
+        // Lista de módulos com duração individual
+        $modulesWithDuration = $course->modules->map(function ($module) {
+            $durationInSeconds = $module->classrooms->sum(function ($aula) {
+                $duracao = $aula->duration ?? '00:00:00';
+                [$h, $m, $s] = array_pad(explode(':', $duracao), 3, 0);
+                return ($h * 3600) + ($m * 60) + $s;
+            });
+
+            $horas = floor($durationInSeconds / 3600);
+            $minutos = floor(($durationInSeconds % 3600) / 60);
+            $segundos = $durationInSeconds % 60;
+
+            $module->total_duration = sprintf('%02d:%02d:%02d', $horas, $minutos, $segundos);
+            $module->duration_seconds = $durationInSeconds;
+
+            return $module;
         });
+
+        // Total geral em segundos a partir dos módulos
+        $durationTotalSegundos = $modulesWithDuration->sum('duration_seconds');
 
         $horas = floor($durationTotalSegundos / 3600);
         $minutos = floor(($durationTotalSegundos % 3600) / 60);
@@ -79,6 +93,7 @@ class StudentController extends Controller
             'totalClasses' => $totalClasses,
             'progress' => $progress,
             'durationTotal' => $durationFormatada,
+            'modulesWithDuration' => $modulesWithDuration,
         ];
 
         return view('dashboard.user.course.course_show', $dados);

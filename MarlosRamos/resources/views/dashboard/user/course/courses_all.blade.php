@@ -9,15 +9,11 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if (session('success'))
-                    <div class="bg-green-500 text-white p-4 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
+                    <x-alert-component type="success" :message="session('success')" />
                 @endif
 
                 @if (session('error'))
-                    <div class="bg-red-500 text-white p-4 rounded mb-4">
-                        {{ session('error') }}
-                    </div>
+                    <x-alert-component type="error" :message="session('error')" />
                 @endif
 
                 <nav class="text-right mb-4">

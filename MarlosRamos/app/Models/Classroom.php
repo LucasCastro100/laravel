@@ -38,10 +38,15 @@ class Classroom extends Model
         return $this->hasMany(Assessment::class);
     }
 
-    public function completedByUsers()
+    public function users()
     {
         return $this->belongsToMany(User::class)
-            ->withTimestamps()
-            ->withPivot('completed_at');
-    }    
+            ->withPivot('completed_at')
+            ->withTimestamps();
+    }
+
+    public function getIsCompletedAttribute()
+    {
+        return !is_null($this->completed_at);
+    }  
 }

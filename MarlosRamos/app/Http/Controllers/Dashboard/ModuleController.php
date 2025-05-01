@@ -22,7 +22,7 @@ class ModuleController extends Controller
 
             return redirect()->back()->with('success', 'Módulo criado com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erro ao criar o modulo.' . $e->getMessage());
+            return redirect()->back()->with('error', 'Erro ao criar o modulo!');
         }
     }
 

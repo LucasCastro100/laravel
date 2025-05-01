@@ -67,7 +67,7 @@ class CourseController extends Controller
             return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
         } catch (\Exception $e) {
             // Em caso de erro, exibe a mensagem
-            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso: ' . $e->getMessage());
+            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso!');
         }
     }
 

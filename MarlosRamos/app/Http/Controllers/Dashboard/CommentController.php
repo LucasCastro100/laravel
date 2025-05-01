@@ -12,22 +12,28 @@ class CommentController extends Controller
 {
     public function store(Request $request, $uuid_classroom)
     {
-        // Validação do comentário
-        $request->validate([
-            'comment' => 'required|string|max:1000', // Valida o comentário
-        ]);
+        try {
+            // Validação do comentário
+            $request->validate([
+                'comment' => 'required|string|max:1000', // Valida o comentário
+            ]);
 
-        // Encontrar a aula com base no UUID
-        $classroom = Classroom::where('uuid', $uuid_classroom)->firstOrFail();
+            // Encontrar a aula com base no UUID
+            $classroom = Classroom::where('uuid', $uuid_classroom)->firstOrFail();
 
-        // Criar um novo comentário
-        Comment::create([
-            'content' => $request->comment,
-            'classroom_id' => $classroom->id,
-            'user_id' => Auth::id(), // Associar o comentário ao usuário logado
-        ]);
+            // Criar um novo comentário
+            Comment::create([
+                'comment' => $request->comment,
+                'classroom_id' => $classroom->id,
+                'user_id' => Auth::id(), // Associar o comentário ao usuário logado
+            ]);
 
-        return redirect()->route('classroom.show', ['uuid_classroom' => $uuid_classroom])
-                         ->with('success', 'Comentário enviado com sucesso!');
+            return redirect()->route('classroom.show', ['uuid_classroom' => $uuid_classroom])
+                ->with('success', 'Comentário enviado com sucesso!');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro, redireciona de volta com uma mensagem de erro
+            return redirect()->back()
+                ->with('error', 'Erro ao enviar o comentário!');
+        }
     }
 }

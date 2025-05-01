@@ -13,26 +13,55 @@ class ClassroomController extends Controller
 {
     public function show(Request $request)
     {
+        $user = Auth::user();
+
         $classroom = Classroom::with('module.course.modules.classrooms', 'comments.user')
             ->where('uuid', $request->uuid_classroom)
             ->firstOrFail();
 
+        // Verifica se o usuário concluiu essa aula
+        $completedAt = $classroom->users()
+            ->where('user_id', $user->id)
+            ->first()
+            ?->pivot
+            ?->completed_at;
+
+        // Flag de aula concluída
+        $isCompleted = !is_null($completedAt);
+
+        // Todas as aulas do módulo atual, ordenadas
+        $allClassrooms = $classroom->module->classrooms->sortBy('id')->values(); // ou sortBy('order') se tiver esse campo
+
+        // Identifica próxima aula
+        $currentIndex = $allClassrooms->search(function ($item) use ($classroom) {
+            return $item->id === $classroom->id;
+        });
+        $nextClassroom = $allClassrooms->get($currentIndex + 1);
+
+        // Verifica se o usuário já completou outras aulas
+        $classroomCompletions = $user->classrooms()
+        ->wherePivot('completed_at', '!=', null)  // Filtrando para verificar se 'completed_at' não é null
+        ->pluck('classroom_id') // Pega apenas os IDs das classrooms completadas
+        ->toArray();
+
+        // Parse da URL do vídeo
         $videoUrl = $classroom->video;
-
-        // Parse a URL e extrai a query string
         parse_str(parse_url($videoUrl, PHP_URL_QUERY), $queryParams);
-
-        // Pega o ID do vídeo (parâmetro "v")
         $videoId = $queryParams['v'] ?? null;
 
+        // Dados enviados à view
         $dados = [
             'title' => $classroom->title,
-            'classroom_current' => $classroom, // aula atual
-            'module_current' => $classroom->module, // módulo atual
-            'course' => $classroom->module->course, // curso atual
-            'modules' => $classroom->module->course->modules, // todos os módulos do curso com suas aulas
+            'classroom_current' => $classroom,
+            'module_current' => $classroom->module,
+            'course' => $classroom->module->course,
+            'modules' => $classroom->module->course->modules,
             'videoId' => $videoId,
             'comments' => $classroom->comments,
+            'completedAt' => $completedAt,
+            'isCompleted' => $isCompleted,
+            'nextClassroom' => $nextClassroom,
+            'classroomCompletions' => $classroomCompletions,
         ];
 
         return view('dashboard.user.classroom.classroom_show', $dados);
@@ -76,7 +105,7 @@ class ClassroomController extends Controller
 
             return redirect()->back()->with('success', 'Aula criada com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Ocorreu um erro: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ocorreu um erro!');
         }
     }
 
@@ -120,7 +149,7 @@ class ClassroomController extends Controller
             return redirect()->back()->with('success', 'Aula atualizada com sucesso!');
         } catch (\Exception $e) {
             // return redirect()->back()->with('error', 'Aula não encontrada!');
-            return redirect()->back()->with('error', 'Erro: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Erro ao atualziar a aula!');
         }
     }
 

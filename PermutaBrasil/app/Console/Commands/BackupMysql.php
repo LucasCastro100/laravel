@@ -62,7 +62,7 @@ class BackupMysql extends Command
 
             Log::channel('cronlog')->info("Backup criado com sucesso!");
         } catch (\Exception $e) {
-            Log::channel('cronlog')->info("Erro ao criar o backup: " . $e->getMessage());
+            Log::channel('cronlog')->info("Erro ao criar o backup!");
         }
     }
 }

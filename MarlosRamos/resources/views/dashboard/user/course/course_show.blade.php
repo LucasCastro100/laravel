@@ -62,21 +62,23 @@
                                         <div class="mb-4 relative z-0">
                                             <div class="border rounded-lg p-4 bg-gray-100">
                                                 <div class="flex justify-between items-center relative">
-                                                    <div>
+                                                    <div class="flex items-center gap-4">
                                                         <h3 class="font-semibold">{{ $module->title }}</h3>
+
                                                         @php
                                                             $classesModule = $module->classrooms;
                                                             $total = $classesModule->count();
                                                             $completed = $classesModule
                                                                 ->filter(
-                                                                    fn($aula) => $aula->completedByUsers->contains(
-                                                                        auth()->id(),
-                                                                    ),
+                                                                    fn($aula) => $aula->users->contains(auth()->id()),
                                                                 )
                                                                 ->count();
                                                         @endphp
+
                                                         <p class="text-sm text-gray-600">{{ $completed }} /
                                                             {{ $total }} aulas concluídas</p>
+
+                                                        <p class="text-sm text-gray-600">{{ $module->total_duration }}</p>
                                                     </div>
 
                                                     <button
@@ -102,10 +104,16 @@
                                                                 class="flex justify-between items-center p-2 border-b relative">
                                                                 <div class="flex items-center space-x-2 cursor-pointer"
                                                                     @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
-                                                                    <span>{{ $classroom->title }}</span>
-                                                                    @if ($classroom->completedByUsers->contains(auth()->id()))
-                                                                        <i class="fas fa-check text-green-500"></i>
+                                                                    @if ($classroom->users->contains(auth()->id()))
+                                                                        <i
+                                                                            class="mr-2 text-sm fa-solid fa-circle-check text-green-500"></i>
+                                                                    @else
+                                                                        <i
+                                                                            class="mr-2 text-sm fa-solid fa-circle-xmark text-gray-400"></i>
                                                                     @endif
+
+                                                                    <span>{{ $classroom->title }}</span>
+
                                                                 </div>
                                                                 @if ($classroom->duration)
                                                                     <span

@@ -11,15 +11,11 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if (session('success'))
-                    <div class="bg-green-500 text-white p-4 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
+                    <x-alert-component type="success" :message="session('success')" />
                 @endif
 
                 @if (session('error'))
-                    <div class="bg-red-500 text-white p-4 rounded mb-4">
-                        {{ session('error') }}
-                    </div>
+                    <x-alert-component type="error" :message="session('error')" />
                 @endif
 
                 <div class="py-12">
@@ -40,6 +36,33 @@
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
                                         class="w-full"></iframe>
+                                </div>
+
+                                <div class="mt-4 flex flex-row justify-between items-center gap-4">
+                                    {{-- Aula concluída ou botão de concluir --}}
+                                    @if ($isCompleted)
+                                        <div class="flex items-center text-green-600 font-medium">
+                                            <i class="fa-solid fa-circle-check mr-2"></i> Aula Concluída
+                                        </div>
+                                    @else
+                                        <form
+                                            action="{{ route('classroom.completeClassroom', ['uuid_classroom' => $classroom_current->uuid]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                                <i class="fa-solid fa-check mr-2"></i> Concluir Aula
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    {{-- Próxima aula --}}
+                                    @if ($nextClassroom)
+                                        <a href="{{ route('classroom.show', ['uuid_classroom' => $nextClassroom->uuid]) }}"
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                            <i class="fa-solid fa-forward mr-2"></i> Próxima Aula
+                                        </a>
+                                    @endif
                                 </div>
 
                                 {{-- COMENTARIO --}}
@@ -79,9 +102,9 @@
                                                 <div
                                                     class="mt-4 p-4 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-800">
                                                     <p class="text-gray-600 dark:text-gray-400">
-                                                        {{ $comment->content }}
+                                                        {{ $comment->comment }}
                                                     </p>
-                                                    <p class="text-sm text-gray-500 dark:text-gray-300 mt-2">
+                                                    <p class="text-right text-sm text-gray-500 dark:text-gray-300 mt-2">
                                                         Comentado por: {{ $comment->user->name }} -
                                                         {{ $comment->created_at->diffForHumans() }}
                                                     </p>
@@ -116,9 +139,19 @@
                                                 class="bg-white dark:bg-black-900">
                                                 <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                                                     @foreach ($module->classrooms as $classroom)
-                                                        <li>
+                                                        <li class="flex items-center p-2">
+                                                            @php
+                                                                $completed = in_array(
+                                                                    $classroom->id,
+                                                                    $classroomCompletions,
+                                                                );
+                                                            @endphp
+
+                                                            <i
+                                                                class="mr-2 text-sm {{ $completed ? 'fa-solid fa-circle-check text-green-500' : 'fa-solid fa-circle-xmark text-gray-400' }}"></i>
+
                                                             <a href="{{ route('classroom.show', ['uuid_classroom' => $classroom->uuid]) }}"
-                                                                class="block px-4 py-2 text-sm text-black-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400">
+                                                                class="flex-1 block text-sm text-black-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400">
                                                                 {{ mb_strtoupper($classroom->title) }}
 
                                                                 @if ($classroom->uuid === $classroom_current->uuid)
@@ -126,16 +159,6 @@
                                                                         class="text-xs text-indigo-500 animate-pulse ml-2">ASSISTINDO</span>
                                                                 @endif
                                                             </a>
-
-                                                            <form
-                                                                action="{{ route('classroom.completeClassroom', ['uuid_classroom' => $classroom->uuid]) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                <button type="submit"
-                                                                    class="text-sm text-blue-500 hover:text-blue-700">
-                                                                    {{ $classroom->completed_at ? 'Desmarcar como concluída' : 'Marcar como concluída' }}
-                                                                </button>
-                                                            </form>
                                                         </li>
                                                     @endforeach
                                                 </ul>

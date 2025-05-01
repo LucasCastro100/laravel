@@ -21,11 +21,12 @@ class Comment extends Model
         return ['uuid'];
     }
 
-    public function classrooms()
+    public function classroom()
     {
         return $this->belongsTo(Classroom::class);
     }
-    public function users()
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

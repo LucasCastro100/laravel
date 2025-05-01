@@ -21,29 +21,25 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/perfil', 'edit')->name('profile.edit');
-
-        Route::patch('/perfil', 'update')->name('profile.update');
-
-        Route::delete('/perfil', 'destroy')->name('profile.destroy');
-    });
-
-    Route::controller(CommentController::class)->group(function () {
-        Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
-
-        Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
-    });
-
-    Route::controller(AssessmentController::class)->group(function () {
-        Route::post('/avaliacoes', 'store')->name('assessment.store');
-
-        Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
-    });
-
-    
+      
   
     Route::middleware(['role:0'])->group(function () {
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/perfil', 'edit')->name('profile.edit');
+    
+            Route::patch('/perfil', 'update')->name('profile.update');
+    
+            Route::delete('/perfil', 'destroy')->name('profile.destroy');
+        });
+    
+       
+    
+        Route::controller(AssessmentController::class)->group(function () {
+            Route::post('/avaliacoes', 'store')->name('assessment.store');
+    
+            Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
+        });
+
         Route::controller(StudentController::class)->group(function () {
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
@@ -67,6 +63,12 @@ Route::middleware('auth')->group(function () {
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
             Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
+        });
+
+        Route::controller(CommentController::class)->group(function () {
+            Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
+    
+            Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
         });
 
     });

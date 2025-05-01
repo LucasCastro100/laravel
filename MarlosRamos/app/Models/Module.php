@@ -28,6 +28,6 @@ class Module extends Model
 
     public function classrooms()
     {
-        return $this->hasMany(Classroom::class);
+        return $this->hasMany(Classroom::class)->orderBy('id');
     }
 }
