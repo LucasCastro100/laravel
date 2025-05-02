@@ -1,4 +1,4 @@
-<div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" class="transition-opacity duration-500 sm:px-6 lg:px-8"
+<div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" class="transition-opacity duration-500"
     x-transition.opacity>
     <div class="p-4 mb-4 rounded text-white "
         :class="{

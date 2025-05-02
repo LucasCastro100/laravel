@@ -1,7 +1,7 @@
 <x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Cursos') }}
+            {{ __('Gerencimanto dos cursos') }}
         </h2>
     </x-slot>
 
@@ -28,11 +28,16 @@
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer relative"
                                 @click="window.location.href = '/curso/' + {{ json_encode($course->uuid) }}">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
                                 <div class="p-4">
+                                    <div class="absolute top-2 right-2 flex row items-center justify-center gap-2 p-1 bg-white border-2 border-gray-500 rounded-md text-black text-xs">
+                                        <i class="fas fa-user"></i>
+                                        {{ $course->users_count }}
+                                    </div>
+
                                     <h3 class="text-xl font-semibold text-gray-800">{{ $course->title }}</h3>
                                     <p class="text-gray-600 mt-2">{{ Str::limit($course->description, 100) }}</p>
                                 </div>
@@ -46,7 +51,8 @@
         <template x-if="openCreate">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 p-1" @click.stop>
                 <div class="bg-white p-6 rounded-lg w-full max-w-2xl max-h-full">
-                    <button @click="openCreate = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <button @click="openCreate = false"
+                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
 
@@ -78,7 +84,8 @@
                                                 stroke-width="2"
                                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                         </svg>
-                                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clique para o upload</span> ou segure e arraste</p>
+                                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clique para o
+                                                upload</span> ou segure e arraste</p>
                                         <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                     </div>
                                     <input id="dropzone-file" type="file" class="hidden" name="image"

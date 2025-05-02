@@ -17,7 +17,7 @@ class CourseController extends Controller
         $courses = Course::withCount('users')->get();
 
         $dados = [
-            'title' => 'Cursos',
+            'title' => 'Gerencimanto dos cursos',
             'courses' => $courses,
         ];
 
