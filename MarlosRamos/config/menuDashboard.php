@@ -5,9 +5,15 @@ return [
         [
             'icon' => 'fa-tachometer-alt',
             'name' => 'Painel',
-            'route' => 'dashboard',
-            'role' => 0
+            'route' => 'admin.dashBoard',
+            'role' => 1
         ],        
+        [
+            'icon' => 'fa-tachometer-alt',
+            'name' => 'Painel',
+            'route' => 'student.dashBoard',
+            'role' => 0
+        ],   
         [
             'icon' => 'fas fa-vial',
             'name' => 'Gerenciar Testes',

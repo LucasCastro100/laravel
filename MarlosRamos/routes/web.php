@@ -16,13 +16,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-      
-  
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['role:0'])->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/perfil', 'edit')->name('profile.edit');
@@ -31,9 +29,7 @@ Route::middleware('auth')->group(function () {
     
             Route::delete('/perfil', 'destroy')->name('profile.destroy');
         });
-    
-       
-    
+        
         Route::controller(AssessmentController::class)->group(function () {
             Route::post('/avaliacoes', 'store')->name('assessment.store');
     
@@ -41,6 +37,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::controller(StudentController::class)->group(function () {
+            Route::get('/painel-aluno', 'dashBoard')->name('student.dashBoard');
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
             Route::get('/meus-curso/{uuid}', 'courseShow')->name('student.courseShow');
@@ -76,7 +73,7 @@ Route::middleware('auth')->group(function () {
     // Rotas da área do administrador
     Route::middleware(['role:1'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
-            Route::get('/admin', 'index')->name('admin.index');
+            Route::get('/admin', 'dashBoard')->name('admin.dashBoard');            
             Route::get('/admin/usuarios', 'allUsers')->name('admin.allUsers');
             Route::get('/admin/comentarios', 'comentarios')->name('admin.comentarios');
 

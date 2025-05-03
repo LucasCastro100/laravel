@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
+    public function dashBoard(){
+        $dados = [
+            'title' => 'Painel do Aluno',            
+        ];
+
+        return view('dashboard.user.dashboard', $dados);
+    }
+
     public function allCourses()
     {
         $user = Auth::user();

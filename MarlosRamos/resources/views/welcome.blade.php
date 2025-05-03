@@ -1231,7 +1231,10 @@
                 @if (Route::has('login'))
                     <nav class="-mx-3 flex flex-1 justify-end">
                         @auth
-                            <a href="{{ url('/dashboard') }}"
+                        @php
+                            $url = Auth::user()->role > 0 ? 'admin.dashBoard' : 'student.dashBoard';
+                        @endphp
+                            <a href="{{ route($url) }}"
                                 class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20] ">
                                 Painel
                             </a>

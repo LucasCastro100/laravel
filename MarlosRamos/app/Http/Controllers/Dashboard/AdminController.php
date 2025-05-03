@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function dashBoard(){
+        $dados = [
+            'title' => 'Painel do Administrador',            
+        ];
+
+        return view('dashboard.admin.dashboard', $dados);
+    }
+
     public function allUsers(){
         {
            $users = User::where('role', '<', 1)->withCount('matriculations')->paginate(10);
