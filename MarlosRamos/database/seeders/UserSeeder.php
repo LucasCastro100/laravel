@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,25 +17,39 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Lucas Henrique de Castro Oliveira',
-                'email' => 'lucascastro121295@gmail.com',
+                'name' => 'Administrador',
+                'email' => 'administrador@gmail.com',
                 'password' => 'mudar123',
-                'cpf' => '084.832.526-51',
-                'phone' => '(34) 99153-5839',
-                'role' => '1'
+                'cpf' => '000.000.000-00',
+                'phone' => '(34) 90000-0000',
+                'role_id' => '3'
             ],
             [
-                'name' => 'Lucas',
-                'email' => 'lucas@gmail.com',
+                'name' => 'Professor',
+                'email' => 'professor@gmail.com',
                 'password' => 'mudar123',
-                'cpf' => '123.456.789-00',
-                'phone' => '(34) 91234-5678',
-                'role' => '0'
+                'cpf' => '111.111.111-11',
+                'phone' => '(34) 91111-1111',
+                'role_id' => '2'
+            ],
+            [
+                'name' => 'Estudante',
+                'email' => 'estudante@gmail.com',
+                'password' => 'mudar123',
+                'cpf' => '222.222.222-22',
+                'phone' => '(34) 92222-2222',
+                'role_id' => '1'
             ]
         ];
 
-        foreach ($users as $user) {
-            User::create($user);
+        foreach ($users as $data) {
+            $user = User::create($data);
+
+            if($data['role_id'] == 0){
+                Student::create(['user_id' => $user->id]);
+            } elseif($data['role_id'] == 1){
+                Teacher::create(['user_id' => $user->id]);
+            }
         }
     }
 }

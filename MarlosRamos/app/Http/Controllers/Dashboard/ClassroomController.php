@@ -64,7 +64,7 @@ class ClassroomController extends Controller
             'classroomCompletions' => $classroomCompletions,
         ];
 
-        return view('dashboard.user.classroom.classroom_show', $dados);
+        return view('dashboard.student.classroom.classroom_show', $dados);
     }
 
     public function store(Request $request, YoutubeService $youtube)

@@ -39,6 +39,21 @@ class User extends Authenticatable
         ];
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
     public function assessments()
     {
         return $this->hasMany(Assessment::class);
@@ -67,7 +82,7 @@ class User extends Authenticatable
     public function classrooms()
     {
         return $this->belongsToMany(Classroom::class)
-            ->withPivot('completed_at') 
+            ->withPivot('completed_at')
             ->withTimestamps();
     }
 }

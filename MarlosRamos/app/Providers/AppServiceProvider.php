@@ -23,12 +23,17 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $menu = [];
-    
-            // if (Auth::check() && Auth::user()->role == 1) {
-            if (Auth::check()) {
-                $menu = config('menuDashboard.admin');
+        
+            if (Auth::check() && Auth::user()->role_id && Auth::user()->role->name) {
+                $roleName = Auth::user()->role->name;
+        
+                $menus = config('menuDashboard');
+        
+                if (array_key_exists($roleName, $menus)) {
+                    $menu = $menus[$roleName];
+                }
             }
-    
+        
             $view->with('adminMenu', $menu);
         });
     }

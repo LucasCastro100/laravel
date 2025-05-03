@@ -3,46 +3,46 @@
 return [
     'admin' => [
         [
-            'icon' => 'fa-tachometer-alt',
+            'icon' => 'fas fa-tachometer-alt',
             'name' => 'Painel',
             'route' => 'admin.dashBoard',
-            'role' => 1
-        ],        
+            'role' => 3
+        ],
+
+
         [
-            'icon' => 'fa-tachometer-alt',
-            'name' => 'Painel',
-            'route' => 'student.dashBoard',
-            'role' => 0
-        ],   
+            'icon' => 'fas fa-users-cog',
+            'name' => 'Gerenciar Usuários',
+            'route' => 'admin.allUsers',
+            'role' => 3
+        ],
+    ],
+    'teacher' => [
         [
             'icon' => 'fas fa-vial',
             'name' => 'Gerenciar Testes',
             'route' => 'test.index',
-            'role' => 1
+            'role' => 2
         ],
         [
             'icon' => 'fas fa-chalkboard-teacher',
             'name' => 'Gerenciar Cursos',
             'route' => 'course.index',
-            'role' => 1
+            'role' => 2
         ],
+    ],
+    'student' => [
         [
-            'icon' => 'fas fa-users-cog',
-            'name' => 'Gerenciar Usuários',
-            'route' => 'admin.allUsers',
+            'icon' => 'fas fa-tachometer-alt',
+            'name' => 'Painel',
+            'route' => 'student.dashBoard',
             'role' => 1
         ],
         [
             'icon' => 'fas fa-book-reader',
             'name' => 'Cursos',
             'route' => 'student.allCourses',
-            'role' => 0
+            'role' => 1
         ],
-        [
-            'icon' => 'fas fa-user-circle',
-            'name' => 'Perfil',
-            'route' => 'profile.edit',
-            'role' => 0
-        ],
-    ],
+    ]
 ];

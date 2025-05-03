@@ -1245,12 +1245,11 @@
                                 class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20] ">
                                 Painel
                             </a>
-                        @else
-                            <a href="{{ route('login') }}"
+                        < @else <a href="{{ route('login') }}"
                                 class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20] ">
                                 Acessar
-                            </a>
-                        @endauth
+                                </a>
+                            @endauth
                     </nav>
                 @endif
             </header>

@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('cpf')->unique();
             $table->string('phone')->nullable();           
-            $table->string('image')->nullable();           
-            $table->integer('role')->default(0);            
+            $table->string('image')->nullable();                           
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->uuid();

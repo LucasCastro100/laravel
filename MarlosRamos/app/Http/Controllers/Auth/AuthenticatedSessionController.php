@@ -14,35 +14,30 @@ class AuthenticatedSessionController extends Controller
     public function create(): View
     {
         return view('auth.login');
-    }
-
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->intended(route('dashboard', absolute: false));
-    // }
+    }   
 
     public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
-    $request->session()->regenerate();
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    if ($user->role === 1) {
-        return redirect()->route('admin.dashboard');
+        if ($user->role_id === 3) {
+            return redirect()->route('admin.dashBoard');
+        }
+
+        if ($user->role_id === 2) {
+            return redirect()->route('teacher.dashBoard');
+        }
+
+        if ($user->role_id === 1) {
+            return redirect()->route('student.dashBoard');
+        }
+
+        // Fallback com erro 403
+        abort(403, 'Você não tem permissão para acessar esta página.');
     }
-
-    if ($user->role === 0) {
-        return redirect()->route('student.dashBoard');
-    }
-
-    // Fallback
-    return redirect()->route('home');
-}
 
     public function destroy(Request $request): RedirectResponse
     {

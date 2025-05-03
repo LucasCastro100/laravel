@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -30,7 +32,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],            
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'cpf' => ['required', 'string', 'max:14', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -39,7 +41,7 @@ class RegisteredUserController extends Controller
             'name.required' => 'O nome é obrigatório.',
             'name.string' => 'O nome deve ser uma string válida.',
             'name.max' => 'O nome não pode ter mais de 255 caracteres.',
-        
+
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'Informe um e-mail válido.',
             'email.lowercase' => 'O e-mail deve ser em minúsculas.',
@@ -49,7 +51,7 @@ class RegisteredUserController extends Controller
             'cpf.string' => 'O cpf deve ser uma string válida.',
             'cpf.max' => 'O cpf não pode ter mais de 17 caracteres.',
             'cpf.unique' => 'Já existe uma conta com esse cpf.',
-        
+
             'password.required' => 'A senha é obrigatória.',
             'password.confirmed' => 'As senhas não coincidem.',
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
@@ -61,11 +63,23 @@ class RegisteredUserController extends Controller
             'cpf' => $request->cpf,
             'password' => Hash::make($request->password),
         ]);
+        
+        $role = $request->role;
+        
+        if ($role === 'student') {
+            
+            Student::create(['user_id' => $user->id]);
+            $user->role_id = 0; // Atribui o role de estudante (0) ao usuário
+        } elseif ($role === 'teacher') {
+            
+            Teacher::create(['user_id' => $user->id]);
+            $user->role_id = 1; // Atribui o role de professor (1) ao usuário
+        }
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route($role === 'student' ? 'student.dashboard' : 'teacher.dashboard', [], false);
     }
 }

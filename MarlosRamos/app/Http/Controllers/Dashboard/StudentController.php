@@ -14,7 +14,7 @@ class StudentController extends Controller
             'title' => 'Painel do Aluno',            
         ];
 
-        return view('dashboard.user.dashboard', $dados);
+        return view('dashboard.student.dashboard', $dados);
     }
 
     public function allCourses()
@@ -29,7 +29,7 @@ class StudentController extends Controller
             'userCourseIds' => $userCourseIds,
         ];
 
-        return view('dashboard.user.course.courses_all', $dados);
+        return view('dashboard.student.course.courses_all', $dados);
     }
 
     public function myCourses()
@@ -43,7 +43,7 @@ class StudentController extends Controller
             'courses' => $courses,
         ];
 
-        return view('dashboard.user.course.courses_my', $dados);
+        return view('dashboard.student.course.courses_my', $dados);
     }
 
     public function courseShow(Request $request)
@@ -104,6 +104,6 @@ class StudentController extends Controller
             'modulesWithDuration' => $modulesWithDuration,
         ];
 
-        return view('dashboard.user.course.course_show', $dados);
+        return view('dashboard.student.course.course_show', $dados);
     }
 }

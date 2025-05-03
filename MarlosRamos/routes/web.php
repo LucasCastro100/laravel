@@ -21,7 +21,7 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::middleware(['role:0'])->group(function () {
+    Route::middleware(['role:1'])->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/perfil', 'edit')->name('profile.edit');
     
@@ -70,8 +70,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     });
 
+    // Rotas da área do professor
+    // Route::middleware(['role:2'])->group(function () {
+
+    // });
+
     // Rotas da área do administrador
-    Route::middleware(['role:1'])->group(function () {
+    Route::middleware(['role:3'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('/admin', 'dashBoard')->name('admin.dashBoard');            
             Route::get('/admin/usuarios', 'allUsers')->name('admin.allUsers');

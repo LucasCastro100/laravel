@@ -21,7 +21,7 @@ class RoleMiddleware
         }
 
         // Verifica se o usuário tem a role necessária
-        if (Auth::user()->role >= $role) {
+        if (Auth::user()->role_id >= $role) {
             return $next($request);            
         }
 
