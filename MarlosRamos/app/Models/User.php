@@ -66,17 +66,22 @@ class User extends Authenticatable
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'matriculations');
+        return $this->hasMany(Course::class);
     }
 
-    public function matriculations()
+    public function tests()
     {
-        return $this->hasMany(Matriculation::class);
+        return $this->hasMany(Test::class);
     }
 
-    public function testes()
+    public function matriculationsCourses()
     {
-        return $this->belongsToMany(Test::class, 'users_tests');
+        return $this->hasMany(MatriculationCourse::class);
+    }
+
+    public function matriculationsTests()
+    {
+        return $this->hasMany(MatriculationTest::class);
     }
 
     public function classrooms()

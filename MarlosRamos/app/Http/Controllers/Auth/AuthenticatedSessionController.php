@@ -23,16 +23,14 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        if ($user->role_id === 3) {
-            return redirect()->route('admin.dashBoard');
-        }
-
-        if ($user->role_id === 2) {
-            return redirect()->route('teacher.dashBoard');
-        }
-
-        if ($user->role_id === 1) {
-            return redirect()->route('student.dashBoard');
+        $routes = [
+            3 => 'admin.dashBoard',
+            2 => 'teacher.dashBoard',
+            1 => 'student.dashBoard',
+        ];
+        
+        if (array_key_exists($user->role_id, $routes)) {
+            return redirect()->route($routes[$user->role_id]);
         }
 
         // Fallback com erro 403

@@ -45,9 +45,9 @@ class UserSeeder extends Seeder
         foreach ($users as $data) {
             $user = User::create($data);
 
-            if($data['role_id'] == 0){
+            if($data['role_id'] == 1){
                 Student::create(['user_id' => $user->id]);
-            } elseif($data['role_id'] == 1){
+            } elseif($data['role_id'] == 2){
                 Teacher::create(['user_id' => $user->id]);
             }
         }

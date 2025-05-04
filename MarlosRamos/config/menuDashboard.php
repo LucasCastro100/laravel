@@ -8,14 +8,12 @@ return [
             'route' => 'admin.dashBoard',
             'role' => 3
         ],
-
-
-        [
-            'icon' => 'fas fa-users-cog',
-            'name' => 'Gerenciar Usuários',
-            'route' => 'admin.allUsers',
-            'role' => 3
-        ],
+        // [
+        //     'icon' => 'fas fa-users-cog',
+        //     'name' => 'Gerenciar Usuários',
+        //     'route' => 'admin.allUsers',
+        //     'role' => 3
+        // ],
     ],
     'teacher' => [
         [

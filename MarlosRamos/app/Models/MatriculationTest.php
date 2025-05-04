@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Teacher extends Model
+class MatriculationTest extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
         'user_id',
-        'specialty'
+        'test_id'
     ];
 
     public function uniqueIds()
@@ -25,4 +25,8 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function test()
+    {
+        return $this->belongsTo(Test::class);
+    }
 }

@@ -14,6 +14,7 @@ class Course extends Model
         'title',
         'description',
         'image',
+        'user_id'
     ];
 
     public function uniqueIds()
@@ -25,14 +26,14 @@ class Course extends Model
     {
         return $this->hasMany(Module::class);
     }
-    
-    public function users()
+
+    public function matriculationsCourses()
     {
-        return $this->belongsToMany(User::class, 'matriculations');
+        return $this->hasMany(MatriculationCourse::class);
     }
 
-    public function matriculations()
+    public function users()
     {
-        return $this->hasMany(Matriculation::class);
+        return $this->hasManyThrough(User::class, MatriculationCourse::class, 'course_id', 'id', 'id', 'user_id');
     }
 }

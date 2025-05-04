@@ -6,10 +6,14 @@ use App\Http\Controllers\Dashboard\ClassroomController;
 use App\Http\Controllers\Dashboard\CommentController;
 use App\Http\Controllers\Dashboard\CourseController;
 use App\Http\Controllers\Dashboard\MatriculationController;
+use App\Http\Controllers\Dashboard\MatriculationCourseController;
+use App\Http\Controllers\Dashboard\MatriculationTestController;
 use App\Http\Controllers\Dashboard\ModuleController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\StudentController;
+use App\Http\Controllers\Dashboard\TeacherController;
 use App\Http\Controllers\Dashboard\TestController;
+use App\Models\MatriculationCourse;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,10 +49,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
         });
 
-        Route::controller(MatriculationController::class)->group(function () {
-            Route::post('/matricula/{course_uuid}/{user_uuid}', 'store')->name('matriculation.store');
-    
-            Route::delete('/matriculas/{id}', 'destroy')->name('matriculation.destroy');
+        Route::controller(MatriculationCourseController::class)->group(function () {
+            Route::post('/matricula-curso/{course_uuid}/{user_uuid}', 'store')->name('matriculation.course.store');
+
+            Route::delete('/matriculas-curso/{id}', 'destroy')->name('matriculation.course.destroy');
+        });
+
+        Route::controller(MatriculationTestController::class)->group(function () {
+            Route::post('/matricula-teste/{test_uuid}/{user_uuid}', 'store')->name('matriculation.test.store');
+                
+            Route::delete('/matriculas-teste/{id}', 'destroy')->name('matriculation.test.destroy');
         });
 
         Route::controller(ClassroomController::class)->group(function () {            
@@ -71,20 +81,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Rotas da área do professor
-    // Route::middleware(['role:2'])->group(function () {
-
-    // });
+    Route::middleware(['role:2'])->group(function () {
+        Route::controller(TeacherController::class)->group(function () {
+            Route::get('/painel-professor', 'dashBoard')->name('teacher.dashBoard');            
+        });
+    });
 
     // Rotas da área do administrador
     Route::middleware(['role:3'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
-            Route::get('/admin', 'dashBoard')->name('admin.dashBoard');            
-            Route::get('/admin/usuarios', 'allUsers')->name('admin.allUsers');
-            Route::get('/admin/comentarios', 'comentarios')->name('admin.comentarios');
+            Route::get('/painel-admin', 'dashBoard')->name('admin.dashBoard');            
+            // Route::get('/painel-admin/usuarios', 'allUsers')->name('admin.allUsers');
+            Route::get('/painel-admin/comentarios', 'comentarios')->name('admin.comentarios');
 
-            Route::post('/admin/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
+            Route::post('/painel-admin/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
 
-            Route::get('/admin/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
+            Route::get('/painel-admin/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
         });
 
         Route::controller(CourseController::class)->group(function () {
