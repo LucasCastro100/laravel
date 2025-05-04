@@ -63,23 +63,29 @@ class RegisteredUserController extends Controller
             'cpf' => $request->cpf,
             'password' => Hash::make($request->password),
         ]);
-        
+
         $role = $request->role;
-        
+
         if ($role === 'student') {
-            
+
             Student::create(['user_id' => $user->id]);
-            $user->role_id = 0; // Atribui o role de estudante (0) ao usuário
+            $user->role_id = 1;
         } elseif ($role === 'teacher') {
-            
             Teacher::create(['user_id' => $user->id]);
-            $user->role_id = 1; // Atribui o role de professor (1) ao usuário
+            $user->role_id = 2;
+        } elseif ($role === 'admin') {
+            $user->role_id = 3;
         }
 
-        event(new Registered($user));
+        $user->save();
 
+        event(new Registered($user));
         Auth::login($user);
 
-        return redirect()->route($role === 'student' ? 'student.dashboard' : 'teacher.dashboard', [], false);
+        return redirect()->route(match ($role) {
+            'student' => 'student.dashboard',
+            'teacher' => 'teacher.dashboard',
+            'admin' => 'admin.dashboard',
+        });
     }
 }

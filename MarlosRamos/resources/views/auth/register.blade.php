@@ -105,3 +105,59 @@
         }
     });
 </script>
+
+{{-- <x-guest-layout>
+    <div x-data="{ tab: 'student' }" class="max-w-xl mx-auto">
+        <!-- Abas -->
+        <div class="flex mb-6 space-x-4 justify-center">
+            <button type="button" @click="tab = 'student'"
+                :class="tab === 'student' ? 'font-bold text-blue-600 border-b-2 border-blue-600' : 'text-gray-600'">
+                Aluno
+            </button>
+            <button type="button" @click="tab = 'teacher'"
+                :class="tab === 'teacher' ? 'font-bold text-blue-600 border-b-2 border-blue-600' : 'text-gray-600'">
+                Professor
+            </button>
+        </div>
+
+        <!-- Formulário para aluno -->
+        <form method="POST" action="{{ route('register') }}" x-show="tab === 'student'" x-cloak>
+            @csrf
+            <input type="hidden" name="type" value="student">
+
+            {{-- @include('auth.register-form-fields') --}}
+
+            {{-- <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('login') }}">
+                    {{ __('Já tem cadastro?') }}
+                </a>
+
+                <x-primary-button class="ms-4">
+                    {{ __('Registrar como Aluno') }}
+                </x-primary-button>
+            </div>
+        </form> --}}
+
+        <!-- Formulário para professor -->
+        {{-- <form method="POST" action="{{ route('register') }}" x-show="tab === 'teacher'" x-cloak>
+            @csrf
+            <input type="hidden" name="type" value="teacher">
+
+            {{-- @include('auth.register-form-fields') --}}
+
+            {{-- <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('login') }}">
+                    {{ __('Já tem cadastro?') }}
+                </a>
+
+                <x-primary-button class="ms-4">
+                    {{ __('Registrar como Professor') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
+</x-guest-layout> --}}
+
+
