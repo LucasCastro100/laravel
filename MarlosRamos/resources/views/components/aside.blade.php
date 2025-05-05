@@ -23,7 +23,7 @@
         @endforeach
 
         <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-            <i class="fas fa-user-circle pr-2"></i>
+            <i class="fa-solid fa-user-circle pr-2"></i>
             <span class="ml-3 text-sm font-medium transition-all duration-300"
                 x-show="openAside">{{ __('Perfil') }}</span>
         </x-responsive-nav-link>
@@ -33,7 +33,7 @@
             <x-responsive-nav-link :href="route('logout')"
                 onclick="event.preventDefault();
                                 this.closest('form').submit();">
-                <i class="fas fa-sign-out-alt pr-2"></i>
+                <i class="fa-solid fa-sign-out-alt pr-2"></i>
                 <span class="ml-3 text-sm font-medium transition-all duration-300"
                     x-show="openAside">{{ __('Sair') }}</span>
             </x-responsive-nav-link>

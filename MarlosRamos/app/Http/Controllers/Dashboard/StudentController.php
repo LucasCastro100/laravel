@@ -4,32 +4,31 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
-    public function dashBoard(){
+    public function dashBoard()
+    {
+        $user = Auth::user();
+        $courses = Course::paginate(10);
+        $tests = Test::paginate(10);
+
+        // IDs de cursos e testes que o usuário está matriculado
+        $userCourseIds = $user->enrolledCourses->pluck('id')->toArray();
+        $userTestIds = $user->enrolledTests->pluck('id')->toArray();
+
         $dados = [
-            'title' => 'Painel do Aluno',            
+            'title' => 'Painel do Aluno',
+            'courses' => $courses,
+            'tests' => $tests,
+            'userCourseIds' => $userCourseIds,
+            'userTestIds' => $userTestIds,
         ];
 
         return view('dashboard.student.dashboard', $dados);
-    }
-
-    public function allCourses()
-    {
-        $user = Auth::user();
-        $courses = Course::with('users')->paginate(10);
-        $userCourseIds = $user->courses->pluck('id')->toArray();
-
-        $dados = [
-            'title' => 'Todos os cursos',
-            'courses' => $courses,
-            'userCourseIds' => $userCourseIds,
-        ];
-
-        return view('dashboard.student.course.courses_all', $dados);
     }
 
     public function myCourses()

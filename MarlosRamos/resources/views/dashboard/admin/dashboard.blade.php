@@ -69,7 +69,7 @@
                 <div class="p-6 text-gray-900">
                     <div x-data="{ tab: 'students' }">
                         <!-- Tabs -->
-                        <div class="flex flex-col sm:flex-row  flex-wrap border-b border-gray-200 mb-4">
+                        <div class="flex flex-col sm:flex-row flex-wrap border-b border-gray-200 mb-4">
                             <button @click="tab = 'students'"
                                 :class="tab === 'students' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-600'"
                                 class="py-2 px-4 font-medium text-sm hover:text-gray-600 hover:border-b-2 hover:border-gray-300">
