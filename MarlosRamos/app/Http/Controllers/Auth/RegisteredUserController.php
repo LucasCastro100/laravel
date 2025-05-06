@@ -67,11 +67,15 @@ class RegisteredUserController extends Controller
         $role = $request->role;
 
         if ($role === 'student') {
+            Student::create(['user_id' => $user->id,]);
 
-            Student::create(['user_id' => $user->id]);
             $user->role_id = 1;
         } elseif ($role === 'teacher') {
-            Teacher::create(['user_id' => $user->id]);
+            Teacher::create([
+                'user_id' => $user->id,
+                'specialty' => $request->specialty
+            ]);
+
             $user->role_id = 2;
         } elseif ($role === 'admin') {
             $user->role_id = 3;
