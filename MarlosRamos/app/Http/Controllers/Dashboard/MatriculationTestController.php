@@ -33,7 +33,7 @@ class MatriculationTestController extends Controller
 
         try {
             MatriculationTest::create([
-                'course_id' => $test->id,
+                'test_id' => $test->id,
                 'user_id' => $user->id,
             ]);
 

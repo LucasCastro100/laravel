@@ -32,12 +32,12 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'role_id' => ['required', 'integer', 'in:1,2,3'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'cpf' => ['required', 'string', 'max:14', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
-            // Mensagens personalizadas
             'name.required' => 'O nome é obrigatório.',
             'name.string' => 'O nome deve ser uma string válida.',
             'name.max' => 'O nome não pode ter mais de 255 caracteres.',
@@ -55,41 +55,47 @@ class RegisteredUserController extends Controller
             'password.required' => 'A senha é obrigatória.',
             'password.confirmed' => 'As senhas não coincidem.',
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
+
+            'role_id.required' => 'O tipo de usuário é obrigatório.',
+            'role_id.integer' => 'O tipo de usuário deve ser um número inteiro.',
+            'role_id.in' => 'O tipo de usuário deve ser  (Aluno) ou (Professor).'
         ]);
+
+        if ((int) $request->role_id === 2) {
+            $request->validate([
+                'specialty' => ['required', 'string', 'min:3', 'max:255'],
+            ], [
+                'specialty.required' => 'A categoria é obrigatória.',
+                'specialty.string' => 'A categoria deve ser uma string válida.',
+                'specialty.min' => 'A categoria deve ter pelo menos 3 caracteres.',
+                'specialty.max' => 'A categoria não pode ter mais de 255 caracteres.',
+            ]);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'cpf' => $request->cpf,
+            'phone' => $request->phone,
+            'cpf' => $request->cpf,            
             'password' => Hash::make($request->password),
+            'role_id' => (int) $request->role_id,
         ]);
 
-        $role = $request->role;
-
-        if ($role === 'student') {
-            Student::create(['user_id' => $user->id,]);
-
-            $user->role_id = 1;
-        } elseif ($role === 'teacher') {
+        if ((int) $request->role_id === 1) {
+            Student::create(['user_id' => $user->id]);
+        } elseif ((int) $request->role_id === 2) {
             Teacher::create([
                 'user_id' => $user->id,
                 'specialty' => $request->specialty
             ]);
-
-            $user->role_id = 2;
-        } elseif ($role === 'admin') {
-            $user->role_id = 3;
         }
 
-        $user->save();
-
-        event(new Registered($user));
         Auth::login($user);
 
-        return redirect()->route(match ($role) {
-            'student' => 'student.dashboard',
-            'teacher' => 'teacher.dashboard',
-            'admin' => 'admin.dashboard',
+        return redirect()->route(match ((int) $request->role_id) {
+            1 => 'student.dashBoard',
+            2 => 'teacher.dashBoard',
+            3 => 'admin.dashBoard',
         });
     }
 }

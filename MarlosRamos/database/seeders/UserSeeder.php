@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
             if($data['role_id'] == 1){
                 Student::create(['user_id' => $user->id]);
             } elseif($data['role_id'] == 2){
-                Teacher::create(['user_id' => $user->id]);
+                Teacher::create(['user_id' => $user->id, 'specialty' => 'Teste']);
             }
         }
     }

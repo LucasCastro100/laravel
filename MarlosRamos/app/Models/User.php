@@ -19,8 +19,9 @@ class User extends Authenticatable
         'cpf',
         'phone',
         'image',
-        'role'
+        'role_id'
     ];
+    
     protected $hidden = [
         'password',
         'remember_token',
