@@ -105,4 +105,17 @@ class StudentController extends Controller
 
         return view('dashboard.student.course.course_show', $dados);
     }
+
+    public function myTests(){
+        $tests = Test::whereHas('matriculations', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->paginate(10);
+
+        $dados = [
+            'title' => 'Meus testes',
+            'tests' => $tests,
+        ];
+
+        return view('dashboard.student.test.tests_my', $dados);
+    }
 }

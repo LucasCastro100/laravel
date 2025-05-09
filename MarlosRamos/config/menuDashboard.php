@@ -44,8 +44,14 @@ return [
         ],
         [
             'icon' => 'fa-solid fa-book-reader',
-            'name' => 'Cursos',
-            'route' => 'student.allCourses',
+            'name' => 'Meus Cursos',
+            'route' => 'student.myCourses',
+            'role' => 1
+        ],
+        [
+            'icon' => 'fa-solid fa-pencil',
+            'name' => 'Meus Testes',
+            'route' => 'student.myTests',
             'role' => 1
         ],
     ]

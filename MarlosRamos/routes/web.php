@@ -25,8 +25,7 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::middleware(['role:1'])->group(function () {
-        Route::controller(ProfileController::class)->group(function () {
+     Route::controller(ProfileController::class)->group(function () {
             Route::get('/perfil', 'edit')->name('profile.edit');
     
             Route::patch('/perfil', 'update')->name('profile.update');
@@ -34,6 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/perfil', 'destroy')->name('profile.destroy');
         });
         
+
+    Route::prefix('painel-aluno')->middleware(['role:1'])->group(function () {       
         Route::controller(AssessmentController::class)->group(function () {
             Route::post('/avaliacoes', 'store')->name('assessment.store');
     
@@ -41,10 +42,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::controller(StudentController::class)->group(function () {
-            Route::get('/painel-aluno', 'dashBoard')->name('student.dashBoard');
+            Route::get('/', 'dashBoard')->name('student.dashBoard');
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
-            Route::get('/meus-curso/{uuid}', 'courseShow')->name('student.courseShow');
+            Route::get('/meus-testes', 'myTests')->name('student.myTests'); 
+            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');                      
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
         });
@@ -81,22 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Rotas da área do professor
-    Route::middleware(['role:2'])->group(function () {
+    Route::prefix('painel-professor')->middleware(['role:2'])->group(function () {
         Route::controller(TeacherController::class)->group(function () {
-            Route::get('/painel-professor', 'dashBoard')->name('teacher.dashBoard');            
-        });
-    });
-
-    // Rotas da área do administrador
-    Route::middleware(['role:3'])->group(function () {
-        Route::controller(AdminController::class)->group(function () {
-            Route::get('/painel-admin', 'dashBoard')->name('admin.dashBoard');            
-            // Route::get('/painel-admin/usuarios', 'allUsers')->name('admin.allUsers');
-            Route::get('/painel-admin/comentarios', 'comentarios')->name('admin.comentarios');
-
-            Route::post('/painel-admin/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
-
-            Route::get('/painel-admin/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
+            Route::get('/', 'dashBoard')->name('teacher.dashBoard');            
         });
 
         Route::controller(CourseController::class)->group(function () {
@@ -130,6 +119,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::delete('/teste/{uuid}', 'destroy')->name('test.destroy');
         });
+    });
+
+    // Rotas da área do administrador
+    Route::prefix('painel-admin')->middleware(['role:3'])->group(function () {
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('/', 'dashBoard')->name('admin.dashBoard');          
+            Route::get('/comentarios', 'comentarios')->name('admin.comentarios');
+            Route::get('/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
+
+            Route::post('/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');          
+            Route::post('/avaliacoes/{id}/responder', 'responderAvaliacao')->name('admin.responderAvaliacao'); 
+        });
+
+        
     });
 });
 

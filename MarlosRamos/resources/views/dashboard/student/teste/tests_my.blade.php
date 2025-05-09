@@ -1,7 +1,7 @@
 <x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Curso') }}
+            {{ __('Teste') }}
         </h2>
     </x-slot>
 
@@ -15,15 +15,15 @@
                 @if (session('error'))
                     <x-alert-component type="error" :message="session('error')" />
                 @endif
-                
-                @if ($courses->isEmpty())
+
+                @if ($tests->isEmpty())
                     <div class="text-center
                         text-gray-500">
-                        Você não possui nenhum curso!
+                        Você não possui nenhum teste!
                     </div>
                 @else
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        @foreach ($courses as $index => $course)
+                        @foreach ($tests as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
                                 onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
