@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    public function index(){
+
+    }
+
+    public function classroomShow(){
+
+    }
+
     public function store(Request $request, $uuid_classroom)
     {
         try {

@@ -14,7 +14,7 @@
     <nav class="space-y-2">
         @foreach ($adminMenu as $item)
             {{-- @if (Auth::user()->role >= $item['role']) --}}
-                <x-responsive-nav-link :href="route($item['route'])" :active="request()->routeIs($item['route'])">
+                <x-responsive-nav-link :href="route($item['route'])" :active="request()->routeIs($item['route'])" title="{{ $item['name'] }}">
                     <i class="{{ $item['icon'] }} pr-2"></i>
                     <span class="ml-3 text-sm font-medium transition-all duration-300"
                         x-show="openAside">{{ __($item['name']) }}</span>
@@ -22,17 +22,17 @@
             {{-- @endif --}}
         @endforeach
 
-        <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+        <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" title="{{ __('Perfil') }}">
             <i class="fa-solid fa-user-circle pr-2"></i>
             <span class="ml-3 text-sm font-medium transition-all duration-300"
                 x-show="openAside">{{ __('Perfil') }}</span>
         </x-responsive-nav-link>
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}" >
             @csrf
             <x-responsive-nav-link :href="route('logout')"
                 onclick="event.preventDefault();
-                                this.closest('form').submit();">
+                                this.closest('form').submit();" title="{{ __('Sair') }}">
                 <i class="fa-solid fa-sign-out-alt pr-2"></i>
                 <span class="ml-3 text-sm font-medium transition-all duration-300"
                     x-show="openAside">{{ __('Sair') }}</span>

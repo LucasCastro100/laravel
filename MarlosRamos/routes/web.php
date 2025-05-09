@@ -31,16 +31,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('/perfil', 'update')->name('profile.update');
     
             Route::delete('/perfil', 'destroy')->name('profile.destroy');
-        });
-        
+        });        
 
-    Route::prefix('painel-aluno')->middleware(['role:1'])->group(function () {       
-        Route::controller(AssessmentController::class)->group(function () {
-            Route::post('/avaliacoes', 'store')->name('assessment.store');
-    
-            Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
-        });
-
+    Route::prefix('painel-aluno')->middleware(['role:1'])->group(function () { 
         Route::controller(StudentController::class)->group(function () {
             Route::get('/', 'dashBoard')->name('student.dashBoard');
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
@@ -49,6 +42,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');                      
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
+        });
+
+        Route::controller(AssessmentController::class)->group(function () {
+            Route::post('/avaliacoes', 'store')->name('assessment.store');
+    
+            Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
         });
 
         Route::controller(MatriculationCourseController::class)->group(function () {
@@ -75,6 +74,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::controller(CommentController::class)->group(function () {
+            Route::get('/comentarios', 'index')->name('comment.index');
+            Route::get('/comentarios/{uuid_classroom}/{id}', 'show')->name('comment.classroomShow');
+
             Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
     
             Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
@@ -85,7 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rotas da área do professor
     Route::prefix('painel-professor')->middleware(['role:2'])->group(function () {
         Route::controller(TeacherController::class)->group(function () {
-            Route::get('/', 'dashBoard')->name('teacher.dashBoard');            
+            Route::get('/', 'dashBoard')->name('teacher.dashBoard');       
         });
 
         Route::controller(CourseController::class)->group(function () {
@@ -130,9 +132,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::post('/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');          
             Route::post('/avaliacoes/{id}/responder', 'responderAvaliacao')->name('admin.responderAvaliacao'); 
-        });
-
-        
+        });        
     });
 });
 

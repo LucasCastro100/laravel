@@ -38,7 +38,7 @@
                                                 onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">Acessar</span>
                                         @else
                                             <form
-                                                action="{{ route('matriculation.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
+                                                action="{{ route('matriculation.course.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
                                                 method="POST">
                                                 @csrf
                                                 <button type="submit"
@@ -84,7 +84,7 @@
                                                 onclick="window.location.href = '/meus-testes/{{ $test->uuid }}'">Acessar</span>
                                         @else
                                             <form
-                                                action="{{ route('matriculation.store', ['test_uuid' => $test->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
+                                                action="{{ route('matriculation.test.store', ['test_uuid' => $test->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
                                                 method="POST">
                                                 @csrf
                                                 <button type="submit"

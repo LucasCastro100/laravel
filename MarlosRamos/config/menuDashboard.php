@@ -31,7 +31,7 @@ return [
         [
             'icon' => 'fa-solid fa-comments',
             'name' => 'Gerenciar Comentários',
-            'route' => 'course.index',
+            'route' => 'comment.index',
             'role' => 2
         ],
     ],

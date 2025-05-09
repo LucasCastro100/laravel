@@ -33,7 +33,7 @@ class StudentController extends Controller
 
     public function myCourses()
     {
-        $courses = Course::whereHas('matriculations', function ($query) {
+        $courses = Course::whereHas('matriculationsCourses', function ($query) {
             $query->where('user_id', Auth::id());
         })->paginate(10);
 

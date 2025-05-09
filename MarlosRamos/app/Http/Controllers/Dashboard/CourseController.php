@@ -58,6 +58,7 @@ class CourseController extends Controller
 
                 // Salva o caminho da imagem no banco de dados
                 $data['image'] = 'courses/' . $filename;
+                $data['user_id'] = Auth::user()->id;
             }
 
             // Cria o curso no banco de dados
@@ -67,7 +68,7 @@ class CourseController extends Controller
             return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
         } catch (\Exception $e) {
             // Em caso de erro, exibe a mensagem
-            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso!');
+            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso!'. $e->getMessage());
         }
     }
 
