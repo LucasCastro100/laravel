@@ -25,7 +25,7 @@
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($tests as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
-                                onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">
+                                onclick="window.location.href = '{{ route('student.testhow', ['uuid' =>$test->uuid ]) }}'">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
 

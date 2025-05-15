@@ -39,7 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
             Route::get('/meus-testes', 'myTests')->name('student.myTests'); 
-            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');                      
+            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');
+            Route::get('/meu-teste/{uuid}', 'testhow')->name('student.testhow');
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
         });
@@ -63,7 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::controller(ClassroomController::class)->group(function () {            
-            Route::get('/aula/{uuid_classroom}', 'show')->name('classroom.show');
+            Route::get('/aula/{uuid_classroom}', 'show')->name('student.classroom.show');
 
             Route::post('/aula', 'store')->name('classroom.store');
             Route::post('/aula-completa/{uuid_classroom}', 'completeClassroom')->name('classroom.completeClassroom');
@@ -120,6 +121,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/teste/{uuid}', 'update')->name('test.update');
 
             Route::delete('/teste/{uuid}', 'destroy')->name('test.destroy');
+        });
+
+        Route::controller(ClassroomController::class)->group(function () {            
+            Route::get('/aula/{uuid_classroom}', 'show')->name('tacher.classroom.show');
+
+            Route::post('/aula', 'store')->name('classroom.store');
+            Route::post('/aula-completa/{uuid_classroom}', 'completeClassroom')->name('classroom.completeClassroom');
+
+            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
+
+            Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
         });
     });
 

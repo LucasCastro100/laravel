@@ -118,4 +118,8 @@ class StudentController extends Controller
 
         return view('dashboard.student.test.tests_my', $dados);
     }
+
+    public function testhow(Request $request){
+
+    }
 }

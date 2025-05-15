@@ -29,12 +29,12 @@
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer relative"
-                                @click="window.location.href = '/curso/' + {{ json_encode($course->uuid) }}">
+                            onclick="window.location.href = '{{ route('course.show', ['uuid' => $course->uuid]) }}'">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
                                 <div class="p-4">
                                     <div class="absolute top-2 right-2 flex row items-center justify-center gap-2 p-1 bg-white border-2 border-gray-500 rounded-md text-black text-xs">
-                                        <i class="fas fa-user"></i>
+                                        <i class="fas fa-user"></i>                                        
                                         {{ $course->users_count }}
                                     </div>
 
@@ -85,8 +85,8 @@
                                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                         </svg>
                                         <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clique para o
-                                                upload</span> ou segure e arraste</p>
-                                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                upload</span></p>
+                                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF</p>
                                     </div>
                                     <input id="dropzone-file" type="file" class="hidden" name="image"
                                         accept="image/*" onchange="previewImage(event)" />

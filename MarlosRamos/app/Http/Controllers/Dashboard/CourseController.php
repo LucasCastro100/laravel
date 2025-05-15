@@ -21,7 +21,7 @@ class CourseController extends Controller
             'courses' => $courses,
         ];
 
-        return view('dashboard.admin.courses', $dados);
+        return view('dashboard.teacher.course.courses', $dados);
     }
 
     public function store(Request $request)
@@ -89,7 +89,7 @@ class CourseController extends Controller
             'course' => $course
         ];
 
-        return view('dashboard.admin.course_show', $dados);
+        return view('dashboard.teacher.course.course_show', $dados);
     }
 
     public function update(Request $request, Course $course)

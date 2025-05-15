@@ -30,12 +30,17 @@ class ClassroomController extends Controller
         $isCompleted = !is_null($completedAt);
 
         // Todas as aulas do módulo atual, ordenadas
-        $allClassrooms = $classroom->module->classrooms->sortBy('id')->values(); // ou sortBy('order') se tiver esse campo
+        $allClassrooms = $classroom->module->course->modules
+            ->sortBy('id') // Ordena módulos por ID (ou 'order', se existir)
+            ->flatMap(function ($module) {
+                return $module->classrooms->sortBy('id'); // Ordena aulas por ID (ou 'order')
+            })->values(); // Flatten e reindexa a coleção
 
         // Identifica próxima aula
         $currentIndex = $allClassrooms->search(function ($item) use ($classroom) {
             return $item->id === $classroom->id;
         });
+
         $nextClassroom = $allClassrooms->get($currentIndex + 1);
 
         // Verifica se o usuário já completou outras aulas
@@ -64,6 +69,8 @@ class ClassroomController extends Controller
             'classroomCompletions' => $classroomCompletions,
         ];
 
+        // dd($nextClassroom);
+
         return view('dashboard.student.classroom.classroom_show', $dados);
     }
 
@@ -73,14 +80,13 @@ class ClassroomController extends Controller
             // Validação dos dados recebidos
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
+                'description' => 'nullable',
                 'video' => 'required|url',
                 'module_id' => 'required|exists:modules,id',
             ], [
                 'title.required' => 'O campo título é obrigatório.',
                 'title.string' => 'O título deve ser uma string.',
-                'title.max' => 'O título não pode ter mais de 255 caracteres.',
-                'description.string' => 'A descrição deve ser uma string.',
+                'title.max' => 'O título não pode ter mais de 255 caracteres.',                
                 'video.required' => 'O campo vídeo é obrigatório.',
                 'video.url' => 'Por favor, insira uma URL válida para o vídeo.',
                 'module_id.required' => 'O módulo é obrigatório.',
@@ -105,7 +111,7 @@ class ClassroomController extends Controller
 
             return redirect()->back()->with('success', 'Aula criada com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Ocorreu um erro!');
+            return redirect()->back()->with('error', 'Ocorreu um erro!' . $e->getMessage());
         }
     }
 

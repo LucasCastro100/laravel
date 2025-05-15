@@ -35,7 +35,7 @@
                                         @if (in_array($course->id, $userCourseIds))
                                             <span
                                                 class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                onclick="window.location.href = '/meus-curso/{{ $course->uuid }}'">Acessar</span>
+                                                onclick="window.location.href = '{{ route('student.courseShow', ['uuid' => $course->uuid]) }}'">Acessar</span>
                                         @else
                                             <form
                                                 action="{{ route('matriculation.course.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
@@ -71,7 +71,8 @@
                     @else
                         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             @foreach ($tests as $index => $test)
-                                <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                                <div
+                                    class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
                                     <div class="p-4">
                                         <h3 class="text-xl font-semibold text-gray-800">{{ $test->title }}</h3>
                                         <p class="text-gray-600 mt-2">{{ Str::limit($test->description, 100) }}</p>
@@ -81,7 +82,7 @@
                                         @if (in_array($test->id, $userTestIds))
                                             <span
                                                 class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                onclick="window.location.href = '/meus-testes/{{ $test->uuid }}'">Acessar</span>
+                                                onclick="window.location.href = '{{ route('student.testhow', ['uuid' =>$test->uuid ]) }}'">Acessar</span>
                                         @else
                                             <form
                                                 action="{{ route('matriculation.test.store', ['test_uuid' => $test->uuid, 'user_uuid' => Auth::user()->uuid]) }}"

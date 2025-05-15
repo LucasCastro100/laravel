@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('module_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('video');
             $table->string('duration');
             $table->uuid();            

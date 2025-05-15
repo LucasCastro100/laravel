@@ -224,7 +224,7 @@
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                     <h2 class="text-xl mb-4">Editar Curso</h2>
-                    <form method="POST" :action="`/curso/${selectedCourse.uuid}`" enctype="multipart/form-data">
+                    <form method="POST" :action="`/painel-professor/curso/${selectedCourse.uuid}`" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
@@ -249,8 +249,8 @@
                                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Clique para o
-                                            upload</span> ou segure e arra</p>
-                                    <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                            upload</span></p>
+                                    <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF</p>
                                 </div>
                                 <input id="dropzone-file" type="file" class="hidden" name="image"
                                     accept="image/*" onchange="previewImage(event)" />
@@ -291,7 +291,7 @@
                     </button>
 
                     <!-- Formulário de Criação do Módulo -->
-                    <form method="POST" :action="`/modulo/${selectedParentUuid}`">
+                    <form method="POST" :action="`/painel-professor/modulo/${selectedParentUuid}`">
                         @csrf
                         <!-- Ou PUT, dependendo da sua necessidade -->
 
@@ -299,14 +299,14 @@
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input type="text" id="title" name="title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required></textarea>
+                                ></textarea>
                         </div>
 
                         <div class="flex justify-end">
@@ -329,7 +329,7 @@
                     </button>
 
                     <!-- Formulário de Edição do Módulo -->
-                    <form method="POST" :action="`/modulo/${selectedModule.uuid}`">
+                    <form method="POST" :action="`/painel-professor/modulo/${selectedModule.uuid}`">
                         @csrf
                         @method('PUT') <!-- Usando PUT para editar -->
                         
@@ -337,14 +337,14 @@
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input type="text" id="title" name="title" x-model="selectedModule.title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" x-model="selectedModule.description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required></textarea>
+                                ></textarea>
                         </div>
 
                         <div class="flex justify-end">
@@ -374,14 +374,14 @@
                             <label for="title" class="block text-sm font-medium text-gray-700">Nome da Aula</label>
                             <input type="text" id="title" name="title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required></textarea>
+                                ></textarea>
                         </div>
 
                         <div class="mb-4">
@@ -389,7 +389,7 @@
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
                         </div>
 
                         <div class="mb-4">
@@ -397,7 +397,7 @@
                                 Módulo</label>
                             <select id="module_id" name="module_id"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
 
                                 <option disabled selected>Selecione o Módulo</option>
                                 @foreach ($course->modules as $module)
@@ -425,7 +425,7 @@
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                     <!-- Formulário de Criação de Aula -->
-                    <form method="POST" :action="`/aula/${selectClassroom.uuid}/editar`">
+                    <form method="POST" :action="`/painel-professor/aula/${selectClassroom.uuid}/editar`">
                         @csrf
                         @method('PUT') <!-- Usando PUT para editar -->
                         
@@ -433,14 +433,14 @@
                             <label for="title" class="block text-sm font-medium text-gray-700">Nome da Aula</label>
                             <input type="text" id="title" name="title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required  x-model="selectClassroom.title">
+                                  x-model="selectClassroom.title">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required x-model="selectClassroom.description"></textarea>
+                                 x-model="selectClassroom.description"></textarea>
                         </div>
 
                         <div class="mb-4">
@@ -448,7 +448,7 @@
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required  x-model="selectClassroom.video">
+                                  x-model="selectClassroom.video">
                         </div>
 
                         <div class="mb-4">
@@ -456,7 +456,7 @@
                                 Módulo</label>
                             <select id="module_id" name="module_id" x-model="selectedModuleId"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
+                                >
                                 <option value="" disabled selected>Selecione o Módulo</option>
                                 @foreach ($course->modules as $module)
                                     <option value="{{ $module->id }}"
@@ -490,7 +490,7 @@
                     <div class="flex justify-end">
                         <button type="button" @click="openDelete = false"
                             class="bg-gray-500 text-white px-4 py-2 rounded mr-2 font-medium">Cancelar</button>
-                        <form method="POST" :action="`/${selectedType}/${selectedItem?.uuid}`">
+                        <form method="POST" :action="`/painel-professor/${selectedType}/${selectedItem?.uuid}`">
                             @csrf
                             @method('DELETE')
                             <button type="submit"

@@ -103,7 +103,7 @@
                                                             <div
                                                                 class="flex justify-between items-center p-2 border-b relative">
                                                                 <div class="flex items-center space-x-2 cursor-pointer"
-                                                                    @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
+                                                                onclick="window.location.href = '{{ route('student.classroom.show', ['uuid_classroom' => $classroom->uuid ]) }}'">
                                                                     @if ($classroom->users->contains(auth()->id()))
                                                                         <i
                                                                             class="mr-2 text-sm fa-solid fa-circle-check text-green-500"></i>

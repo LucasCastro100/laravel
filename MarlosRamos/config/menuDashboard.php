@@ -17,6 +17,12 @@ return [
     ],
     'teacher' => [
         [
+            'icon' => 'fa-solid fa-tachometer-alt',
+            'name' => 'Painel',
+            'route' => 'teacher.dashBoard',
+            'role' => 2
+        ],
+        [
             'icon' => 'fa-solid fa-list-check',
             'name' => 'Gerenciar Testes',
             'route' => 'test.index',
