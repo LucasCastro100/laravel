@@ -25,13 +25,13 @@ return [
         [
             'icon' => 'fa-solid fa-list-check',
             'name' => 'Gerenciar Testes',
-            'route' => 'test.index',
+            'route' => 'teacher.myTests',
             'role' => 2
         ],
         [
             'icon' => 'fa-solid fa-chalkboard-teacher',
             'name' => 'Gerenciar Cursos',
-            'route' => 'course.index',
+            'route' => 'teacher.myCourses',
             'role' => 2
         ],
         [

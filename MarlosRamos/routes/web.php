@@ -89,6 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('painel-professor')->middleware(['role:2'])->group(function () {
         Route::controller(TeacherController::class)->group(function () {
             Route::get('/', 'dashBoard')->name('teacher.dashBoard');       
+            Route::get('/meus-cursos', 'myCourses')->name('teacher.myCourses');
+            Route::get('/meus-testes', 'myTests')->name('teacher.myTests');
         });
 
         Route::controller(CourseController::class)->group(function () {
