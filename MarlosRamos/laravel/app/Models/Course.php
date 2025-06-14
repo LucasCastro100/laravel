@@ -13,6 +13,8 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
+        'sales_link',
+        // 'certificate',       
         'image',
         'user_id'
     ];

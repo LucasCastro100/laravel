@@ -169,7 +169,7 @@
                                                     @else
                                                         @foreach ($module->classrooms as $classroom)
                                                             <div class="flex justify-between items-center p-2 border-b relative">
-                                                                <div class="flex items-center" @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
+                                                                <div class="flex items-center cursor-pointer" @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
                                                                     <span>{{ $classroom->title }}</span>
                                                                 </div>
 

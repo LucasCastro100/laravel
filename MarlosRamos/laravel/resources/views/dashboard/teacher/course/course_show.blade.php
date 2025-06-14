@@ -67,7 +67,7 @@
                     </div>
 
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
                         <!-- Card de Alunos -->
                         <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
                             <i class="fas fa-user-graduate text-3xl text-blue-500"></i>
@@ -94,6 +94,16 @@
                                 <p class="text-xl font-semibold">{{ $course->modules->sum('classrooms_count') }}</p>
                             </div>
                         </div>
+
+                        <!-- Card Link de Compra -->
+                        <a href="{{ $course->sales_link }}" target="_blank" rel="noopener noreferrer"
+                            class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
+                             <i class="fas fa-shopping-bag text-3xl text-purple-500"></i>
+                             <div>
+                                 <p class="text-lg font-medium">Link de Compra</p>
+                                 <p class="text-blue-600 underline truncate max-w-xs">{{ $course->sales_link }}</p>
+                             </div>
+                         </a>
                     </div>
 
                     <div class="w-full" x-data="{ dropClassroom: [] }">
@@ -169,7 +179,7 @@
                                                     @else
                                                         @foreach ($module->classrooms as $classroom)
                                                             <div class="flex justify-between items-center p-2 border-b relative">
-                                                                <div class="flex items-center" @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}">
+                                                                <div class="flex items-center cursor-pointer" @click="window.location.href = '/painel-professor/aula/' + {{ json_encode($classroom->uuid) }}">
                                                                     <span>{{ $classroom->title }}</span>
                                                                 </div>
 
@@ -227,11 +237,19 @@
                     <form method="POST" :action="`/painel-professor/curso/${selectedCourse.uuid}`" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
                         <div class="mb-4">
                             <label class="block text-gray-700 font-medium">Título</label>
                             <input type="text" name="title" x-model="selectedCourse.title"
                                 class="w-full border border-gray-300 p-2 rounded">
                         </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium">Link de Venda</label>
+                            <input type="text" name="sales_link" x-model="selectedCourse.sales_link"
+                                class="w-full border border-gray-300 p-2 rounded">
+                        </div>
+
                         <div class="mb-4">
                             <label class="block text-gray-700 font-medium">Descrição</label>
                             <textarea name="description" x-model="selectedCourse.description" class="w-full border border-gray-300 p-2 rounded"></textarea>

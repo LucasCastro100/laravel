@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    {{-- @php dd(session()->all()) @endphp --}}
+
     <div class="py-12" x-data="{ openShow: false, openCreate: false, openEdit: false, openDelete: false, selectedCourse: null }">
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -14,6 +16,16 @@
 
                 @if (session('error'))
                     <x-alert-component type="error" :message="session('error')" />
+                @endif
+
+                @if ($errors->any())
+                    <x-alert-component type="error">
+                        <ul class="mb-0 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </x-alert-component>
                 @endif
 
                 <div class="text-right">
@@ -29,12 +41,13 @@
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($courses as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer relative"
-                            onclick="window.location.href = '{{ route('course.show', ['uuid' => $course->uuid]) }}'">
+                                onclick="window.location.href = '{{ route('course.show', ['uuid' => $course->uuid]) }}'">
                                 <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
                                 <div class="p-4">
-                                    <div class="absolute top-2 right-2 flex row items-center justify-center gap-2 p-1 bg-white border-2 border-gray-500 rounded-md text-black text-xs">
-                                        <i class="fas fa-user"></i>                                        
+                                    <div
+                                        class="absolute top-2 right-2 flex row items-center justify-center gap-2 p-1 bg-white border-2 border-gray-500 rounded-md text-black text-xs">
+                                        <i class="fas fa-user"></i>
                                         {{ $course->users_count }}
                                     </div>
 
@@ -64,6 +77,12 @@
                                 <div class="mb-4">
                                     <label class="block text-gray-700 font-medium">Título</label>
                                     <input type="text" name="title"
+                                        class="w-full border border-gray-300 p-2 rounded">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 font-medium">Link de venda</label>
+                                    <input type="text" name="sales_link"
                                         class="w-full border border-gray-300 p-2 rounded">
                                 </div>
 

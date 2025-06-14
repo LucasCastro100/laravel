@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,22 +25,12 @@ class CourseController extends Controller
         return view('dashboard.teacher.course.courses', $dados);
     }
 
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
-        try {
-            // Validação
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ], [
-                'image.image' => 'O arquivo enviado não é uma imagem válida.',
-                'image.mimes' => 'A imagem deve ser do tipo jpeg, png, jpg ou gif.',
-                'image.max' => 'A imagem não pode ter mais de 2MB.',
-            ]);
-
+        try {       
             // Coleta os dados
-            $data = $request->only(['title', 'description']);
+            $data = $request->except(['_token', 'image']);
+            $data['user_id'] = Auth::user()->id;
 
             if ($request->hasFile('image')) {
                 // Recupera o arquivo da imagem
@@ -57,8 +48,7 @@ class CourseController extends Controller
                 // Storage::put($path . $filename, (string) $image->encode());
 
                 // Salva o caminho da imagem no banco de dados
-                $data['image'] = 'courses/' . $filename;
-                $data['user_id'] = Auth::user()->id;
+                $data['image'] = 'courses/' . $filename;                
             }
 
             // Cria o curso no banco de dados
@@ -92,22 +82,12 @@ class CourseController extends Controller
         return view('dashboard.teacher.course.course_show', $dados);
     }
 
-    public function update(Request $request, Course $course)
+    public function update(CourseRequest $request, Course $course)
     {
-        try {
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ], [
-                'image.image' => 'O arquivo enviado não é uma imagem válida.',
-                'image.mimes' => 'A imagem deve ser do tipo jpeg, png, jpg ou gif.',
-                'image.max' => 'A imagem não pode ter mais de 2MB.',
-            ]);
-
-            // Coleta os dados
+        try {                    
             $course = Course::where('uuid', $request->uuid)->firstOrFail();
-            $data = $request->only(['title', 'description']);
+            $data = $request->except(['_token', 'image']);
+
 
             if ($request->hasFile('image')) {
                 // Recupera o arquivo da imagem

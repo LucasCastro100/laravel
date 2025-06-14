@@ -11,13 +11,13 @@ class AlertComponent extends Component
     public $type;
     public $message;
 
-    public function __construct($type, $message)
+    public function __construct($type, $message = null)
     {
         $this->type = $type;
         $this->message = $message;
     }
-    
-    public function render(): View|Closure|string
+
+    public function render()
     {
         return view('components.alert-component');
     }
