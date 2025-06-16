@@ -26,6 +26,7 @@ class CheckCron extends Command
      */
     public function handle()
     {
-        Log::info('Comando executado pelo cron!');
+        Log::channel('cron')->info('Cron executado em: ' . now());
+        $this->info('Log do cron gravado com sucesso!');
     }
 }
