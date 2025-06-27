@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\Attributes\Validate;
 use Laravel\Jetstream\InteractsWithBanner;
 
 class Home extends Component
 {
     use InteractsWithBanner;
 
+    public bool $navigate = false;
+    
     public $name = '';
     public $email = '';
     public $phone = '';
@@ -39,7 +40,7 @@ class Home extends Component
             'email.email' => 'O campo email deve ser um endereço de email válido.',
             'phone.required' => 'O campo telefone é obrigatório.',
             'phone.min' => 'O telefone deve ter no mínimo 9 caracteres.',
-            'domain.required' => 'O campo domínio é obrigatório.',            
+            'domain.required' => 'O campo domínio é obrigatório.',
             'url.url' => 'Informe uma URL válida.',
             'desc.required' => 'O campo descrição é obrigatório.',
             'desc.min' => 'A descrição deve ter no mínimo 10 caracteres.',
@@ -50,13 +51,16 @@ class Home extends Component
     {
         $this->validate();
 
-        $this->banner('Formulário enviado com sucesso!');   
+        $this->banner('Formulário enviado com sucesso!');
 
         $this->reset();
     }
 
     public function render()
     {
-        return view('livewire.home');
+        return view('livewire.home')
+            ->layout('layouts.app', [
+                'navigate' => $this->navigate,
+            ]);
     }
 }
