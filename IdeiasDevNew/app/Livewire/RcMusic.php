@@ -12,8 +12,7 @@ class RcMusic extends Component
     {
         return view('livewire.rc-music')
             ->layout('layouts.app', [
-                'navigate' => $this->navigate,
-                'header' => null // ou qualquer conteúdo dinâmico
+                'navigate' => $this->navigate                
             ]);
     }
 }
