@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('web.home');
 Route::get('/rc-music', RcMusic::class)->name('rc.home');
-Route::get('/tbr', Tbr::class)->name('tbr.home');
+
+Route::prefix('tbr')->name('tbr.')->group(function () {
+    Route::get('/dashboard', Tbr::class)->name('dashboard');
+    Route::get('/eventos', Tbr::class)->name('event');
+});
 
 Route::middleware([
     'auth:sanctum',
