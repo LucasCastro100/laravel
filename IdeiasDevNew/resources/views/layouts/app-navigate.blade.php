@@ -25,14 +25,14 @@
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @if ($navigate)
             @livewire('navigation-menu')
         @endif
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white shadow">
+            <header class="bg-white dark:bg-gray-800 shadow">
                 <div class="max-w-7xl mx-auto p-4">
                     {{ $header }}
                 </div>
@@ -45,7 +45,7 @@
         </main>
     </div>
 
-    @stack('modals')    
+    @stack('modals')
 
     @livewireScripts
 </body>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Page;
 
 use Livewire\Component;
 use Laravel\Jetstream\InteractsWithBanner;
@@ -10,7 +10,7 @@ class Home extends Component
     use InteractsWithBanner;
 
     public bool $navigate = false;
-    
+
     public $name = '';
     public $email = '';
     public $phone = '';
@@ -59,7 +59,7 @@ class Home extends Component
     public function render()
     {
         return view('livewire.home')
-            ->layout('layouts.app', [
+            ->layout('layouts.app-navigate', [
                 'navigate' => $this->navigate,
             ]);
     }

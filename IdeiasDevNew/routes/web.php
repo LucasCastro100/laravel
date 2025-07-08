@@ -1,16 +1,17 @@
 <?php
 
-use App\Livewire\Home;
-use App\Livewire\RcMusic;
-use App\Livewire\Tbr;
+use App\Livewire\Page\Home;
+use App\Livewire\Page\TbrDashboard;
+use App\Livewire\Page\RcMusic;
+use App\Livewire\Page\TbrScore;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('web.home');
 Route::get('/rc-music', RcMusic::class)->name('rc.home');
 
 Route::prefix('tbr')->name('tbr.')->group(function () {
-    Route::get('/dashboard', Tbr::class)->name('dashboard');
-    Route::get('/eventos', Tbr::class)->name('event');
+    Route::get('/', TbrDashboard::class)->name('dashboard');    
+    Route::get('/pontuacao', TbrScore::class)->name('score');    
 });
 
 Route::middleware([
