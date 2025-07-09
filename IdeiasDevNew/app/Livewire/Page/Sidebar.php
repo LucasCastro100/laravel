@@ -11,49 +11,58 @@ class Sidebar extends Component
 {
     use InteractsWithBanner;
 
-    // Modal flags
+    // --- Flags para modais ---
     public bool $showEventModal = false;
     public bool $showTeamModal = false;
     public bool $confirmClearStorage = false;
 
-    // --- Dados para evento ---
+    // --- Dados para cadastro de evento ---
     public $eventName = '';
     public $eventDate = '';
 
-    // --- Dados para equipes ---
-    public $selectedEventIndex = null; // índice do evento selecionado para cadastrar equipe
+    // --- Dados para cadastro de equipes ---
+    public $selectedEventIndex = null;
     public $numTeams = 1;
     public $teams = [
         [
             'name' => '',
-            'category' => 'kids1',
+            'category' => 'baby',
             'mc' => 0,
             'om' => 0,
             'te' => 0,
             'dp' => 0,
         ],
     ];
-    public $categories = ['kids1', 'kids2', 'middle1', 'middle2', 'high'];
 
-    // --- Dados carregados ---
-    public $events = []; // array de eventos do JSON
+    // --- Dados carregados dos eventos ---
+    public $events = [];
 
     // ----------- Métodos -----------
 
-    // --- Eventos ---
-
+    /**
+     * Abre o modal de cadastro de evento.
+     * Também carrega os eventos atuais do JSON.
+     */
     public function openEventModal()
     {
         $this->loadEvents();
         $this->showEventModal = true;
     }
 
+    /**
+     * Fecha o modal de cadastro de evento
+     * e reseta os campos do formulário.
+     */
     public function closeEventModal()
     {
         $this->showEventModal = false;
         $this->resetEventForm();
     }
 
+    /**
+     * Reseta os campos do formulário de evento
+     * e limpa possíveis erros de validação.
+     */
     public function resetEventForm()
     {
         $this->eventName = '';
@@ -62,6 +71,10 @@ class Sidebar extends Component
         $this->resetErrorBag('eventDate');
     }
 
+    /**
+     * Valida e salva um novo evento no JSON.
+     * Verifica se o evento já existe antes de adicionar.
+     */
     public function saveEvent()
     {
         $this->validate([
@@ -69,10 +82,8 @@ class Sidebar extends Component
             'eventDate' => 'required|date',
         ]);
 
-        $uuid = Str::upper(Str::random(12));
-
         $newEvent = [
-            'id' => $uuid, // Gera um ID único para o evento
+            'id' => Str::upper(Str::random(12)),
             'nome' => $this->eventName,
             'data' => $this->eventDate,
             'equipes' => [],
@@ -80,7 +91,6 @@ class Sidebar extends Component
 
         $this->loadEvents();
 
-        // Verifica se evento já existe
         foreach ($this->events as $event) {
             if (
                 strtolower($event['nome']) === strtolower($newEvent['nome']) &&
@@ -91,18 +101,18 @@ class Sidebar extends Component
             }
         }
 
-        // Adiciona novo evento
         $this->events[] = $newEvent;
-
         $this->saveEventsToStorage();
 
         $this->banner('Evento cadastrado com sucesso!');
-
+        $this->dispatch('eventCreated');
         $this->closeEventModal();
     }
 
-    // --- Equipes ---
-
+    /**
+     * Abre o modal de cadastro de equipes.
+     * Exibe alerta caso não haja eventos cadastrados.
+     */
     public function openTeamModal()
     {
         $this->loadEvents();
@@ -114,19 +124,28 @@ class Sidebar extends Component
         $this->showTeamModal = true;
     }
 
+    /**
+     * Fecha o modal de equipes e reseta o formulário.
+     */
     public function closeTeamModal()
     {
         $this->showTeamModal = false;
         $this->resetTeamForm();
     }
 
+    /**
+     * Reseta os campos do formulário de equipes,
+     * incluindo quantidade, dados das equipes e erros.
+     */
     public function resetTeamForm()
     {
         $this->numTeams = 1;
+        $defaultCategorySlug = config('data-tbr.categories')[0]['slug'] ?? 'baby';
+
         $this->teams = [
             [
                 'name' => '',
-                'category' => 'kids1',
+                'category' => $defaultCategorySlug,
                 'mc' => 0,
                 'om' => 0,
                 'te' => 0,
@@ -138,18 +157,23 @@ class Sidebar extends Component
         $this->resetErrorBag('selectedEventIndex');
     }
 
+    /**
+     * Atualiza o número de equipes no formulário,
+     * adicionando ou removendo conforme o valor informado.
+     */
     public function updatedNumTeams($value)
     {
         $value = (int)$value;
         if ($value < 1) $value = 1;
 
         $count = count($this->teams);
+        $defaultCategorySlug = config('data-tbr.categories')[0]['slug'] ?? 'baby';
 
         if ($value > $count) {
             for ($i = $count; $i < $value; $i++) {
                 $this->teams[] = [
                     'name' => '',
-                    'category' => 'kids1',
+                    'category' => $defaultCategorySlug,
                     'mc' => 0,
                     'om' => 0,
                     'te' => 0,
@@ -161,29 +185,32 @@ class Sidebar extends Component
         }
     }
 
+    /**
+     * Valida e salva as equipes vinculadas ao evento selecionado.
+     * Evita duplicatas pelo nome da equipe.
+     */
     public function saveTeams()
     {
+        $categorySlugs = collect(config('data-tbr.categories'))->pluck('slug')->toArray();
+
         $this->validate([
             'selectedEventIndex' => 'required|integer|min:0',
             'teams.*.name' => 'required|min:2',
-            'teams.*.category' => 'required|in:' . implode(',', $this->categories),
+            'teams.*.category' => 'required|in:' . implode(',', $categorySlugs),
         ], [
             'selectedEventIndex.required' => 'Você deve selecionar um evento.',
         ]);
 
         $this->loadEvents();
 
-        // Verifica índice do evento selecionado
         if (!isset($this->events[$this->selectedEventIndex])) {
             $this->addError('selectedEventIndex', 'Evento selecionado inválido.');
             return;
         }
 
-        // Adiciona as equipes no evento selecionado
         $evento = &$this->events[$this->selectedEventIndex];
 
         foreach ($this->teams as $team) {
-            // Opcional: evitar duplicatas na equipe pelo nome dentro do evento
             $exists = false;
             foreach ($evento['equipes'] as $existingTeam) {
                 if (strtolower($existingTeam['name']) === strtolower($team['name'])) {
@@ -192,42 +219,73 @@ class Sidebar extends Component
                 }
             }
             if (!$exists) {
-                $evento['equipes'][] = $team;
+                $evento['equipes'][] = [
+                    'id' => Str::upper(Str::random(12)),
+                    'name' => $team['name'],
+                    'category' => $team['category'],
+                    'modalities' => [
+                        'mc' => [
+                            'nota' => $team['mc'] ?? 0,
+                            'comentario' => '',
+                        ],
+                        'om' => [
+                            'nota' => $team['om'] ?? 0,
+                            'comentario' => '',
+                        ],
+                        'te' => [
+                            'nota' => $team['te'] ?? 0,
+                            'comentario' => '',
+                        ],
+                        'dp' => [
+                            'nota' => $team['dp'] ?? 0,
+                            'comentario' => '',
+                        ],
+                    ],
+                ];
             }
         }
 
-        // Salva o JSON atualizado
         $this->saveEventsToStorage();
 
         $this->banner('Equipes cadastradas com sucesso!');
-
         $this->closeTeamModal();
     }
 
-    // --- Limpar armazenamento ---
+    /**
+     * Exibe confirmação para limpar o JSON do storage.
+     */
     public function askToClearStorage()
     {
         $this->confirmClearStorage = true;
     }
 
+    /**
+     * Cancela a ação de limpar o JSON.
+     */
     public function cancelClearStorage()
     {
         $this->confirmClearStorage = false;
     }
 
+    /**
+     * Confirma e limpa o JSON, reseta formulários e exibe banner.
+     */
     public function confirmAndClearStorage()
     {
-        $this->clearStorage(); // já existe esse método!
+        $this->clearStorage();
         $this->confirmClearStorage = false;
     }
 
-    // --- Funções auxiliares para carregar/salvar eventos ---
-
+    /**
+     * Carrega os eventos do JSON.
+     * @return array
+     */
     public function loadEvents()
     {
-        $jsonPath = 'dados-tbr.json';
-        if (Storage::exists($jsonPath)) {
-            $this->events = json_decode(Storage::get($jsonPath), true);
+        $jsonPath = 'tbr/data.json';
+
+        if (Storage::disk('public')->exists($jsonPath)) {
+            $this->events = json_decode(Storage::disk('public')->get($jsonPath), true);
         } else {
             $this->events = [];
         }
@@ -235,31 +293,41 @@ class Sidebar extends Component
         return $this->events;
     }
 
-
+    /**
+     * Salva os eventos no arquivo JSON.
+     */
     public function saveEventsToStorage()
     {
-        $jsonPath = 'dados-tbr.json';
-        Storage::put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT));
+        $jsonPath = 'tbr/data.json';
+
+        Storage::disk('public')->put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 
-    // --- Função para limpar JSON e resetar formulários ---
-
+    /**
+     * Limpa o JSON de eventos, reseta formulários e notifica o usuário.
+     */
     public function clearStorage()
     {
-        Storage::put('dados-tbr.json', json_encode([]));
+        $jsonPath = 'tbr/data.json';
+
+        Storage::disk('public')->put($jsonPath, json_encode([]));
 
         $this->resetEventForm();
         $this->resetTeamForm();
 
         $this->banner('Dados do JSON apagados e formulários resetados!');
+
+        $this->dispatch('eventCreated');
     }
 
-    // ----------- Render -----------
-
+    /**
+     * Renderiza a view 'sidebar' passando eventos e categorias.
+     */
     public function render()
     {
         return view('livewire.page.sidebar', [
             'events' => $this->events,
+            'categories' => config('data-tbr.categories') ?? [],
         ]);
     }
 }
