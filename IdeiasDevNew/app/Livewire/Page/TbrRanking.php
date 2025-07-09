@@ -20,7 +20,7 @@ class TbrRanking extends Component
     {
         $this->event_id = $event_id;
 
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
         if (Storage::disk('public')->exists($jsonPath)) {
             $json = Storage::disk('public')->get($jsonPath);
             $events = json_decode($json, true) ?? [];

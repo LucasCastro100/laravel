@@ -32,7 +32,7 @@ class TbrDashboard extends Component
 
     public function loadEvents()
     {
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
 
         if (Storage::disk('public')->exists($jsonPath)) {
             $json = Storage::disk('public')->get($jsonPath);
@@ -48,7 +48,7 @@ class TbrDashboard extends Component
 
     public function saveEventsToStorage()
     {
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
         Storage::disk('public')->put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 
@@ -144,8 +144,8 @@ class TbrDashboard extends Component
     {
         return view('livewire.page.tbr-dashboard', [
             'events' => $this->events ?? [],
-            'categories' => config('data-tbr.categories') ?? [],
-            'modalities' => config('data-tbr.modalities') ?? [],
+            'categories' => config('tbr-config.categories') ?? [],
+            'modalities' => config('tbr-config.modalities') ?? [],
         ])->layout('layouts.app-sidebar');
     }
 }

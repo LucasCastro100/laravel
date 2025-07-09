@@ -140,7 +140,7 @@ class Sidebar extends Component
     public function resetTeamForm()
     {
         $this->numTeams = 1;
-        $defaultCategorySlug = config('data-tbr.categories')[0]['slug'] ?? 'baby';
+        $defaultCategorySlug = config('tbr-config.categories')[0]['slug'] ?? 'baby';
 
         $this->teams = [
             [
@@ -167,7 +167,7 @@ class Sidebar extends Component
         if ($value < 1) $value = 1;
 
         $count = count($this->teams);
-        $defaultCategorySlug = config('data-tbr.categories')[0]['slug'] ?? 'baby';
+        $defaultCategorySlug = config('tbr-config.categories')[0]['slug'] ?? 'baby';
 
         if ($value > $count) {
             for ($i = $count; $i < $value; $i++) {
@@ -191,7 +191,7 @@ class Sidebar extends Component
      */
     public function saveTeams()
     {
-        $categorySlugs = collect(config('data-tbr.categories'))->pluck('slug')->toArray();
+        $categorySlugs = collect(config('tbr-config.categories'))->pluck('slug')->toArray();
 
         $this->validate([
             'selectedEventIndex' => 'required|integer|min:0',
@@ -225,22 +225,31 @@ class Sidebar extends Component
                     'category' => $team['category'],
                     'modalities' => [
                         'mc' => [
-                            'nota' => $team['mc'] ?? 0,
+                            'nota' => [],      // array vazio
+                            'total' => 0,
                             'comentario' => '',
                         ],
                         'om' => [
-                            'nota' => $team['om'] ?? 0,
+                            'nota' => [],      // array vazio
+                            'total' => 0,
                             'comentario' => '',
                         ],
                         'te' => [
-                            'nota' => $team['te'] ?? 0,
+                            'nota' => [],      // array vazio
+                            'total' => 0,
                             'comentario' => '',
                         ],
                         'dp' => [
-                            'nota' => $team['dp'] ?? 0,
+                            'nota' => [
+                                'r1' => [],
+                                'r2' => [],
+                                'r3' => [],
+                            ],
+                            'total' => 0,
                             'comentario' => '',
                         ],
                     ],
+                    'nota_total' => 0,  // campo nota_total zerado
                 ];
             }
         }
@@ -282,7 +291,7 @@ class Sidebar extends Component
      */
     public function loadEvents()
     {
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
 
         if (Storage::disk('public')->exists($jsonPath)) {
             $this->events = json_decode(Storage::disk('public')->get($jsonPath), true);
@@ -298,7 +307,7 @@ class Sidebar extends Component
      */
     public function saveEventsToStorage()
     {
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
 
         Storage::disk('public')->put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
@@ -308,7 +317,7 @@ class Sidebar extends Component
      */
     public function clearStorage()
     {
-        $jsonPath = 'tbr/data.json';
+        $jsonPath = 'tbr/json/data.json';
 
         Storage::disk('public')->put($jsonPath, json_encode([]));
 
@@ -327,7 +336,7 @@ class Sidebar extends Component
     {
         return view('livewire.page.sidebar', [
             'events' => $this->events,
-            'categories' => config('data-tbr.categories') ?? [],
+            'categories' => config('tbr-config.categories') ?? [],
         ]);
     }
 }
