@@ -81,7 +81,7 @@
             </ul>
         </div>
     </div>
-    
+
     {{-- Modal para cadastrar eventos --}}
     @if ($showEventModal)
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -119,7 +119,7 @@
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div
                 class="bg-white p-6 rounded shadow w-full max-w-lg max-h-[90vh] overflow-y-auto text-center
-                   sm:max-w-xl md:max-w-2xl">
+           sm:max-w-xl md:max-w-2xl">
 
                 <h2 class="text-xl font-bold mb-6">Cadastrar Equipe</h2>
 
@@ -152,8 +152,8 @@
                     @foreach ($teams as $index => $team)
                         <div
                             class="grid gap-4 grid-cols-1 md:grid-cols-3 items-center
-                               border border-gray-300 rounded p-4
-                               @media(max-width: 768px) { grid-template-columns: 1fr !important; }">
+                       border border-gray-300 rounded p-4
+                       @media(max-width: 768px) { grid-template-columns: 1fr !important; }">
 
                             {{-- Nome da equipe --}}
                             <div class="col-span-3 md:col-span-2">

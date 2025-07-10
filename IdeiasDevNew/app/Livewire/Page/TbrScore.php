@@ -5,6 +5,7 @@ namespace App\Livewire\Page;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\InteractsWithBanner;
+use Illuminate\Support\Facades\Log;
 
 class TbrScore extends Component
 {
@@ -37,9 +38,9 @@ class TbrScore extends Component
         $this->modality_id = $modality_id;
 
         $this->loadEvent();
+        $this->loadCategory();    // carregar categoria antes
+        $this->loadModality();    // carregar modalidade antes
         $this->filterTeams();
-        $this->loadCategory();
-        $this->loadModality();
         $this->loadQuestion();
         $this->calculateScorePerQuestion();
     }
@@ -47,7 +48,6 @@ class TbrScore extends Component
     private function loadEvent()
     {
         $jsonPath = 'tbr/json/data.json';
-
         if (Storage::disk('public')->exists($jsonPath)) {
             $events = json_decode(Storage::disk('public')->get($jsonPath), true) ?? [];
             $this->event = collect($events)->firstWhere('id', $this->event_id);
@@ -62,17 +62,31 @@ class TbrScore extends Component
 
     private function loadModality()
     {
-        $modalities = config('tbr-config.modalities');
+        if (!$this->category) return;
+
+        $modalitieLevel = $this->category['modalitie'] ?? 'basic';
+        $modalities = config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
         $this->modality = collect($modalities)->firstWhere('id', $this->modality_id);
     }
 
     private function loadQuestion()
     {
-        if (!$this->category || !$this->modality) return;
+        if (!$this->category || !$this->modality) {
+            $this->question = null;
+            $this->hasAssessment = false;
+            return;
+        }
 
-        $questionType = $this->category['question'] ?? 'basic';
-        $questions = config("tbr-config.questions.$questionType");
+        $questionModalitie = $this->category['question'] ?? 'basic';
+        $questions = config("tbr-config.questions_by_level.$questionModalitie", []);
+
         $this->question = collect($questions)->firstWhere('id', $this->modality_id);
+
+        if (!$this->question) {
+            Log::warning("Pergunta não encontrada para modalidade_id={$this->modality_id} na configuração de {$questionModalitie}");
+            $this->hasAssessment = false;
+            return;
+        }
 
         $this->hasAssessment = collect($this->question['assessment'] ?? [])
             ->filter(fn($item) => !empty($item['description']))
@@ -80,7 +94,7 @@ class TbrScore extends Component
 
         $this->scores = [];
 
-        if ($this->question && $this->hasAssessment) {
+        if ($this->hasAssessment) {
             foreach ($this->question['assessment'] as $block) {
                 $blockObject = $block['object'] ?? null;
                 if ($blockObject && !empty($block['description'])) {
@@ -107,7 +121,11 @@ class TbrScore extends Component
         $categorySlug = collect(config('tbr-config.categories'))
             ->firstWhere('id', $this->category_id)['slug'] ?? null;
 
-        $modalitySlug = collect(config('tbr-config.modalities'))
+        $modalitieLevel = $this->category['modalitie'] ?? 'basic';
+
+        $modalitiesConfig = config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
+
+        $modalitySlug = collect($modalitiesConfig)
             ->firstWhere('id', $this->modality_id)['slug'] ?? null;
 
         if (!$categorySlug || !$modalitySlug) {
@@ -117,15 +135,11 @@ class TbrScore extends Component
 
         $this->filteredTeams = collect($this->event['equipes'] ?? [])
             ->filter(function ($team) use ($categorySlug, $modalitySlug) {
-                if ($team['category'] !== $categorySlug) {
-                    return false;
-                }
+                if ($team['category'] !== $categorySlug) return false;
 
-                if (!array_key_exists($modalitySlug, $team['modalities'] ?? [])) {
-                    return false;
-                }
+                if (!array_key_exists($modalitySlug, $team['modalities'] ?? [])) return false;
 
-                $modalitiesBlock = ['mc', 'om', 'te'];
+                $modalitiesBlock = ['mc', 'om', 'te', 'gl'];
 
                 if (in_array($modalitySlug, $modalitiesBlock)) {
                     return empty($team['modalities'][$modalitySlug]['nota'] ?? []);
@@ -149,15 +163,16 @@ class TbrScore extends Component
     public function saveScores()
     {
         if (!$this->selectedTeamId) {
-            session()->flash('error', 'Selecione uma equipe antes de salvar.');
+            $this->dangerBanner('Selecione uma equipe antes de salvar.');
             return;
         }
 
-        $modalitySlug = collect(config('tbr-config.modalities'))
+        $modalitieLevel = $this->category['modalitie'] ?? 'basic';
+        $modalitySlug = collect(config("tbr-config.modalities_by_level.$modalitieLevel"))
             ->firstWhere('id', $this->modality_id)['slug'] ?? null;
 
         if (!$modalitySlug) {
-            session()->flash('error', 'Modalidade inválida.');
+            $this->warningBanner('Modalidade inválida.');
             return;
         }
 
@@ -165,7 +180,6 @@ class TbrScore extends Component
 
         foreach ($this->event['equipes'] as &$team) {
             if ($team['id'] === $this->selectedTeamId) {
-
                 $team['modalities'][$modalitySlug]['nota'] = [];
 
                 foreach ($this->scores as $blockObject => $indices) {
@@ -178,20 +192,23 @@ class TbrScore extends Component
 
                 $sumTotal = array_sum(array_map('intval', $team['modalities'][$modalitySlug]['nota']));
                 $totalCalculado = $this->scorePerQuestion * $sumTotal;
-                $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');                
+                $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');
 
+                $notaTotal = 0;
+                foreach ($team['modalities'] as $mod) {
+                    $notaTotal += floatval($mod['total'] ?? 0);
+                }
+
+                $team['nota_total'] = number_format($notaTotal, 2, '.', '');
                 break;
             }
         }
         unset($team);
 
-        $jsonPath = 'tbr/json/data.json';
-        Storage::disk('public')->put($jsonPath, json_encode([$this->event], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        Storage::disk('public')->put('tbr/json/data.json', json_encode([$this->event], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         $this->filterTeams();
-
         $this->banner('Pontuação salva com sucesso!');
-
         $this->selectedTeamId = null;
         $this->scores = [];
         $this->comment = '';

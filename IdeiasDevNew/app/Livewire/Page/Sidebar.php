@@ -191,8 +191,12 @@ class Sidebar extends Component
      */
     public function saveTeams()
     {
-        $categorySlugs = collect(config('tbr-config.categories'))->pluck('slug')->toArray();
-
+        $categories = config('tbr-config.categories') ?? [];
+        $modalitiesByLevel = config('tbr-config.modalities_by_level') ?? [];
+    
+        $categorySlugs = collect($categories)->pluck('slug')->toArray();
+        $categoryLevels = collect($categories)->mapWithKeys(fn ($cat) => [$cat['slug'] => $cat['modalitie'] ?? 'basic'])->toArray();
+    
         $this->validate([
             'selectedEventIndex' => 'required|integer|min:0',
             'teams.*.name' => 'required|min:2',
@@ -200,46 +204,37 @@ class Sidebar extends Component
         ], [
             'selectedEventIndex.required' => 'Você deve selecionar um evento.',
         ]);
-
+    
         $this->loadEvents();
-
+    
         if (!isset($this->events[$this->selectedEventIndex])) {
             $this->addError('selectedEventIndex', 'Evento selecionado inválido.');
             return;
         }
-
+    
         $evento = &$this->events[$this->selectedEventIndex];
-
+    
         foreach ($this->teams as $team) {
-            $exists = false;
-            foreach ($evento['equipes'] as $existingTeam) {
-                if (strtolower($existingTeam['name']) === strtolower($team['name'])) {
-                    $exists = true;
-                    break;
-                }
-            }
+            $teamNameLower = strtolower($team['name']);
+    
+            $exists = collect($evento['equipes'])->contains(fn ($existingTeam) =>
+                strtolower($existingTeam['name']) === $teamNameLower
+            );
+    
             if (!$exists) {
-                $evento['equipes'][] = [
-                    'id' => Str::upper(Str::random(12)),
-                    'name' => $team['name'],
-                    'category' => $team['category'],
-                    'modalities' => [
-                        'mc' => [
-                            'nota' => [],      // array vazio
-                            'total' => 0,
-                            'comentario' => '',
-                        ],
-                        'om' => [
-                            'nota' => [],      // array vazio
-                            'total' => 0,
-                            'comentario' => '',
-                        ],
-                        'te' => [
-                            'nota' => [],      // array vazio
-                            'total' => 0,
-                            'comentario' => '',
-                        ],
-                        'dp' => [
+                $categorySlug = $team['category'];
+                $modalitie_level = $categoryLevels[$categorySlug] ?? 'basic';
+                $modalities = [];
+    
+                foreach ($modalitiesByLevel[$modalitie_level] ?? [] as $modality) {
+                    $slug = is_array($modality) ? ($modality['slug'] ?? null) : $modality;
+    
+                    if (!$slug || !is_string($slug)) {
+                        continue;
+                    }
+    
+                    if ($slug === 'dp') {
+                        $modalities[$slug] = [
                             'nota' => [
                                 'r1' => [],
                                 'r2' => [],
@@ -247,19 +242,31 @@ class Sidebar extends Component
                             ],
                             'total' => 0,
                             'comentario' => '',
-                        ],
-                    ],
-                    'nota_total' => 0,  // campo nota_total zerado
+                        ];
+                    } else {
+                        $modalities[$slug] = [
+                            'nota' => [],
+                            'total' => 0,
+                            'comentario' => '',
+                        ];
+                    }
+                }
+    
+                $evento['equipes'][] = [
+                    'id' => Str::upper(Str::random(12)),
+                    'name' => $team['name'],
+                    'category' => $categorySlug,
+                    'modalities' => $modalities,
+                    'nota_total' => 0,
                 ];
             }
         }
-
+    
         $this->saveEventsToStorage();
-
         $this->banner('Equipes cadastradas com sucesso!');
         $this->closeTeamModal();
-    }
-
+    }    
+    
     /**
      * Exibe confirmação para limpar o JSON do storage.
      */

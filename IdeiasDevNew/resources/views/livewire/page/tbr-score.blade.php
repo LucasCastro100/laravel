@@ -20,7 +20,8 @@
             </div>
         </div>
 
-        @if (!empty($filteredTeams))
+        @if (!empty($filteredTeams) && $question)
+            {{-- Exibe select de equipes e perguntas --}}
             <div class="bg-white p-4 rounded-lg shadow mb-6">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Selecione uma equipe</h2>
 
@@ -31,13 +32,20 @@
                     @endforeach
                 </select>
             </div>
-        @endif
 
-        @if ($question)
             <div class="bg-white p-4 rounded-lg shadow">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Critérios de Avaliação</h2>
 
                 @if ($hasAssessment)
+                    @php
+                        $modalitieLevel = $category['question'] ?? 'basic';
+                        $radioRange = match ($modalitieLevel) {
+                            'basic' => range(0, 20),
+                            'advanced' => range(1, 9),
+                            default => range(1, 9),
+                        };
+                    @endphp
+
                     @foreach ($question['assessment'] as $block)
                         @if (!empty($block['description']))
                             <div class="mb-6">
@@ -47,7 +55,7 @@
                                         <li class="mb-4">
                                             <div class="mb-2 text-gray-800 font-medium">{{ $desc }}</div>
                                             <div class="flex space-x-3">
-                                                @for ($i = 1; $i <= 9; $i++)
+                                                @foreach ($radioRange as $i)
                                                     <label
                                                         class="flex flex-col items-center cursor-pointer select-none">
                                                         <span
@@ -57,7 +65,7 @@
                                                             value="{{ $i }}" class="form-radio"
                                                             wire:model="scores.{{ $block['object'] }}.{{ $index }}">
                                                     </label>
-                                                @endfor
+                                                @endforeach
                                             </div>
                                         </li>
                                     @endforeach
@@ -79,16 +87,23 @@
                                 Salvar Nota
                             </button>
                         </div>
-                    @else
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
-                            Dados incompletos para exibir pontuação.
-                        </div>
+                    </div>
+                @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                        <span class="block font-bold">Dados incompletos para exibir pontuação.</span>
+                    </div>
                 @endif
+            </div>
+        @else
+            {{-- Se faltam equipes ou perguntas, mostra a mensagem --}}
+            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded" role="alert">
+                <span class="block font-bold">Não há equipes ou perguntas para avaliação nesta
+                    categoria/modalidade.</span>
             </div>
         @endif
     @else
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
-            Dados incompletos para exibir pontuação.
+            <span class="block font-bold">Dados incompletos para exibir pontuação.</span>
         </div>
     @endif
 </div>

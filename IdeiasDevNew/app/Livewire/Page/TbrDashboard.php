@@ -136,16 +136,36 @@ class TbrDashboard extends Component
 
     public function updatedSelectedCategory($value)
     {
-        // Pode deixar vazio só para disparar a reatividade
+        // Só para disparar reatividade se precisar
     }
 
-    // Não use o getter computado para modalidades no blade, passe as modalidades completas direto
+    // Getter para retornar modalidades da categoria selecionada
+    public function getModalitiesProperty()
+    {
+        if (!$this->selectedCategory) {
+            return [];
+        }
+
+        $category = collect(config('tbr-config.categories'))->firstWhere('id', $this->selectedCategory);
+        if (!$category) {
+            return [];
+        }
+
+        // Aqui você usa o valor da chave 'modalitie' da categoria para buscar modalidades
+        $modalitie_level = $category['modalitie'] ?? 'basic';
+
+        // Recupera modalidades do nível exato (sem merge)
+        $modalities = config("tbr-config.modalities_by_level.$modalitie_level") ?? [];
+
+        return $modalities;
+    }
+
     public function render()
     {
         return view('livewire.page.tbr-dashboard', [
             'events' => $this->events ?? [],
             'categories' => config('tbr-config.categories') ?? [],
-            'modalities' => config('tbr-config.modalities') ?? [],
+            'modalities' => $this->modalities,
         ])->layout('layouts.app-sidebar');
     }
 }

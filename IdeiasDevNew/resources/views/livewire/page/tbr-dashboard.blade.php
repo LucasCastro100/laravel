@@ -4,6 +4,7 @@
     </div>
 
     @if (count($events ?? []) === 0)
+    
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6" role="alert">
             <span class="block font-bold">Nenhum evento cadastrado.</span>
         </div>
@@ -85,13 +86,11 @@
                                     'dp' => 'bg-red-600',
                                     default => 'bg-gray-600',
                                 };
-
-                                $modalityName = $modality['label'];
                             @endphp
 
                             <a href="{{ route('tbr.score', ['event_id' => $selectedEventId, 'category_id' => $selectedCategory, 'modality_id' => $modality['id']]) }}"
                                 class="py-2 rounded text-center text-white hover:opacity-90 transition {{ $colorClass }}">
-                                {{ $modalityName }}
+                                {{ $modality['label'] }}
                             </a>
                         @endforeach
                     </div>
