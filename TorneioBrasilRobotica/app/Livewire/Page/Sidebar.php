@@ -20,6 +20,13 @@ class Sidebar extends Component
     public $eventName = '';
     public $eventDate = '';
 
+    // Config ranking para o evento novo
+    public $rankingConfig = [
+        'modalities_to_show' => [],       // array das modalidades selecionadas
+        'top_positions' => 3,              // posições mostradas por modalidade (0 a 3)
+        'general_top_positions' => 3,      // posições mostradas no ranking geral (0 a 5)
+    ];
+
     // --- Dados para cadastro de equipes ---
     public $selectedEventIndex = null;
     public $numTeams = 1;
@@ -39,53 +46,62 @@ class Sidebar extends Component
 
     // ----------- Métodos -----------
 
-    /**
-     * Abre o modal de cadastro de evento.
-     * Também carrega os eventos atuais do JSON.
-     */
     public function openEventModal()
     {
         $this->loadEvents();
         $this->showEventModal = true;
     }
 
-    /**
-     * Fecha o modal de cadastro de evento
-     * e reseta os campos do formulário.
-     */
     public function closeEventModal()
     {
         $this->showEventModal = false;
         $this->resetEventForm();
     }
 
-    /**
-     * Reseta os campos do formulário de evento
-     * e limpa possíveis erros de validação.
-     */
     public function resetEventForm()
     {
         $this->eventName = '';
         $this->eventDate = '';
+        $this->rankingConfig = [
+            'modalities_to_show' => [],
+            'top_positions' => 3,
+            'general_top_positions' => 3,
+        ];
         $this->resetErrorBag('eventName');
         $this->resetErrorBag('eventDate');
+        $this->resetErrorBag('rankingConfig');
     }
 
-    /**
-     * Valida e salva um novo evento no JSON.
-     * Verifica se o evento já existe antes de adicionar.
-     */
     public function saveEvent()
     {
         $this->validate([
             'eventName' => 'required|string|min:2',
             'eventDate' => 'required|date',
+            'rankingConfig.top_positions' => 'nullable|integer|min:0|max:3',
+            'rankingConfig.general_top_positions' => 'nullable|integer|min:0|max:5',
+            'rankingConfig.modalities_to_show' => 'nullable|array',            
+            'rankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
+        ], [
+            'rankingConfig.top_positions.integer' => 'O número de posições por modalidade deve ser um número inteiro.',
+            'rankingConfig.top_positions.min' => 'O número de posições por modalidade não pode ser negativo.',
+            'rankingConfig.top_positions.max' => 'O número de posições por modalidade não pode ser maior que 3.',
+            'rankingConfig.general_top_positions.integer' => 'O número de posições no ranking geral deve ser um número inteiro.',
+            'rankingConfig.general_top_positions.min' => 'O número de posições no ranking geral não pode ser negativo.',
+            'rankingConfig.general_top_positions.max' => 'O número de posições no ranking geral não pode ser maior que 5.',
+            'rankingConfig.modalities_to_show.*.in' => 'Modalidade inválida selecionada.',
         ]);
 
         $newEvent = [
             'id' => Str::upper(Str::random(12)),
             'nome' => $this->eventName,
             'data' => $this->eventDate,
+            'ranking_config' => [
+                'modalities_to_show' => is_array($this->rankingConfig['modalities_to_show'])
+                    ? $this->rankingConfig['modalities_to_show']
+                    : [],
+                'top_positions' => max(0, (int)($this->rankingConfig['top_positions'] ?? 0)),
+                'general_top_positions' => max(0, (int)($this->rankingConfig['general_top_positions'] ?? 0)),
+            ],
             'equipes' => [],
         ];
 
@@ -109,10 +125,7 @@ class Sidebar extends Component
         $this->closeEventModal();
     }
 
-    /**
-     * Abre o modal de cadastro de equipes.
-     * Exibe alerta caso não haja eventos cadastrados.
-     */
+
     public function openTeamModal()
     {
         $this->loadEvents();
@@ -124,19 +137,12 @@ class Sidebar extends Component
         $this->showTeamModal = true;
     }
 
-    /**
-     * Fecha o modal de equipes e reseta o formulário.
-     */
     public function closeTeamModal()
     {
         $this->showTeamModal = false;
         $this->resetTeamForm();
     }
 
-    /**
-     * Reseta os campos do formulário de equipes,
-     * incluindo quantidade, dados das equipes e erros.
-     */
     public function resetTeamForm()
     {
         $this->numTeams = 1;
@@ -157,10 +163,6 @@ class Sidebar extends Component
         $this->resetErrorBag('selectedEventIndex');
     }
 
-    /**
-     * Atualiza o número de equipes no formulário,
-     * adicionando ou removendo conforme o valor informado.
-     */
     public function updatedNumTeams($value)
     {
         $value = (int)$value;
@@ -185,18 +187,14 @@ class Sidebar extends Component
         }
     }
 
-    /**
-     * Valida e salva as equipes vinculadas ao evento selecionado.
-     * Evita duplicatas pelo nome da equipe.
-     */
     public function saveTeams()
     {
         $categories = config('tbr-config.categories') ?? [];
         $modalitiesByLevel = config('tbr-config.modalities_by_level') ?? [];
-    
+
         $categorySlugs = collect($categories)->pluck('slug')->toArray();
-        $categoryLevels = collect($categories)->mapWithKeys(fn ($cat) => [$cat['slug'] => $cat['modalitie'] ?? 'basic'])->toArray();
-    
+        $categoryLevels = collect($categories)->mapWithKeys(fn($cat) => [$cat['slug'] => $cat['modalitie'] ?? 'basic'])->toArray();
+
         $this->validate([
             'selectedEventIndex' => 'required|integer|min:0',
             'teams.*.name' => 'required|min:2',
@@ -204,35 +202,36 @@ class Sidebar extends Component
         ], [
             'selectedEventIndex.required' => 'Você deve selecionar um evento.',
         ]);
-    
+
         $this->loadEvents();
-    
+
         if (!isset($this->events[$this->selectedEventIndex])) {
             $this->addError('selectedEventIndex', 'Evento selecionado inválido.');
             return;
         }
-    
+
         $evento = &$this->events[$this->selectedEventIndex];
-    
+
         foreach ($this->teams as $team) {
             $teamNameLower = strtolower($team['name']);
-    
-            $exists = collect($evento['equipes'])->contains(fn ($existingTeam) =>
+
+            $exists = collect($evento['equipes'])->contains(
+                fn($existingTeam) =>
                 strtolower($existingTeam['name']) === $teamNameLower
             );
-    
+
             if (!$exists) {
                 $categorySlug = $team['category'];
                 $modalitie_level = $categoryLevels[$categorySlug] ?? 'basic';
                 $modalities = [];
-    
+
                 foreach ($modalitiesByLevel[$modalitie_level] ?? [] as $modality) {
                     $slug = is_array($modality) ? ($modality['slug'] ?? null) : $modality;
-    
+
                     if (!$slug || !is_string($slug)) {
                         continue;
                     }
-    
+
                     if ($slug === 'dp') {
                         $modalities[$slug] = [
                             'nota' => [
@@ -251,7 +250,7 @@ class Sidebar extends Component
                         ];
                     }
                 }
-    
+
                 $evento['equipes'][] = [
                     'id' => Str::upper(Str::random(12)),
                     'name' => $team['name'],
@@ -261,41 +260,28 @@ class Sidebar extends Component
                 ];
             }
         }
-    
+
         $this->saveEventsToStorage();
         $this->banner('Equipes cadastradas com sucesso!');
         $this->closeTeamModal();
-    }    
-    
-    /**
-     * Exibe confirmação para limpar o JSON do storage.
-     */
+    }
+
     public function askToClearStorage()
     {
         $this->confirmClearStorage = true;
     }
 
-    /**
-     * Cancela a ação de limpar o JSON.
-     */
     public function cancelClearStorage()
     {
         $this->confirmClearStorage = false;
     }
 
-    /**
-     * Confirma e limpa o JSON, reseta formulários e exibe banner.
-     */
     public function confirmAndClearStorage()
     {
         $this->clearStorage();
         $this->confirmClearStorage = false;
     }
 
-    /**
-     * Carrega os eventos do JSON.
-     * @return array
-     */
     public function loadEvents()
     {
         $jsonPath = 'tbr/json/data.json';
@@ -309,9 +295,6 @@ class Sidebar extends Component
         return $this->events;
     }
 
-    /**
-     * Salva os eventos no arquivo JSON.
-     */
     public function saveEventsToStorage()
     {
         $jsonPath = 'tbr/json/data.json';
@@ -319,9 +302,6 @@ class Sidebar extends Component
         Storage::disk('public')->put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 
-    /**
-     * Limpa o JSON de eventos, reseta formulários e notifica o usuário.
-     */
     public function clearStorage()
     {
         $jsonPath = 'tbr/json/data.json';
@@ -336,9 +316,6 @@ class Sidebar extends Component
         $this->dispatch('eventCreated');
     }
 
-    /**
-     * Renderiza a view 'sidebar' passando eventos e categorias.
-     */
     public function render()
     {
         return view('livewire.page.sidebar', [

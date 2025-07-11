@@ -12,13 +12,12 @@ return [
         ['id' => 'Q3R4S5T6U7V8', 'slug' => 'university', 'label' => 'University', 'modalitie' => 'advanced', 'question' => 'advanced'],
     ],
 
-
     'modalities_by_level' => [
         'basic' => [
-            ['id' => 'A3F9L2X8Q7M5', 'slug' => 'gl', 'label' => 'Geral'],
+            ['id' => 'A3F9L2X8Q7M5', 'slug' => 'ap', 'label' => 'Apresentação'],
         ],
         'intermediary' => [
-            ['id' => 'A3F9L2X8Q7M5', 'slug' => 'gl', 'label' => 'Geral'],
+            ['id' => 'A3F9L2X8Q7M5', 'slug' => 'ap', 'label' => 'Apresentação'],
             ['id' => 'H1G2F3E4D5C6', 'slug' => 'dp', 'label' => 'Desafio Prático (DP)'],
         ],
         'advanced' => [
@@ -33,7 +32,7 @@ return [
         'basic' => [
             [
                 'id' => 'A3F9L2X8Q7M5',
-                'modality' => 'gl',
+                'modality' => 'ap',
                 'assessment' => [
                     [
                         'object' => 'Projeto',

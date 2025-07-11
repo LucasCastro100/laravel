@@ -25,6 +25,15 @@ class TbrDashboard extends Component
     public ?string $editEventName = null;
     public ?string $editEventDate = null;
 
+    // Configuração ranking para edição
+    public array $editRankingConfig = [
+        'modalities_to_show' => [],
+        'top_positions' => 3,
+        'general_top_positions' => 3,
+    ];
+
+    public $showSidebar = true;
+
     public function mount()
     {
         $this->loadEvents();
@@ -76,6 +85,14 @@ class TbrDashboard extends Component
             $this->selectedEventId = $eventId;
             $this->editEventName = $event['nome'] ?? '';
             $this->editEventDate = $event['data'] ?? '';
+
+            // Carrega ranking_config, com defaults
+            $this->editRankingConfig = [
+                'modalities_to_show' => $event['ranking_config']['modalities_to_show'] ?? [],
+                'top_positions' => $event['ranking_config']['top_positions'] ?? 3,
+                'general_top_positions' => $event['ranking_config']['general_top_positions'] ?? 3,
+            ];
+
             $this->showEditModal = true;
         }
     }
@@ -86,6 +103,11 @@ class TbrDashboard extends Component
         $this->editEventName = null;
         $this->editEventDate = null;
         $this->selectedEventId = null;
+        $this->editRankingConfig = [
+            'modalities_to_show' => [],
+            'top_positions' => 3,
+            'general_top_positions' => 3,
+        ];
     }
 
     public function updateEvent()
@@ -93,21 +115,35 @@ class TbrDashboard extends Component
         $this->validate([
             'editEventName' => 'required|min:2',
             'editEventDate' => 'required|date',
+            'editRankingConfig.top_positions' => 'nullable|integer|min:0|max:3',
+            'editRankingConfig.general_top_positions' => 'nullable|integer|min:0|max:5',
+            'editRankingConfig.modalities_to_show' => 'nullable|array',            
+            'editRankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
         ]);
-
+    
         foreach ($this->events as &$event) {
             if ($event['id'] === $this->selectedEventId) {
                 $event['nome'] = $this->editEventName;
                 $event['data'] = $this->editEventDate;
+    
+                $event['ranking_config'] = [
+                    'modalities_to_show' => is_array($this->editRankingConfig['modalities_to_show']) 
+                        ? $this->editRankingConfig['modalities_to_show'] 
+                        : [],
+                    'top_positions' => max(0, (int)($this->editRankingConfig['top_positions'] ?? 0)),
+                    'general_top_positions' => max(0, (int)($this->editRankingConfig['general_top_positions'] ?? 0)),
+                ];
+    
                 break;
             }
         }
-
+    
         $this->saveEventsToStorage();
         $this->banner('Evento atualizado com sucesso!');
         $this->closeEditModal();
         $this->loadEvents();
     }
+    
 
     public function openDeleteModal(string $eventId)
     {
@@ -139,7 +175,6 @@ class TbrDashboard extends Component
         // Só para disparar reatividade se precisar
     }
 
-    // Getter para retornar modalidades da categoria selecionada
     public function getModalitiesProperty()
     {
         if (!$this->selectedCategory) {
@@ -151,10 +186,8 @@ class TbrDashboard extends Component
             return [];
         }
 
-        // Aqui você usa o valor da chave 'modalitie' da categoria para buscar modalidades
         $modalitie_level = $category['modalitie'] ?? 'basic';
 
-        // Recupera modalidades do nível exato (sem merge)
         $modalities = config("tbr-config.modalities_by_level.$modalitie_level") ?? [];
 
         return $modalities;
@@ -166,6 +199,6 @@ class TbrDashboard extends Component
             'events' => $this->events ?? [],
             'categories' => config('tbr-config.categories') ?? [],
             'modalities' => $this->modalities,
-        ])->layout('layouts.app-sidebar');
+        ])->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
     }
 }

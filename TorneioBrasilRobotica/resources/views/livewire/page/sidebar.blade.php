@@ -27,7 +27,7 @@
 
             <ul x-show="showNav" x-transition class="space-y-1 mt-2 text-gray-700">
                 <li>
-                    <a wire:navigate href="/tbr/"
+                    <a wire:navigate href="/"
                         class="flex items-center gap-3 px-4 py-2 rounded hover:bg-gray-100 transition"
                         :class="{ 'justify-center': collapsed }" title="Dashboard">
                         <i class="fas fa-house text-sm w-5 text-gray-600"></i>
@@ -85,28 +85,65 @@
     {{-- Modal para cadastrar eventos --}}
     @if ($showEventModal)
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow w-full max-w-md text-center">
+            <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
+
                 <h2 class="text-xl font-bold mb-4">Cadastrar Evento</h2>
 
-                <div class="space-y-4">
+                <div class="space-y-4 text-left">
+
+                    {{-- Nome do evento --}}
+                    <label class="block font-semibold">Nome do evento</label>
                     <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
                         wire:model.defer="eventName">
                     @error('eventName')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
 
+                    {{-- Data do evento --}}
+                    <label class="block font-semibold">Data do evento</label>
                     <input type="date" class="w-full border rounded px-3 py-2" wire:model.defer="eventDate">
                     @error('eventDate')
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
+
+                    {{-- Configuração do Ranking / PowerPoint --}}
+                    <fieldset class="border border-gray-300 rounded p-4">
+                        <legend class="font-semibold mb-2">Configuração do Ranking / PowerPoint</legend>
+
+                        {{-- Modalidades --}}
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Modalidades para exibir:</label>
+                            <div class="flex flex-wrap gap-4">
+                                @foreach (['ap' => 'AP', 'mc' => 'MC', 'om' => 'OM', 'te' => 'TE', 'dp' => 'DP'] as $key => $label)
+                                    <label class="inline-flex items-center gap-2">
+                                        <input type="checkbox" wire:model.defer="rankingConfig.modalities_to_show"
+                                            value="{{ $key }}" class="form-checkbox h-5 w-5 text-purple-600" />
+                                        <span>{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        {{-- Número de posições por modalidade --}}
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Número de posições por modalidade:</label>
+                            <input type="number" min="1" max="3"
+                                wire:model.defer="rankingConfig.top_positions" class="border rounded px-3 py-2 w-20" />
+                        </div>
+
+                        {{-- Número de posições no ranking geral --}}
+                        <div>
+                            <label class="block font-medium mb-1">Número de posições no ranking geral:</label>
+                            <input type="number" min="1" max="5"
+                                wire:model.defer="rankingConfig.general_top_positions"
+                                class="border rounded px-3 py-2 w-20" />
+                        </div>
+                    </fieldset>
                 </div>
 
                 <div class="text-right space-x-2 mt-6">
-                    {{-- Salva evento --}}
                     <button wire:click="saveEvent"
-                        class="px-4 py-2 bg-green-600 text-white rounded  hover:bg-green-700">Salvar</button>
-
-                    {{-- Fecha modal e reseta formulário de evento --}}
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Salvar</button>
                     <button wire:click="closeEventModal"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
                 </div>
@@ -131,7 +168,8 @@
                             class="border rounded px-3 py-2 w-full">
                             <option value="">-- Selecione um evento --</option>
                             @foreach ($events as $index => $event)
-                                <option value="{{ $index }}">{{ $event['nome'] }} ({{ $event['data'] }})</option>
+                                <option value="{{ $index }}">{{ $event['nome'] }} ({{ $event['data'] }})
+                                </option>
                             @endforeach
                         </select>
                         @error('selectedEventIndex')

@@ -27,10 +27,13 @@
 
     <div x-data="{ collapsed: false }" class="flex h-screen">
         {{-- Sidebar --}}
-        <livewire:page.sidebar/>
+        @if ($showSidebar)
+            <livewire:page.sidebar />
+        @endif
+
 
         {{-- Conteúdo principal --}}
-        <div class="flex-1 overflow-y-auto p-6">
+        <div class="flex-1 overflow-y-auto {{ $showSidebar ? 'p-6' : 'p-0' }}">
             {{ $slot }}
         </div>
     </div>

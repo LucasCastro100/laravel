@@ -1,10 +1,10 @@
 <div class="p-6">
     <div class="bg-white p-4 rounded-lg shadow mb-6">
-        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <h1 class="text-2xl font-semibold text-gray-500">Dashboard</h1>
     </div>
 
     @if (count($events ?? []) === 0)
-    
+
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6" role="alert">
             <span class="block font-bold">Nenhum evento cadastrado.</span>
         </div>
@@ -105,30 +105,82 @@
             </div>
         </div>
     @endif
-
+    
     <!-- Modal de edição -->
     @if ($showEditModal)
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                <h2 class="text-xl font-bold mb-4 text-center">Editar Evento</h2>
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
 
-                <div class="mb-4">
-                    <label for="editEventName" class="block text-sm font-semibold">Nome</label>
-                    <input wire:model.defer="editEventName" type="text" id="editEventName"
-                        class="w-full border rounded px-3 py-2">
+                <h2 class="text-xl font-bold mb-4">Editar Evento</h2>
+
+                <div class="space-y-4 text-left">
+
+                    {{-- Nome do evento --}}
+                    <label class="block font-semibold">Nome do evento</label>
+                    <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
+                        wire:model.defer="editEventName">
+                    @error('editEventName')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+
+                    {{-- Data do evento --}}
+                    <label class="block font-semibold">Data do evento</label>
+                    <input type="date" class="w-full border rounded px-3 py-2" wire:model.defer="editEventDate">
+                    @error('editEventDate')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
+
+                    {{-- Configuração do Ranking / PowerPoint --}}
+                    <fieldset class="border border-gray-300 rounded p-4">
+                        <legend class="font-semibold mb-2">Configuração do Ranking / PowerPoint</legend>
+
+                        {{-- Modalidades --}}
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Modalidades para exibir:</label>
+                            <div class="flex flex-wrap gap-4">
+                                @foreach (['ap' => 'AP', 'mc' => 'MC', 'om' => 'OM', 'te' => 'TE', 'dp' => 'DP'] as $key => $label)
+                                    <label class="inline-flex items-center gap-2">
+                                        <input type="checkbox" wire:model.defer="editRankingConfig.modalities_to_show"
+                                            value="{{ $key }}"
+                                            class="form-checkbox h-5 w-5 text-purple-600" />
+                                        <span>{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('editRankingConfig.modalities_to_show')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Número de posições por modalidade --}}
+                        <div class="mb-4">
+                            <label class="block font-medium mb-1">Número de posições por modalidade:</label>
+                            <input type="number" min="1" max="3"
+                                wire:model.defer="editRankingConfig.top_positions"
+                                class="border rounded px-3 py-2 w-20" />
+                            @error('editRankingConfig.top_positions')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Número de posições no ranking geral --}}
+                        <div>
+                            <label class="block font-medium mb-1">Número de posições no ranking geral:</label>
+                            <input type="number" min="1" max="5"
+                                wire:model.defer="editRankingConfig.general_top_positions"
+                                class="border rounded px-3 py-2 w-20" />
+                            @error('editRankingConfig.general_top_positions')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </fieldset>
                 </div>
 
-                <div class="mb-4">
-                    <label for="editEventDate" class="block text-sm font-semibold">Data</label>
-                    <input wire:model.defer="editEventDate" type="date" id="editEventDate"
-                        class="w-full border rounded px-3 py-2">
-                </div>
-
-                <div class="flex justify-end gap-2">
-                    <button wire:click="closeEditModal"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Cancelar</button>
+                <div class="text-right space-x-2 mt-6">
                     <button wire:click="updateEvent"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Atualizar</button>
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Atualizar</button>
+                    <button wire:click="closeEditModal"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
                 </div>
             </div>
         </div>

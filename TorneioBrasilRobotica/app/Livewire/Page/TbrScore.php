@@ -30,6 +30,7 @@ class TbrScore extends Component
 
     public $scores = [];
     public $comment = "";
+    public $showSidebar = true;
 
     public function mount($event_id, $category_id, $modality_id)
     {
@@ -38,8 +39,8 @@ class TbrScore extends Component
         $this->modality_id = $modality_id;
 
         $this->loadEvent();
-        $this->loadCategory();    // carregar categoria antes
-        $this->loadModality();    // carregar modalidade antes
+        $this->loadCategory();
+        $this->loadModality();
         $this->filterTeams();
         $this->loadQuestion();
         $this->calculateScorePerQuestion();
@@ -51,6 +52,9 @@ class TbrScore extends Component
         if (Storage::disk('public')->exists($jsonPath)) {
             $events = json_decode(Storage::disk('public')->get($jsonPath), true) ?? [];
             $this->event = collect($events)->firstWhere('id', $this->event_id);
+            Log::debug('loadEvent', ['event' => $this->event]);
+        } else {
+            Log::warning('Arquivo JSON do evento não encontrado.');
         }
     }
 
@@ -80,6 +84,7 @@ class TbrScore extends Component
         $questionModalitie = $this->category['question'] ?? 'basic';
         $questions = config("tbr-config.questions_by_level.$questionModalitie", []);
 
+        // Buscar pelo ID da modalidade
         $this->question = collect($questions)->firstWhere('id', $this->modality_id);
 
         if (!$this->question) {
@@ -92,7 +97,7 @@ class TbrScore extends Component
             ->filter(fn($item) => !empty($item['description']))
             ->isNotEmpty();
 
-        $this->scores = [];
+        $this->scores = [];       
 
         if ($this->hasAssessment) {
             foreach ($this->question['assessment'] as $block) {
@@ -104,6 +109,8 @@ class TbrScore extends Component
                 }
             }
         }
+
+        // dd($this->hasAssessment, $this->question);
     }
 
     private function calculateScorePerQuestion()
@@ -120,40 +127,45 @@ class TbrScore extends Component
     {
         $categorySlug = collect(config('tbr-config.categories'))
             ->firstWhere('id', $this->category_id)['slug'] ?? null;
-
+    
         $modalitieLevel = $this->category['modalitie'] ?? 'basic';
-
+    
         $modalitiesConfig = config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
-
-        $modalitySlug = collect($modalitiesConfig)
-            ->firstWhere('id', $this->modality_id)['slug'] ?? null;
-
+    
+        $modality = collect($modalitiesConfig)->firstWhere('id', $this->modality_id)
+            ?? collect($modalitiesConfig)->firstWhere('slug', $this->modality_id);
+    
+        $modalitySlug = $modality['slug'] ?? null;
+    
         if (!$categorySlug || !$modalitySlug) {
             $this->filteredTeams = [];
             return;
         }
-
+    
         $this->filteredTeams = collect($this->event['equipes'] ?? [])
-            ->filter(function ($team) use ($categorySlug, $modalitySlug) {
+            ->filter(function ($team) use ($categorySlug, $modalitySlug, $modalitieLevel) {
                 if ($team['category'] !== $categorySlug) return false;
-
                 if (!array_key_exists($modalitySlug, $team['modalities'] ?? [])) return false;
-
-                $modalitiesBlock = ['mc', 'om', 'te', 'gl'];
-
-                if (in_array($modalitySlug, $modalitiesBlock)) {
+    
+                // Se for nível basic, retorna sempre true para equipes com a modalidade
+                if ($modalitieLevel === 'basic') {
+                    return true;
+                }
+    
+                // Para os outros níveis, mantém a lógica antiga
+                if (in_array($modalitySlug, ['mc', 'om', 'te', 'ap'])) {
                     return empty($team['modalities'][$modalitySlug]['nota'] ?? []);
                 }
-
+    
                 if ($modalitySlug === 'dp') {
                     return true;
                 }
-
+    
                 return false;
             })
             ->values()
-            ->all();
-    }
+            ->all();            
+    }    
 
     public function getSelectedTeamProperty()
     {
@@ -168,8 +180,14 @@ class TbrScore extends Component
         }
 
         $modalitieLevel = $this->category['modalitie'] ?? 'basic';
-        $modalitySlug = collect(config("tbr-config.modalities_by_level.$modalitieLevel"))
-            ->firstWhere('id', $this->modality_id)['slug'] ?? null;
+
+        $modalitiesConfig = config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
+
+        $modality = collect($modalitiesConfig)->firstWhere('id', $this->modality_id);
+        if (!$modality) {
+            $modality = collect($modalitiesConfig)->firstWhere('slug', $this->modality_id);
+        }
+        $modalitySlug = $modality['slug'] ?? null;
 
         if (!$modalitySlug) {
             $this->warningBanner('Modalidade inválida.');
@@ -224,6 +242,6 @@ class TbrScore extends Component
             'modality' => $this->modality,
             'question' => $this->question,
             'hasAssessment' => $this->hasAssessment,
-        ])->layout('layouts.app-sidebar');
+        ])->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
     }
 }

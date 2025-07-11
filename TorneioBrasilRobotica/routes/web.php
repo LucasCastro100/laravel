@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TbrExportController;
+use App\Livewire\Page\SlideShow;
 use App\Livewire\Page\TbrDashboard;
 use App\Livewire\Page\TbrRanking;
 use App\Livewire\Page\TbrScore;
@@ -10,7 +12,10 @@ Route::name('tbr.')->group(function () {
     Route::get('/', TbrDashboard::class)->name('dashboard');    
     Route::get('/score/{event_id}/{category_id}/{modality_id}', TbrScore::class)->name('score');    
     Route::get('/ranking/{event_id}', TbrRanking::class)->name('ranking');    
+    Route::get('/ranking/{event_id}/slides', SlideShow::class)->name('slide');
 });
+
+Route::get('/ranking/{event_id}/export-ppt', [TbrExportController::class, 'exportPpt'])->name('ranking.export.ppt');
 
 Route::middleware([
     'auth:sanctum',

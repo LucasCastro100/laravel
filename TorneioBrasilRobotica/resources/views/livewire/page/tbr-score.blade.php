@@ -1,12 +1,13 @@
+{{-- @dd($question, $hasAssessment, $filteredTeams) --}}
+
 <div class="p-6">
     @if ($event && $category && $modality)
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <!-- Card Evento -->
-            <div class="bg-white rounded-lg shadow p-4">
-                <h2 class="text-sm font-semibold text-gray-500 mb-1">Evento</h2>
-                <p class="text-lg font-bold text-gray-800">{{ $event['nome'] ?? '—' }}</p>
-            </div>
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <h1 class="text-2xl font-semibold text-gray-500">Evento</h1>
+            <p class="text-lg font-bold text-gray-800">{{ $event['nome'] ?? '—' }}</p>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">          
             <!-- Card Categoria -->
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-sm font-semibold text-gray-500 mb-1">Categoria</h2>

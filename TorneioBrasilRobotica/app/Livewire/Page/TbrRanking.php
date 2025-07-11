@@ -10,6 +10,7 @@ class TbrRanking extends Component
     public $event_id;
     public array $event = [];
     public array $teamsByCategory = [];
+    public $showSidebar = true;
 
     public function mount($event_id)
     {
@@ -55,26 +56,59 @@ class TbrRanking extends Component
         $teams = collect($this->event['equipes'] ?? []);
         $categories = collect(config('tbr-config.categories'));
         $modalitiesByLevel = config('tbr-config.modalities_by_level');
-
+    
+        $rankingConfig = $this->event['ranking_config'] ?? [];
+        $modalitiesToShowGlobal = $rankingConfig['modalities_to_show'] ?? ['ap', 'mc', 'om', 'te', 'dp'];
+        $topPositions = $rankingConfig['top_positions'] ?? 3;
+        $generalTopPositions = $rankingConfig['general_top_positions'] ?? 3;
+    
         $this->teamsByCategory = [];
-
-        foreach ($categories as $category) {
+    
+        $categoriesWithTeams = $categories->filter(function ($category) use ($teams) {
+            $slug = $category['slug'];
+            return $teams->contains(fn($team) => ($team['category'] ?? '') === $slug);
+        });
+    
+        foreach ($categoriesWithTeams as $category) {
             $slug = $category['slug'];
             $modalitie_level = $category['modalitie'] ?? 'basic';
-            $modalities = collect($modalitiesByLevel[$modalitie_level] ?? []);
-
-            $this->teamsByCategory[$slug] = [
-                'label' => $category['label'],
-                'modalities' => [],            // times por modalidade
-                'modalities_data' => $modalities->toArray(),  // modalidades para o Blade
-                'total' => [],
-            ];
-
+    
+            // Modalidades disponíveis para o nível da categoria
+            $modalitiesCategory = collect($modalitiesByLevel[$modalitie_level] ?? [])
+                ->map(fn($mod) => is_array($mod) ? $mod['slug'] : $mod)
+                ->toArray();
+    
+            // Se o nível for basic, remover a modalidade 'ap'
+            if ($modalitie_level === 'basic') {
+                $modalitiesAllowed = array_values(array_filter($modalitiesToShowGlobal, function ($mod) use ($modalitiesCategory) {
+                    return $mod !== 'ap' && in_array($mod, $modalitiesCategory);
+                }));
+            } else {
+                $modalitiesAllowed = array_values(array_filter($modalitiesToShowGlobal, function ($mod) use ($modalitiesCategory) {
+                    return in_array($mod, $modalitiesCategory);
+                }));
+            }
+    
+            // Labels das modalidades para exibição
+            $modalitiesData = [];
+            foreach ($modalitiesAllowed as $mod) {
+                $allMods = collect($modalitiesByLevel[$modalitie_level] ?? []);
+                $foundMod = $allMods->first(fn($m) => (is_array($m) ? $m['slug'] : $m) === $mod);
+    
+                if ($foundMod) {
+                    $modalitiesData[] = is_array($foundMod)
+                        ? ['slug' => $foundMod['slug'], 'label' => $foundMod['label']]
+                        : ['slug' => $foundMod, 'label' => strtoupper($foundMod)];
+                }
+            }
+    
+            // Equipes da categoria
             $teamsInCategory = $teams->filter(fn($team) => ($team['category'] ?? null) === $slug);
-
-            foreach ($modalities as $modality) {
-                $modSlug = $modality['slug'];
-                $this->teamsByCategory[$slug]['modalities'][$modSlug] = $teamsInCategory
+    
+            // Tabelas por modalidade – mostra todas as equipes
+            $modalitiesScores = [];
+            foreach ($modalitiesAllowed as $modSlug) {
+                $modalitiesScores[$modSlug] = $teamsInCategory
                     ->map(fn($team) => [
                         'id' => $team['id'],
                         'name' => $team['name'],
@@ -84,8 +118,9 @@ class TbrRanking extends Component
                     ->values()
                     ->toArray();
             }
-
-            $this->teamsByCategory[$slug]['total'] = $teamsInCategory
+    
+            // Pontuação geral – mostra todas as equipes
+            $totalTeams = $teamsInCategory
                 ->map(fn($team) => [
                     'id' => $team['id'],
                     'name' => $team['name'],
@@ -94,14 +129,24 @@ class TbrRanking extends Component
                 ->sortByDesc('total')
                 ->values()
                 ->toArray();
+    
+            // Resultado final
+            $this->teamsByCategory[$slug] = [
+                'label' => $category['label'],
+                'modalities' => $modalitiesScores,
+                'modalities_data' => $modalitiesData,
+                'total' => $totalTeams,
+                'top_positions' => $topPositions,
+                'general_top_positions' => $generalTopPositions,
+            ];
         }
     }
-
+        
     public function render()
     {
         return view('livewire.page.tbr-ranking', [
             'event' => $this->event,
             'teamsByCategory' => $this->teamsByCategory,
-        ])->layout('layouts.app-sidebar');
+        ])->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
     }
 }
