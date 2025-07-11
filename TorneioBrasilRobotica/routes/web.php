@@ -15,7 +15,10 @@ Route::name('tbr.')->group(function () {
     Route::get('/ranking/{event_id}/slides', SlideShow::class)->name('slide');
 });
 
-Route::get('/ranking/{event_id}/export-ppt', [TbrExportController::class, 'exportPpt'])->name('ranking.export.ppt');
+Route::controller(TbrExportController::class)->prefix('/ranking')->name('ranking.')->group(function () {
+        Route::get('/{event_id}/pptx', 'pptx')->name('pptx');
+        Route::get('/{event_id}/pdf', 'pdf')->name('pdf');
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -26,3 +29,4 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+

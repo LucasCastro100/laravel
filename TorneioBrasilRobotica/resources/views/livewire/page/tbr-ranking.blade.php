@@ -115,14 +115,19 @@
 
                 @if (!empty($event) && isset($event['id']))
                     <div class="text-right space-x-2 mt-6">
-                        <a href="{{ route('ranking.export.ppt', ['event_id' => $event['id']]) }}"
-                            class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 inline-block mb-4">
-                            Exportar PowerPoint
+                        <a href="{{ route('ranking.pptx', ['event_id' => $event['id']]) }}"
+                            class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 inline-block mb-4">
+                            Visualizar PowerPoint
+                        </a>
+
+                        <a href="{{ route('ranking.pdf', ['event_id' => $event['id']]) }}"
+                            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 inline-block mb-4">
+                            Visualizar PDF
                         </a>
 
                         <a wire:navigate href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
-                            class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-800 inline-block mb-4">
-                            Ver Slides
+                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block mb-4">
+                            Visualizar Html
                         </a>
                     </div>
                 @endif

@@ -44,6 +44,7 @@ class TbrScore extends Component
         $this->filterTeams();
         $this->loadQuestion();
         $this->calculateScorePerQuestion();
+        $this->showSidebar = false;
     }
 
     private function loadEvent()

@@ -17,6 +17,7 @@ class TbrRanking extends Component
         $this->event_id = $event_id;
         $this->loadEvent($event_id);
         $this->organizeTeamsByCategory();
+        $this->showSidebar = false;
     }
 
     public function loadEvent($id): void

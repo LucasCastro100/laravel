@@ -30,6 +30,12 @@ class SlideShow extends Component
 
         $slides = [];
 
+        // ➕ Slide inicial com nome do evento
+        $slides[] = [
+            'type' => 'intro',
+            'title' => $event['nome'] ?? 'Evento',
+        ];
+
         foreach ($categories as $category) {
             $catSlug = $category['slug'];
             $catLabel = $category['label'];
@@ -47,15 +53,17 @@ class SlideShow extends Component
                 $count = min($generalTopPositions, $teamsSortedTotal->count());
 
                 for ($pos = 0; $pos < $count; $pos++) {
-                    $posNumber = $count - $pos; // posição invertida
+                    $posNumber = $count - $pos;
 
                     $slides[] = [
+                        'type' => 'award',
                         'categoryLabel' => $catLabel,
                         'modalidadeLabel' => 'Nota Geral',
                         'posNumber' => $posNumber,
                         'teamName' => null,
                     ];
                     $slides[] = [
+                        'type' => 'award',
                         'categoryLabel' => $catLabel,
                         'modalidadeLabel' => 'Nota Geral',
                         'posNumber' => $posNumber,
@@ -66,7 +74,6 @@ class SlideShow extends Component
                 continue;
             }
 
-            // Modalidades
             if ($topPositions > 0) {
                 foreach ($modalities as $mod) {
                     $modSlug = $mod['slug'];
@@ -76,15 +83,17 @@ class SlideShow extends Component
                     $count = min($topPositions, $teamsSorted->count());
 
                     for ($pos = 0; $pos < $count; $pos++) {
-                        $posNumber = $count - $pos; // posição invertida
+                        $posNumber = $count - $pos;
 
                         $slides[] = [
+                            'type' => 'award',
                             'categoryLabel' => $catLabel,
                             'modalidadeLabel' => $modLabel,
                             'posNumber' => $posNumber,
                             'teamName' => null,
                         ];
                         $slides[] = [
+                            'type' => 'award',
                             'categoryLabel' => $catLabel,
                             'modalidadeLabel' => $modLabel,
                             'posNumber' => $posNumber,
@@ -94,27 +103,36 @@ class SlideShow extends Component
                 }
             }
 
-            // Nota Geral (exceto baby)
-            $teamsSortedTotal = $teamsCategory->sortByDesc(fn($t) => floatval($t['nota_total'] ?? 0))->values();
-            $countTotal = min($generalTopPositions, $teamsSortedTotal->count());
+            if ($generalTopPositions > 0 && $catSlug !== 'baby') {
+                $teamsSortedTotal = $teamsCategory->sortByDesc(fn($t) => floatval($t['nota_total'] ?? 0))->values();
+                $countTotal = min($generalTopPositions, $teamsSortedTotal->count());
 
-            for ($pos = 0; $pos < $countTotal; $pos++) {
-                $posNumber = $countTotal - $pos; // posição invertida
+                for ($pos = 0; $pos < $countTotal; $pos++) {
+                    $posNumber = $countTotal - $pos;
 
-                $slides[] = [
-                    'categoryLabel' => $catLabel,
-                    'modalidadeLabel' => 'Nota Geral',
-                    'posNumber' => $posNumber,
-                    'teamName' => null,
-                ];
-                $slides[] = [
-                    'categoryLabel' => $catLabel,
-                    'modalidadeLabel' => 'Nota Geral',
-                    'posNumber' => $posNumber,
-                    'teamName' => $teamsSortedTotal[$pos]['name'],
-                ];
+                    $slides[] = [
+                        'type' => 'award',
+                        'categoryLabel' => $catLabel,
+                        'modalidadeLabel' => 'Nota Geral',
+                        'posNumber' => $posNumber,
+                        'teamName' => null,
+                    ];
+                    $slides[] = [
+                        'type' => 'award',
+                        'categoryLabel' => $catLabel,
+                        'modalidadeLabel' => 'Nota Geral',
+                        'posNumber' => $posNumber,
+                        'teamName' => $teamsSortedTotal[$pos]['name'],
+                    ];
+                }
             }
         }
+
+        // ➕ Slide final de agradecimento
+        $slides[] = [
+            'type' => 'thankyou',
+            'message' => 'Muito obrigado pela participação!',
+        ];
 
         $this->slides = $slides;
         $this->showSidebar = false;
