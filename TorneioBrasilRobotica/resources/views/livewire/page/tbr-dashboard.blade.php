@@ -132,7 +132,7 @@
 
                     {{-- Configuração do Ranking / PowerPoint --}}
                     <fieldset class="border border-gray-300 rounded p-4">
-                        <legend class="font-semibold mb-2">Configuração do Ranking / PowerPoint</legend>
+                        <legend class="font-semibold mb-2">Configuração do Ranking / Exportação</legend>
 
                         {{-- Modalidades --}}
                         <div class="mb-4">

@@ -27,7 +27,7 @@
 
             <ul x-show="showNav" x-transition class="space-y-1 mt-2 text-gray-700">
                 <li>
-                    <a wire:navigate href="/"
+                    <a wire:navigate href="{{ route('tbr.dashboard') }}"
                         class="flex items-center gap-3 px-4 py-2 rounded hover:bg-gray-100 transition"
                         :class="{ 'justify-center': collapsed }" title="Dashboard">
                         <i class="fas fa-house text-sm w-5 text-gray-600"></i>
@@ -108,7 +108,7 @@
 
                     {{-- Configuração do Ranking / PowerPoint --}}
                     <fieldset class="border border-gray-300 rounded p-4">
-                        <legend class="font-semibold mb-2">Configuração do Ranking / PowerPoint</legend>
+                        <legend class="font-semibold mb-2">Configuração do Ranking / Exportação</legend>
 
                         {{-- Modalidades --}}
                         <div class="mb-4">
