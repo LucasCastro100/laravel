@@ -10,6 +10,7 @@ class Home extends Component
     use InteractsWithBanner;
 
     public bool $navigate = false;
+    public $title = 'Ideias Dev';
 
     public $name = '';
     public $email = '';
@@ -61,6 +62,7 @@ class Home extends Component
         return view('livewire.home')
             ->layout('layouts.app-navigate', [
                 'navigate' => $this->navigate,
+                'title' => $this->title,
             ]);
     }
 }

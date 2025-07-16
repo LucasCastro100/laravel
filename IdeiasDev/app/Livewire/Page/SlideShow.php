@@ -10,6 +10,7 @@ class SlideShow extends Component
     public $slides = [];
     public $currentSlide = 0;
     public $showSidebar = true;
+    public $title = 'TBR - Slide Ranking';
 
     public function mount($event_id)
     {
@@ -150,6 +151,10 @@ class SlideShow extends Component
 
     public function render()
     {
-        return view('livewire.page.slide-show')->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
+        return view('livewire.page.slide-show')
+        ->layout('layouts.app-sidebar', [
+            'showSidebar' => $this->showSidebar,
+            'title' => $this->title
+        ]);
     }
 }

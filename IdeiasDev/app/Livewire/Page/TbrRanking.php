@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class TbrRanking extends Component
 {
+    public $title = 'TBR - Ranking';
+
     public $event_id;
     public array $event = [];
     public array $teamsByCategory = [];
@@ -148,6 +150,9 @@ class TbrRanking extends Component
         return view('livewire.page.tbr-ranking', [
             'event' => $this->event,
             'teamsByCategory' => $this->teamsByCategory,
-        ])->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
+        ])->layout('layouts.app-sidebar', [
+            'showSidebar' => $this->showSidebar,
+            'title' => $this->title
+        ]);
     }
 }

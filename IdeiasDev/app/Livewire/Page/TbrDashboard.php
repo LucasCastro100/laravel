@@ -11,6 +11,8 @@ class TbrDashboard extends Component
 {
     use InteractsWithBanner;
 
+    public $title = 'TBR - Dashboard';
+
     public array $events = [];
     protected $listeners = ['eventCreated' => 'loadEvents'];
 
@@ -199,6 +201,9 @@ class TbrDashboard extends Component
             'events' => $this->events ?? [],
             'categories' => config('tbr-config.categories') ?? [],
             'modalities' => $this->modalities,
-        ])->layout('layouts.app-sidebar', ['showSidebar' => $this->showSidebar]);
+        ])->layout('layouts.app-sidebar', [
+            'showSidebar' => $this->showSidebar,
+            'title' => $this->title
+        ]);
     }
 }

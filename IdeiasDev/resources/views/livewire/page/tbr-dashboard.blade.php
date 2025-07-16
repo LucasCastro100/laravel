@@ -23,17 +23,17 @@
                             class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg z-20">
                             <ul class="py-1 text-sm text-gray-700">
                                 <li>
-                                    <button wire:click="openScoreModal('{{ $event['id'] }}')"
-                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                                        Pontuação
-                                    </button>
-                                </li>
-                                <li>
                                     <a href="{{ route('tbr.ranking', ['event_id' => $event['id']]) }}"
                                         class="block px-4 py-2 hover:bg-gray-100">
-                                        Notas
+                                        Ranking
                                     </a>
                                 </li>
+                                <li>
+                                    <button wire:click="openScoreModal('{{ $event['id'] }}')"
+                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        Notas
+                                    </button>
+                                </li>                                
                                 <li>
                                     <button wire:click="openEditModal('{{ $event['id'] }}')"
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
