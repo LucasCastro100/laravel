@@ -275,14 +275,12 @@ class TbrScore extends Component
         $this->loadEvent();        
         $this->filterTeams();
 
-        $this->resetValidation();  // opcional, limpa erros de validação
-        $this->dispatchBrowserEvent('scroll-to-top');
-        
+        $this->resetValidation();                  
         $this->banner('Pontuação salva com sucesso!');
         $this->selectedTeamId = null;
         $this->scores = [];
         $this->comment = '';
-        $this->loadQuestion();
+        $this->loadQuestion();        
     }
 
     public function render()

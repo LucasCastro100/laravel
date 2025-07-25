@@ -84,7 +84,7 @@
 
     {{-- Modal para cadastrar eventos --}}
     @if ($showEventModal)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
 
                 <h2 class="text-xl font-bold mb-4">Cadastrar Evento</h2>
@@ -153,11 +153,8 @@
 
     {{-- Modal para cadastrar equipes --}}
     @if ($showTeamModal)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div
-                class="bg-white p-6 rounded shadow w-full max-w-lg max-h-[90vh] overflow-y-auto text-center
-           sm:max-w-xl md:max-w-2xl">
-
+        <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center sm:max-w-xl md:max-w-2xl">
                 <h2 class="text-xl font-bold mb-6">Cadastrar Equipe</h2>
 
                 <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
@@ -225,7 +222,7 @@
                         </div>
                     @endforeach
 
-                    <div class="flex space-x-4 justify-center mt-6">
+                    <div class="flex flex-wrap gap-2 justify-center mt-6">
                         {{-- Envia dados das equipes --}}
                         <button type="submit"
                             class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">
@@ -250,7 +247,7 @@
 
     {{-- Modal de confirmação para limpar armazenamento --}}
     @if ($confirmClearStorage)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded shadow w-full max-w-md text-center">
                 <h2 class="text-xl font-bold mb-4">Tem certeza que deseja apagar todos os dados?</h2>
                 <p class="mb-6 text-gray-700">Essa ação irá limpar todos os eventos e equipes salvos no JSON.</p>

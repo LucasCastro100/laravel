@@ -7,7 +7,7 @@
             <p class="text-lg font-bold text-gray-800">{{ $event['nome'] ?? '—' }}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">          
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <!-- Card Categoria -->
             <div class="bg-white rounded-lg shadow p-4">
                 <h2 class="text-sm font-semibold text-gray-500 mb-1">Categoria</h2>
@@ -26,7 +26,7 @@
             <div class="bg-white p-4 rounded-lg shadow mb-6">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Selecione uma equipe</h2>
 
-                <select wire:model="selectedTeamId" class="w-full border-gray-300 rounded shadow-sm">
+                <select wire:model.blur="selectedTeamId" class="w-full border-gray-300 rounded shadow-sm">
                     <option value="">Selecione...</option>
                     @foreach ($filteredTeams as $team)
                         <option value="{{ $team['id'] }}">{{ $team['name'] }}</option>
@@ -55,7 +55,7 @@
                                     @foreach ($block['description'] as $index => $desc)
                                         <li class="mb-4">
                                             <div class="mb-2 text-gray-800 font-medium">{{ $desc }}</div>
-                                            <div class="flex space-x-3">
+                                            <div class="flex flex-wrap gap-2">
                                                 @foreach ($radioRange as $i)
                                                     <label
                                                         class="flex flex-col items-center cursor-pointer select-none">
@@ -106,5 +106,5 @@
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
             <span class="block font-bold">Dados incompletos para exibir pontuação.</span>
         </div>
-    @endif
+    @endif    
 </div>

@@ -13,7 +13,7 @@
     <meta name="keywords" content="{{ $keywords ?? '' }}">
 
     {{-- ICONS --}}
-    <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous" defer></script>
 
     {{-- VITE --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

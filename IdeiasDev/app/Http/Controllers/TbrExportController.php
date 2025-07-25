@@ -330,7 +330,7 @@ class TbrExportController extends Controller
         $topPositions = (int)($rankingConfig['top_positions'] ?? 0);
         $generalTopPositions = (int)($rankingConfig['general_top_positions'] ?? 3);
 
-        $backgroundPath = storage_path('app/public/tbr/image/bg_pptx.jpg');
+        $backgroundPath = storage_path('app/public/tbr/image/apresentacao/img.jpg');
         if (!file_exists($backgroundPath)) {
             abort(500, 'Imagem de fundo não encontrada.');
         }

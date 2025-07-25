@@ -9,7 +9,7 @@
             <span class="block font-bold">Nenhum evento cadastrado.</span>
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @foreach ($events as $event)
                 <div class="border rounded-lg p-4 shadow hover:shadow-lg transition relative">
                     {{-- Ícone engrenagem no topo direito --}}
@@ -60,7 +60,7 @@
 
     <!-- Modal pontuação -->
     @if ($showScoreModal)
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="fixed p-6 inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white rounded-lg p-8 w-full max-w-2xl relative"
                 wire:key="score-modal-{{ $selectedEventId }}">
                 <h2 class="text-2xl font-bold mb-6 text-center">{{ $selectedEventName }}</h2>
@@ -108,7 +108,7 @@
     
     <!-- Modal de edição -->
     @if ($showEditModal)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
 
                 <h2 class="text-xl font-bold mb-4">Editar Evento</h2>
@@ -188,7 +188,7 @@
 
     <!-- Modal de confirmação para apagar -->
     @if ($showDeleteModal)
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="fixed p-6 inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white rounded-lg p-6 w-full max-w-md">
                 <h2 class="text-xl font-bold mb-4 text-center text-red-600">Confirmação</h2>
                 <p class="mb-4 text-center">Tem certeza que deseja apagar este evento?</p>

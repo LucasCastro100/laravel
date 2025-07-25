@@ -7,18 +7,7 @@
                 "value",
                 "expiration"
             ],
-            "valores": [
-                {
-                    "key": "356a192b7913b04c54574d18c28d46e6395428ab",
-                    "value": "i:1;",
-                    "expiration": 1733834574
-                },
-                {
-                    "key": "356a192b7913b04c54574d18c28d46e6395428ab:timer",
-                    "value": "i:1733834574;",
-                    "expiration": 1733834574
-                }
-            ]
+            "valores": []
         },
         "cache_locks": {
             "name": "cache_locks",
@@ -28,6 +17,65 @@
                 "expiration"
             ],
             "valores": []
+        },
+        "chats": {
+            "name": "chats",
+            "campos": [
+                "id",
+                "sender_id",
+                "receiver_id",
+                "chat",
+                "uuid",
+                "created_at",
+                "updated_at"
+            ],
+            "valores": [
+                {
+                    "id": 1,
+                    "sender_id": 31,
+                    "receiver_id": 2,
+                    "chat": "teste",
+                    "uuid": "9e5d06db-8781-459b-8749-8a3fb7d27a74",
+                    "created_at": "2025-03-05 22:17:21",
+                    "updated_at": "2025-03-05 22:17:21"
+                },
+                {
+                    "id": 2,
+                    "sender_id": 2,
+                    "receiver_id": 7,
+                    "chat": "Dia dia, tranquilo?",
+                    "uuid": "9e680b9f-debe-4b9d-8cbe-f932c6bc4160",
+                    "created_at": "2025-03-11 09:44:48",
+                    "updated_at": "2025-03-11 09:44:48"
+                },
+                {
+                    "id": 3,
+                    "sender_id": 7,
+                    "receiver_id": 2,
+                    "chat": "Boa noite, tudo bem? Gostaria de fazer um site você trabalha com este serviço?",
+                    "uuid": "9e6aface-406a-418a-ab37-7f752bb442aa",
+                    "created_at": "2025-03-12 20:45:15",
+                    "updated_at": "2025-03-12 20:45:15"
+                },
+                {
+                    "id": 4,
+                    "sender_id": 5,
+                    "receiver_id": 7,
+                    "chat": "Olá!\n",
+                    "uuid": "9e8a4006-7440-4a92-b266-13595479740f",
+                    "created_at": "2025-03-28 09:49:28",
+                    "updated_at": "2025-03-28 09:49:28"
+                },
+                {
+                    "id": 5,
+                    "sender_id": 5,
+                    "receiver_id": 7,
+                    "chat": "Olá! Com quem falo?",
+                    "uuid": "9e929f91-9b56-4d64-bc57-2b3a4ed28f14",
+                    "created_at": "2025-04-01 13:43:15",
+                    "updated_at": "2025-04-01 13:43:15"
+                }
+            ]
         },
         "cities": {
             "name": "cities",
@@ -27886,7 +27934,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 14,
-                    "connected_type_services": "[]",
+                    "connected_type_services": null,
                     "whatsapp": "(34) 90000-0000",
                     "instagram": null,
                     "associate": 0,
@@ -27906,7 +27954,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 14,
-                    "connected_type_services": "[\"8\", \"13\", \"24\"]",
+                    "connected_type_services": null,
                     "whatsapp": "(34) 9915-35839",
                     "instagram": null,
                     "associate": 1,
@@ -27926,7 +27974,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 12,
-                    "connected_type_services": "[\"7\", \"8\", \"18\", \"25\"]",
+                    "connected_type_services": "[]",
                     "whatsapp": "(34) 3311-7196",
                     "instagram": "@okiafilmes",
                     "associate": 1,
@@ -27934,7 +27982,7 @@
                     "description": "www.okiafilmes.com.br\r\n\r\nA arte está no olhar e em como retrata-lo! Por isso, cada profissional tem seu diferencial, nós da Okiá Filmes, acreditamos na unicidade, na especialidade e energia valiosa em cada produção!\r\n\r\nNo mercado desde 2008, somos pioneiros em produções não controladas, ou seja, coberturas de eventos.\r\nSomos especializados em mídias intuitivas para pequenas, médias e grandes empresas, além de soluções em vídeos para negócios.",
                     "uuid": "9d7ad84d-5589-4c2f-ac1b-c2f4a7680b33",
                     "created_at": "2024-11-13 11:50:05",
-                    "updated_at": "2024-12-08 20:58:12",
+                    "updated_at": "2025-01-16 18:16:56",
                     "deleted_at": null
                 },
                 {
@@ -27945,7 +27993,7 @@
                     "responsible": "Rafael Oliveira",
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 17,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "34 99120-7938",
                     "instagram": "@levicsalonclinique",
@@ -28005,7 +28053,7 @@
                     "responsible": "ADVAL",
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 19,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "(34) 99202-7601",
                     "instagram": "@ADVALJR",
@@ -28025,7 +28073,7 @@
                     "responsible": null,
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 1,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "(31) 98685-6676",
                     "instagram": "@manuusantiago",
@@ -28046,15 +28094,15 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 22,
-                    "connected_type_services": "[]",
-                    "whatsapp": "0",
+                    "connected_type_services": null,
+                    "whatsapp": "34 99652-3700",
                     "instagram": "0",
-                    "associate": 0,
+                    "associate": 1,
                     "photo": "vacinar.png",
                     "description": null,
                     "uuid": "9d89c582-4213-4f6f-87fd-1a2217001cce",
                     "created_at": "2024-11-20 21:54:57",
-                    "updated_at": "2024-12-08 22:39:30",
+                    "updated_at": "2024-12-16 18:33:12",
                     "deleted_at": null
                 },
                 {
@@ -28085,7 +28133,7 @@
                     "responsible": "Brenda",
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 24,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "0",
                     "instagram": "0",
@@ -28105,7 +28153,7 @@
                     "responsible": "KARIME",
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 21,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "0",
                     "instagram": "0",
@@ -28126,7 +28174,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 18,
-                    "connected_type_services": "[11, \"12\", 13, 16, 17, 22]",
+                    "connected_type_services": "[\"11\", \"12\", \"16\", \"22\"]",
                     "whatsapp": "(34) 98438-5468",
                     "instagram": "@movimente_studiodepilates",
                     "associate": 1,
@@ -28146,7 +28194,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 16,
-                    "connected_type_services": "[\"19\"]",
+                    "connected_type_services": null,
                     "whatsapp": "(34) 99806-3141",
                     "instagram": "@draizabelmota",
                     "associate": 1,
@@ -28189,12 +28237,12 @@
                     "connected_type_services": null,
                     "whatsapp": "(34) 98881-5490",
                     "instagram": "@sofisticasauberaba",
-                    "associate": 1,
+                    "associate": 0,
                     "photo": "sofisticasa_mÓveis_planejados.jpg",
                     "description": null,
                     "uuid": "9d98fa6c-4f44-4217-a41f-ee093f80ead9",
                     "created_at": "2024-11-28 11:20:19",
-                    "updated_at": "2024-11-28 11:20:19",
+                    "updated_at": "2024-12-21 17:12:15",
                     "deleted_at": null
                 },
                 {
@@ -28246,7 +28294,7 @@
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 6,
-                    "connected_type_services": null,
+                    "connected_type_services": "[\"11\", \"12\"]",
                     "whatsapp": "(34) 9882-2174",
                     "instagram": "@personal_tiagomartins",
                     "associate": 1,
@@ -28254,27 +28302,27 @@
                     "description": "Trabalho de personal disponível para pessoas que buscam uma vida mais saudável e consequente mudança nos hábitos diários.",
                     "uuid": "9da39038-9a96-4d15-849a-2998e1869c45",
                     "created_at": "2024-12-03 17:37:28",
-                    "updated_at": "2024-12-07 08:28:46",
+                    "updated_at": "2024-12-16 19:54:15",
                     "deleted_at": null
                 },
                 {
                     "id": 21,
                     "user_id": 24,
-                    "name": "EXP EDUCAÇÃO",
+                    "name": "EXP - Escola de Comunicação e Oratoria",
                     "cnpj": "26.228.153\/0001-84",
                     "responsible": "Anderson Carneiro",
                     "state_id": 13,
                     "city_id": 2387,
                     "type_service_id": 35,
-                    "connected_type_services": "[\"8\", \"16\", \"22\"]",
+                    "connected_type_services": "[\"16\", \"22\"]",
                     "whatsapp": "(34) 99116-6409",
                     "instagram": "https:\/\/www.instagram.com\/exp.educacao\/profilecard\/?igsh=MWVsYjI2ZzRrdzZ2cA==",
                     "associate": 1,
-                    "photo": "exp_educaÇÃo.jpg",
-                    "description": "Nossas soluções envolvem treinamentos, consultorias empresariais, palestras e mentorias, visando a melhoria e o alcance de resultados, sendo eles pessoais, profissionais e empresariais.\r\nTreinamentos:\r\n- Comunicação e Oratoria\r\n- Programação Neurolinguistica\r\n- Inteligência Emocional\r\n- Gestão de Pessoas e Liderança\r\n- Marketing e Vendas\r\nO que esperamos é que cada pessoa, cada empresa, cada líder ou liderado que passe por uma palestra, treinamento ou consultoria se sintam IMPACTADOS, TRANSFORMADOS, DESAFIADOS, INSPIRADOS e totalmente COMPROMETIDOS com seus objetivos e propósito, construindo e vivenciando resultados extraordinários.",
+                    "photo": "exp_-_escola_de_comunicação_e_oratoria.jpg",
+                    "description": "Nossas soluções envolvem cursos e treinamentos visando a melhoria e o alcance de resultados atraves do desenvolvimento da comunicação, de habilidades socioemocionais e do equilibrio mental.\r\nCursos: \r\n- Comunicação e Oratoria\r\n- Programação Neurolinguistica\r\n- Comunicação Não Violenta\r\n- Comunicação para lideres\r\n- Gravação de Video e Comunicação para Redes Sociais\r\nO que esperamos é que cada pessoa, cada empresa, cada líder ou liderado que passe por uma palestra, treinamento ou curso se sintam IMPACTADOS, TRANSFORMADOS, DESAFIADOS, INSPIRADOS e totalmente COMPROMETIDOS com seus objetivos e propósito, construindo e vivenciando resultados extraordinários.",
                     "uuid": "9da95ed2-acf6-475d-bc06-624d8b2f7936",
                     "created_at": "2024-12-06 14:54:18",
-                    "updated_at": "2024-12-09 18:56:31",
+                    "updated_at": "2025-01-02 13:54:27",
                     "deleted_at": null
                 },
                 {
@@ -28285,7 +28333,7 @@
                     "responsible": "DANIELA",
                     "state_id": 13,
                     "city_id": 2387,
-                    "type_service_id": 36,
+                    "type_service_id": null,
                     "connected_type_services": null,
                     "whatsapp": "(34) 98807-1081",
                     "instagram": "Sakura.aba",
@@ -28295,6 +28343,106 @@
                     "uuid": "9dab512f-4ab0-4ecf-909b-d71f7b057310",
                     "created_at": "2024-12-07 14:07:50",
                     "updated_at": "2024-12-07 15:02:34",
+                    "deleted_at": null
+                },
+                {
+                    "id": 23,
+                    "user_id": 27,
+                    "name": "TIO ANDERSON",
+                    "cnpj": "00.000.000\/0000-0",
+                    "responsible": "Anderson",
+                    "state_id": 13,
+                    "city_id": 2387,
+                    "type_service_id": 37,
+                    "connected_type_services": null,
+                    "whatsapp": "(34) 99676-9488",
+                    "instagram": "tioandersonmagico",
+                    "associate": 1,
+                    "photo": "tio_anderson.jpg",
+                    "description": "Um show de mágica para as crianças se encantarem do início ao fim!\r\nTransforme sua festa em uma experiência mágica e inesquecível para todas as idades.",
+                    "uuid": "9dc307e2-094e-4b81-ac07-6ecf0f7ebdd7",
+                    "created_at": "2024-12-19 09:02:44",
+                    "updated_at": "2024-12-19 09:14:40",
+                    "deleted_at": null
+                },
+                {
+                    "id": 24,
+                    "user_id": 28,
+                    "name": "BABI MAGELA",
+                    "cnpj": "00.000.000\/0000-00000",
+                    "responsible": "Bárbara Magela",
+                    "state_id": 13,
+                    "city_id": 2387,
+                    "type_service_id": 11,
+                    "connected_type_services": null,
+                    "whatsapp": "(34) 9917-4618",
+                    "instagram": "babimagela",
+                    "associate": 1,
+                    "photo": "babi_magela.jpg",
+                    "description": "Fotógrafa e Publicitária",
+                    "uuid": "9dc7be9f-6521-4ac4-9e0f-8e80d095acad",
+                    "created_at": "2024-12-21 17:17:01",
+                    "updated_at": "2024-12-21 17:17:01",
+                    "deleted_at": null
+                },
+                {
+                    "id": 25,
+                    "user_id": 29,
+                    "name": "Polliana Galvão",
+                    "cnpj": "00.000.000\/0000-000000",
+                    "responsible": "Polli Galvão",
+                    "state_id": 13,
+                    "city_id": 2387,
+                    "type_service_id": 35,
+                    "connected_type_services": null,
+                    "whatsapp": "(00) 000000000-0000",
+                    "instagram": "00000000000000000000",
+                    "associate": 0,
+                    "photo": null,
+                    "description": null,
+                    "uuid": "9e1bd47f-4ee5-445f-a229-fc96ef066d72",
+                    "created_at": "2025-02-01 12:27:44",
+                    "updated_at": "2025-02-01 12:27:44",
+                    "deleted_at": null
+                },
+                {
+                    "id": 26,
+                    "user_id": 31,
+                    "name": "teste",
+                    "cnpj": "00.000.000\/0000-00",
+                    "responsible": "teste",
+                    "state_id": 15,
+                    "city_id": 2387,
+                    "type_service_id": 20,
+                    "connected_type_services": null,
+                    "whatsapp": "(00) 00000-0000",
+                    "instagram": null,
+                    "associate": 1,
+                    "photo": null,
+                    "description": null,
+                    "uuid": "9e5b194a-04dc-4e99-bde1-b74d349bee6f",
+                    "created_at": "2025-03-04 23:17:14",
+                    "updated_at": "2025-03-04 23:19:13",
+                    "deleted_at": null
+                },
+                {
+                    "id": 27,
+                    "user_id": 33,
+                    "name": "MAZÊ ENXOVAIS",
+                    "cnpj": "86.642.592\/0001-60",
+                    "responsible": "Amanda",
+                    "state_id": 13,
+                    "city_id": 2387,
+                    "type_service_id": 42,
+                    "connected_type_services": null,
+                    "whatsapp": "(00) 00000-0000",
+                    "instagram": "https:\/\/www.instagram.com\/mazeuberaba\/",
+                    "associate": 0,
+                    "photo": null,
+                    "description": null,
+                    "uuid": "9f2f6c05-4c2d-448a-a24b-595751921c6e",
+                    "created_at": "2025-06-18 12:24:05",
+                    "updated_at": "2025-06-18 12:24:05",
                     "deleted_at": null
                 }
             ]
@@ -28448,6 +28596,132 @@
                     "connected_user_id": 7,
                     "created_at": "2024-12-12 12:03:27",
                     "updated_at": "2024-12-12 12:03:27"
+                },
+                {
+                    "id": 21,
+                    "user_id": 27,
+                    "connected_user_id": 5,
+                    "created_at": "2024-12-19 09:54:53",
+                    "updated_at": "2024-12-19 09:54:53"
+                },
+                {
+                    "id": 22,
+                    "user_id": 27,
+                    "connected_user_id": 5,
+                    "created_at": "2024-12-19 09:55:22",
+                    "updated_at": "2024-12-19 09:55:22"
+                },
+                {
+                    "id": 23,
+                    "user_id": 5,
+                    "connected_user_id": 27,
+                    "created_at": "2024-12-19 10:00:22",
+                    "updated_at": "2024-12-19 10:00:22"
+                },
+                {
+                    "id": 24,
+                    "user_id": 5,
+                    "connected_user_id": 27,
+                    "created_at": "2024-12-19 10:01:15",
+                    "updated_at": "2024-12-19 10:01:15"
+                },
+                {
+                    "id": 25,
+                    "user_id": 5,
+                    "connected_user_id": 28,
+                    "created_at": "2024-12-21 17:54:10",
+                    "updated_at": "2024-12-21 17:54:10"
+                },
+                {
+                    "id": 26,
+                    "user_id": 5,
+                    "connected_user_id": 12,
+                    "created_at": "2024-12-23 15:29:02",
+                    "updated_at": "2024-12-23 15:29:02"
+                },
+                {
+                    "id": 27,
+                    "user_id": 5,
+                    "connected_user_id": 12,
+                    "created_at": "2024-12-23 15:40:59",
+                    "updated_at": "2024-12-23 15:40:59"
+                },
+                {
+                    "id": 28,
+                    "user_id": 2,
+                    "connected_user_id": 1,
+                    "created_at": "2025-01-02 09:03:30",
+                    "updated_at": "2025-01-02 09:03:30"
+                },
+                {
+                    "id": 29,
+                    "user_id": 5,
+                    "connected_user_id": 11,
+                    "created_at": "2025-01-16 14:25:28",
+                    "updated_at": "2025-01-16 14:25:28"
+                },
+                {
+                    "id": 30,
+                    "user_id": 2,
+                    "connected_user_id": null,
+                    "created_at": "2025-02-12 14:33:33",
+                    "updated_at": "2025-02-12 14:33:33"
+                },
+                {
+                    "id": 31,
+                    "user_id": 5,
+                    "connected_user_id": 11,
+                    "created_at": "2025-02-14 08:59:09",
+                    "updated_at": "2025-02-14 08:59:09"
+                },
+                {
+                    "id": 32,
+                    "user_id": 2,
+                    "connected_user_id": null,
+                    "created_at": "2025-02-26 07:46:52",
+                    "updated_at": "2025-02-26 07:46:52"
+                },
+                {
+                    "id": 33,
+                    "user_id": 5,
+                    "connected_user_id": null,
+                    "created_at": "2025-02-27 18:32:11",
+                    "updated_at": "2025-02-27 18:32:11"
+                },
+                {
+                    "id": 34,
+                    "user_id": 5,
+                    "connected_user_id": 11,
+                    "created_at": "2025-02-27 18:33:55",
+                    "updated_at": "2025-02-27 18:33:55"
+                },
+                {
+                    "id": 35,
+                    "user_id": 5,
+                    "connected_user_id": 33,
+                    "created_at": "2025-06-18 12:25:32",
+                    "updated_at": "2025-06-18 12:25:32"
+                },
+                {
+                    "id": 36,
+                    "user_id": 33,
+                    "connected_user_id": null,
+                    "created_at": "2025-06-18 12:28:10",
+                    "updated_at": "2025-06-18 12:28:10"
+                },
+                {
+                    "id": 37,
+                    "user_id": 33,
+                    "connected_user_id": null,
+                    "created_at": "2025-06-18 12:30:17",
+                    "updated_at": "2025-06-18 12:30:17"
+                },
+                {
+                    "id": 38,
+                    "user_id": 5,
+                    "connected_user_id": 2,
+                    "created_at": "2025-06-19 20:48:25",
+                    "updated_at": "2025-06-19 20:48:25"
                 }
             ]
         },
@@ -28930,6 +29204,198 @@
                     "created_at": "2024-12-12 12:03:27",
                     "updated_at": "2024-12-12 12:03:27",
                     "deleted_at": null
+                },
+                {
+                    "id": 81,
+                    "date_service": "2024-12-19",
+                    "value_total": null,
+                    "value_exchange": "850.00",
+                    "transaction_financial": "-850.00",
+                    "service_product": "Show Miguel 5 e Manu 1",
+                    "description": "Show de Mágica no DeauVille",
+                    "service_provider_id": 27,
+                    "service_taker_id": 5,
+                    "verified": 0,
+                    "uuid": "9dc31a89-0438-4d75-a062-8c6425850a5e",
+                    "created_at": "2024-12-19 09:54:53",
+                    "updated_at": "2024-12-19 09:54:53",
+                    "deleted_at": null
+                },
+                {
+                    "id": 82,
+                    "date_service": "2024-12-19",
+                    "value_total": null,
+                    "value_exchange": "850.00",
+                    "transaction_financial": "-850.00",
+                    "service_product": "Show de Mágica Miguel 5",
+                    "description": "Show de Mágica na Escola Miguel",
+                    "service_provider_id": 27,
+                    "service_taker_id": 5,
+                    "verified": 0,
+                    "uuid": "9dc31ab4-c861-438b-afd7-b199fb70cecd",
+                    "created_at": "2024-12-19 09:55:22",
+                    "updated_at": "2024-12-19 09:55:22",
+                    "deleted_at": null
+                },
+                {
+                    "id": 83,
+                    "date_service": "2024-12-19",
+                    "value_total": null,
+                    "value_exchange": "600.00",
+                    "transaction_financial": "-600.00",
+                    "service_product": "Teaser Teatro Sesi",
+                    "description": "Permuta parcial da cobertura do show no teatro sesi",
+                    "service_provider_id": 5,
+                    "service_taker_id": 27,
+                    "verified": 0,
+                    "uuid": "9dc31c7f-4618-4514-81e3-6f04c7d634cf",
+                    "created_at": "2024-12-19 10:00:22",
+                    "updated_at": "2024-12-19 10:00:22",
+                    "deleted_at": null
+                },
+                {
+                    "id": 84,
+                    "date_service": "2024-12-19",
+                    "value_total": null,
+                    "value_exchange": "330.00",
+                    "transaction_financial": "-330.00",
+                    "service_product": "Edição Extra Show Teatro Sesi",
+                    "description": "Edição extra do material captado para o Teaser",
+                    "service_provider_id": 5,
+                    "service_taker_id": 27,
+                    "verified": 0,
+                    "uuid": "9dc31ccf-4e33-4943-804d-3204172d97f5",
+                    "created_at": "2024-12-19 10:01:15",
+                    "updated_at": "2024-12-19 10:01:15",
+                    "deleted_at": null
+                },
+                {
+                    "id": 85,
+                    "date_service": "2024-12-21",
+                    "value_total": null,
+                    "value_exchange": "1100.00",
+                    "transaction_financial": "-1100.00",
+                    "service_product": "Pacote Trailer Infantil Betina 1",
+                    "description": "9.11.2024 Conforme proposta 2025 v6",
+                    "service_provider_id": 5,
+                    "service_taker_id": 28,
+                    "verified": 0,
+                    "uuid": "9dc7cbe8-aa4b-4f6b-8542-a15328604f87",
+                    "created_at": "2024-12-21 17:54:10",
+                    "updated_at": "2024-12-21 17:54:10",
+                    "deleted_at": null
+                },
+                {
+                    "id": 87,
+                    "date_service": "2024-12-23",
+                    "value_total": null,
+                    "value_exchange": "1900.00",
+                    "transaction_financial": "-1900.00",
+                    "service_product": "VT VACINAR URGENTE TV INTEGRAÇÃO TOP OF MIND 2024",
+                    "description": "VT TV INTEGRAÇÃO OKIÁ 19.12.2024\r\n1 Videomaker c\/ Gimbal - direção e set R$880\r\n1 Kit Iluminação R$100\r\n1 Mic falas R$120\r\nEdição 15seg urgente 2 a 3 dias úteis R$660\r\nTotal R$1.900",
+                    "service_provider_id": 5,
+                    "service_taker_id": 12,
+                    "verified": 0,
+                    "uuid": "9dcba23f-3759-4017-ae4b-b40b8f7ae63d",
+                    "created_at": "2024-12-23 15:40:59",
+                    "updated_at": "2024-12-23 15:40:59",
+                    "deleted_at": null
+                },
+                {
+                    "id": 89,
+                    "date_service": "2025-01-09",
+                    "value_total": null,
+                    "value_exchange": "2924.00",
+                    "transaction_financial": "-2924.00",
+                    "service_product": "FOTOGRAFIA E GRAVAÇÃO 4K BASE",
+                    "description": "FOTOGRAFIA BÁSICA \r\nDireção do cliente\r\n1h permanência \r\nFotografia R$550\r\nEdição R$150\r\nGRAVAÇÃO 4K BASE\r\nCom co direção e roteiro do cliente  \r\n1h permanência \r\n1 Câm 4k tripé R$770\r\n1 TP c iPad R$330\r\n1 Mic M2 R$220\r\n1h hora extra R$244\r\n1 Soft frontal R$110\r\n1 Soft lateral R$110\r\n1 Bastão Led R$140\r\n2 Refletores alógenos R$220\r\n1 Rebatedor apoio R$80",
+                    "service_provider_id": 5,
+                    "service_taker_id": 11,
+                    "verified": 0,
+                    "uuid": "9dfbcedb-264b-4acc-8bc1-23ba1dce7f6b",
+                    "created_at": "2025-01-16 14:25:28",
+                    "updated_at": "2025-01-16 14:25:28",
+                    "deleted_at": null
+                },
+                {
+                    "id": 91,
+                    "date_service": "2025-01-21",
+                    "value_total": null,
+                    "value_exchange": "330.00",
+                    "transaction_financial": "-330.00",
+                    "service_product": "Pré Edição Material Bruto",
+                    "description": "Tratamento básico e decupagem de refugos com arquivos renderizados para edição do cliente",
+                    "service_provider_id": 5,
+                    "service_taker_id": 11,
+                    "verified": 0,
+                    "uuid": "9e35b0b3-1ab7-4261-97a9-96d7577251e8",
+                    "created_at": "2025-02-14 08:59:09",
+                    "updated_at": "2025-02-14 08:59:09",
+                    "deleted_at": null
+                },
+                {
+                    "id": 94,
+                    "date_service": "2025-02-27",
+                    "value_total": null,
+                    "value_exchange": "1650.00",
+                    "transaction_financial": "-1650.00",
+                    "service_product": "Gravação 12 Vídeos na Agrega",
+                    "description": "GRAVAÇÃO 4K BASE Com co direção e roteiro do cliente\r\n1h permanência 1 Câm 4k tripé R$770\r\n1 TP c iPad R$330\r\n1 Mic M2 R$220\r\n1 Envio Pré editado Bruto R$330\r\n\r\nTotal R$1.650\r\nCrédito Manu Permuta R$746\r\n\r\nCrédito Robson R$904",
+                    "service_provider_id": 5,
+                    "service_taker_id": 11,
+                    "verified": 0,
+                    "uuid": "9e50a50b-acc0-4dd0-9977-153f678fe695",
+                    "created_at": "2025-02-27 18:33:55",
+                    "updated_at": "2025-02-27 18:33:55",
+                    "deleted_at": null
+                },
+                {
+                    "id": 95,
+                    "date_service": "2025-06-18",
+                    "value_total": null,
+                    "value_exchange": "1800.00",
+                    "transaction_financial": "-1800.00",
+                    "service_product": "CONTRATO N180625",
+                    "description": "PLANO ASSINATURA TRIMESTRAL VÍDEO PROFISSIONAL 2025V2",
+                    "service_provider_id": 5,
+                    "service_taker_id": 33,
+                    "verified": 0,
+                    "uuid": "9f2f6c89-fe52-4252-bb43-f21675f2bf4f",
+                    "created_at": "2025-06-18 12:25:32",
+                    "updated_at": "2025-06-18 12:25:32",
+                    "deleted_at": null
+                },
+                {
+                    "id": 97,
+                    "date_service": "2025-06-18",
+                    "value_total": null,
+                    "value_exchange": "1800.00",
+                    "transaction_financial": "-1800.00",
+                    "service_product": "PRODUTOS PARA CONTRATO N180625",
+                    "description": "PRODUÇÃO VÍDEO PROFISSIONAL\r\nCONFORME PROPOSTA PLANO TRIMESTRAL OKIÁ PRÓ 2025v2",
+                    "service_provider_id": 33,
+                    "service_taker_id": null,
+                    "verified": 0,
+                    "uuid": "9f2f6e3c-20ef-4a16-8103-3eceaa1c2725",
+                    "created_at": "2025-06-18 12:30:17",
+                    "updated_at": "2025-06-18 12:30:17",
+                    "deleted_at": null
+                },
+                {
+                    "id": 98,
+                    "date_service": "2025-06-19",
+                    "value_total": null,
+                    "value_exchange": "1000.00",
+                    "transaction_financial": "-1000.00",
+                    "service_product": "video institucional",
+                    "description": "Produção de vídeo institucional",
+                    "service_provider_id": 5,
+                    "service_taker_id": 2,
+                    "verified": 0,
+                    "uuid": "9f32235d-6a4e-4225-ab96-1bfdf6d5e884",
+                    "created_at": "2025-06-19 20:48:25",
+                    "updated_at": "2025-06-19 20:48:25",
+                    "deleted_at": null
                 }
             ]
         },
@@ -28945,6 +29411,92 @@
                 "failed_at"
             ],
             "valores": []
+        },
+        "friendships": {
+            "name": "friendships",
+            "campos": [
+                "id",
+                "user_id",
+                "friend_id",
+                "status",
+                "uuid",
+                "created_at",
+                "updated_at"
+            ],
+            "valores": [
+                {
+                    "id": 1,
+                    "user_id": 2,
+                    "friend_id": 31,
+                    "status": "accepted",
+                    "uuid": "9e5d06c9-5cff-47f9-aab3-ac41363b5a40",
+                    "created_at": "2025-03-05 22:17:10",
+                    "updated_at": "2025-03-05 22:17:12"
+                },
+                {
+                    "id": 2,
+                    "user_id": 7,
+                    "friend_id": 2,
+                    "status": "accepted",
+                    "uuid": "9e62d4cd-c1bf-4967-9c8f-4451e7ab5785",
+                    "created_at": "2025-03-08 19:32:22",
+                    "updated_at": "2025-03-11 09:44:33"
+                },
+                {
+                    "id": 3,
+                    "user_id": 7,
+                    "friend_id": 2,
+                    "status": "rejected",
+                    "uuid": "9e62d876-58c4-4fc1-bbb0-fdd73198fff7",
+                    "created_at": "2025-03-08 19:42:36",
+                    "updated_at": "2025-03-11 09:44:37"
+                },
+                {
+                    "id": 4,
+                    "user_id": 7,
+                    "friend_id": 5,
+                    "status": "accepted",
+                    "uuid": "9e639f77-1c4b-4a95-a031-1be0cef8d72b",
+                    "created_at": "2025-03-09 04:59:03",
+                    "updated_at": "2025-03-28 09:49:18"
+                },
+                {
+                    "id": 5,
+                    "user_id": 5,
+                    "friend_id": 5,
+                    "status": "pending",
+                    "uuid": "9e8a403d-24e0-4875-839f-277396c11cc9",
+                    "created_at": "2025-03-28 09:50:04",
+                    "updated_at": "2025-03-28 09:50:04"
+                },
+                {
+                    "id": 6,
+                    "user_id": 20,
+                    "friend_id": 5,
+                    "status": "accepted",
+                    "uuid": "9e92a079-05e7-4d64-ab21-c364ba319b06",
+                    "created_at": "2025-04-01 13:45:46",
+                    "updated_at": "2025-04-15 09:27:18"
+                },
+                {
+                    "id": 7,
+                    "user_id": 1,
+                    "friend_id": 5,
+                    "status": "pending",
+                    "uuid": "9ea74bc0-7c82-42ea-9c55-539652ad513b",
+                    "created_at": "2025-04-11 20:21:16",
+                    "updated_at": "2025-04-11 20:21:16"
+                },
+                {
+                    "id": 8,
+                    "user_id": 2,
+                    "friend_id": 5,
+                    "status": "pending",
+                    "uuid": "9f32216d-45b4-4865-8e61-d7eddc29e34a",
+                    "created_at": "2025-06-19 20:42:59",
+                    "updated_at": "2025-06-19 20:42:59"
+                }
+            ]
         },
         "job_batches": {
             "name": "job_batches",
@@ -29001,12 +29553,12 @@
             "valores": [
                 {
                     "id": 1,
-                    "title": "Associados e Usuários",
+                    "title": "ORDEM DE EXPOSIÇÃO ASSOCIADOS",
                     "permission_level": "[\"0\", \"1\", \"2\"]",
-                    "description": "O SISTEMA APRESENTARÁ INSTABILIDADE NESSE PERÍODO DE TESTE. AGRADECEMOS A COMPREENSÃO E DESEJAMOS BONS NEGÓCIOS!",
-                    "situation": 1,
+                    "description": "A ORDEM DE EXPOSIÇÃO DOS ASSOCIADOS É DE ACORDO COM A QUANTIDADE DE NEGÓCIOS REALIZADOS NA PLATAFORMA!",
+                    "situation": 0,
                     "created_at": "2024-12-04 16:58:30",
-                    "updated_at": "2024-12-06 14:26:42"
+                    "updated_at": "2025-02-12 10:57:31"
                 },
                 {
                     "id": 2,
@@ -29020,11 +29572,11 @@
                 {
                     "id": 3,
                     "title": "CONVIDADOS EXCLUSIVOS VALIDAÇÃO",
-                    "permission_level": "[\"1\", \"2\"]",
-                    "description": "Até 21.12.2024 (PERÍODO VALIDAÇÃO) estamos abertos para agendamento da visita presencial ou vídeo chamada para utilizar o sistema como ASSOCIADO PRÓ, com EXTRATOS, CONTRATOS, PROSPECÇÃO, PROSPECÇÃO DESEJADA E PERFIL através do nosso WhatsApp Business 34 99148 1041, caso não seja utilizada essas aplicações ou haja o interesse das mesmas via reunião ou video chamada, o CONVIDADO EXCLUSIVO do PRÉ LANÇAMENTO passará a ser USUÁRIO LIVRE a partir de 22.12.2024, podendo assinar o sistema a partir do LANÇAMENTO.",
-                    "situation": 2,
+                    "permission_level": "[\"1\", \"2\", \"0\"]",
+                    "description": "Encerrou dia 21.12.2024 nosso período de testes para o grupo de convidados exclusivos de Evento realizado no dia 21.11.2024 na Agrega Coworking! Agradecemos a participação de todos e estamos a disposição para visitas e vídeo chamada para fazer parte do nosso ecossistema!",
+                    "situation": 1,
                     "created_at": "2024-12-08 22:45:08",
-                    "updated_at": "2024-12-10 09:57:29"
+                    "updated_at": "2025-01-17 14:36:48"
                 }
             ]
         },
@@ -29130,6 +29682,26 @@
                     "id": 27,
                     "migration": "2024_12_03_221621_create_desired_prospectingrs_table",
                     "batch": 4
+                },
+                {
+                    "id": 30,
+                    "migration": "2025_03_04_155445_create_friendships_table",
+                    "batch": 5
+                },
+                {
+                    "id": 31,
+                    "migration": "2025_03_04_155616_create_chats_table",
+                    "batch": 5
+                },
+                {
+                    "id": 32,
+                    "migration": "2025_03_11_081815_create_sales_booths_table",
+                    "batch": 6
+                },
+                {
+                    "id": 33,
+                    "migration": "2025_04_26_153654_create_qr_code_redirects_table",
+                    "batch": 7
                 }
             ]
         },
@@ -29172,6 +29744,33 @@
             ],
             "valores": []
         },
+        "qr_code_redirects": {
+            "name": "qr_code_redirects",
+            "campos": [
+                "id",
+                "user_id",
+                "codigo",
+                "url_destino",
+                "created_at",
+                "updated_at"
+            ],
+            "valores": []
+        },
+        "sales_booths": {
+            "name": "sales_booths",
+            "campos": [
+                "id",
+                "user_id",
+                "name",
+                "description",
+                "price",
+                "images",
+                "uuid",
+                "created_at",
+                "updated_at"
+            ],
+            "valores": []
+        },
         "sessions": {
             "name": "sessions",
             "campos": [
@@ -29184,20 +29783,20 @@
             ],
             "valores": [
                 {
-                    "id": "HQDKfSbS30VwLuYd8UVj9Ja869WqxD0ePuApqVGX",
-                    "user_id": 1,
-                    "ip_address": "179.104.24.214",
-                    "user_agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/128.0.0.0 Safari\/537.36 OPR\/114.0.0.0 (Edition std-1)",
-                    "payload": "YTo2OntzOjY6Il90b2tlbiI7czo0MDoiVEpSYURiM3lGVTVpVnI4Qm01SU5kZ3BiYTRUU3gzQTdtMGkwc2k0ZCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNToiaHR0cHM6Ly9wZXJtdXRhYnJhc2lsLmNvbS5ici9wYWluZWwiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0NToiaHR0cHM6Ly9wZXJtdXRhYnJhc2lsLmNvbS5ici9wYWluZWwvYXNvY2lhZG9zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czoxNjoic2VsZWN0ZWRTZXJ2aWNlcyI7YTo0OntpOjA7aTo3O2k6MTtpOjg7aToyO2k6MTg7aTozO2k6MjU7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==",
-                    "last_activity": 1734027280
+                    "id": "fq1hYGzYDn1R7OQxvraGJJN6A5zJ1UBvn96asbHW",
+                    "user_id": null,
+                    "ip_address": "69.171.231.113",
+                    "user_agent": "facebookexternalhit\/1.1 (+http:\/\/www.facebook.com\/externalhit_uatext.php)",
+                    "payload": "YTozOntzOjY6Il90b2tlbiI7czo0MDoiQ3ppSWVFdW9QeVBMTUFrNjRIdlRzOUY1SVk2dW1rMFUwTll6a0FKdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHBzOi8vcGVybXV0YWJyYXNpbC5jb20uYnIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19",
+                    "last_activity": 1752537266
                 },
                 {
-                    "id": "RqhvhK9jKpsyiHQlLyzGYUed8TVGKL2Re9KsDM1n",
-                    "user_id": 24,
-                    "ip_address": "179.126.118.232",
-                    "user_agent": "Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/131.0.0.0 Safari\/537.36",
-                    "payload": "YTo0OntzOjY6Il90b2tlbiI7czo0MDoicVlZbXc0d3FQNlloQkpiUkFGRW1DRTF3MGZuZ0hkWE1pWFpyV0R2RyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHBzOi8vcGVybXV0YWJyYXNpbC5jb20uYnIvcGFpbmVsIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MjQ7fQ==",
-                    "last_activity": 1734024801
+                    "id": "LP2h9LywBATQhh8g70ideBgYJoJcFigcMaPsWGMD",
+                    "user_id": null,
+                    "ip_address": "31.13.127.20",
+                    "user_agent": "Mozilla\/5.0 (Linux; Android 12; SM-G970F Build\/SP1A.210812.016; wv) AppleWebKit\/537.36 (KHTML, like Gecko) Version\/4.0 Chrome\/138.0.7204.146 Mobile Safari\/537.36 [FB_IAB\/FB4A;FBAV\/521.0.0.42.97;IABMV\/1;]",
+                    "payload": "YTozOntzOjY6Il90b2tlbiI7czo0MDoiS1JmZUI3aHpUUld1dUEzU3ZPaHNFS0E2V2M4VVAya0ZNS0RVd1h1byI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTQ0OiJodHRwczovL3Blcm11dGFicmFzaWwuY29tLmJyLz9mYmNsaWQ9SXdaWGgwYmdOaFpXMENNVEVBQVI1Z0gxTl9wSm9HU24zRXE3c0ItM1RzMENxM1hTYjROZWQzV01LUjFnYUc5UnRUQ2FiWE84RDlYSWttM3dfYWVtXzZCRm82dTJqcE8zRFNkbXR0ajV2WXciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19",
+                    "last_activity": 1752537354
                 }
             ]
         },
@@ -29415,72 +30014,9 @@
             ],
             "valores": [
                 {
-                    "id": 1,
-                    "type_service": "Advogado",
-                    "uuid": "7569efcf-855a-4f8b-9170-e07ae210ce19",
-                    "created_at": null,
-                    "updated_at": "2024-11-27 14:37:35"
-                },
-                {
-                    "id": 2,
-                    "type_service": "Cabeleireiro(a)",
-                    "uuid": "255ff3a9-be31-4baa-b1f5-f0ddc421998c",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 3,
-                    "type_service": "Manicure",
-                    "uuid": "3816bea9-3112-43c7-8443-babe2a759c8d",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 4,
-                    "type_service": "Pedicure",
-                    "uuid": "b89262b2-c5a8-4cad-af34-913539af47af",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 5,
-                    "type_service": "Professor(a) de Inglês",
-                    "uuid": "7812ee17-17bd-4cf3-b7e4-ffd64ec84887",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
                     "id": 6,
                     "type_service": "Personal Trainer",
                     "uuid": "234bd710-f24a-403d-a155-909aa1ccea3d",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 7,
-                    "type_service": "Nutricionista",
-                    "uuid": "31abcb68-77cf-4c21-9aaa-5b6631b0032d",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 8,
-                    "type_service": "Psicólogo(a)",
-                    "uuid": "8b9dd560-561c-4431-8260-812333de3aff",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 9,
-                    "type_service": "Massoterapeuta",
-                    "uuid": "191cf4b9-f84d-4d11-8ff5-38982b3b0ea3",
-                    "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 10,
-                    "type_service": "Designer de Sobrancelhas",
-                    "uuid": "dc9bb22a-cbef-4b98-bfa4-a79257908af1",
                     "created_at": null,
                     "updated_at": null
                 },
@@ -29493,17 +30029,10 @@
                 },
                 {
                     "id": 12,
-                    "type_service": "Audiovisual",
+                    "type_service": "Audiovisual e Videomaker",
                     "uuid": "b28c06c6-01eb-489e-a956-a6254a3fc708",
                     "created_at": null,
-                    "updated_at": null
-                },
-                {
-                    "id": 13,
-                    "type_service": "Videomaker",
-                    "uuid": "3a47b341-3e12-49fe-afce-21c3486c8024",
-                    "created_at": null,
-                    "updated_at": null
+                    "updated_at": "2024-12-24 13:20:51"
                 },
                 {
                     "id": 14,
@@ -29513,25 +30042,11 @@
                     "updated_at": null
                 },
                 {
-                    "id": 15,
-                    "type_service": "Fisioterapeuta",
-                    "uuid": "9d7dd618-66d8-44ca-89bc-63387654b8cc",
-                    "created_at": "2024-11-14 23:31:23",
-                    "updated_at": "2024-11-14 23:31:23"
-                },
-                {
                     "id": 16,
                     "type_service": "Dentista",
                     "uuid": "9d7dd737-0128-403a-8c97-6a8ab432c815",
                     "created_at": "2024-11-14 23:34:31",
                     "updated_at": "2024-11-14 23:34:31"
-                },
-                {
-                    "id": 17,
-                    "type_service": "Cabelo e Estética",
-                    "uuid": "9d7ec0b8-cce4-40dd-beb3-1e111df47c71",
-                    "created_at": "2024-11-15 10:27:27",
-                    "updated_at": "2024-11-15 10:27:27"
                 },
                 {
                     "id": 18,
@@ -29541,13 +30056,6 @@
                     "updated_at": "2024-11-15 16:22:36"
                 },
                 {
-                    "id": 19,
-                    "type_service": "Outros",
-                    "uuid": "9d84cf7e-7638-47bd-9c46-e47c7dcec025",
-                    "created_at": "2024-11-18 10:43:44",
-                    "updated_at": "2024-11-18 10:43:44"
-                },
-                {
                     "id": 20,
                     "type_service": "Móveis",
                     "uuid": "9d89c220-e674-4371-b1d8-114679af337d",
@@ -29555,32 +30063,11 @@
                     "updated_at": "2024-11-20 21:45:30"
                 },
                 {
-                    "id": 21,
-                    "type_service": "Buffet",
-                    "uuid": "9d89c36d-5f0d-4a16-a1de-af43a88d035c",
-                    "created_at": "2024-11-20 21:49:08",
-                    "updated_at": "2024-11-20 21:49:08"
-                },
-                {
                     "id": 22,
                     "type_service": "Clínica de Vacinação",
                     "uuid": "9d89c467-51e1-4a9d-9a5b-866a9f8aee69",
                     "created_at": "2024-11-20 21:51:51",
                     "updated_at": "2024-11-20 21:51:51"
-                },
-                {
-                    "id": 23,
-                    "type_service": "Açougue",
-                    "uuid": "9d89c4c9-c5a0-411d-ac50-f720b3862452",
-                    "created_at": "2024-11-20 21:52:56",
-                    "updated_at": "2024-11-28 21:42:24"
-                },
-                {
-                    "id": 24,
-                    "type_service": "Tecnologia",
-                    "uuid": "9d89c9f5-773f-4161-9fbc-2ffae3111d72",
-                    "created_at": "2024-11-20 22:07:23",
-                    "updated_at": "2024-11-20 22:07:23"
                 },
                 {
                     "id": 25,
@@ -29591,59 +30078,17 @@
                 },
                 {
                     "id": 26,
-                    "type_service": "LOJA INFANTIL",
+                    "type_service": "Loja Infantil",
                     "uuid": "9d8d44ae-d52a-4541-959c-0683ba01a6cc",
                     "created_at": "2024-11-22 15:38:02",
-                    "updated_at": "2024-11-22 15:38:02"
-                },
-                {
-                    "id": 27,
-                    "type_service": "Decoração",
-                    "uuid": "9d8d44c5-e25b-49c0-b828-bfd15cec1e1f",
-                    "created_at": "2024-11-22 15:38:17",
-                    "updated_at": "2024-11-27 18:26:51"
-                },
-                {
-                    "id": 28,
-                    "type_service": "MÓVEIS PLANEJADOS",
-                    "uuid": "9d8d44e1-c9d0-4aa2-af4e-19e07bd2e212",
-                    "created_at": "2024-11-22 15:38:35",
-                    "updated_at": "2024-11-22 15:38:35"
-                },
-                {
-                    "id": 29,
-                    "type_service": "RECREAÇÃO",
-                    "uuid": "9d8d44f4-a17c-4b4e-b67b-ce305cbd8e35",
-                    "created_at": "2024-11-22 15:38:48",
-                    "updated_at": "2024-11-22 15:38:48"
+                    "updated_at": "2024-12-24 13:20:02"
                 },
                 {
                     "id": 30,
-                    "type_service": "CONSTRUÇÃO CIVIL",
+                    "type_service": "Construção Civil",
                     "uuid": "9d8d450b-4e85-47e9-8af6-4d074261c227",
                     "created_at": "2024-11-22 15:39:03",
-                    "updated_at": "2024-11-22 15:39:03"
-                },
-                {
-                    "id": 31,
-                    "type_service": "BARBEARIA",
-                    "uuid": "9d8d451a-04f3-419a-947d-df82d1b2af69",
-                    "created_at": "2024-11-22 15:39:12",
-                    "updated_at": "2024-11-22 15:39:12"
-                },
-                {
-                    "id": 32,
-                    "type_service": "Despachante de Veículos",
-                    "uuid": "9d99dc1f-5989-4ed5-be4d-8ab1e3c5474e",
-                    "created_at": "2024-11-28 21:51:25",
-                    "updated_at": "2024-11-28 21:51:25"
-                },
-                {
-                    "id": 33,
-                    "type_service": "Restaurante",
-                    "uuid": "9d99dc55-d646-4111-b388-2b58e18c66c8",
-                    "created_at": "2024-11-28 21:52:01",
-                    "updated_at": "2024-11-28 21:52:01"
+                    "updated_at": "2024-12-24 13:19:54"
                 },
                 {
                     "id": 34,
@@ -29654,17 +30099,31 @@
                 },
                 {
                     "id": 35,
-                    "type_service": "TREINAMENTOS \/ CURSOS",
+                    "type_service": "Treinamentos e Cursos",
                     "uuid": "9dab551f-35b8-4b52-9c5b-0a905913bf86",
                     "created_at": "2024-12-07 14:18:50",
-                    "updated_at": "2024-12-07 14:18:50"
+                    "updated_at": "2024-12-24 13:20:32"
                 },
                 {
-                    "id": 36,
-                    "type_service": "CLÍNICAS DE SAÚDE",
-                    "uuid": "9dab553b-d28b-44c3-952d-6bac790b1ce6",
-                    "created_at": "2024-12-07 14:19:09",
-                    "updated_at": "2024-12-07 14:19:09"
+                    "id": 37,
+                    "type_service": "Mágico",
+                    "uuid": "9dc30bbe-c3d7-447f-a2a8-aeca694aa1cd",
+                    "created_at": "2024-12-19 09:13:32",
+                    "updated_at": "2024-12-19 09:13:32"
+                },
+                {
+                    "id": 41,
+                    "type_service": "Loja Enxovais",
+                    "uuid": "9f2f6ba0-1f6c-44c2-ae4c-930d94475f1f",
+                    "created_at": "2025-06-18 12:22:59",
+                    "updated_at": "2025-06-18 12:22:59"
+                },
+                {
+                    "id": 42,
+                    "type_service": "Loja Enxovais",
+                    "uuid": "9f2f6ba0-5f63-43ee-a759-076e5de7218b",
+                    "created_at": "2025-06-18 12:22:59",
+                    "updated_at": "2025-06-18 12:22:59"
                 }
             ]
         },
@@ -29694,26 +30153,26 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-12 13:32:32",
-                    "access_ip": "186.210.112.116",
+                    "access_time": "2025-06-19 17:24:49",
+                    "access_ip": "191.55.12.128",
                     "remember_token": null,
                     "created_at": "2024-11-13 09:55:07",
-                    "updated_at": "2024-12-12 13:32:32",
+                    "updated_at": "2025-06-19 17:24:49",
                     "deleted_at": null
                 },
                 {
                     "id": 2,
                     "email": "lucascastro121295@gmail.com",
                     "password": "$2y$12$Tk.\/5DTdxc\/ecOsczlYbpeyp\/7785mZQzFoIgg9plvYVpOnRsZWz2",
-                    "role": "1",
+                    "role": "2",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": "cx4dMLqF6lhbRdUBmnpZkbIUcsKwQdZA",
-                    "access_time": "2024-12-09 09:06:45",
-                    "access_ip": "177.191.167.239",
+                    "access_time": "2025-07-09 17:18:03",
+                    "access_ip": "179.104.233.103",
                     "remember_token": null,
                     "created_at": "2024-11-13 09:55:08",
-                    "updated_at": "2024-12-09 09:07:01",
+                    "updated_at": "2025-07-09 17:18:03",
                     "deleted_at": null
                 },
                 {
@@ -29739,26 +30198,26 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": "xw7rvg7mQf3ATGRAPzDlW0ZtZoshbTOt",
-                    "access_time": "2024-12-12 12:00:22",
-                    "access_ip": "186.210.112.116",
+                    "access_time": "2025-06-19 20:46:08",
+                    "access_ip": "191.55.12.128",
                     "remember_token": null,
                     "created_at": "2024-11-13 11:48:42",
-                    "updated_at": "2024-12-12 12:00:22",
+                    "updated_at": "2025-06-19 20:46:08",
                     "deleted_at": null
                 },
                 {
                     "id": 6,
                     "email": "contato@levic.com.br",
                     "password": "$2y$12$zxieBDpYMTWZX\/fvLCZ4BuVOwTP69mbgCzr\/80veVaOSgUTK\/Vs7O",
-                    "role": "2",
+                    "role": "0",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-08 21:35:18",
-                    "access_ip": "189.41.36.229",
+                    "access_time": "2025-01-24 20:52:53",
+                    "access_ip": "152.255.103.144",
                     "remember_token": null,
                     "created_at": "2024-11-13 11:58:57",
-                    "updated_at": "2024-12-08 21:35:18",
+                    "updated_at": "2025-01-24 20:52:53",
                     "deleted_at": null
                 },
                 {
@@ -29769,11 +30228,11 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-12 07:57:46",
-                    "access_ip": "189.41.34.213",
+                    "access_time": "2025-04-11 20:23:10",
+                    "access_ip": "152.255.114.160",
                     "remember_token": null,
                     "created_at": "2024-11-15 15:51:26",
-                    "updated_at": "2024-12-12 07:57:46",
+                    "updated_at": "2025-04-11 20:23:10",
                     "deleted_at": null
                 },
                 {
@@ -29825,7 +30284,7 @@
                     "id": 11,
                     "email": "emmanueleoab@gmail.com",
                     "password": "$2y$12$sp9xbM.3muG3ao4sjW3MMuxKFvh4vD2moVHoqOCJOEYIVM3\/AmODS",
-                    "role": "2",
+                    "role": "0",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
@@ -29833,7 +30292,7 @@
                     "access_ip": "191.24.109.178",
                     "remember_token": null,
                     "created_at": "2024-11-20 19:31:58",
-                    "updated_at": "2024-12-07 14:58:24",
+                    "updated_at": "2024-12-21 17:11:29",
                     "deleted_at": null
                 },
                 {
@@ -29844,11 +30303,11 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-08 22:39:09",
-                    "access_ip": "189.41.36.229",
+                    "access_time": "2025-01-02 16:42:36",
+                    "access_ip": "179.104.29.33",
                     "remember_token": null,
                     "created_at": "2024-11-20 21:28:50",
-                    "updated_at": "2024-12-08 22:39:09",
+                    "updated_at": "2025-01-02 16:42:36",
                     "deleted_at": null
                 },
                 {
@@ -29885,7 +30344,7 @@
                     "id": 15,
                     "email": "ksbuffet@gmail.com",
                     "password": "$2y$12$0RQVAVjv6gnXAQ9VBHbf8OvT1XnE98RhQ9X.cwFQH1XW94NPAeky2",
-                    "role": "1",
+                    "role": "0",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
@@ -29893,14 +30352,14 @@
                     "access_ip": "177.191.19.63",
                     "remember_token": null,
                     "created_at": "2024-11-20 21:49:28",
-                    "updated_at": "2024-11-20 22:13:27",
+                    "updated_at": "2024-12-21 17:11:37",
                     "deleted_at": null
                 },
                 {
                     "id": 16,
                     "email": "sofisticasa.planejados@hotmail.com",
                     "password": "$2y$12$5tp8LiZTDFZtN.NMfCEv1euZXlFnWHoOwsrQmJ1aXyyiWQHIfN2J6",
-                    "role": "2",
+                    "role": "0",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
@@ -29908,7 +30367,7 @@
                     "access_ip": "191.55.218.197",
                     "remember_token": null,
                     "created_at": "2024-11-22 15:04:16",
-                    "updated_at": "2024-11-28 11:19:05",
+                    "updated_at": "2024-12-21 17:12:15",
                     "deleted_at": null
                 },
                 {
@@ -29930,7 +30389,7 @@
                     "id": 18,
                     "email": "lojadecorebaby@gmail.com",
                     "password": "$2y$12$Vhk1eY.CqONYx16bY5jaSe\/VkBmsafkJjzSpkbQTLm9XB84dIgoXy",
-                    "role": "2",
+                    "role": "0",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
@@ -29938,7 +30397,7 @@
                     "access_ip": "177.106.248.167",
                     "remember_token": null,
                     "created_at": "2024-11-22 15:13:07",
-                    "updated_at": "2024-11-22 15:40:21",
+                    "updated_at": "2024-12-21 17:11:58",
                     "deleted_at": null
                 },
                 {
@@ -29949,26 +30408,26 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-11 10:52:12",
-                    "access_ip": "186.210.250.174",
+                    "access_time": "2025-03-18 15:58:24",
+                    "access_ip": "189.41.80.206",
                     "remember_token": null,
                     "created_at": "2024-11-27 16:02:19",
-                    "updated_at": "2024-12-11 10:52:12",
+                    "updated_at": "2025-03-18 15:58:24",
                     "deleted_at": null
                 },
                 {
                     "id": 20,
                     "email": "analaura.bertholdi@hotmail.com",
                     "password": "$2y$12$AnHn.Z82jbGQTN7DW8vqk.FDz3b9V8Law.MiF5abAQnjcaOvIsC0y",
-                    "role": "1",
+                    "role": "2",
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-08 21:11:33",
-                    "access_ip": "189.41.36.229",
+                    "access_time": "2025-04-01 13:45:42",
+                    "access_ip": "186.210.121.234",
                     "remember_token": null,
                     "created_at": "2024-11-28 10:35:00",
-                    "updated_at": "2024-12-08 21:11:33",
+                    "updated_at": "2025-04-01 13:45:42",
                     "deleted_at": null
                 },
                 {
@@ -30009,11 +30468,11 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": null,
-                    "access_time": "2024-12-03 17:33:10",
-                    "access_ip": "191.24.109.146",
+                    "access_time": "2024-12-16 19:51:40",
+                    "access_ip": "179.83.193.197",
                     "remember_token": null,
                     "created_at": "2024-12-03 17:01:04",
-                    "updated_at": "2024-12-03 22:37:14",
+                    "updated_at": "2024-12-16 19:51:40",
                     "deleted_at": null
                 },
                 {
@@ -30024,11 +30483,11 @@
                     "actived": "1",
                     "email_verified_at": null,
                     "email_change_token": "xfVljyMBrvJg4O3CG52zrnujUj5qvLbh",
-                    "access_time": "2024-12-12 14:33:21",
-                    "access_ip": "179.126.118.232",
+                    "access_time": "2025-01-13 14:24:42",
+                    "access_ip": "191.55.87.175",
                     "remember_token": null,
                     "created_at": "2024-12-05 18:32:46",
-                    "updated_at": "2024-12-12 14:33:21",
+                    "updated_at": "2025-01-13 14:24:42",
                     "deleted_at": null
                 },
                 {
@@ -30059,6 +30518,111 @@
                     "remember_token": null,
                     "created_at": "2024-12-07 14:52:22",
                     "updated_at": "2024-12-07 14:55:25",
+                    "deleted_at": null
+                },
+                {
+                    "id": 27,
+                    "email": "derson_ued@hotmail.com",
+                    "password": "$2y$12$q\/rLTLB4GPwhDck.X8cvYOGczlK2ffc8.oGWi4TA0c.8wu.UtGZym",
+                    "role": "2",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": "2024-12-19 10:01:28",
+                    "access_ip": "189.41.95.85",
+                    "remember_token": null,
+                    "created_at": "2024-12-19 08:50:58",
+                    "updated_at": "2024-12-19 10:01:28",
+                    "deleted_at": null
+                },
+                {
+                    "id": 28,
+                    "email": "babimagela@hotmail.com",
+                    "password": "$2y$12$N3d4hUlnx3W3rMISYsC7AudAdcU.QBuGOBlk4lHa4uBSq16q9PnuW",
+                    "role": "2",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": "2024-12-23 13:45:32",
+                    "access_ip": "191.55.175.170",
+                    "remember_token": null,
+                    "created_at": "2024-12-21 17:10:21",
+                    "updated_at": "2024-12-23 13:45:32",
+                    "deleted_at": null
+                },
+                {
+                    "id": 29,
+                    "email": "machado.galvao@hotmail.com",
+                    "password": "$2y$12$mfJP32aShy6M.q8J7UuNU.\/jwvZDbj1prPZRqiYIJSEyr.XOKbqie",
+                    "role": "2",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": "2025-02-01 12:25:36",
+                    "access_ip": "191.55.224.135",
+                    "remember_token": null,
+                    "created_at": "2025-02-01 12:23:44",
+                    "updated_at": "2025-02-01 12:25:36",
+                    "deleted_at": null
+                },
+                {
+                    "id": 30,
+                    "email": "lealves.pv@gmail.com",
+                    "password": "$2y$12$01j1uXqzJZdtJxHXODDquOM00lKkWLlMJ3qG5GRzH5DVNn\/UHQZm.",
+                    "role": "0",
+                    "actived": "0",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": null,
+                    "access_ip": null,
+                    "remember_token": null,
+                    "created_at": "2025-02-01 14:29:40",
+                    "updated_at": "2025-02-27 14:26:35",
+                    "deleted_at": "2025-02-27 14:26:35"
+                },
+                {
+                    "id": 31,
+                    "email": "lucas@gmail.com",
+                    "password": "$2y$12$YZDMZvwaCoE2vSr7xkx2LOu1AuhpLP8VkNacP7g4MAteWE.qJbet6",
+                    "role": "1",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": "2025-03-05 21:31:03",
+                    "access_ip": "177.191.177.165",
+                    "remember_token": null,
+                    "created_at": "2025-03-04 23:16:06",
+                    "updated_at": "2025-03-05 21:31:03",
+                    "deleted_at": null
+                },
+                {
+                    "id": 32,
+                    "email": "azeuberaba2@gmail.co",
+                    "password": "$2y$12$61giJIqB3wn9asrtaU2cGOpDbTq7N83.xeNOOXy6GuFRyE6WqbNAi",
+                    "role": "1",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": null,
+                    "access_ip": null,
+                    "remember_token": null,
+                    "created_at": "2025-06-18 12:18:32",
+                    "updated_at": "2025-06-18 12:19:34",
+                    "deleted_at": "2025-06-18 12:19:34"
+                },
+                {
+                    "id": 33,
+                    "email": "mazeuberaba2@gmail.com",
+                    "password": "$2y$12$5ftzmxET.mRIK2TsRj0.JuE4QxlM6CJJl8ol.SZnI7FrZp\/HjeezG",
+                    "role": "1",
+                    "actived": "1",
+                    "email_verified_at": null,
+                    "email_change_token": null,
+                    "access_time": "2025-06-18 12:26:30",
+                    "access_ip": "191.55.160.1",
+                    "remember_token": null,
+                    "created_at": "2025-06-18 12:19:57",
+                    "updated_at": "2025-06-18 12:26:30",
                     "deleted_at": null
                 }
             ]

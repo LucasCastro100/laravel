@@ -2,9 +2,15 @@
     slideIndex: @entangle('currentSlide'),
     slides: {{ json_encode($slides) }},
     isFirst() { return this.slideIndex === 0; },
-    isLast() { return this.slideIndex === this.slides.length - 1; }
-}" class="relative w-full h-full bg-white flex items-center justify-center overflow-hidden"
-    style="background-image: url('{{ asset('storage/tbr/image/bg_pptx.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    isLast() { return this.slideIndex === this.slides.length - 1; },
+    next() { if (!this.isLast()) this.slideIndex++; },
+    prev() { if (!this.isFirst()) this.slideIndex--; }
+}" x-init="window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+});"
+    class="relative w-full h-full bg-white flex items-center justify-center overflow-hidden"
+    style="background-image: url('{{ asset('storage/tbr/image/apresentacao/img.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <template x-for="(slide, index) in slides" :key="index">
         <div x-show="slideIndex === index" x-transition
             class="absolute inset-0 flex flex-col items-center justify-center px-8 text-center bg-black bg-opacity-40 overflow-hidden">
@@ -34,17 +40,20 @@
         </div>
     </template>
 
-    <!-- Botão Voltar -->
-    <button x-show="!isFirst()" wire:click="prev"
-        class="absolute left-8 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-gray-900 bg-opacity-70 text-white rounded hover:bg-gray-700 transition"
-        aria-label="Anterior" x-transition.opacity>
-        <i class="fas fa-chevron-left fa-2xl"></i>
-    </button>
+     <!-- Controles -->
+    <div class="absolute bottom-4 left-0 right-0 flex justify-center items-center gap-6">
+        <!-- Botão Voltar -->
+        <button x-show="!isFirst()" @click="prev"
+            class="px-4 py-3 bg-gray-900 bg-opacity-70 text-white rounded hover:bg-gray-700 transition"
+            aria-label="Anterior" x-transition.opacity>
+            <i class="fas fa-chevron-left fa-2xl"></i>
+        </button>
 
-    <!-- Botão Avançar -->
-    <button x-show="!isLast()" wire:click="next"
-        class="absolute right-8 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-gray-900 bg-opacity-70 text-white rounded hover:bg-gray-700 transition"
-        aria-label="Próximo" x-transition.opacity>
-        <i class="fas fa-chevron-right fa-2xl"></i>
-    </button>
+        <!-- Botão Avançar -->
+        <button x-show="!isLast()" @click="next"
+            class="px-4 py-3 bg-gray-900 bg-opacity-70 text-white rounded hover:bg-gray-700 transition"
+            aria-label="Próximo" x-transition.opacity>
+            <i class="fas fa-chevron-right fa-2xl"></i>
+        </button>
+    </div>
 </div>
