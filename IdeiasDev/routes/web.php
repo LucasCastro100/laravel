@@ -8,6 +8,7 @@ use App\Livewire\Page\TbrDashboard;
 use App\Livewire\Page\TbrRanking;
 use App\Livewire\Page\TbrScore;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 Route::get('/', Home::class)->name('web.home');
 Route::get('/rc-music', RcMusic::class)->name('rc.home');
@@ -33,4 +34,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    // Route::get('/user/profile', [UserProfileController::class, 'show'])->name('dashboard.user.profile'); para alterar rotas
 });

@@ -26,9 +26,10 @@
     <x-banner />
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @if ($navigate)
-            @livewire('navigation-menu')
-        @endif
+        {{-- @if ($navigate) --}}
+            {{-- @livewire('navigation-menu') --}}
+            @include('navigation-menu')
+        {{-- @endif --}}
 
         <!-- Page Heading -->
         @if (isset($header))
