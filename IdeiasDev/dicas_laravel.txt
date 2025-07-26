@@ -1,4 +1,4 @@
----LIMPAR CAHCE---
+--- LIMPAR CAHCE ---
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
@@ -8,7 +8,7 @@ php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
 
----GERAR PPTX---
-composer require phpoffice/phppresentation
-
-
+--- BANNERS ---
+$this->banner('SUCESSO');
+$this->warningBanner('ALERTA');
+$this->dangerBanner('ERRO');
