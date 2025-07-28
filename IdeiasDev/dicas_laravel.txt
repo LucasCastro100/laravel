@@ -12,3 +12,6 @@ php artisan route:cache
 $this->banner('SUCESSO');
 $this->warningBanner('ALERTA');
 $this->dangerBanner('ERRO');
+
+// faltando cirar o dp compelto aparcer e as notas
+// depois tira do json e jogar pro banco de dados

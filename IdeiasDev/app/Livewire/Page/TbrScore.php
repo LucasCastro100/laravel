@@ -19,6 +19,7 @@ class TbrScore extends Component
     public $category_id;
     public $modality_id;
 
+    public $questionLevel;
     public $event;
     public $category;
     public $modality;
@@ -43,6 +44,7 @@ class TbrScore extends Component
         $this->modality_id = $modality_id;
 
         $this->loadEvent();
+        $this->setQuestionLevelFromCategoryId($category_id);
         $this->loadCategory();
         $this->loadModality();
         $this->filterTeams();
@@ -61,6 +63,14 @@ class TbrScore extends Component
         } else {
             Log::warning('Arquivo JSON do evento não encontrado.');
         }
+    }
+
+    private function setQuestionLevelFromCategoryId($category_id)
+    {
+        $category = collect(config('tbr-config.categories'))
+            ->firstWhere('id', $category_id);
+
+        $this->questionLevel = $category['question'] ?? 'basic';
     }
 
     private function loadCategory()
@@ -208,6 +218,7 @@ class TbrScore extends Component
             return;
         }
 
+
         $this->calculateScorePerQuestion();
 
         // Carregar o JSON atual do disco para manter dados anteriores intactos
@@ -248,8 +259,15 @@ class TbrScore extends Component
                         $team['modalities'][$modalitySlug]['comentario'] = $this->comment;
 
                         $sumTotal = array_sum(array_map('intval', $team['modalities'][$modalitySlug]['nota']));
-                        $totalCalculado = $this->scorePerQuestion * $sumTotal;
-                        $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');
+
+                        if ($this->questionLevel === 'basic') {
+                            // Soma direta dos valores para nível básico
+                            $team['modalities'][$modalitySlug]['total'] = number_format($sumTotal, 2, '.', '');
+                        } else {
+                            // Aplica multiplicador por questão para nível advanced
+                            $totalCalculado = $this->scorePerQuestion * $sumTotal;
+                            $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');
+                        }
 
                         // Recalcula a nota total da equipe somando todas as modalidades
                         $notaTotal = 0;
@@ -272,15 +290,15 @@ class TbrScore extends Component
         Storage::disk('public')->put('tbr/json/data.json', json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         $this->selectedTeamId = null;
-        $this->loadEvent();        
+        $this->loadEvent();
         $this->filterTeams();
 
-        $this->resetValidation();                  
+        $this->resetValidation();
         $this->banner('Pontuação salva com sucesso!');
         $this->selectedTeamId = null;
         $this->scores = [];
         $this->comment = '';
-        $this->loadQuestion();        
+        $this->loadQuestion();
     }
 
     public function render()

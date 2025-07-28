@@ -136,6 +136,11 @@
                                     PDF
                                 </a>
 
+                                <a href="{{ route('tbr.ranking.scoresPdf', ['event_id' => $event['id']]) }}"
+                                    class="block px-4 py-2 text-left text-gray-700 hover:bg-green-100 hover:text-green-700">
+                                    Notas por Equipe
+                                </a>
+
                                 <a wire:navigate href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
                                     class="block px-4 py-2 text-left text-gray-700 hover:bg-blue-100 hover:text-blue-700">
                                     HTML

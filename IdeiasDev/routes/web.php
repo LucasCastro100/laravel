@@ -23,6 +23,7 @@ Route::prefix('tbr')->name('tbr.')->group(function () {
     Route::controller(TbrExportController::class)->prefix('/ranking')->name('ranking.')->group(function () {
         Route::get('/{event_id}/pptx', 'pptx')->name('pptx');
         Route::get('/{event_id}/pdf', 'pdf')->name('pdf');
+        Route::get('/{event_id}/scores-pdf', 'scoresPdf')->name('scoresPdf');
     });
 });
 

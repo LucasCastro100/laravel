@@ -12,11 +12,12 @@ use PhpOffice\PhpPresentation\Shape\Drawing\File as DrawingFile;
 use Illuminate\Support\Facades\Log;
 
 use Dompdf\Dompdf;
+use ZipArchive;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class TbrExportController extends Controller
 {
-    // Função para logar o uso de memória
     // Função para logar o uso de memória e pico de memória
     function logMemoryUsage(string $label = '')
     {
@@ -32,7 +33,6 @@ class TbrExportController extends Controller
 
         Log::info($msg);
     }
-
 
     private function createBackground($slide, $imagePath, $width, $height)
     {
@@ -515,5 +515,270 @@ class TbrExportController extends Controller
         return response($dompdf->output())
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+    }
+
+    public function scoresPdf($eventId)
+    {
+        ini_set('memory_limit', '1024M');
+        set_time_limit(900);
+
+        $json = Storage::disk('public')->get('tbr/json/data.json');
+        $events = json_decode($json, true);
+
+        $event = collect($events)->firstWhere('id', $eventId);
+        if (!$event) {
+            return abort(404, 'Evento não encontrado');
+        }
+
+        $categories = config('tbr-config.categories');
+        $modalitiesByLevel = config('tbr-config.modalities_by_level');
+        $questionsByLevel = config('tbr-config.questions_by_level');
+
+        $eventNameSlug = Str::slug($event['nome'] ?? 'evento');
+        $tempDir = storage_path("app/public/tmp/{$eventNameSlug}");
+
+        if (File::exists($tempDir)) File::deleteDirectory($tempDir);
+        File::makeDirectory($tempDir, 0755, true);
+
+        $teamsByCategory = [];
+        foreach ($categories as $category) {
+            $catSlug = $category['slug'];
+            $teams = collect($event['equipes'])->filter(fn($t) => $t['category'] === $catSlug)
+                ->sortByDesc(fn($t) => floatval($t['nota_total'] ?? 0))->values();
+            $teamsByCategory[$catSlug] = $teams;
+        }
+
+        $backgroundPath = storage_path('app/public/tbr/image/apresentacao/img.jpg');
+        if (!file_exists($backgroundPath)) abort(500, 'Imagem de fundo não encontrada.');
+        $backgroundBase64 = 'data:image/jpg;base64,' . base64_encode(file_get_contents($backgroundPath));
+
+        foreach ($event['equipes'] as $team) {
+            $teamId = $team['id'] ?? null;
+            if (!$teamId) continue;
+
+            $categorySlug = $team['category'];
+            $category = collect($categories)->firstWhere('slug', $categorySlug);
+            if (!$category) continue;
+
+            $categoryLabel = $category['label'];
+            $modalitieLevel = $category['modalitie'];
+            $modalities = $modalitiesByLevel[$modalitieLevel] ?? [];
+            $questionsConfigLevel = $questionsByLevel[$modalitieLevel] ?? [];
+
+            $position = collect($teamsByCategory[$categorySlug])->search(fn($t) => $t['id'] === $teamId) + 1;
+
+            $html = <<<HTML
+            <!DOCTYPE html>
+            <html lang="pt-BR">
+            <head>
+            <meta charset="UTF-8">
+            <style>
+            @page { size: A4 portrait; margin: 0; }
+            html, body {
+            margin: 0;
+            padding: 0;
+            height: 297mm;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url("$backgroundBase64");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+        .page {
+            width: 100%;
+            height: 100%;
+            page-break-after: always;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+        .content-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;        
+        }
+        .content-normal {
+            width: 100%;
+            text-align: center;   
+        }
+            h1.title-event { font-size: 26pt; margin-bottom: 10pt; }
+            h2.team-name { font-size: 22pt; color: #00AAFF; margin-bottom: 6pt; }
+            p.position, p.total, p.category {
+                font-size: 14pt;
+                font-weight: bold;
+                color: #FFCC00;
+                margin: 0;
+            }
+            h2.modality-title {
+                font-size: 18pt;
+                padding: 10px;
+                text-align: center;
+                color: #fff;
+            }
+            .tables-wrapper {                
+                display: flex;
+                justify-content: space-between;
+                width: 100%;                
+                position: relative;                
+            }
+            .table-container_direita{
+                width: 60%;
+            }
+            .table-container_esquerda {
+                width: 30%;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 10pt;
+                color: white;                
+            }
+            .bloco_filho_direita {
+            position: absolute;
+            right: 10px;
+            top: 0px;
+        }
+
+        .bloco_filho_esquerda {
+            position: absolute;
+            left: 10px;
+            top: 0px;
+        }
+        .bloco_filho_direita table{
+            margin-bottom: 10px;
+        }
+            th, td {
+                border: 1px solid white;
+                padding: 4px;
+                text-align: center;
+            }
+            th {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+            td.desc {
+                text-align: left;
+            }
+            .comment {
+                font-size: 7pt;
+                font-style: italic;
+                color: #fff;                
+            }
+        </style>
+        </head>
+        <body>
+        HTML;
+
+            // Página de capa
+            $html .= '<div class="page">';
+            $html .= '<div class="content-center">';
+            $html .= '<h1 class="title-event">' . htmlspecialchars($event['nome']) . '</h1>';
+            $html .= '<h2 class="team-name">' . htmlspecialchars($team['name']) . '</h2>';
+            $html .= '<p class="position">Posição Geral: ' . $position . '</p>';
+            $html .= '<p class="total">Nota Total: ' . number_format($team['nota_total'], 2) . '</p>';
+            $html .= '<p class="category">Categoria: ' . htmlspecialchars($categoryLabel) . '</p>';
+            $html .= '</div></div>';
+
+            // Modalidades
+            foreach ($modalities as $mod) {
+                $modSlug = $mod['slug'];
+                $modLabel = $mod['label'];
+
+                $questionsConfigList = [];
+                foreach ($questionsConfigLevel as $qConf) {
+                    if ($qConf['modality'] === $modSlug) {
+                        $questionsConfigList = $qConf['assessment'] ?? [];
+                        break;
+                    }
+                }
+
+                $teamNotes = $team['modalities'][$modSlug]['nota'] ?? [];
+                $teamComment = $team['modalities'][$modSlug]['comentario'] ?? '';
+
+                $notasModalidade = [];
+                foreach ($teamsByCategory[$categorySlug] as $catTeam) {
+                    $nota = $catTeam['modalities'][$modSlug]['total'] ?? null;
+                    if ($nota !== null) $notasModalidade[] = floatval($nota);
+                }
+
+                $media = count($notasModalidade) ? array_sum($notasModalidade) / count($notasModalidade) : 0;
+                $maxima = count($notasModalidade) ? max($notasModalidade) : 0;
+                $notaEquipe = floatval($team['modalities'][$modSlug]['total'] ?? 0);
+
+                $html .= '<div class="page">';
+                $html .= '<div class="content-normal">';
+                $html .= '<h2 class="modality-title">' . htmlspecialchars($modLabel) . '</h2>';
+                $html .= '<div class="tables-wrapper">';
+
+                // Tabela 1 - Descrição + notas
+                $html .= '<div class="table-container_direita bloco_filho_esquerda"><table><thead><tr><th>Descrição</th><th>Nota</th></tr></thead><tbody>';
+                foreach ($questionsConfigList as $block) {
+                    foreach ($block['description'] ?? [] as $i => $desc) {
+                        $nota = isset($teamNotes[$i]) ? number_format(floatval($teamNotes[$i]), 2) : '-';
+                        $html .= '<tr><td class="desc">' . htmlspecialchars($desc) . '</td><td>' . $nota . '</td></tr>';
+                    }
+                }
+                $html .= '</tbody></table></div>';
+
+                // Tabela 2 - Equipe / Média / Máxima + comentário
+                $html .= '<div class="table-container_esquerda bloco_filho_direita">';
+
+                // Tabela: Nota da equipe
+                $html .= '<table><thead><tr><th>Nota da Equipe</th></tr></thead><tbody>';
+                $html .= '<tr><td>' . number_format($notaEquipe, 2) . '</td></tr>';
+                $html .= '</tbody></table>';
+
+                // Tabela: Média da categoria
+                $html .= '<table><thead><tr><th>Média da Categoria</th></tr></thead><tbody>';
+                $html .= '<tr><td>' . number_format($media, 2) . '</td></tr>';
+                $html .= '</tbody></table>';
+
+                // Tabela: Nota Máxima
+                $html .= '<table><thead><tr><th>Nota Máxima</th></tr></thead><tbody>';
+                $html .= '<tr><td>' . number_format($maxima, 2) . '</td></tr>';
+                $html .= '</tbody></table>';
+
+                // Comentário (se existir)
+                if ($teamComment) {
+                    $html .= '<table><thead><tr><th>Comentário</th></tr></thead><tbody>';
+                    $html .= '<tr><td>' . nl2br(htmlspecialchars($teamComment)) . '</td></tr>';
+                    $html .= '</tbody></table>';
+                } else {
+                    $html .= '<table><thead><tr><th>Comentário</th></tr></thead><tbody>';
+                    $html .= '<tr><td></td></tr>';
+                    $html .= '</tbody></table>';
+                }
+
+                $html .= '</div></div>'; // fecha container 2
+                $html .= '</div></div>'; // fecha wrapper + page
+            }
+
+            $html .= '</body></html>';
+
+            $dompdf = new \Dompdf\Dompdf(['enable_remote' => true]);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            $fileName = Str::slug($team['name'], '_') . '.pdf';
+            file_put_contents("{$tempDir}/{$fileName}", $dompdf->output());
+        }
+
+        $zipPath = storage_path("app/public/tmp/{$eventNameSlug}.zip");
+        if (File::exists($zipPath)) File::delete($zipPath);
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
+            foreach (File::files($tempDir) as $file) {
+                $zip->addFile($file->getRealPath(), $file->getFilename());
+            }
+            $zip->close();
+        }
+
+        File::deleteDirectory($tempDir);
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 }
