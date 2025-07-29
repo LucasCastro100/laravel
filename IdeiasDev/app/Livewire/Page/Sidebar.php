@@ -23,7 +23,7 @@ class Sidebar extends Component
     // Config ranking para o evento novo
     public $rankingConfig = [
         'modalities_to_show' => [],       // array das modalidades selecionadas
-        'top_positions' => 3,              // posições mostradas por modalidade (0 a 3)
+        'top_positions' => 0,              // posições mostradas por modalidade (0 a 3)
         'general_top_positions' => 3,      // posições mostradas no ranking geral (0 a 5)
     ];
 
@@ -64,7 +64,7 @@ class Sidebar extends Component
         $this->eventDate = '';
         $this->rankingConfig = [
             'modalities_to_show' => [],
-            'top_positions' => 3,
+            'top_positions' => 0,
             'general_top_positions' => 3,
         ];
         $this->resetErrorBag('eventName');
@@ -235,9 +235,9 @@ class Sidebar extends Component
                     if ($slug === 'dp') {
                         $modalities[$slug] = [
                             'nota' => [
-                                'r1' => [],
-                                'r2' => [],
-                                'r3' => [],
+                                'r1' => 0,
+                                'r2' => 0,
+                                'r3' => 0,
                             ],
                             'total' => 0,
                             'comentario' => '',
