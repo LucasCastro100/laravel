@@ -11,10 +11,13 @@ use PhpOffice\PhpPresentation\Style\Fill;
 use PhpOffice\PhpPresentation\Shape\Drawing\File as DrawingFile;
 use Illuminate\Support\Facades\Log;
 
-use Dompdf\Dompdf;
 use ZipArchive;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use Dompdf\Dompdf;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+
 
 class TbrExportController extends Controller
 {
@@ -763,17 +766,33 @@ class TbrExportController extends Controller
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
 
+            // 🔹 Cria subpasta da categoria dentro do evento
+            $categorySlug = $team['category'] ?? 'sem_categoria';
+            $categoryDir = "{$tempDir}/{$categorySlug}";
+            if (!File::exists($categoryDir)) {
+                File::makeDirectory($categoryDir, 0755, true);
+            }
+
             $fileName = Str::slug($team['name'], '_') . '.pdf';
-            file_put_contents("{$tempDir}/{$fileName}", $dompdf->output());
+            file_put_contents("{$categoryDir}/{$fileName}", $dompdf->output());
         }
 
+        // ZIP final
         $zipPath = storage_path("app/public/tmp/{$eventNameSlug}.zip");
         if (File::exists($zipPath)) File::delete($zipPath);
 
         $zip = new \ZipArchive();
         if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
-            foreach (File::files($tempDir) as $file) {
-                $zip->addFile($file->getRealPath(), $file->getFilename());
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($tempDir),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            );
+            foreach ($files as $file) {
+                if (!$file->isDir()) {
+                    $filePath = $file->getRealPath();
+                    $relativePath = substr($filePath, strlen($tempDir) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
             }
             $zip->close();
         }

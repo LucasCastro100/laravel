@@ -57,10 +57,17 @@ class TbrDashboard extends Component
         }
     }
 
-    public function saveEventsToStorage()
+    private function saveEventsToStorage($events = null)
     {
         $jsonPath = 'tbr/json/data.json';
-        Storage::disk('public')->put($jsonPath, json_encode($this->events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        // Se não passar $events, usa todos os da memória
+        $eventsToSave = $events ?? $this->events;
+
+        Storage::disk('public')->put(
+            $jsonPath,
+            json_encode($eventsToSave, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        );
     }
 
     public function openScoreModal(string $eventId)
@@ -119,33 +126,46 @@ class TbrDashboard extends Component
             'editEventDate' => 'required|date',
             'editRankingConfig.top_positions' => 'nullable|integer|min:0|max:3',
             'editRankingConfig.general_top_positions' => 'nullable|integer|min:0|max:5',
-            'editRankingConfig.modalities_to_show' => 'nullable|array',            
+            'editRankingConfig.modalities_to_show' => 'nullable|array',
             'editRankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
         ]);
-    
+
         foreach ($this->events as &$event) {
             if ($event['id'] === $this->selectedEventId) {
+
+                // Atualiza apenas os campos editáveis
                 $event['nome'] = $this->editEventName;
                 $event['data'] = $this->editEventDate;
-    
-                $event['ranking_config'] = [
-                    'modalities_to_show' => is_array($this->editRankingConfig['modalities_to_show']) 
-                        ? $this->editRankingConfig['modalities_to_show'] 
-                        : [],
-                    'top_positions' => max(0, (int)($this->editRankingConfig['top_positions'] ?? 0)),
-                    'general_top_positions' => max(0, (int)($this->editRankingConfig['general_top_positions'] ?? 0)),
-                ];
-    
+
+                // Garante que já existe um ranking_config
+                if (!isset($event['ranking_config'])) {
+                    $event['ranking_config'] = [];
+                }
+
+                // Atualiza os campos dentro de ranking_config sem sobrescrever os outros
+                $event['ranking_config']['modalities_to_show'] =
+                    is_array($this->editRankingConfig['modalities_to_show'])
+                    ? $this->editRankingConfig['modalities_to_show']
+                    : ($event['ranking_config']['modalities_to_show'] ?? []);
+
+                $event['ranking_config']['top_positions'] =
+                    max(0, (int)($this->editRankingConfig['top_positions'] ?? ($event['ranking_config']['top_positions'] ?? 0)));
+
+                $event['ranking_config']['general_top_positions'] =
+                    max(0, (int)($this->editRankingConfig['general_top_positions'] ?? ($event['ranking_config']['general_top_positions'] ?? 0)));
+
                 break;
             }
         }
-    
-        $this->saveEventsToStorage();
+
+        // 🔹 Salva todos os eventos já atualizados
+        $this->saveEventsToStorage($this->events);
+
         $this->banner('Evento atualizado com sucesso!');
         $this->closeEditModal();
         $this->loadEvents();
     }
-    
+
 
     public function openDeleteModal(string $eventId)
     {

@@ -111,44 +111,7 @@
 
                         </div>
                     </div>
-                @endforeach
-
-                @if (!empty($event) && isset($event['id']))
-                    <div class="flex justify-end mt-6">
-                        <div x-data="{ open: false }" class="relative">
-                            <button @click="open = !open"
-                                class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 font-semibold flex items-center gap-2">
-                                Exportar (Vencedores)
-                                <i :class="{ 'rotate-180': open }"
-                                    class="fas fa-chevron-down transition-transform duration-200"></i>
-                            </button>
-
-                            <div x-show="open" @click.outside="open = false"
-                                class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg z-50"
-                                x-transition>
-                                <a href="{{ route('tbr.ranking.pptx', ['event_id' => $event['id']]) }}"
-                                    class="block px-4 py-2 text-left text-gray-700 hover:bg-orange-100 hover:text-orange-700">
-                                    PowerPoint
-                                </a>
-
-                                <a href="{{ route('tbr.ranking.pdf', ['event_id' => $event['id']]) }}"
-                                    class="block px-4 py-2 text-left text-gray-700 hover:bg-red-100 hover:text-red-700">
-                                    PDF
-                                </a>
-
-                                <a href="{{ route('tbr.ranking.scoresPdf', ['event_id' => $event['id']]) }}"
-                                    class="block px-4 py-2 text-left text-gray-700 hover:bg-green-100 hover:text-green-700">
-                                    Notas por Equipe
-                                </a>
-
-                                <a wire:navigate href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
-                                    class="block px-4 py-2 text-left text-gray-700 hover:bg-blue-100 hover:text-blue-700">
-                                    HTML
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                @endforeach               
             </div>
         @endif
     @else

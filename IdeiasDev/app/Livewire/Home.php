@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class Home extends Component
 {
     use InteractsWithBanner, WithFileUploads;
-
-    public bool $navigate = true;
+    
     public $title = 'Ideias Dev';
 
     public $name = '';
@@ -89,8 +88,8 @@ class Home extends Component
     public function render()
     {
         return view('livewire.home')
-            ->layout('layouts.app', [
-                'navigate' => $this->navigate,
+            ->layout('layouts.app-navigate', [
+                'nav' => 'false',
                 'title' => $this->title,
             ]);
     }

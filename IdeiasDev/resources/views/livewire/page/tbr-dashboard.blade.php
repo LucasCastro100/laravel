@@ -33,7 +33,7 @@
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
                                         Notas
                                     </button>
-                                </li>                                
+                                </li>
                                 <li>
                                     <button wire:click="openEditModal('{{ $event['id'] }}')"
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
@@ -46,6 +46,49 @@
                                         Apagar
                                     </button>
                                 </li>
+                            
+                                {{-- Novo item Exportar --}}
+                                @if (!empty($event) && isset($event['id']))
+                                    <li class="relative">
+                                        <div x-data="{ open: false }">
+                                            <button @click="open = !open"
+                                                class="block w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center justify-between">
+                                                Exportar (Vencedores)
+                                                <i :class="{ 'rotate-180': open }"
+                                                    class="fas fa-chevron-down transition-transform duration-200 ml-2"></i>
+                                            </button>
+                            
+                                            <ul x-show="open" @click.outside="open = false"
+                                                class="absolute left-0 mt-1 w-56 bg-white border border-gray-200 rounded shadow-lg z-50"
+                                                x-transition>
+                                                <li>
+                                                    <a href="{{ route('tbr.ranking.pptx', ['event_id' => $event['id']]) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100">
+                                                        PowerPoint
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('tbr.ranking.pdf', ['event_id' => $event['id']]) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100">
+                                                        PDF
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a wire:navigate href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100">
+                                                        HTML
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('tbr.ranking.scoresPdf', ['event_id' => $event['id']]) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100">
+                                                        Notas por Equipe
+                                                    </a>
+                                                </li>                                                
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
