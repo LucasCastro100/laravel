@@ -3,5 +3,27 @@
 @tailwind utilities;
 
 [x-cloak] {
-    display: none;
+  display: none;
+}
+
+/* Declaração das fontes */
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('../fonts/rcStudio/ethocentrics/ethnocentricRg.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('../fonts/rcStudio/ethocentrics/ethnocentricRgIt.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Bebas Kai';
+  src: url('../fonts/rcStudio/bebas/bebasKai.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }

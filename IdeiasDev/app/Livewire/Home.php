@@ -11,13 +11,17 @@ class Home extends Component
 {
     use InteractsWithBanner, WithFileUploads;
     
-    public $title = 'Ideias Dev';
+    public $titlePage;
+    public $title;
+    public $description;
+    public $image;
+    public $url;
 
     public $name = '';
     public $email = '';
     public $phone = '';
     public $domain = '';
-    public $url = '';
+    public $urlDomain = '';
     public $desc = '';
     public $file;
 
@@ -28,7 +32,7 @@ class Home extends Component
             'email' => ['required', 'email'],
             'phone' => ['required', 'min:9'],
             'domain' => ['required'],
-            'url' => ['nullable', 'url'],
+            'urlDomain' => ['nullable', 'url'],
             'desc' => ['required', 'min:10'],
             'file' => ['nullable', 'file', 'max:2048', 'mimes:pdf,doc,docx,png,jpg,jpeg'],
         ];
@@ -43,12 +47,21 @@ class Home extends Component
             'phone.required' => 'O telefone é obrigatório.',
             'phone.min' => 'O telefone deve ter no mínimo 9 caracteres.',
             'domain.required' => 'O domínio é obrigatório.',
-            'url.url' => 'Informe uma URL válida.',
+            'urlDomain.url' => 'Informe uma URL válida.',
             'desc.required' => 'A descrição é obrigatória.',
             'desc.min' => 'A descrição deve ter no mínimo 10 caracteres.',
             'file.mimes' => 'Formato de arquivo inválido.',
             'file.max' => 'O arquivo não pode passar de 2MB.',
         ];
+    }
+
+    public function mount()
+    {
+        $this->titlePage = "Ideias Dev";
+        $this->title = "";
+        $this->description = "";
+        $this->image = "";
+        $this->url = "";
     }
 
     public function submit_form()
@@ -60,7 +73,7 @@ class Home extends Component
             'email' => $this->email,
             'phone' => $this->phone,
             'domain' => $this->domain,
-            'url' => $this->url,
+            'urlDomain' => $this->urlDomain,
             'desc' => $this->desc,
         ];
 
@@ -90,7 +103,11 @@ class Home extends Component
         return view('livewire.home')
             ->layout('layouts.app-navigate', [
                 'nav' => 'false',
+                'titlePage' => $this->titlePage,
                 'title' => $this->title,
+                'description' => $this->description,
+                'image' => $this->image,
+                'url' => $this->url
             ]);
     }
 }

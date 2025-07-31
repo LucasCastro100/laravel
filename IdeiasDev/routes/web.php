@@ -2,16 +2,15 @@
 
 use App\Http\Controllers\TbrExportController;
 use App\Livewire\Home;
-use App\Livewire\RcMusic;
+use App\Livewire\RcStudio;
 use App\Livewire\Page\SlideShow;
 use App\Livewire\Page\TbrDashboard;
 use App\Livewire\Page\TbrRanking;
 use App\Livewire\Page\TbrScore;
 use Illuminate\Support\Facades\Route;
-use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 Route::get('/', Home::class)->name('web.home');
-Route::get('/rc-music', RcMusic::class)->name('rc.home');
+Route::get('/rc-studio', RcStudio::class)->name('rc.home');
 
 Route::prefix('tbr')->name('tbr.')->group(function () {
     Route::get('/score/{event_id}/{category_id}/{modality_id}', TbrScore::class)->name('score');

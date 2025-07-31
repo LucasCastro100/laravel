@@ -4,6 +4,14 @@
         <section aria-labelledby="video" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
             <header class="text-center">
                 <h1 id="video" class="text-3xl font-bold">Lorem ipsum</h1>
+                
+                <div class="font-ethnocentric text-4xl">
+                    Esta é a fonte Ethnocentric!
+                </div>
+
+                <div class="font-bebas text-5xl">
+                    Esta é a fonte Bebas Kai!
+                </div>
             </header>
 
             <div class="relative w-full" style="padding-top: 56.25%;">
@@ -272,7 +280,7 @@
 
                 <!-- Oferta Premium -->
                 <div
-                    class="bg-gray-900 bg-gradient-to-br from-orange-600 via-red-600 to-yellow-400 p-1 rounded-lg shadow-xl">
+                    class="bg-gray-900 bg-gradient-to-br from-orange-600 via-red-600 to-yellow-400 p-1 rounded-lg shadow-xl md:col-span-2 lg:col-span-1 md:mx-auto lg:m-0">
                     <div class="bg-gray-900 p-6 rounded-lg text-center flex flex-col h-full">
                         <span class="bg-green-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-2">MAIS
                             VENDIDO</span>
@@ -298,7 +306,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -421,7 +428,7 @@
                 Entrar em contato via WhatsApp
             </a>
 
-            <div class=mt-4" role="contentinfo">
+            <div class="mt-4" role="contentinfo">
                 <p>Lorem ipsum</p>
                 <p class="text-sm">© 2025 - Todos os direitos reservados</p>
             </div>

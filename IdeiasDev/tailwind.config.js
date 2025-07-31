@@ -15,6 +15,8 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                ethnocentric: ['Ethnocentric', 'sans-serif'],
+                bebas: ['"Bebas Kai"', 'sans-serif'],
             },
             screens: {
                 'xs': '480px', 

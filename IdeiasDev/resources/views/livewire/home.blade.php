@@ -113,9 +113,9 @@
 
                             {{-- URL --}}
                             <div class="col-span-1 md:col-span-2">
-                                <x-label for="url" value="URL" />
-                                <x-input id="url" type="text" wire:model.live="url" class="w-full" />
-                                <x-input-error for="url" class="mt-1" />
+                                <x-label for="urlDomain" value="URL" />
+                                <x-input id="urlDomain" type="text" wire:model.live="urlDomain" class="w-full" />
+                                <x-input-error for="urlDomain" class="mt-1" />
                             </div>
 
                             {{-- Descrição --}}
