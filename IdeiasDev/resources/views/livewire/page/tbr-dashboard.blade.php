@@ -9,7 +9,7 @@
             <span class="block font-bold">Nenhum evento cadastrado.</span>
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
             @foreach ($events as $event)
                 <div class="border rounded-lg p-4 shadow hover:shadow-lg transition relative">
                     {{-- Ícone engrenagem no topo direito --}}
