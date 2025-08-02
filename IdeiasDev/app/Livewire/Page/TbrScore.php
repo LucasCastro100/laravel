@@ -23,6 +23,7 @@ class TbrScore extends Component
     public $event;
     public $category;
     public $modality;
+    public $modalitieSlug;
 
     public $question = null;
 
@@ -59,9 +60,9 @@ class TbrScore extends Component
         if (Storage::disk('public')->exists($jsonPath)) {
             $events = json_decode(Storage::disk('public')->get($jsonPath), true) ?? [];
             $this->event = collect($events)->firstWhere('id', $this->event_id);
-            Log::debug('loadEvent', ['event' => $this->event]);
+            // Log::debug('loadEvent', ['event' => $this->event]);
         } else {
-            Log::warning('Arquivo JSON do evento não encontrado.');
+            // Log::warning('Arquivo JSON do evento não encontrado.');
         }
     }
 
@@ -95,37 +96,39 @@ class TbrScore extends Component
             $this->hasAssessment = false;
             return;
         }
+        $this->modalitieSlug = $this->modality['slug'];
 
-        $questionModalitie = $this->category['question'] ?? 'basic';
-        $questions = config("tbr-config.questions_by_level.$questionModalitie", []);
+        if ($this->modalitieSlug == 'dp') {
+            $questionModalitie = $this->category['dp'] ?? null;
+            $questions = config("tbr-config.dp_by_level.$questionModalitie", []);
+            $this->scores = [];
 
-        // Buscar pelo ID da modalidade
-        $this->question = collect($questions)->firstWhere('id', $this->modality_id);
+            $this->question = $questions;
+            $this->hasAssessment = collect($questions)->isNotEmpty();
+        } else {
+            $questionModalitie = $this->category['question'] ?? 'basic';
+            $questions = config("tbr-config.questions_by_level.$questionModalitie", []);
 
-        if (!$this->question) {
-            Log::warning("Pergunta não encontrada para modalidade_id={$this->modality_id} na configuração de {$questionModalitie}");
-            $this->hasAssessment = false;
-            return;
-        }
+            // Buscar pelo ID da modalidade
+            $this->question = collect($questions)->firstWhere('id', $this->modality_id);
 
-        $this->hasAssessment = collect($this->question['assessment'] ?? [])
-            ->filter(fn($item) => !empty($item['description']))
-            ->isNotEmpty();
+            $this->hasAssessment = collect($this->question['assessment'] ?? [])
+                ->filter(fn($item) => !empty($item['description']))
+                ->isNotEmpty();
 
-        $this->scores = [];
+            $this->scores = [];
 
-        if ($this->hasAssessment) {
-            foreach ($this->question['assessment'] as $block) {
-                $blockObject = $block['object'] ?? null;
-                if ($blockObject && !empty($block['description'])) {
-                    foreach ($block['description'] as $index => $desc) {
-                        $this->scores[$blockObject][$index] = "5";
+            if ($this->hasAssessment) {
+                foreach ($this->question['assessment'] as $block) {
+                    $blockObject = $block['object'] ?? null;
+                    if ($blockObject && !empty($block['description'])) {
+                        foreach ($block['description'] as $index => $desc) {
+                            $this->scores[$blockObject][$index] = "5";
+                        }
                     }
                 }
             }
         }
-
-        // dd($this->hasAssessment, $this->question);
     }
 
     private function calculateScorePerQuestion()
@@ -167,23 +170,23 @@ class TbrScore extends Component
 
                 $nota = $modalities[$modalitySlug]['nota'] ?? [];
 
-                // Se for nível 'basic', mostra sempre que a modalidade existir
                 if ($modalitieLevel === 'basic') {
                     return true;
                 }
 
-                // Se for modalidade 'dp' (com blocos r1, r2, r3), verifica se todos estão vazios
                 if ($modalitySlug === 'dp') {
                     if (!is_array($nota)) return false;
-                    foreach ($nota as $bloco) {
-                        if (!empty($bloco)) {
-                            return false; // Já foi avaliado em algum bloco
+                
+                    $allFilled = collect($nota)->every(function ($valor) {
+                        if (is_array($valor)) {
+                            return !empty($valor); // array não pode ser vazio
                         }
-                    }
-                    return true;
+                        return $valor !== "" && !is_null($valor);
+                    });
+                
+                    return !$allFilled; // aparece enquanto tiver vazio
                 }
 
-                // Para modalidades normais: mc, om, te, ap
                 return empty($nota);
             })
             ->values()
@@ -310,6 +313,7 @@ class TbrScore extends Component
             'modality' => $this->modality,
             'question' => $this->question,
             'hasAssessment' => $this->hasAssessment,
+            'modalitieSlug' => $this->modalitieSlug
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => $this->showSidebar,
             'title' => $this->title

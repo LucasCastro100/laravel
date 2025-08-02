@@ -235,9 +235,9 @@ class Sidebar extends Component
                     if ($slug === 'dp') {
                         $modalities[$slug] = [
                             'nota' => [
-                                'r1' => 0,
-                                'r2' => 0,
-                                'r3' => 0,
+                                'r1' => [],
+                                'r2' => [],
+                                'r3' => [],
                             ],
                             'total' => 0,
                             'comentario' => '',

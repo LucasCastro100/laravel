@@ -536,6 +536,7 @@ class TbrExportController extends Controller
         $categories = config('tbr-config.categories');
         $modalitiesByLevel = config('tbr-config.modalities_by_level');
         $questionsByLevel = config('tbr-config.questions_by_level');
+        $dpByLevel = config('tbr-config.dp_by_level');
 
         $eventNameSlug = Str::slug($event['nome'] ?? 'evento');
         $tempDir = storage_path("app/public/tmp/{$eventNameSlug}");
@@ -567,6 +568,7 @@ class TbrExportController extends Controller
             $modalitieLevel = $category['modalitie'];
             $modalities = $modalitiesByLevel[$modalitieLevel] ?? [];
             $questionsConfigLevel = $questionsByLevel[$modalitieLevel] ?? [];
+            $dpConfigLevel = $dpByLevel[$category['dp']] ?? [];
 
             $position = collect($teamsByCategory[$categorySlug])->search(fn($t) => $t['id'] === $teamId) + 1;
 
@@ -718,12 +720,39 @@ class TbrExportController extends Controller
 
                 // Tabela 1 - Descrição + notas
                 $html .= '<div class="table-container_direita bloco_filho_esquerda"><table><thead><tr><th>Descrição</th><th>Nota</th></tr></thead><tbody>';
-                foreach ($questionsConfigList as $block) {
-                    foreach ($block['description'] ?? [] as $i => $desc) {
-                        $nota = isset($teamNotes[$i]) ? number_format(floatval($teamNotes[$i]), 2) : '-';
-                        $html .= '<tr><td class="desc">' . htmlspecialchars($desc) . '</td><td>' . $nota . '</td></tr>';
+                if ($modSlug == 'dp') {
+                    // Pega as notas dos rounds do time para dp
+                    $dpNotasRounds = $team['modalities']['dp']['nota'] ?? [];
+
+                    // Soma os valores de cada round (r1, r2, r3)
+                    $somasRounds = [];
+                    foreach (['r1', 'r2', 'r3'] as $roundKey) {
+                        $valores = $dpNotasRounds[$roundKey] ?? [];
+                        $somasRounds[$roundKey] = array_sum(array_map('floatval', $valores));
+                    }
+
+                    // Identifica qual round tem maior soma
+                    $roundMaior = array_keys($somasRounds, max($somasRounds))[0] ?? null;
+
+                    // Pega as notas do round maior
+                    $notasRoundMaior = $roundMaior ? ($dpNotasRounds[$roundMaior] ?? []) : [];
+
+                    // Agora monta a tabela usando as descrições do dpConfigLevel['itens']
+                    foreach ($dpConfigLevel as $index => $item) {                        
+                        $nota = isset($notasRoundMaior[$index]) ? number_format(floatval($notasRoundMaior[$index]), 2) : '-';
+                        // dd($item, $nota);
+                        $html .= '<tr><td class="desc">' . htmlspecialchars($item['description']) . '</td><td>' . $nota . '</td></tr>';
+                    }
+                } else {
+                    // Caso diferente de dp, processa normal
+                    foreach ($questionsConfigList as $block) {
+                        foreach ($block['description'] ?? [] as $i => $desc) {
+                            $nota = isset($teamNotes[$i]) ? number_format(floatval($teamNotes[$i]), 2) : '-';
+                            $html .= '<tr><td class="desc">' . htmlspecialchars($desc) . '</td><td>' . $nota . '</td></tr>';
+                        }
                     }
                 }
+
                 $html .= '</tbody></table></div>';
 
                 // Tabela 2 - Equipe / Média / Máxima + comentário
