@@ -36,13 +36,23 @@ class TbrScore extends Component
 
     public $scores = [];
     public $comment = "";
+    public $bonus = "nao";
     public $showSidebar = true;
+
+    // aqui apra multiplicar notas das missoes no dp  
+    public $blocks = [];  
+    public $scoresDP = [];
+    public $missions = [];
+    public $dp_pontos = 0;
+
+    // MODAL PARA RECARREGAR A APGINA
+    public $showSuccessModal = false;
 
     public function mount($event_id, $category_id, $modality_id)
     {
         $this->event_id = $event_id;
         $this->category_id = $category_id;
-        $this->modality_id = $modality_id;
+        $this->modality_id = $modality_id;        
 
         $this->loadEvent();
         $this->setQuestionLevelFromCategoryId($category_id);
@@ -52,6 +62,15 @@ class TbrScore extends Component
         $this->loadQuestion();
         $this->calculateScorePerQuestion();
         $this->showSidebar = false;
+
+        // Exemplo, adapte conforme sua estrutura de $blocks/missions
+        foreach ($this->blocks as $blockMission => $block) {
+            foreach ($block['itens'] as $index => $item) {
+                if (!isset($this->scores[$blockMission][$index])) {
+                    $this->scores[$blockMission][$index] = '0';
+                }
+            }
+        }
     }
 
     private function loadEvent()
@@ -176,15 +195,18 @@ class TbrScore extends Component
 
                 if ($modalitySlug === 'dp') {
                     if (!is_array($nota)) return false;
-                
-                    $allFilled = collect($nota)->every(function ($valor) {
-                        if (is_array($valor)) {
-                            return !empty($valor); // array não pode ser vazio
+
+                    $requiredRounds = ['r1', 'r2', 'r3'];
+
+                    // Verifica se todos os rounds estão presentes e preenchidos
+                    $allFilled = collect($requiredRounds)->every(function ($round) use ($nota) {
+                        if (!isset($nota[$round]) || !is_array($nota[$round])) {
+                            return false; // round não existe ou não é array → considerar vazio
                         }
-                        return $valor !== "" && !is_null($valor);
+                        return !empty($nota[$round]); // round deve estar preenchido (não vazio)
                     });
-                
-                    return !$allFilled; // aparece enquanto tiver vazio
+
+                    return !$allFilled;
                 }
 
                 return empty($nota);
@@ -193,10 +215,170 @@ class TbrScore extends Component
             ->all();
     }
 
-
     public function getSelectedTeamProperty()
     {
         return collect($this->filteredTeams)->firstWhere('id', $this->selectedTeamId);
+    }
+
+    private function getModalitiesConfig($slug)
+    {
+        if ($slug === 'dp') {
+            $modalitieLevel = $this->category['dp'];
+            return config("tbr-config.dp_by_level.$modalitieLevel") ?? [];
+        } else {
+            $modalitieLevel = $this->category['modalitie'] ?? 'basic';
+            return config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
+        }
+    }
+
+    public function updateScoreDPManual($value, $name)
+    {
+        $this->updatedScoresDP($value, $name);
+    }
+
+    public function updatedScoresDP($value, $name)
+    {
+        $modalitieLevel = $this->category['dp'] ?? null;
+        $dp_level = config("tbr-config.dp_by_level.$modalitieLevel") ?? [];
+
+        $parts = explode('.', $name);
+        if (count($parts) !== 2) {
+            return;
+        }
+
+        [$missionIndex, $itemIndex] = array_map('intval', $parts);
+
+        $mission = $dp_level[$missionIndex] ?? null;
+        if (!$mission) {
+            return;
+        }
+
+        if (($mission['type'] ?? null) === 'number' && is_numeric($value)) {
+            $itemFactor = isset($mission['itens'][$itemIndex]['value'])
+                ? (float) $mission['itens'][$itemIndex]['value']
+                : 1;
+
+            $calcValue = $value * $itemFactor;
+
+            // agora salva direto no scores
+            $this->scores[$missionIndex][$itemIndex] = $calcValue;
+        }
+
+        $this->dp_pontos = 0;
+
+        foreach ($this->scores as $mIndex => $missionValues) {
+            $missionBonus = $dp_level[$mIndex]['bonus'] ?? 0;
+            $sumMissionValues = array_sum($missionValues);
+
+            if ($this->bonus === 'sim' && is_numeric($missionBonus)) {
+                $sumMissionValues += $missionBonus;
+            }
+
+            $this->dp_pontos += $sumMissionValues;
+        }
+    }
+
+    private function flattenScores(array $scores, array $dp_level): array
+    {
+        $result = [];
+
+        foreach ($scores as $missionIndex => $items) {
+            $sum = 0;
+
+            if (is_array($items)) {
+                foreach ($items as $value) {
+                    $sum += (int) $value;
+                }
+            } else {
+                $sum = (int) $items;
+            }
+
+            // aplica bônus só se $this->bonus for "sim"
+            if ($this->bonus === 'sim') {
+                $missionBonus = $dp_level[$missionIndex]['bonus'] ?? 0;
+                if (is_numeric($missionBonus)) {
+                    $sum += (int) $missionBonus;
+                }
+            }
+
+            $result[] = $sum;
+        }
+
+        return $result;
+    }
+
+    private function saveScorePracticalChallenge(array &$team)
+    {
+        $modalitySlug = 'dp';
+        $modalitieLevel = $this->category[$modalitySlug];
+        $dp_categorie = config("tbr-config.dp_by_level.$modalitieLevel") ?? [];
+
+        $flattenedScores = $this->flattenScores($this->scores ?? [], $dp_categorie);
+
+        // dd($this->scores, $this->bonus, $flattenedScores);
+
+        if (!isset($team['modalities'][$modalitySlug])) {
+            $team['modalities'][$modalitySlug] = [
+                'nota' => [
+                    'r1' => [],
+                    'r2' => [],
+                    'r3' => []
+                ],
+                'total' => 0,
+                'comentario' => ''
+            ];
+        }
+
+        // salva no primeiro round vazio
+        foreach (['r1', 'r2', 'r3'] as $round) {
+            if (empty($team['modalities'][$modalitySlug]['nota'][$round])) {
+                $team['modalities'][$modalitySlug]['nota'][$round] = $flattenedScores;
+                break;
+            }
+        }
+
+        // calcula total como o maior round
+        $totals = [];
+        foreach ($team['modalities'][$modalitySlug]['nota'] as $roundValues) {
+            $totals[] = array_sum($roundValues);
+        }
+        $team['modalities'][$modalitySlug]['total'] = max($totals);
+
+        $team['modalities'][$modalitySlug]['comentario'] = $this->comment ?? '';
+    }
+
+    private function saveScoreOtherModalities(array &$team, string $modalitySlug)
+    {
+
+        if (!isset($team['modalities'][$modalitySlug])) {
+            $team['modalities'][$modalitySlug] = [
+                'nota' => [],
+                'total' => 0,
+                'comentario' => ''
+            ];
+        }
+
+        // Atualiza somente a modalidade específica, preservando as outras
+        $team['modalities'][$modalitySlug]['nota'] = [];
+
+        foreach ($this->scores as $blockObject => $indices) {
+            foreach ($indices as $index => $value) {
+                $team['modalities'][$modalitySlug]['nota'][] = (string) $value;
+            }
+        }
+
+        $team['modalities'][$modalitySlug]['comentario'] = $this->comment;
+
+        $sumTotal = array_sum(array_map('intval', $team['modalities'][$modalitySlug]['nota']));
+
+        if ($this->questionLevel === 'basic') {
+            // Soma direta dos valores para nível básico
+            $team['modalities'][$modalitySlug]['total'] = number_format($sumTotal, 2, '.', '');
+        } else {
+            // Aplica multiplicador por questão para nível advanced
+            $totalCalculado = $this->scorePerQuestion * $sumTotal;
+            $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');
+        }
     }
 
     public function saveScores()
@@ -206,21 +388,18 @@ class TbrScore extends Component
             return;
         }
 
-        $modalitieLevel = $this->category['modalitie'] ?? 'basic';
-
-        $modalitiesConfig = config("tbr-config.modalities_by_level.$modalitieLevel") ?? [];
+        $modalitySlug = $this->modality['slug'];
+        $modalitiesConfig = $this->getModalitiesConfig($modalitySlug);
 
         $modality = collect($modalitiesConfig)->firstWhere('id', $this->modality_id);
         if (!$modality) {
             $modality = collect($modalitiesConfig)->firstWhere('slug', $this->modality_id);
         }
-        $modalitySlug = $modality['slug'] ?? null;
 
         if (!$modalitySlug) {
             $this->warningBanner('Modalidade inválida.');
             return;
         }
-
 
         $this->calculateScorePerQuestion();
 
@@ -240,39 +419,12 @@ class TbrScore extends Component
             if ($event['id'] === $this->event['id']) { // Confirme que o id bate
                 foreach ($event['equipes'] as &$team) {
                     if ($team['id'] === $this->selectedTeamId) {
-
-                        // Certifique-se que existe o array 'modalities' e a modalidade atual
-                        if (!isset($team['modalities'][$modalitySlug])) {
-                            $team['modalities'][$modalitySlug] = [
-                                'nota' => [],
-                                'total' => 0,
-                                'comentario' => ''
-                            ];
-                        }
-
-                        // Atualiza somente a modalidade específica, preservando as outras
-                        $team['modalities'][$modalitySlug]['nota'] = [];
-
-                        foreach ($this->scores as $blockObject => $indices) {
-                            foreach ($indices as $index => $value) {
-                                $team['modalities'][$modalitySlug]['nota'][] = (string) $value;
-                            }
-                        }
-
-                        $team['modalities'][$modalitySlug]['comentario'] = $this->comment;
-
-                        $sumTotal = array_sum(array_map('intval', $team['modalities'][$modalitySlug]['nota']));
-
-                        if ($this->questionLevel === 'basic') {
-                            // Soma direta dos valores para nível básico
-                            $team['modalities'][$modalitySlug]['total'] = number_format($sumTotal, 2, '.', '');
+                        if ($modalitySlug === 'dp') {
+                            $this->saveScorePracticalChallenge($team);
                         } else {
-                            // Aplica multiplicador por questão para nível advanced
-                            $totalCalculado = $this->scorePerQuestion * $sumTotal;
-                            $team['modalities'][$modalitySlug]['total'] = number_format($totalCalculado, 2, '.', '');
+                            $this->saveScoreOtherModalities($team, $modalitySlug);
                         }
 
-                        // Recalcula a nota total da equipe somando todas as modalidades
                         $notaTotal = 0;
                         foreach ($team['modalities'] as $mod) {
                             $notaTotal += floatval($mod['total'] ?? 0);
@@ -292,16 +444,19 @@ class TbrScore extends Component
         // Salva o JSON atualizado mantendo tudo
         Storage::disk('public')->put('tbr/json/data.json', json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-        $this->selectedTeamId = null;
-        $this->loadEvent();
-        $this->filterTeams();
+        $this->showSuccessModal = true;
 
-        $this->resetValidation();
-        $this->banner('Pontuação salva com sucesso!');
-        $this->selectedTeamId = null;
-        $this->scores = [];
-        $this->comment = '';
-        $this->loadQuestion();
+        // $this->selectedTeamId = null;
+        // $this->loadEvent();
+        // $this->filterTeams();
+
+        // $this->resetValidation();
+        // $this->banner('Pontuação salva com sucesso!');
+        // $this->selectedTeamId = null;
+        // $this->scores = [];
+        // $this->comment = '';
+        // $this->bonus = 'nao';
+        // $this->loadQuestion();
     }
 
     public function render()

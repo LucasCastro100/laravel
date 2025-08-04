@@ -133,39 +133,39 @@ class TbrDashboard extends Component
         foreach ($this->events as &$event) {
             if ($event['id'] === $this->selectedEventId) {
 
-                // Atualiza apenas os campos editáveis
+                // 🔹 Atualiza apenas os campos permitidos
                 $event['nome'] = $this->editEventName;
                 $event['data'] = $this->editEventDate;
 
-                // Garante que já existe um ranking_config
-                if (!isset($event['ranking_config'])) {
-                    $event['ranking_config'] = [];
-                }
+                // 🔹 Garante que já existe um ranking_config sem sobrescrever o resto
+                $event['ranking_config'] = $event['ranking_config'] ?? [];
 
-                // Atualiza os campos dentro de ranking_config sem sobrescrever os outros
+                // 🔹 Atualiza só dentro de ranking_config
                 $event['ranking_config']['modalities_to_show'] =
                     is_array($this->editRankingConfig['modalities_to_show'])
                     ? $this->editRankingConfig['modalities_to_show']
                     : ($event['ranking_config']['modalities_to_show'] ?? []);
 
                 $event['ranking_config']['top_positions'] =
-                    max(0, (int)($this->editRankingConfig['top_positions'] ?? ($event['ranking_config']['top_positions'] ?? 0)));
+                    max(0, (int)($this->editRankingConfig['top_positions']
+                        ?? ($event['ranking_config']['top_positions'] ?? 0)));
 
                 $event['ranking_config']['general_top_positions'] =
-                    max(0, (int)($this->editRankingConfig['general_top_positions'] ?? ($event['ranking_config']['general_top_positions'] ?? 0)));
+                    max(0, (int)($this->editRankingConfig['general_top_positions']
+                        ?? ($event['ranking_config']['general_top_positions'] ?? 0)));
 
+                // 🔹 Importante: NÃO toca em $event['equipes'] nem em outras chaves
                 break;
             }
         }
 
-        // 🔹 Salva todos os eventos já atualizados
+        // 🔹 Salva só os ajustes no ranking_config e meta-dados
         $this->saveEventsToStorage($this->events);
 
         $this->banner('Evento atualizado com sucesso!');
         $this->closeEditModal();
         $this->loadEvents();
     }
-
 
     public function openDeleteModal(string $eventId)
     {

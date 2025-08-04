@@ -50,12 +50,13 @@
 
                                     @foreach ($block['itens'] as $itemIndex => $item)
                                         <li class="flex flex-col items-center p-4 border rounded shadow">
-                                            <div class="font-bold text-lg text-gray-800 mb-2 text-center flex items-center justify-center gap-1">
+                                            <div
+                                                class="font-bold text-lg text-gray-800 mb-2 text-center flex items-center justify-center gap-1">
                                                 <span>{{ $item['value'] }}</span>
                                                 @if ($block['type'] === 'number')
                                                     <i class="fas fa-times text-black"></i>
                                                 @endif
-                                            </div>                                            
+                                            </div>
 
                                             <div class="text-sm font-medium text-gray-700 mb-2 text-center">
                                                 {{ $item['name'] }}
@@ -65,29 +66,37 @@
                                                 @if ($block['type'] === 'radio')
                                                     <input type="radio" name="dp_{{ $index }}"
                                                         value="{{ $item['value'] }}"
-                                                        wire:model="scores.dp.{{ $index }}" class="w-5 h-5">
+                                                        wire:model="scores.{{ $block['mission'] }}.{{ $index }}"
+                                                        class="w-5 h-5">
                                                 @elseif ($block['type'] === 'number')
                                                     <input type="number"
-                                                        class="w-20 border rounded px-2 py-1 text-center"
-                                                        wire:model="scores.dp.{{ $index }}">
+                                                        class="w-20 border rounded px-2 py-1 text-center" min="0"
+                                                        wire:model="scoresDP.{{ $block['mission'] }}.{{ $itemIndex }}"
+                                                        wire:input="updateScoreDPManual($event.target.value, '{{ $block['mission'] }}.{{ $itemIndex }}')">
+
+                                                    {{-- campo somente leitura mostrando o resultado --}}
+                                                    <input type="text"
+                                                        class="w-20 border rounded px-2 py-1 text-center bg-gray-100 hidden"
+                                                        wire:model="scores.{{ $block['mission'] }}.{{ $itemIndex }}"
+                                                        x-model="$wire.entangle('scores.{{ $block['mission'] }}.{{ $itemIndex }}')"
+                                                        readonly>
                                                 @endif
                                             </div>
                                         </li>
                                     @endforeach
                                 </ul>
 
-
                                 @if ($block['rules'])
                                     <div class="mt-4">
                                         <span class="font-medium text-gray-800">Bônus realizado?</span>
                                         <div class="flex gap-4 mt-2">
                                             <label>
-                                                <input type="radio" name="bonus_{{ $index }}" value="sim"
-                                                    wire:model="scores.dp_bonus.{{ $index }}"> Sim
+                                                <input type="radio" name="bonus" value="sim"
+                                                    wire:click="$set('bonus', 'sim')"> Sim
                                             </label>
                                             <label>
-                                                <input type="radio" name="bonus_{{ $index }}" value="nao"
-                                                    wire:model="scores.dp_bonus.{{ $index }}"> Não
+                                                <input type="radio" name="bonus" value="nao" checked
+                                                    wire:click="$set('bonus', 'nao')"> Não
                                             </label>
                                         </div>
                                     </div>
@@ -166,4 +175,18 @@
             <span class="block font-bold">Dados incompletos para exibir pontuação.</span>
         </div>
     @endif
+
+    @if ($showSuccessModal)
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+                <h2 class="text-lg font-semibold mb-4">Nota salva com sucesso!</h2>
+
+                <button onclick="window.location.reload()"
+                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    OK
+                </button>
+            </div>
+        </div>
+    @endif
+
 </div>

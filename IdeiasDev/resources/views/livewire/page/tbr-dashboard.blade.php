@@ -198,7 +198,7 @@
                         {{-- Número de posições por modalidade --}}
                         <div class="mb-4">
                             <label class="block font-medium mb-1">Número de posições por modalidade:</label>
-                            <input type="number" min="1" max="3"
+                            <input type="number" min="0" max="3"
                                 wire:model.defer="editRankingConfig.top_positions"
                                 class="border rounded px-3 py-2 w-20" />
                             @error('editRankingConfig.top_positions')

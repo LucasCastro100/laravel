@@ -39,6 +39,7 @@ return [
                     [
                         'object' => 'Projeto',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             '1. Criatividade - O projeto é inovador e demonstra uma solução criativa.',
                             '2. Qualidade da Solução - O projeto é bem pensado e tem uma boa solução para o problema abordado pela Equipe. A solução está de acordo com o tema TBR.',
@@ -49,6 +50,7 @@ return [
                     [
                         'object' => 'Engenharia e Design',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             '1. Compreensão Técnica - A equipe explicou de forma clara e com conhecimento como é o funcionamento do seu projeto.',
                             '2. Conceitos de Engenharia - O projeto mostra evidências de que conceitos de engenharia foram usados.',
@@ -60,6 +62,7 @@ return [
                     [
                         'object' => 'Apresentação',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             '1. Demonstração bem sucedida - O projeto funcionou como esperado, e é possivel executá-lo mais de uma vez, se necessário.',
                             '2. Habilidades de comunicação e raciocínio - Os alunos foram capazes de explicar a construção e o desenvolvimento do seu projeto, como ele funciona e por que eles decidiram construí-lo.',
@@ -70,6 +73,7 @@ return [
                     [
                         'object' => 'Trabalho em Equipe',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             '1. Resultado de Aprendizagem Unificada - A equipe foi capaz de demonstrar que todos os membros compartilharam igualmente conhecimento durante o processo de aprendizagem.',
                             '2. Inclusão - A equipe foi capaz de demonstrar que todos os membros desempenharam um papel importante na construção e apresentação do seu projeto, como também na dinâmica realizada.',
@@ -89,6 +93,7 @@ return [
                     [
                         'object' => 'Problema Abordado',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'O problema abordado mostra consistência com o tema central do TBR',
                             'O problema abordado é facilmente verificável e explorável',
@@ -100,6 +105,7 @@ return [
                     [
                         'object' => 'Pesquisa do Problema',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'O método de pesquisa é claro, bem definido e executável com facilidade',
                             'A pesquisa está sustentada por dados e informações confiáveis',
@@ -113,6 +119,7 @@ return [
                     [
                         'object' => 'Solução Inovadora',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A solução apresentada pode ser entendida como inovadora',
                             'Mais de uma solução foram apresentadas, pesquisadas e analisadas antes da proposição da solução final',
@@ -124,6 +131,7 @@ return [
                     [
                         'object' => 'Publicação',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A publicação do trabalho de pesquisa ocorreu de forma ampla',
                             'A publicação do trabalho de pesquisa ocorreu em meios e instrumentos confiáveis',
@@ -142,6 +150,7 @@ return [
                     [
                         'object' => 'Estratégia Geral',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstra ter entendido os desafios da temporada',
                             'A Equipe estabeleceu estratégia adequada para o enfrentamento dos desafios a que se submeteram',
@@ -153,6 +162,7 @@ return [
                     [
                         'object' => 'Organização da Equipe',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A Equipe organizou seus membros para que cada um pudesse dar o seu melhor na realização do Plano de Ações',
                             'A Equipe demonstra união das pessoas em torno de um objetivo comum',
@@ -165,6 +175,7 @@ return [
                     [
                         'object' => 'Capacidade Operacional',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'Os membros da Equipe demonstram conhecimento claro em seus domínios de atuação',
                             'Os membros da Equipe sabem o que fazem, pois agem com orientação de seus pares e mentor',
@@ -176,6 +187,7 @@ return [
                     [
                         'object' => 'Capacidade de Gestão',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstrou uso racional dos Recursos Materiais empregados',
                             'A Equipe demonstrou Planejamento Financeiro coerente e racional',
@@ -194,6 +206,7 @@ return [
                     [
                         'object' => 'Abordagem dos Desafios Práticos',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstra conhecer os desafios práticos e saber como resolvê-los de forma eficaz',
                             'A Equipe não se mostra tensa frente aos desafios práticos',
@@ -208,6 +221,7 @@ return [
                     [
                         'object' => 'Competência Técnica e Tecnológica',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'O robô tem um design bem definido e harmonioso',
                             'O robô é robusto em sua estrutura e flexível no manuseio',
@@ -224,6 +238,7 @@ return [
                     [
                         'object' => 'Documentação Técnica',
                         'image' => '',
+                        'mission' => 0,
                         'description' => [
                             'O caderno de projeto é completo e mostra as diferentes etapas do projeto',
                             'O caderno de projeto relata ossucessos e osinsucessos do projeto',
@@ -241,6 +256,7 @@ return [
         'baby' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => '',
                 'itens' => [
                     [
@@ -253,13 +269,15 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
         ],
 
         'kids1' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => '',
                 'itens' => [
                     [
@@ -272,13 +290,15 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
         ],
 
         'kids2' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => 'Reintegração Selvagem - Tamanduá',
                 'itens' => [
                     [
@@ -295,10 +315,12 @@ return [
                     ],
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 1,
                 'description' => 'Reintegração Selvagem - Macaco',
                 'itens' => [
                     [
@@ -315,10 +337,12 @@ return [
                     ],
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 2,
                 'description' => 'Reintegração Selvagem - Onça',
                 'itens' => [
                     [
@@ -335,10 +359,12 @@ return [
                     ],
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 3,
                 'description' => 'Renascimento azul',
                 'itens' => [
                     [
@@ -363,10 +389,12 @@ return [
                     ],
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 4,
                 'description' => 'Reflorestamento',
                 'itens' => [
                     [
@@ -391,10 +419,12 @@ return [
                     ],
                 ],
                 'type' => 'number',
-                'rules' => true
+                'rules' => true,
+                'bonus' => '40'
             ],
             [
                 'image' => '',
+                'mission' => 5,
                 'description' => 'Departamento ecológico',
                 'itens' => [
                     [
@@ -411,13 +441,15 @@ return [
                     ],
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ]
         ],
 
         'middle' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => 'Reintegração Selvagem - Onça',
                 'itens' => [
                     [
@@ -434,11 +466,13 @@ return [
                     ]
                 ],
                 'type' => 'number',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 1,
+                'description' => 'Reintegração Selvagem - Macaco',
                 'itens' => [
                     [
                         'name' => 'Tocando Totalmente',
@@ -454,11 +488,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 2,
+                'description' => 'Reintegração Selvagem - Tamanduá',
                 'itens' => [
                     [
                         'name' => 'Tocando Totalmente',
@@ -474,11 +510,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 3,
+                'description' => 'Renascimento azul',
                 'itens' => [
                     [
                         'name' => 'Totalmente Sobre O Verde',
@@ -502,11 +540,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 4,
+                'description' => 'Liberdade Selvagem',
                 'itens' => [
                     [
                         'name' => 'Jaula Aberta',
@@ -518,11 +558,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 5,
+                'description' => 'Sistema de Monitoramento',
                 'itens' => [
                     [
                         'name' => 'Acionado',
@@ -534,11 +576,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 6,
+                'description' => 'Reflorestamento',
                 'itens' => [
                     [
                         'name' => 'Tocando Somente Área 1',
@@ -562,11 +606,13 @@ return [
                     ]
                 ],
                 'type' => 'number',
-                'rules' => true
+                'rules' => true,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 7,
+                'description' => 'Corredor Ecológico',
                 'itens' => [
                     [
                         'name' => 'Acionado',
@@ -578,11 +624,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 8,
+                'description' => 'Departamento ecológico',
                 'itens' => [
                     [
                         'name' => 'Tocando Somente',
@@ -598,11 +646,13 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
-                'description' => '',
+                'mission' => 9,
+                'description' => 'Missão Maker',
                 'itens' => [
                     [
                         'name' => 'Realizado',
@@ -614,13 +664,15 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ]
         ],
 
         'high' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => 'Expresso Ecológico',
                 'itens' => [
                     [
@@ -637,10 +689,12 @@ return [
                     ]
                 ],
                 'type' => 'number',
-                'rules' => true
+                'rules' => true,
+                'bonus' => '50'
             ],
             [
                 'image' => '',
+                'mission' => 1,
                 'description' => 'Reflorestamento Sementes',
                 'itens' => [
                     [
@@ -653,10 +707,12 @@ return [
                     ]
                 ],
                 'type' => 'number',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 2,
                 'description' => 'Reflorestamento - Condição Caixa',
                 'itens' => [
                     [
@@ -673,10 +729,12 @@ return [
                     ]
                 ],
                 'type' => 'number',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ],
             [
                 'image' => '',
+                'mission' => 3,
                 'description' => 'Departamento ecológico',
                 'itens' => [
                     [
@@ -693,13 +751,15 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ]
         ],
 
         'technic' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => '',
                 'itens' => [
                     [
@@ -712,13 +772,15 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ]
         ],
 
         'university' => [
             [
                 'image' => '',
+                'mission' => 0,
                 'description' => '',
                 'itens' => [
                     [
@@ -731,7 +793,8 @@ return [
                     ]
                 ],
                 'type' => 'radio',
-                'rules' => false
+                'rules' => false,
+                'bonus' => '0'
             ]
         ]
     ]
