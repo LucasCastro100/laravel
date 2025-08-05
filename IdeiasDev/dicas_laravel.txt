@@ -45,4 +45,7 @@ Todas as regiões
 --- https://servicodados.ibge.gov.br/api/v1/localidades/municipios/{id}
 
 
-// ACRESCENTAR NO EVENTO (SELECT) COM -  REGIAO - ESTADO - MUNICIPIO
+- API PARA CEP
+--- https://viacep.com.br/ws/{CEP}/json/
+
+// ACRESCENTAR NO EVENTO (SELECT) COM -  REGIAO - ESTADO - MUNICIPIO - CEP
