@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\InteractsWithBanner;
 use Illuminate\Support\Str;
+use App\Services\IbgeService;
 
 class Sidebar extends Component
 {
@@ -44,7 +45,80 @@ class Sidebar extends Component
     // --- Dados carregados dos eventos ---
     public $events = [];
 
-    // ----------- Métodos -----------
+    // --- Propriedades para seleção ---
+    public $selectedRegion = null;      // nome digitado
+    public $selectedRegionId = null;    // id real
+
+    public $selectedState = null;
+    public $selectedStateId = null;
+
+    public $selectedCity = null;
+    public $selectedCityId = null;
+
+    public $regions = [];
+    public $filteredStates = [];
+    public $filteredCities = [];
+
+    protected IbgeService $ibge;
+
+    public function boot(IbgeService $ibge)
+    {
+        $this->ibge = $ibge;
+    }
+
+    public function mount()
+    {
+        $this->regions = $this->ibge->getRegions();
+        $this->filteredStates = [];
+        $this->filteredCities = [];
+        $this->resetLocation();
+    }
+
+    private function resetLocation()
+    {
+        $this->selectedRegion = null;
+        $this->selectedRegionId = null;
+        $this->selectedState = null;
+        $this->selectedStateId = null;
+        $this->selectedCity = null;
+        $this->selectedCityId = null;
+        $this->filteredStates = [];
+        $this->filteredCities = [];
+    }
+
+    public function updatedSelectedRegion($value)
+    {
+        $region = collect($this->regions)->firstWhere('nome', $value);
+        $this->selectedRegionId = $region['id'] ?? null;
+
+        $this->selectedState = null;
+        $this->selectedStateId = null;
+        $this->selectedCity = null;
+        $this->selectedCityId = null;
+
+        $this->filteredStates = $this->selectedRegionId
+            ? $this->ibge->getStatesByRegion($this->selectedRegionId)
+            : [];
+    }
+
+    public function updatedSelectedState($value)
+    {
+        $state = collect($this->filteredStates)->firstWhere('nome', $value);
+        $this->selectedStateId = $state['id'] ?? null;
+
+        $this->selectedCity = null;
+        $this->selectedCityId = null;
+
+        $this->filteredCities = $this->selectedStateId
+            ? $this->ibge->getCitiesByState($this->selectedStateId)
+            : [];
+    }
+
+    public function updatedSelectedCity($value)
+    {
+        $city = collect($this->filteredCities)->firstWhere('nome', $value);
+        $this->selectedCityId = $city['id'] ?? null;
+    }
 
     public function openEventModal()
     {
@@ -62,24 +136,38 @@ class Sidebar extends Component
     {
         $this->eventName = '';
         $this->eventDate = '';
+
         $this->rankingConfig = [
             'modalities_to_show' => [],
             'top_positions' => 0,
             'general_top_positions' => 3,
         ];
+
+        // Reset da localização
+        $this->selectedRegion = null;
+        $this->selectedState = null;
+        $this->selectedCity = null;
+        $this->filteredStates = [];
+        $this->filteredCities = [];
+
+        // Reset de validações
         $this->resetErrorBag('eventName');
         $this->resetErrorBag('eventDate');
         $this->resetErrorBag('rankingConfig');
+        $this->resetErrorBag('selectedRegion');
+        $this->resetErrorBag('selectedState');
+        $this->resetErrorBag('selectedCity');
     }
 
     public function saveEvent()
     {
+        // Validação dos campos do formulário de evento
         $this->validate([
             'eventName' => 'required|string|min:2',
             'eventDate' => 'required|date',
             'rankingConfig.top_positions' => 'nullable|integer|min:0|max:3',
             'rankingConfig.general_top_positions' => 'nullable|integer|min:0|max:5',
-            'rankingConfig.modalities_to_show' => 'nullable|array',            
+            'rankingConfig.modalities_to_show' => 'nullable|array',
             'rankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
         ], [
             'rankingConfig.top_positions.integer' => 'O número de posições por modalidade deve ser um número inteiro.',
@@ -91,10 +179,34 @@ class Sidebar extends Component
             'rankingConfig.modalities_to_show.*.in' => 'Modalidade inválida selecionada.',
         ]);
 
+        // Cria novo evento com ID aleatório e estrutura padrão
         $newEvent = [
             'id' => Str::upper(Str::random(12)),
             'nome' => $this->eventName,
             'data' => $this->eventDate,
+            // Localização simplificada para salvar só id, sigla e nome, sem dados extras
+            'localizacao' => [
+                'regiao' => $this->selectedRegion
+                    ? [
+                        'id' => $this->selectedRegionId,
+                        'sigla' => collect($this->regions)->firstWhere('id', $this->selectedRegionId)['sigla'] ?? null,
+                        'nome' => $this->selectedRegion,
+                    ]
+                    : null,
+                'estado' => $this->selectedState
+                    ? [
+                        'id' => $this->selectedStateId,
+                        'sigla' => collect($this->filteredStates)->firstWhere('id', $this->selectedStateId)['sigla'] ?? null,
+                        'nome' => $this->selectedState,
+                    ]
+                    : null,
+                'municipio' => $this->selectedCity
+                    ? [
+                        'id' => $this->selectedCityId,
+                        'nome' => $this->selectedCity,
+                    ]
+                    : null,
+            ],
             'ranking_config' => [
                 'modalities_to_show' => is_array($this->rankingConfig['modalities_to_show'])
                     ? $this->rankingConfig['modalities_to_show']
@@ -105,8 +217,10 @@ class Sidebar extends Component
             'equipes' => [],
         ];
 
+        // Carrega eventos atuais para evitar duplicatas
         $this->loadEvents();
 
+        // Verifica duplicidade pelo nome e data
         foreach ($this->events as $event) {
             if (
                 strtolower($event['nome']) === strtolower($newEvent['nome']) &&
@@ -117,6 +231,7 @@ class Sidebar extends Component
             }
         }
 
+        // Adiciona novo evento no array e salva JSON
         $this->events[] = $newEvent;
         $this->saveEventsToStorage();
 
@@ -124,7 +239,6 @@ class Sidebar extends Component
         $this->dispatch('eventCreated');
         $this->closeEventModal();
     }
-
 
     public function openTeamModal()
     {
@@ -192,9 +306,11 @@ class Sidebar extends Component
         $categories = config('tbr-config.categories') ?? [];
         $modalitiesByLevel = config('tbr-config.modalities_by_level') ?? [];
 
+        // Mapear slugs e níveis para validação e montagem das modalidades
         $categorySlugs = collect($categories)->pluck('slug')->toArray();
         $categoryLevels = collect($categories)->mapWithKeys(fn($cat) => [$cat['slug'] => $cat['modalitie'] ?? 'basic'])->toArray();
 
+        // Validação das equipes e evento selecionado
         $this->validate([
             'selectedEventIndex' => 'required|integer|min:0',
             'teams.*.name' => 'required|min:2',
@@ -205,6 +321,7 @@ class Sidebar extends Component
 
         $this->loadEvents();
 
+        // Valida índice do evento selecionado
         if (!isset($this->events[$this->selectedEventIndex])) {
             $this->addError('selectedEventIndex', 'Evento selecionado inválido.');
             return;
@@ -215,9 +332,9 @@ class Sidebar extends Component
         foreach ($this->teams as $team) {
             $teamNameLower = strtolower($team['name']);
 
+            // Evita adicionar equipes com nome repetido
             $exists = collect($evento['equipes'])->contains(
-                fn($existingTeam) =>
-                strtolower($existingTeam['name']) === $teamNameLower
+                fn($existingTeam) => strtolower($existingTeam['name']) === $teamNameLower
             );
 
             if (!$exists) {
@@ -225,6 +342,7 @@ class Sidebar extends Component
                 $modalitie_level = $categoryLevels[$categorySlug] ?? 'basic';
                 $modalities = [];
 
+                // Monta modalidades conforme nível da categoria
                 foreach ($modalitiesByLevel[$modalitie_level] ?? [] as $modality) {
                     $slug = is_array($modality) ? ($modality['slug'] ?? null) : $modality;
 
@@ -251,6 +369,7 @@ class Sidebar extends Component
                     }
                 }
 
+                // Adiciona equipe no evento
                 $evento['equipes'][] = [
                     'id' => Str::upper(Str::random(12)),
                     'name' => $team['name'],
@@ -262,6 +381,7 @@ class Sidebar extends Component
         }
 
         $this->saveEventsToStorage();
+
         $this->banner('Equipes cadastradas com sucesso!');
         $this->closeTeamModal();
     }

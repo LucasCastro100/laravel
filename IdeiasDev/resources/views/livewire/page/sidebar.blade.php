@@ -70,14 +70,14 @@
                     </button>
                 </li>
 
-                <li>
+                {{-- <li>
                     <button wire:click="askToClearStorage"
                         class="flex items-center gap-3 px-4 py-2 rounded w-full text-left transition hover:bg-red-100"
                         :class="{ 'justify-center': collapsed }" title="Limpar todos os dados salvos">
                         <i class="fas fa-trash text-sm w-5 text-gray-600"></i>
                         <span x-show="!collapsed" class="uppercase">Limpar Dados</span>
                     </button>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>
@@ -85,8 +85,7 @@
     {{-- Modal para cadastrar eventos --}}
     @if ($showEventModal)
         <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
-
+            <div class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
                 <h2 class="text-xl font-bold mb-4">Cadastrar Evento</h2>
 
                 <div class="space-y-4 text-left">
@@ -106,6 +105,70 @@
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
 
+                    {{-- Localização --}}
+                    <fieldset class="border border-gray-300 rounded p-4">
+                        <legend class="font-semibold mb-2">Localização</legend>
+
+                        {{-- Região --}}
+                        <div class="mb-4">
+                            <label class="block font-semibold">Região</label>
+                            <input list="regions" wire:model.lazy="selectedRegion"
+                                class="w-full border rounded px-3 py-2" placeholder="Digite ou selecione a região" />
+
+                            <datalist id="regions">
+                                @foreach ($regions as $region)
+                                    <option value="{{ $region['nome'] }}"></option>
+                                @endforeach
+                            </datalist>
+
+                            <div wire:loading.delay wire:target="selectedRegion" wire:loading.class='w-full p-2'>
+                                <span class="font-semibold">Carregando Estados...</span>
+                            </div>
+                        </div>
+
+                        {{-- Estado --}}
+                        @if ($selectedRegionId)
+                            <div class="mb-4">
+                                <label class="block font-semibold">Estado</label>
+
+                                @if (count($filteredStates) > 0)
+                                    <input list="states" wire:model.lazy="selectedState"
+                                        class="w-full border rounded px-3 py-2"
+                                        placeholder="Digite ou selecione o estado" />
+
+                                    <datalist id="states">
+                                        @foreach ($filteredStates as $state)
+                                            <option value="{{ $state['nome'] }}"></option>
+                                        @endforeach
+                                    </datalist>
+                                @endif
+
+                                <div wire:loading.delay wire:target="selectedState" wire:loading.class='w-full p-2'>
+                                    <span class="font-semibold">Carregando Municípios...</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Município --}}
+                        @if ($selectedStateId)
+                            <div class="mb-4">
+                                <label class="block font-semibold">Município</label>
+
+                                @if (count($filteredCities) > 0)
+                                    <input list="cities" wire:model.lazy="selectedCity"
+                                        class="w-full border rounded px-3 py-2"
+                                        placeholder="Digite ou selecione o município" />
+
+                                    <datalist id="cities">
+                                        @foreach ($filteredCities as $city)
+                                            <option value="{{ $city['nome'] }}"></option>
+                                        @endforeach
+                                    </datalist>
+                                @endif
+                            </div>
+                        @endif
+                    </fieldset>
+
                     {{-- Configuração do Ranking / PowerPoint --}}
                     <fieldset class="border border-gray-300 rounded p-4">
                         <legend class="font-semibold mb-2">Configuração do Ranking / Exportação</legend>
@@ -117,7 +180,8 @@
                                 @foreach (['ap' => 'AP', 'mc' => 'MC', 'om' => 'OM', 'te' => 'TE', 'dp' => 'DP'] as $key => $label)
                                     <label class="inline-flex items-center gap-2">
                                         <input type="checkbox" wire:model.defer="rankingConfig.modalities_to_show"
-                                            value="{{ $key }}" class="form-checkbox h-5 w-5 text-purple-600" />
+                                            value="{{ $key }}"
+                                            class="form-checkbox h-5 w-5 text-purple-600" />
                                         <span>{{ $label }}</span>
                                     </label>
                                 @endforeach
@@ -128,7 +192,8 @@
                         <div class="mb-4">
                             <label class="block font-medium mb-1">Número de posições por modalidade:</label>
                             <input type="number" min="1" max="3"
-                                wire:model.defer="rankingConfig.top_positions" class="border rounded px-3 py-2 w-20" />
+                                wire:model.defer="rankingConfig.top_positions"
+                                class="border rounded px-3 py-2 w-20" />
                         </div>
 
                         {{-- Número de posições no ranking geral --}}
@@ -147,6 +212,11 @@
                     <button wire:click="closeEventModal"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
                 </div>
+
+                <div wire:loading wire:loading.target="saveEvent" wire:loading.class='w-full p-2'>
+                    <span class="font-semibold">Salvando evento...</span>
+                    </span>
+                </div>
             </div>
         </div>
     @endif
@@ -154,7 +224,8 @@
     {{-- Modal para cadastrar equipes --}}
     @if ($showTeamModal)
         <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center sm:max-w-xl md:max-w-2xl">
+            <div
+                class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center sm:max-w-xl md:max-w-2xl">
                 <h2 class="text-xl font-bold mb-6">Cadastrar Equipe</h2>
 
                 <div class="grid gap-4 grid-cols-1 md:grid-cols-3">
@@ -239,6 +310,10 @@
                             class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">
                             Fechar
                         </button>
+                    </div>
+
+                    <div wire:loading wire:loading.target="saveTeams" wire:loading.class='w-full p-2'>
+                        <span class="font-semibold">Salvando equipes...</span>
                     </div>
                 </form>
             </div>

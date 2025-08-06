@@ -40,13 +40,13 @@
                                         Atualizar
                                     </button>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <button wire:click="openDeleteModal('{{ $event['id'] }}')"
                                         class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
                                         Apagar
                                     </button>
-                                </li>
-                            
+                                </li> --}}
+
                                 {{-- Novo item Exportar --}}
                                 @if (!empty($event) && isset($event['id']))
                                     <li class="relative">
@@ -57,7 +57,7 @@
                                                 <i :class="{ 'rotate-180': open }"
                                                     class="fas fa-chevron-down transition-transform duration-200 ml-2"></i>
                                             </button>
-                            
+
                                             <ul x-show="open" @click.outside="open = false"
                                                 class="absolute left-0 mt-1 w-56 bg-white border border-gray-200 rounded shadow-lg z-50"
                                                 x-transition>
@@ -74,7 +74,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a wire:navigate href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
+                                                    <a wire:navigate
+                                                        href="{{ route('tbr.slide', ['event_id' => $event['id']]) }}"
                                                         class="block px-4 py-2 hover:bg-gray-100">
                                                         HTML
                                                     </a>
@@ -84,7 +85,7 @@
                                                         class="block px-4 py-2 hover:bg-gray-100">
                                                         Notas por Equipe
                                                     </a>
-                                                </li>                                                
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
@@ -94,8 +95,26 @@
                     </div>
 
                     {{-- Conteúdo do card --}}
-                    <h2 class="text-xl font-bold pr-6">{{ $event['nome'] }}</h2>
-                    <p class="text-gray-600 mb-2">{{ \Carbon\Carbon::parse($event['data'])->format('d/m/Y') }}</p>
+                    <div class="flex flex-col justify-between gap-2">
+                        <h2 class="text-xl font-bold">{{ $event['nome'] }}</h2>
+
+                        <div class="flex flex-col sm:flex-row gap-4 text-gray-600 text-sm">
+                            {{-- Data com ícone --}}
+                            <p class="flex items-start gap-1 whitespace-nowrap">
+                                <i class="fas fa-calendar-alt mt-[3px]"></i>
+                                {{ \Carbon\Carbon::parse($event['data'])->format('d/m/Y') }}
+                            </p>
+
+                            {{-- Localização com ícone --}}
+                            @if (!empty($event['localizacao']['municipio']) && !empty($event['localizacao']['estado']))
+                                <p class="flex items-start gap-1 whitespace-nowrap">
+                                    <i class="fas fa-map-marker-alt mt-[3px]"></i>
+                                    {{ $event['localizacao']['municipio']['nome'] }} -
+                                    {{ $event['localizacao']['estado']['sigla'] }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -148,12 +167,11 @@
             </div>
         </div>
     @endif
-    
+
     <!-- Modal de edição -->
     @if ($showEditModal)
         <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow w-full max-w-md text-center space-y-6">
-
+            <div class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
                 <h2 class="text-xl font-bold mb-4">Editar Evento</h2>
 
                 <div class="space-y-4 text-left">
@@ -173,8 +191,72 @@
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
 
-                    {{-- Configuração do Ranking / PowerPoint --}}
+                    {{-- Localização --}}
                     <fieldset class="border border-gray-300 rounded p-4">
+                        <legend class="font-semibold mb-2">Localização</legend>
+
+                        {{-- Região --}}
+                        <div class="mb-4">
+                            <label class="block font-semibold">Região</label>
+                            <input list="editRegions" wire:model.lazy="editSelectedRegion"
+                                class="w-full border rounded px-3 py-2" placeholder="Digite ou selecione a região" />
+
+                            <datalist id="editRegions">
+                                @foreach ($regions as $region)
+                                    {{-- agora value = nome (para o usuário) --}}
+                                    <option value="{{ $region['nome'] }}"></option>
+                                @endforeach
+                            </datalist>
+
+                            <div wire:loading.delay wire:target="editSelectedRegion" wire:loading.class='w-full p-2'>
+                                <span class="font-semibold">Carregando Estados...</span>
+                            </div>
+                        </div>
+
+                        {{-- Estado --}}
+                        @if ($editSelectedRegionId)
+                            <div class="mb-4">
+                                <label class="block font-semibold">Estado</label>                                
+
+                                @if (count($filteredEditStates) > 0)
+                                    <input list="editStates" wire:model.lazy="editSelectedState"
+                                        class="w-full border rounded px-3 py-2"
+                                        placeholder="Digite ou selecione o estado" />
+
+                                    <datalist id="editStates">
+                                        @foreach ($filteredEditStates as $state)
+                                            <option value="{{ $state['nome'] }}"></option>
+                                        @endforeach
+                                    </datalist>
+                                @endif
+
+                                <div wire:loading.delay wire:target="editSelectedState" wire:loading.class='w-full p-2'>
+                                    <span class="font-semibold">Carregando Municípios...</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Município --}}
+                        @if ($editSelectedStateId)
+                            <div class="mb-4">                          
+                                <label class="block font-semibold">Município</label>
+                                @if (count($filteredEditCities) > 0)
+                                    <input list="editCities" wire:model.lazy="editSelectedCity"
+                                        class="w-full border rounded px-3 py-2"
+                                        placeholder="Digite ou selecione o município" />
+
+                                    <datalist id="editCities">
+                                        @foreach ($filteredEditCities as $city)
+                                            <option value="{{ $city['nome'] }}"></option>
+                                        @endforeach
+                                    </datalist>
+                                @endif
+                            </div>
+                        @endif
+                    </fieldset>
+
+                    {{-- Configuração do Ranking / PowerPoint --}}
+                    <fieldset class="border border-gray-300 rounded p-4 mt-4">
                         <legend class="font-semibold mb-2">Configuração do Ranking / Exportação</legend>
 
                         {{-- Modalidades --}}
@@ -224,6 +306,10 @@
                         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Atualizar</button>
                     <button wire:click="closeEditModal"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
+                </div>
+
+                <div wire:loading wire:loading.target="updateEvent" wire:loading.class='w-full p-2'>
+                    <span class="font-semibold">Atualizando evento...</span>
                 </div>
             </div>
         </div>

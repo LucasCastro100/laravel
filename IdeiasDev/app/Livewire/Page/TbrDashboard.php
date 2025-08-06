@@ -5,7 +5,9 @@ namespace App\Livewire\Page;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\InteractsWithBanner;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Services\IbgeService;
 
 class TbrDashboard extends Component
 {
@@ -36,9 +38,79 @@ class TbrDashboard extends Component
 
     public $showSidebar = true;
 
+    // Região - Estado - Cidade
+    public $editSelectedRegion = null;     // nome digitado
+    public $editSelectedRegionId = null;   // id resolvido
+
+    public $editSelectedState = null;
+    public $editSelectedStateId = null;
+
+    public $editSelectedCity = null;
+    public $editSelectedCityId = null;
+
+    public $regions = [];
+    public $filteredEditStates = [];
+    public $filteredEditCities = [];
+
+    protected IbgeService $ibge;
+
+    public function boot(IbgeService $ibge)
+    {
+        $this->ibge = $ibge;
+    }
+
     public function mount()
     {
+        $this->regions = $this->ibge->getRegions();
+
+        $this->resetLocation();
         $this->loadEvents();
+    }
+
+    private function resetLocation()
+    {
+        $this->filteredEditStates = [];
+        $this->filteredEditCities = [];
+        $this->editSelectedRegion = null;
+        $this->editSelectedRegionId = null;
+        $this->editSelectedState = null;
+        $this->editSelectedStateId = null;
+        $this->editSelectedCity = null;
+        $this->editSelectedCityId = null;
+    }
+
+    public function updatedEditSelectedRegion($value)
+    {
+        $region = collect($this->regions)->firstWhere('nome', $value);
+        $this->editSelectedRegionId = $region['id'] ?? null;
+
+        $this->editSelectedState = null;
+        $this->editSelectedStateId = null;
+        $this->editSelectedCity = null;
+        $this->editSelectedCityId = null;
+
+        $this->filteredEditStates = $this->editSelectedRegionId
+            ? $this->ibge->getStatesByRegion($this->editSelectedRegionId)
+            : [];
+    }
+
+    public function updatedEditSelectedState($value)
+    {
+        $state = collect($this->filteredEditStates)->firstWhere('nome', $value);
+        $this->editSelectedStateId = $state['id'] ?? null;
+
+        $this->editSelectedCity = null;
+        $this->editSelectedCityId = null;
+
+        $this->filteredEditCities = $this->editSelectedStateId
+            ? $this->ibge->getCitiesByState($this->editSelectedStateId)
+            : [];
+    }
+
+    public function updatedEditSelectedCity($value)
+    {
+        $city = collect($this->filteredEditCities)->firstWhere('nome', $value);
+        $this->editSelectedCityId = $city['id'] ?? null;
     }
 
     public function loadEvents()
@@ -95,12 +167,40 @@ class TbrDashboard extends Component
             $this->editEventName = $event['nome'] ?? '';
             $this->editEventDate = $event['data'] ?? '';
 
-            // Carrega ranking_config, com defaults
+            // Config ranking
             $this->editRankingConfig = [
                 'modalities_to_show' => $event['ranking_config']['modalities_to_show'] ?? [],
                 'top_positions' => $event['ranking_config']['top_positions'] ?? 3,
                 'general_top_positions' => $event['ranking_config']['general_top_positions'] ?? 3,
             ];
+
+            $localizacao = $event['localizacao'] ?? [];
+
+            // Corrigir para atribuir o NOME no input, e o ID na variável auxiliar
+            $this->editSelectedRegion = $localizacao['regiao']['nome'] ?? null;
+            $this->editSelectedRegionId = $localizacao['regiao']['id'] ?? null;
+
+            if ($this->editSelectedRegionId) {
+                $this->filteredEditStates = $this->ibge->getStatesByRegion($this->editSelectedRegionId);
+            } else {
+                $this->filteredEditStates = [];
+            }
+
+            $this->editSelectedState = $localizacao['estado']['nome'] ?? null;
+            $this->editSelectedStateId = $localizacao['estado']['id'] ?? null;
+
+            if ($this->editSelectedStateId) {
+                $allCities = json_decode(Storage::disk('public')->get('ibge/municipios.json'), true);
+                $this->filteredEditCities = collect($allCities)
+                    ->where('microrregiao.mesorregiao.UF.id', $this->editSelectedStateId)
+                    ->values()
+                    ->all();
+            } else {
+                $this->filteredEditCities = [];
+            }
+
+            $this->editSelectedCity = $localizacao['municipio']['nome'] ?? null;
+            $this->editSelectedCityId = $localizacao['municipio']['id'] ?? null;
 
             $this->showEditModal = true;
         }
@@ -117,8 +217,14 @@ class TbrDashboard extends Component
             'top_positions' => 3,
             'general_top_positions' => 3,
         ];
-    }
 
+        $this->editSelectedRegion = null;
+        $this->editSelectedState = null;
+        $this->editSelectedCity = null;
+        $this->filteredEditStates = [];
+        $this->filteredEditCities = [];
+    }
+    
     public function updateEvent()
     {
         $this->validate([
@@ -129,43 +235,80 @@ class TbrDashboard extends Component
             'editRankingConfig.modalities_to_show' => 'nullable|array',
             'editRankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
         ]);
-
+    
         foreach ($this->events as &$event) {
             if ($event['id'] === $this->selectedEventId) {
-
-                // 🔹 Atualiza apenas os campos permitidos
+    
+                // Atualiza meta-dados
                 $event['nome'] = $this->editEventName;
                 $event['data'] = $this->editEventDate;
-
-                // 🔹 Garante que já existe um ranking_config sem sobrescrever o resto
+    
+                // Busca objetos completos com base no nome selecionado
+                $region = $this->editSelectedRegion
+                    ? collect($this->regions)->firstWhere('nome', $this->editSelectedRegion)
+                    : null;
+    
+                $state = $this->editSelectedState
+                    ? collect($this->filteredEditStates)->firstWhere('nome', $this->editSelectedState)
+                    : null;
+    
+                $city = $this->editSelectedCity
+                    ? collect($this->filteredEditCities)->firstWhere('nome', $this->editSelectedCity)
+                    : null;
+    
+                // Atualiza localização simplificada
+                $event['localizacao'] = [
+                    'regiao' => $region
+                        ? [
+                            'id' => $region['id'],
+                            'sigla' => $region['sigla'] ?? null,
+                            'nome' => $region['nome'],
+                        ]
+                        : null,
+    
+                    'estado' => $state
+                        ? [
+                            'id' => $state['id'],
+                            'sigla' => $state['sigla'] ?? null,
+                            'nome' => $state['nome'],
+                        ]
+                        : null,
+    
+                    'municipio' => $city
+                        ? [
+                            'id' => $city['id'],
+                            'nome' => $city['nome'],
+                        ]
+                        : null,
+                ];
+    
+                // Mantém ranking_config e atualiza parcialmente
                 $event['ranking_config'] = $event['ranking_config'] ?? [];
-
-                // 🔹 Atualiza só dentro de ranking_config
+    
                 $event['ranking_config']['modalities_to_show'] =
                     is_array($this->editRankingConfig['modalities_to_show'])
                     ? $this->editRankingConfig['modalities_to_show']
                     : ($event['ranking_config']['modalities_to_show'] ?? []);
-
+    
                 $event['ranking_config']['top_positions'] =
                     max(0, (int)($this->editRankingConfig['top_positions']
                         ?? ($event['ranking_config']['top_positions'] ?? 0)));
-
+    
                 $event['ranking_config']['general_top_positions'] =
                     max(0, (int)($this->editRankingConfig['general_top_positions']
                         ?? ($event['ranking_config']['general_top_positions'] ?? 0)));
-
-                // 🔹 Importante: NÃO toca em $event['equipes'] nem em outras chaves
+    
                 break;
             }
         }
-
-        // 🔹 Salva só os ajustes no ranking_config e meta-dados
+    
         $this->saveEventsToStorage($this->events);
-
+    
         $this->banner('Evento atualizado com sucesso!');
         $this->closeEditModal();
         $this->loadEvents();
     }
+    
 
     public function openDeleteModal(string $eventId)
     {
@@ -221,6 +364,9 @@ class TbrDashboard extends Component
             'events' => $this->events ?? [],
             'categories' => config('tbr-config.categories') ?? [],
             'modalities' => $this->modalities,
+            'regions' => $this->regions,
+            'filteredEditStates' => $this->filteredEditStates,
+            'filteredEditCities' => $this->filteredEditCities,
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => $this->showSidebar,
             'title' => $this->title
