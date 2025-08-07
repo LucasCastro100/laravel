@@ -1,21 +1,22 @@
-<div class="py-8 bg-black text-white">
-    <div class="max-w-7xl mx-auto px-4">
-        {{-- VIDEO --}}
-        <section aria-labelledby="video" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
-            <header class="text-center">
-                <h1 id="video" class="text-3xl font-bold">Lorem ipsum</h1>
-                
-                <div class="font-ethnocentric text-4xl">
-                    Esta é a fonte Ethnocentric!
-                </div>
+<div class="bg-black text-white">
+    {{-- VIDEO --}}
+    <section aria-labelledby="video"
+        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-1.webp') }}')"
+        class="relative bg-auto bg-center bg-no-repeat">
 
-                <div class="font-bebas text-5xl">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+
+            <header class="text-center">
+                <h1 id="video" class="font-ethnocentric text-3xl font-bold">Shows Pro</h1>
+
+
+                {{-- <div class="font-bebas text-5xl hidden">
                     Esta é a fonte Bebas Kai!
-                </div>
+                </div> --}}
             </header>
 
             <div class="relative w-full" style="padding-top: 56.25%;">
-                <iframe class="absolute top-0 left-0 w-full h-full border-4 border-red-600 rounded-lg"
+                <iframe class="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-lg"
                     src="https://www.youtube.com/embed/k18wZeXXL1c" title="Lorem ipsum video" frameborder="0"
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -23,8 +24,18 @@
                 </iframe>
             </div>
 
+            <button
+                class="px-8 py-3 font-bold text-white rounded 
+                   bg-gradient-to-r from-[#b70202] to-[#ff1414] 
+                   shadow-[0_0_20px_#ff1414]
+                   transform transition-transform duration-300 
+                   hover:scale-105">
+                EU QUERO O ESSENTIAL PACK!
+            </button>
+
+
             <div class="w-full flex justify-center">
-                <img src="/caminho/da-imagem.jpg" alt="Imagem ilustrativa lorem ipsum"
+                <img src="{{ asset('storage/rc-studio/usando/pagamento.webp') }}" alt="Imagem ilustrativa lorem ipsum"
                     title="Imagem ilustrativa lorem ipsum" class="max-w-full rounded shadow-md" loading="lazy"
                     decoding="async" fetchpriority="low" />
             </div>
@@ -35,15 +46,20 @@
                     et dolore magna aliqua.
                 </p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{-- DESCRICAO PACK --}}
-        <section aria-labelledby="descricao-pack" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- DESCRICAO PACK --}}
+    <section aria-labelledby="descricao-pack"
+        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-2.webp') }}')"
+        class="relative bg-auto bg-center bg-no-repeat">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="descricao-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
 
-            <p class=text-base leading-relaxed">
+            <p class="text-base leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.
             </p>
@@ -54,74 +70,96 @@
             </div>
 
             <button
-                class="bg-blue-600 text-white font-bold py-2 px-6 rounded animate-pulse hover:bg-blue-700 transition duration-300"
-                type="button" aria-label="Clique para ação principal">
-                Clique Aqui
+                class="px-4 py-1 font-bold text-white rounded 
+                   bg-gradient-to-r from-[#b70202] to-[#ff1414] 
+                   shadow-[0_0_20px_#ff1414]
+                   transform transition-transform duration-300 
+                   hover:scale-105">
+                EU QUERO O SHOW PRO
             </button>
-        </section>
+        </div>
+    </section>
 
-        {{-- CARDS SOBRE OS PACK --}}
-        <section aria-labelledby="cards-pack" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- CARDS SOBRE OS PACK --}}
+    <section aria-labelledby="cards-pack"
+        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-3.webp') }}')"
+        class="relative bg-auto bg-center bg-no-repeat">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="cards-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 <!-- Card 1 -->
-                <article class="bg-gray-900 border border-white rounded shadow-md p-4 flex flex-col items-center"
+                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
                     role="group" aria-label="Card 1">
-                    <img src="/caminho/imagem1.jpg" alt="Imagem do Card 1" title="Imagem do Card 1"
-                        class="w-full h-48 object-cover rounded mb-4" loading="lazy" decoding="async"
+                    
+                    <!-- Imagem -->
+                    <img src="/storage/rc-studio/usando/card-samples.webp" alt="Imagem do Card 1" title="Imagem do Card 1"
+                        class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
                         fetchpriority="low" />
-                    <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+            
+                    <!-- Texto -->
+                    <div class="md:col-span-2 text-left">
+                        <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
+                        <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+                    </div>
                 </article>
-
-                <!-- Card 2 -->
-                <article class="bg-gray-900 border border-white rounded shadow-md p-4 flex flex-col items-center"
-                    role="group" aria-label="Card 2">
-                    <img src="/caminho/imagem1.jpg" alt="Imagem do Card 2" title="Imagem do Card 2"
-                        class="w-full h-48 object-cover rounded mb-4" loading="lazy" decoding="async"
+            
+                <!-- Card 2 (invertido) -->
+                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
+                    role="group" aria-label="Card 2">                    
+                    
+                    <!-- Texto -->
+                    <div class="md:col-span-2 text-left md:order-1">
+                        <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
+                        <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+                    </div>
+            
+                    <!-- Imagem -->
+                    <img src="/storage/rc-studio/usando/card-fx.webp" alt="Imagem do Card 2" title="Imagem do Card 2"
+                        class="w-full h-48 object-cover rounded md:h-full md:order-2" loading="lazy" decoding="async"
                         fetchpriority="low" />
-                    <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet.</p>
                 </article>
-
+            
                 <!-- Card 3 -->
-                <article class="bg-gray-900 border border-white rounded shadow-md p-4 flex flex-col items-center"
+                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
                     role="group" aria-label="Card 3">
-                    <img src="/caminho/imagem1.jpg" alt="Imagem do Card 3" title="Imagem do Card 3"
-                        class="w-full h-48 object-cover rounded mb-4" loading="lazy" decoding="async"
+                    
+                    <!-- Imagem -->
+                    <img src="/storage/rc-studio/usando/card-loops.webp" alt="Imagem do Card 3" title="Imagem do Card 3"
+                        class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
                         fetchpriority="low" />
-                    <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet.</p>
-                </article>
-
-                <!-- Card 4 -->
-                <article class="bg-gray-900 border border-white rounded shadow-md p-4 flex flex-col items-center"
-                    role="group" aria-label="Card 4">
-                    <img src="/caminho/imagem1.jpg" alt="Imagem do Card 4" title="Imagem do Card 4"
-                        class="w-full h-48 object-cover rounded mb-4" loading="lazy" decoding="async"
-                        fetchpriority="low" />
-                    <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
-                    <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+            
+                    <!-- Texto -->
+                    <div class="md:col-span-2 text-left">
+                        <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
+                        <p class="text-sm">Lorem ipsum dolor sit amet.</p>
+                    </div>
                 </article>
             </div>
+            
 
             <button
-                class="bg-blue-600 text-white font-bold py-2 px-6 rounded animate-pulse hover:bg-blue-700 transition duration-300"
-                type="button" aria-label="Clique para ação de cards">
-                Clique Aqui
+                class="px-4 py-1 font-bold text-white rounded 
+                   bg-gradient-to-r from-[#b70202] to-[#ff1414] 
+                   shadow-[0_0_20px_#ff1414]
+                   transform transition-transform duration-300 
+                   hover:scale-105">
+                EU QUERO O SHOW PRO
             </button>
-        </section>
+        </div>
+    </section>
 
-        {{-- FALANDO SOBRE OS PACK --}}
-        <section aria-labelledby="falando-pack" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- FALANDO SOBRE OS PACK --}}
+    <section aria-labelledby="falando-pack" class="relative">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="falando-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
 
-            <p class=text-base leading-relaxed">
+            <p class="text-base leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.
             </p>
@@ -189,9 +227,12 @@
             </div>
 
             <button
-                class="bg-blue-600 text-white font-bold py-2 px-6 rounded animate-pulse hover:bg-blue-700 transition duration-300"
-                type="button" aria-label="Clique para ação principal">
-                Clique Aqui
+                class="px-4 py-1 font-bold text-white rounded 
+                   bg-gradient-to-r from-[#b70202] to-[#ff1414] 
+                   shadow-[0_0_20px_#ff1414]
+                   transform transition-transform duration-300 
+                   hover:scale-105">
+                EU QUERO O SHOW PRO
             </button>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
@@ -214,13 +255,17 @@
                 <div class="border border-green-600 rounded-lg p-6 bg-gray-900">
                     <h3 class="text-white text-lg font-semibold mb-4">Lorem ipsum</h3>
                     <ul class="space-y-3 text-sm">
-                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem ipsum
+                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem
+                            ipsum
                             dolor sit amet.</li>
-                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem ipsum
+                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem
+                            ipsum
                             dolor sit amet.</li>
-                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem ipsum
+                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem
+                            ipsum
                             dolor sit amet.</li>
-                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem ipsum
+                        <li class="flex items-start gap-2"><span class="text-green-400 text-xl">✅</span> Lorem
+                            ipsum
                             dolor sit amet.</li>
                     </ul>
                 </div>
@@ -230,10 +275,12 @@
                 <img src="/caminho/da-imagem.jpg" alt="Lorem ipsum imagem final" title="Lorem ipsum imagem final"
                     class="rounded shadow-md w-full max-w-xs" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{-- VALORES --}}
-        <section aria-labelledby="valores" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- VALORES --}}
+    <section aria-labelledby="valores" class="relative">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="valores" class="text-2xl font-semibold">Lorem ipsum dolor sit amet</h2>
@@ -307,10 +354,12 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{-- FAQ --}}
-        <section aria-labelledby="faq" class="max-w-4xl mx-auto p-4 space-y-6 text-center ">
+    {{-- FAQ --}}
+    <section aria-labelledby="faq" class="relative">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
             <h2 id="faq" class="text-2xl font-semibold">Lorem ipsum</h2>
 
@@ -393,31 +442,36 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{-- QUEM SOU --}}
-        <section aria-labelledby="quem-sou" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- QUEM SOU --}}
+    <section aria-labelledby="quem-sou" class="relative">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center text-left">
-                <div class="md:col-span-2 space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-left">
+                <div class="">
                     <h2 id="quem-sou" class="text-2xl font-semibold text-center md:text-left">Lorem ipsum</h2>
-                    <p class=text-base leading-relaxed">
+                    <p class="text-base leading-relaxed">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.
                     </p>
                 </div>
 
-                <div class="flex justify-center md:justify-end">
-                    <img src="/caminho/da-imagem.jpg" alt="Imagem ilustrativa lorem ipsum"
-                        title="Imagem ilustrativa lorem ipsum" class="rounded shadow-md w-full max-w-xs"
-                        loading="lazy" decoding="async" fetchpriority="low" />
+                <div class="flex justify-center">
+                    <img src="{{ asset('storage/rc-studio/usando/rafa-quem-sou-eu.webp') }}"
+                        alt="Imagem ilustrativa lorem ipsum" title="Imagem ilustrativa lorem ipsum"
+                        class="rounded shadow-md w-full max-w-xs" loading="lazy" decoding="async"
+                        fetchpriority="low" />
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        {{-- FALE CONOSCO --}}
-        <section aria-labelledby="fale-conosco" class="max-w-4xl mx-auto p-4 space-y-6 text-center">
+    {{-- FALE CONOSCO --}}
+    <section aria-labelledby="fale-conosco" class="relative">
+        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="fale-conosco" class="text-2xl font-semibold">Lorem ipsum dolor?</h2>
@@ -432,6 +486,6 @@
                 <p>Lorem ipsum</p>
                 <p class="text-sm">© 2025 - Todos os direitos reservados</p>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
 </div>
