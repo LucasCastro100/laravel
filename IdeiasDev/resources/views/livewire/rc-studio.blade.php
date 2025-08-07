@@ -1,18 +1,15 @@
 <div class="bg-black text-white">
     {{-- VIDEO --}}
-    <section aria-labelledby="video"
-        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-1.webp') }}')"
+    <section style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-1.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat">
 
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
             <header class="text-center">
-                <h1 id="video" class="font-ethnocentric text-3xl font-bold">Shows Pro</h1>
+                <h1 class="font-ethnocentric text-2xl lg:text-4xl mb-2">Orquestre o Show Perfeito, Faça as suas produções impressionarem
+                    de verdade</h1>
 
-
-                {{-- <div class="font-bebas text-5xl hidden">
-                    Esta é a fonte Bebas Kai!
-                </div> --}}
+                <h2 class="font-bebas text-xl lg:text-3xl">O Shows Pro é o pack de samples e efeitos que vai mudar sua maneira de produzir! Eleve o nivel da sua produção do dia pra noite!</h2>
             </header>
 
             <div class="relative w-full" style="padding-top: 56.25%;">
@@ -30,7 +27,7 @@
                    shadow-[0_0_20px_#ff1414]
                    transform transition-transform duration-300 
                    hover:scale-105">
-                EU QUERO O ESSENTIAL PACK!
+                GARANTIR O SHOWS PRO AGORA
             </button>
 
 
@@ -39,99 +36,108 @@
                     title="Imagem ilustrativa lorem ipsum" class="max-w-full rounded shadow-md" loading="lazy"
                     decoding="async" fetchpriority="low" />
             </div>
-
-            <div class="text-center">
-                <p class=text-lg leading-relaxed">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
-                </p>
-            </div>
         </div>
     </section>
 
     {{-- DESCRICAO PACK --}}
-    <section aria-labelledby="descricao-pack"
-        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-2.webp') }}')"
+    <section style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-2.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
-            <h2 id="descricao-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
+            <h2 id="descricao-pack" class="font-bebas text-xl lg:text-3xl">Você é produtor, músico ou cantor e sabe:</h2>
 
-            <p class="text-base leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-            </p>
+            <ul class="text-lg md:text-xl text-gray-200 mb-8 space-y-4">
+                <li class="flex items-start gap-3">
+                    <i class="fas fa-music text-white-400 mt-1" aria-hidden="true"></i>
+                    <span>A <span class="text-white font-bold">abertura decide</span> se a plateia vai arrepiar… ou abrir o Instagram.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <i class="fas fa-music text-white-400 mt-1" aria-hidden="true"></i>
+                    <span>Sem um impacto inicial, o show inteiro <span class="text-white font-bold">luta em
+                            ladeira.</span></span>
+                </li>
+            </ul>
 
-            <div class="flex justify-center">
-                <img src="/caminho/da-imagem.jpg" alt="Imagem complementar" title="Imagem complementar"
-                    class="max-w-full rounded shadow-md" loading="lazy" decoding="async" fetchpriority="low" />
+            <!-- Alerta de dor -->
+            <div class="bg-red-100 border border-red-300 text-red-800 px-6 py-4 rounded-lg font-semibold mb-8 w-full">
+                <p class="mb-2">Chega de não saber por onde começar.</p>
+                <p class="mb-2">Chega de intros e samples genéricos copiados do YouTube.</p>
+                <p>Chega de passar horas mixando e ainda assim sempre “<span class="italic">falta algo</span>”.</p>
             </div>
 
+            <!-- Dor reforçada -->
+            <p class="text-xl md:text-2xl text-gray-300 mb-10 text-center">
+                Muitas vezes você terá <span class="text-white font-bold">apenas segundos</span> para provar que não
+                veio brincar!
+            </p>
+
             <button
-                class="px-4 py-1 font-bold text-white rounded 
+                class="px-8 py-3 font-bold text-white rounded 
                    bg-gradient-to-r from-[#b70202] to-[#ff1414] 
                    shadow-[0_0_20px_#ff1414]
                    transform transition-transform duration-300 
                    hover:scale-105">
-                EU QUERO O SHOW PRO
+                GARANTIR O SHOWS PRO AGORA
             </button>
         </div>
     </section>
 
     {{-- CARDS SOBRE OS PACK --}}
-    <section aria-labelledby="cards-pack"
-        style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-3.webp') }}')"
+    <section style="background-image: url('{{ asset('storage/rc-studio/usando/fundo-dobra-3.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
-            <h2 id="cards-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
+            <h2 id="cards-pack" class="font-bebas text-xl lg:text-3xl">Tudo que você precisa está dentro do Pack 🎶SHOWS PRO!🎶
+            </h2>
 
             <div class="grid grid-cols-1 gap-6">
                 <!-- Card 1 -->
-                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
-                    role="group" aria-label="Card 1">
-                    
+                <article
+                    class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
+                    role="group">
+
                     <!-- Imagem -->
-                    <img src="/storage/rc-studio/usando/card-samples.webp" alt="Imagem do Card 1" title="Imagem do Card 1"
-                        class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
-                        fetchpriority="low" />
-            
+                    <img src="/storage/rc-studio/usando/card-samples.webp" alt="Imagem do Card 1"
+                        title="Imagem do Card 1" class="w-full h-48 object-cover rounded md:h-full" loading="lazy"
+                        decoding="async" fetchpriority="low" />
+
                     <!-- Texto -->
                     <div class="md:col-span-2 text-left">
                         <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
                         <p class="text-sm">Lorem ipsum dolor sit amet.</p>
                     </div>
                 </article>
-            
+
                 <!-- Card 2 (invertido) -->
-                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
-                    role="group" aria-label="Card 2">                    
-                    
+                <article
+                    class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
+                    role="group">
+
                     <!-- Texto -->
                     <div class="md:col-span-2 text-left md:order-1">
                         <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
                         <p class="text-sm">Lorem ipsum dolor sit amet.</p>
                     </div>
-            
+
                     <!-- Imagem -->
                     <img src="/storage/rc-studio/usando/card-fx.webp" alt="Imagem do Card 2" title="Imagem do Card 2"
                         class="w-full h-48 object-cover rounded md:h-full md:order-2" loading="lazy" decoding="async"
                         fetchpriority="low" />
                 </article>
-            
+
                 <!-- Card 3 -->
-                <article class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
-                    role="group" aria-label="Card 3">
-                    
+                <article
+                    class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4"
+                    role="group">
+
                     <!-- Imagem -->
                     <img src="/storage/rc-studio/usando/card-loops.webp" alt="Imagem do Card 3" title="Imagem do Card 3"
                         class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
                         fetchpriority="low" />
-            
+
                     <!-- Texto -->
                     <div class="md:col-span-2 text-left">
                         <h3 class="text-lg font-semibold mb-2">Lorem ipsum</h3>
@@ -139,22 +145,21 @@
                     </div>
                 </article>
             </div>
-            
 
             <button
-                class="px-4 py-1 font-bold text-white rounded 
+                class="px-8 py-3 font-bold text-white rounded 
                    bg-gradient-to-r from-[#b70202] to-[#ff1414] 
                    shadow-[0_0_20px_#ff1414]
                    transform transition-transform duration-300 
                    hover:scale-105">
-                EU QUERO O SHOW PRO
+                GARANTIR O SHOWS PRO AGORA
             </button>
         </div>
     </section>
 
     {{-- FALANDO SOBRE OS PACK --}}
-    <section aria-labelledby="falando-pack" class="relative">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+    <section class="relative">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="falando-pack" class="text-2xl font-semibold">Lorem ipsum</h2>
@@ -182,8 +187,6 @@
                         </p>
                     </div>
                     <div class="flex justify-center">
-                        <img src="https://via.placeholder.com/300x200" alt="Lorem ipsum imagem"
-                            class="max-w-xs rounded shadow" />
                     </div>
                 </div>
 
@@ -201,8 +204,6 @@
                         </p>
                     </div>
                     <div class="flex justify-center">
-                        <img src="https://via.placeholder.com/300x200" alt="Lorem ipsum imagem"
-                            class="max-w-xs rounded shadow" />
                     </div>
                 </div>
 
@@ -220,19 +221,17 @@
                         </p>
                     </div>
                     <div class="flex justify-center">
-                        <img src="https://via.placeholder.com/300x200" alt="Lorem ipsum imagem"
-                            class="max-w-xs rounded shadow" />
                     </div>
                 </div>
             </div>
 
             <button
-                class="px-4 py-1 font-bold text-white rounded 
+                class="px-8 py-3 font-bold text-white rounded 
                    bg-gradient-to-r from-[#b70202] to-[#ff1414] 
                    shadow-[0_0_20px_#ff1414]
                    transform transition-transform duration-300 
                    hover:scale-105">
-                EU QUERO O SHOW PRO
+                GARANTIR O SHOWS PRO AGORA
             </button>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
@@ -270,24 +269,18 @@
                     </ul>
                 </div>
             </div>
-
-            <div class="flex justify-center">
-                <img src="/caminho/da-imagem.jpg" alt="Lorem ipsum imagem final" title="Lorem ipsum imagem final"
-                    class="rounded shadow-md w-full max-w-xs" loading="lazy" decoding="async" fetchpriority="low" />
-            </div>
         </div>
     </section>
 
     {{-- VALORES --}}
-    <section aria-labelledby="valores" class="relative">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+    <section class="relative">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="valores" class="text-2xl font-semibold">Lorem ipsum dolor sit amet</h2>
             <h3 class="text-xl font-semibold">Lorem ipsum consectetur</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-
                 <!-- Oferta Básica -->
                 <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg">
                     <h2 class="text-2xl font-bold mb-2">Lorem ipsum</h2>
@@ -358,10 +351,10 @@
     </section>
 
     {{-- FAQ --}}
-    <section aria-labelledby="faq" class="relative">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+    <section class="relative">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
-            <h2 id="faq" class="text-2xl font-semibold">Lorem ipsum</h2>
+            <h2 class="text-2xl font-semibold">Lorem ipsum</h2>
 
             <div class="text-left" x-data="{ open: [] }">
                 <h2 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h2>
@@ -446,13 +439,13 @@
     </section>
 
     {{-- QUEM SOU --}}
-    <section aria-labelledby="quem-sou" class="relative">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+    <section class="relative">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
+             <h2 class="text-2xl font-semibold text-center md:text-left">Lorem ipsum</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-left">
-                <div class="">
-                    <h2 id="quem-sou" class="text-2xl font-semibold text-center md:text-left">Lorem ipsum</h2>
+                <div>                   
                     <p class="text-base leading-relaxed">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.
@@ -470,15 +463,15 @@
     </section>
 
     {{-- FALE CONOSCO --}}
-    <section aria-labelledby="fale-conosco" class="relative">
-        <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+    <section class="relative">
+        <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
-            <h2 id="fale-conosco" class="text-2xl font-semibold">Lorem ipsum dolor?</h2>
+            <h2 class="text-2xl font-semibold">Lorem ipsum dolor?</h2>
 
             <a href="https://wa.me/5534991256642" target="_blank" rel="noopener noreferrer"
                 class="inline-block bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition"
-                aria-label="Entrar em contato via WhatsApp">
+            >
                 Entrar em contato via WhatsApp
             </a>
 

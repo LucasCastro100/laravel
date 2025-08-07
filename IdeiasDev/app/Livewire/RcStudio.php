@@ -11,6 +11,8 @@ class RcStudio extends Component
     public $description;
     public $image;
     public $url;
+    public $keywords;
+    public $author;
 
     public function mount()
     {
@@ -19,6 +21,10 @@ class RcStudio extends Component
         $this->description = "";
         $this->image = "";
         $this->url = "";
+
+        // Novas metatags
+        $this->keywords = "produção musical, intros, samples, curso de música, beatmaker, mixagem, criatividade";
+        $this->author = "RcStudio";
     }
 
     public function render()
@@ -30,7 +36,9 @@ class RcStudio extends Component
                 'title' => $this->title,
                 'description' => $this->description,
                 'image' => $this->image,
-                'url' => $this->url
+                'url' => $this->url,
+                'keywords' => $this->keywords,
+                'author' => $this->author,
             ]);
     }
 }

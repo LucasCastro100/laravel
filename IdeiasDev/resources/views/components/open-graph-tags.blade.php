@@ -1,3 +1,9 @@
+<!-- SEO Meta Tags -->
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="keywords" content="música, produção musical, intros, beats, artista, cantor"> <!-- opcional -->
+<meta name="author" content="Seu Nome ou Marca">
+
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="{{ $title }}" />
 <meta property="og:description" content="{{ $description }}" />
