@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Meta Tags --}}
-    <title>{{ $title }}</title>
+    <title>{{ $titlePage }}</title>
     <meta name="description" content="{{ $description }}">
     <meta name="keywords" content="música, produção musical, intros, beats, artista, cantor"> <!-- opcional -->
     <meta name="author" content="Seu Nome ou Marca">

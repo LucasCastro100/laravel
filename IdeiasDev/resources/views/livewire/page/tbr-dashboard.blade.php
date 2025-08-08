@@ -31,8 +31,14 @@
                                 <li>
                                     <button wire:click="openScoreModal('{{ $event['id'] }}')"
                                         class="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                                        Notas
+                                        Avaliações
                                     </button>
+                                </li>
+                                <li>
+                                    <a href="{{ route('tbr.link', ['event_id' => $event['id']]) }}"
+                                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        Links das avaliações
+                                    </a>
                                 </li>
                                 <li>
                                     <button wire:click="openEditModal('{{ $event['id'] }}')"
@@ -216,7 +222,7 @@
                         {{-- Estado --}}
                         @if ($editSelectedRegionId)
                             <div class="mb-4">
-                                <label class="block font-semibold">Estado</label>                                
+                                <label class="block font-semibold">Estado</label>
 
                                 @if (count($filteredEditStates) > 0)
                                     <input list="editStates" wire:model.lazy="editSelectedState"
@@ -230,7 +236,8 @@
                                     </datalist>
                                 @endif
 
-                                <div wire:loading.delay wire:target="editSelectedState" wire:loading.class='w-full p-2'>
+                                <div wire:loading.delay wire:target="editSelectedState"
+                                    wire:loading.class='w-full p-2'>
                                     <span class="font-semibold">Carregando Municípios...</span>
                                 </div>
                             </div>
@@ -238,7 +245,7 @@
 
                         {{-- Município --}}
                         @if ($editSelectedStateId)
-                            <div class="mb-4">                          
+                            <div class="mb-4">
                                 <label class="block font-semibold">Município</label>
                                 @if (count($filteredEditCities) > 0)
                                     <input list="editCities" wire:model.lazy="editSelectedCity"

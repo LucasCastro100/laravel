@@ -17,8 +17,8 @@ class RcStudio extends Component
     public function mount()
     {
         $this->titlePage = "RcStudio";
-        $this->title = "";
-        $this->description = "";
+        $this->title = "RcStudio - Shows Pro";
+        $this->description = "Shows Pro - focada em produção musical, criação de intros, samples e pacotes de música.";
         $this->image = "";
         $this->url = "";
 
