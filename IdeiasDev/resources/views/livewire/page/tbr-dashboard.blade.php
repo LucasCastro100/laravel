@@ -156,7 +156,8 @@
                                 };
                             @endphp
 
-                            <a href="{{ route('tbr.score', ['event_id' => $selectedEventId, 'category_id' => $selectedCategory, 'modality_id' => $modality['id']]) }}" target="_blank"
+                            <a href="{{ route('tbr.score', ['event_id' => $selectedEventId, 'category_id' => $selectedCategory, 'modality_id' => $modality['id']]) }}"
+                                target="_blank"
                                 class="py-2 rounded text-center text-white hover:opacity-90 transition {{ $colorClass }}">
                                 {{ $modality['label'] }}
                             </a>
@@ -177,25 +178,50 @@
     <!-- Modal de edição -->
     @if ($showEditModal)
         <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
+            <form wire:submit.prevent="updateEvent" class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
                 <h2 class="text-xl font-bold mb-4">Editar Evento</h2>
 
                 <div class="space-y-4 text-left">
+                    <fieldset class="border border-gray-300 rounded p-4 mt-4">
+                        <legend class="font-semibold mb-2">Dados Evento</legend>
+                        <div class="mb-4">
+                            {{-- Nome do evento --}}
+                            <label class="block font-semibold">Nome do evento</label>
+                            <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
+                                wire:model.defer="editEventName">
+                            @error('editEventName')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    {{-- Nome do evento --}}
-                    <label class="block font-semibold">Nome do evento</label>
-                    <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
-                        wire:model.defer="editEventName">
-                    @error('editEventName')
-                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                    @enderror
+                        <div class="mb-4">
+                            {{-- Data do evento --}}
+                            <label class="block font-semibold">Data do evento</label>
+                            <input type="date" class="w-full border rounded px-3 py-2"
+                                wire:model.defer="editEventDate">
+                            @error('editEventDate')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    {{-- Data do evento --}}
-                    <label class="block font-semibold">Data do evento</label>
-                    <input type="date" class="w-full border rounded px-3 py-2" wire:model.defer="editEventDate">
-                    @error('editEventDate')
-                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                    @enderror
+                        <div class="mb-0">
+                            {{-- Status do evento --}}
+                            <label class="block font-semibold mb-1">Status do Evento</label>
+                            <div class="flex gap-6">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="editEventStatus" wire:model="editEventStatus"
+                                        value="0" class="form-radio text-blue-600" />
+                                    <span class="ml-2 text-blue-600 font-semibold">Em andamento</span>
+                                </label>
+
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="editEventStatus" wire:model="editEventStatus"
+                                        value="1" class="form-radio text-green-600" />
+                                    <span class="ml-2 text-green-600 font-semibold">Concluído</span>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
 
                     {{-- Localização --}}
                     <fieldset class="border border-gray-300 rounded p-4">
@@ -245,7 +271,7 @@
 
                         {{-- Município --}}
                         @if ($editSelectedStateId)
-                            <div class="mb-4">
+                            <div class="mb-0">
                                 <label class="block font-semibold">Município</label>
                                 @if (count($filteredEditCities) > 0)
                                     <input list="editCities" wire:model.lazy="editSelectedCity"
@@ -309,16 +335,16 @@
                 </div>
 
                 <div class="text-right space-x-2 mt-6">
-                    <button wire:click="updateEvent"
+                    <button type="submit"
                         class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Atualizar</button>
-                    <button wire:click="closeEditModal"
+                    <button type="button" wire:click="closeEditModal"
                         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
                 </div>
 
-                <div wire:loading wire:loading.target="updateEvent" wire:loading.class='w-full p-2'>
+                <div wire:loading wire:target="updateEvent" class="w-full p-2">
                     <span class="font-semibold">Atualizando evento...</span>
                 </div>
-            </div>
+            </form>
         </div>
     @endif
 
@@ -330,9 +356,9 @@
                 <p class="mb-4 text-center">Tem certeza que deseja apagar este evento?</p>
 
                 <div class="flex justify-end gap-2">
-                    <button wire:click="closeDeleteModal"
+                    <button type="button" wire:click="closeDeleteModal"
                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Cancelar</button>
-                    <button wire:click="deleteEvent"
+                    <button type="button" wire:click="deleteEvent"
                         class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Apagar</button>
                 </div>
             </div>

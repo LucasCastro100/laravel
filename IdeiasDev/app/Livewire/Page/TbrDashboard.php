@@ -38,6 +38,8 @@ class TbrDashboard extends Component
 
     public $showSidebar = true;
 
+    public $editEventStatus;
+
     // Região - Estado - Cidade
     public $editSelectedRegion = null;     // nome digitado
     public $editSelectedRegionId = null;   // id resolvido
@@ -167,6 +169,9 @@ class TbrDashboard extends Component
             $this->editEventName = $event['nome'] ?? '';
             $this->editEventDate = $event['data'] ?? '';
 
+            // Aqui pega o status do evento do JSON (assumindo que seja 0 ou 1)
+            $this->editEventStatus = isset($event['status']) ? (string) $event['status'] : '0';
+
             // Config ranking
             $this->editRankingConfig = [
                 'modalities_to_show' => $event['ranking_config']['modalities_to_show'] ?? [],
@@ -223,8 +228,10 @@ class TbrDashboard extends Component
         $this->editSelectedCity = null;
         $this->filteredEditStates = [];
         $this->filteredEditCities = [];
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
-    
+
     public function updateEvent()
     {
         $this->validate([
@@ -235,27 +242,29 @@ class TbrDashboard extends Component
             'editRankingConfig.modalities_to_show' => 'nullable|array',
             'editRankingConfig.modalities_to_show.*' => 'in:ap,mc,om,te,dp',
         ]);
-    
+
         foreach ($this->events as &$event) {
             if ($event['id'] === $this->selectedEventId) {
-    
+
                 // Atualiza meta-dados
                 $event['nome'] = $this->editEventName;
                 $event['data'] = $this->editEventDate;
-    
+
                 // Busca objetos completos com base no nome selecionado
                 $region = $this->editSelectedRegion
                     ? collect($this->regions)->firstWhere('nome', $this->editSelectedRegion)
                     : null;
-    
+
                 $state = $this->editSelectedState
                     ? collect($this->filteredEditStates)->firstWhere('nome', $this->editSelectedState)
                     : null;
-    
+
                 $city = $this->editSelectedCity
                     ? collect($this->filteredEditCities)->firstWhere('nome', $this->editSelectedCity)
                     : null;
-    
+
+                $event['status'] = (int) $this->editEventStatus;
+
                 // Atualiza localização simplificada
                 $event['localizacao'] = [
                     'regiao' => $region
@@ -265,7 +274,7 @@ class TbrDashboard extends Component
                             'nome' => $region['nome'],
                         ]
                         : null,
-    
+
                     'estado' => $state
                         ? [
                             'id' => $state['id'],
@@ -273,7 +282,7 @@ class TbrDashboard extends Component
                             'nome' => $state['nome'],
                         ]
                         : null,
-    
+
                     'municipio' => $city
                         ? [
                             'id' => $city['id'],
@@ -281,34 +290,34 @@ class TbrDashboard extends Component
                         ]
                         : null,
                 ];
-    
+
                 // Mantém ranking_config e atualiza parcialmente
                 $event['ranking_config'] = $event['ranking_config'] ?? [];
-    
+
                 $event['ranking_config']['modalities_to_show'] =
                     is_array($this->editRankingConfig['modalities_to_show'])
                     ? $this->editRankingConfig['modalities_to_show']
                     : ($event['ranking_config']['modalities_to_show'] ?? []);
-    
+
                 $event['ranking_config']['top_positions'] =
                     max(0, (int)($this->editRankingConfig['top_positions']
                         ?? ($event['ranking_config']['top_positions'] ?? 0)));
-    
+
                 $event['ranking_config']['general_top_positions'] =
                     max(0, (int)($this->editRankingConfig['general_top_positions']
                         ?? ($event['ranking_config']['general_top_positions'] ?? 0)));
-    
+
                 break;
             }
         }
-    
+
         $this->saveEventsToStorage($this->events);
-    
-        $this->banner('Evento atualizado com sucesso!');
+
+        $this->banner('Evento atualizado com sucesso!');        
         $this->closeEditModal();
         $this->loadEvents();
     }
-    
+
 
     public function openDeleteModal(string $eventId)
     {

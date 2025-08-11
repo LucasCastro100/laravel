@@ -89,21 +89,27 @@
                 <h2 class="text-xl font-bold mb-4">Cadastrar Evento</h2>
 
                 <div class="space-y-4 text-left">
+                    <fieldset class="border border-gray-300 rounded p-4 mt-4">
+                        <legend class="font-semibold mb-2">Dados Evento</legend>
+                        <div class="mb-4">
+                            {{-- Nome do evento --}}
+                            <label class="block font-semibold">Nome do evento</label>
+                            <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
+                                wire:model.defer="eventName">
+                            @error('eventName')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    {{-- Nome do evento --}}
-                    <label class="block font-semibold">Nome do evento</label>
-                    <input type="text" class="w-full border rounded px-3 py-2" placeholder="Nome do evento"
-                        wire:model.defer="eventName">
-                    @error('eventName')
-                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                    @enderror
-
-                    {{-- Data do evento --}}
-                    <label class="block font-semibold">Data do evento</label>
-                    <input type="date" class="w-full border rounded px-3 py-2" wire:model.defer="eventDate">
-                    @error('eventDate')
-                        <span class="text-red-600 text-sm">{{ $message }}</span>
-                    @enderror
+                        <div class="mb-0">
+                            {{-- Data do evento --}}
+                            <label class="block font-semibold">Data do evento</label>
+                            <input type="date" class="w-full border rounded px-3 py-2" wire:model.defer="eventDate">
+                            @error('eventDate')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </fieldset>
 
                     {{-- Localização --}}
                     <fieldset class="border border-gray-300 rounded p-4">
@@ -151,7 +157,7 @@
 
                         {{-- Município --}}
                         @if ($selectedStateId)
-                            <div class="mb-4">
+                            <div class="mb-0">
                                 <label class="block font-semibold">Município</label>
 
                                 @if (count($filteredCities) > 0)
@@ -213,7 +219,7 @@
                         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded transition">Fechar</button>
                 </div>
 
-                <div wire:loading wire:loading.target="saveEvent" wire:loading.class='w-full p-2'>
+                <div wire:loading wire:target="saveEvent" wire:class='w-full p-2'>
                     <span class="font-semibold">Salvando evento...</span>
                     </span>
                 </div>

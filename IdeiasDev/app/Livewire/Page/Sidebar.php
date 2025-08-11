@@ -184,6 +184,7 @@ class Sidebar extends Component
             'id' => Str::upper(Str::random(12)),
             'nome' => $this->eventName,
             'data' => $this->eventDate,
+            'status' => 0,
             // Localização simplificada para salvar só id, sigla e nome, sem dados extras
             'localizacao' => [
                 'regiao' => $this->selectedRegion
