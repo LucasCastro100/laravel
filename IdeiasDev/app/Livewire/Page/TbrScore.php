@@ -40,7 +40,7 @@ class TbrScore extends Component
     public $showSidebar = true;
 
     // aqui apra multiplicar notas das missoes no dp  
-    public $blocks = [];  
+    public $blocks = [];
     public $scoresDP = [];
     public $missions = [];
     public $dp_pontos = 0;
@@ -52,7 +52,7 @@ class TbrScore extends Component
     {
         $this->event_id = $event_id;
         $this->category_id = $category_id;
-        $this->modality_id = $modality_id;        
+        $this->modality_id = $modality_id;
 
         $this->loadEvent();
         $this->setQuestionLevelFromCategoryId($category_id);
@@ -115,6 +115,7 @@ class TbrScore extends Component
             $this->hasAssessment = false;
             return;
         }
+
         $this->modalitieSlug = $this->modality['slug'];
 
         if ($this->modalitieSlug == 'dp') {
@@ -315,8 +316,6 @@ class TbrScore extends Component
 
         $flattenedScores = $this->flattenScores($this->scores ?? [], $dp_categorie);
 
-        // dd($this->scores, $this->bonus, $flattenedScores);
-
         if (!isset($team['modalities'][$modalitySlug])) {
             $team['modalities'][$modalitySlug] = [
                 'nota' => [
@@ -381,10 +380,85 @@ class TbrScore extends Component
         }
     }
 
-    public function saveScores()
+    private function validateScores()
     {
+        // Verifica se equipe foi selecionada
         if (!$this->selectedTeamId) {
             $this->dangerBanner('Selecione uma equipe antes de salvar.');
+            return false;
+        }
+
+        // Verifica se algum score foi enviado (para radio)
+        if (empty($this->scores) && empty($this->scoresDP)) {
+            $this->dangerBanner('Você precisa responder todas as perguntas.');
+            return false;
+        }
+
+        // Inicializa o bônus como 'nao'
+        $this->bonus = 'nao';
+
+        foreach ($this->question ?? [] as $index => $question) {
+            $type = $question['type'] ?? 'radio';
+            $description = $question['description'] ?? "Pergunta {$index}";
+
+            if ($type === 'radio') {
+                // Para radio, pega o valor em scores
+                $value = $this->scores[$index] ?? null;
+                if ($value === null || $value === '') {
+                    $this->dangerBanner("Você precisa selecionar uma opção para a pergunta '{$description}'.");
+                    return false;
+                }
+            } elseif ($type === 'number') {
+                // Para number, pega valores do scoresDP
+                $values = $this->scoresDP[$index] ?? null;
+
+                if (!is_array($values) || empty($values)) {
+                    $this->dangerBanner("Você precisa preencher a pergunta '{$description}'.");
+                    return false;
+                }
+
+                $sumValues = 0;
+
+                foreach ($values as $itemIndex => $value) {
+                    if ($value === null || $value === '') {
+                        $this->dangerBanner("Você precisa preencher o item #{$itemIndex} da pergunta '{$description}'.");
+                        return false;
+                    }
+
+                    // Verifica se é inteiro (pode ajustar para float se quiser)
+                    if (!is_numeric($value) || intval($value) != $value) {
+                        $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve ser um número inteiro.");
+                        return false;
+                    }
+
+                    $intValue = intval($value);
+
+                    if ($intValue < 0 || $intValue > 10) {
+                        $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve estar entre 0 e 10.");
+                        return false;
+                    }
+
+                    $sumValues += $intValue;
+                }
+
+                if ($sumValues > 10) {
+                    $this->dangerBanner("A soma dos valores da pergunta '{$description}' não pode ser maior que 10. Atualmente está {$sumValues}.");
+                    return false;
+                }
+
+                if ($sumValues === 10) {
+                    $this->bonus = 'sim';
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    public function saveScores()
+    {
+        if (!$this->validateScores()) {
             return;
         }
 
@@ -399,9 +473,11 @@ class TbrScore extends Component
         if (!$modalitySlug) {
             $this->warningBanner('Modalidade inválida.');
             return;
-        }
+        }        
 
         $this->calculateScorePerQuestion();
+
+        ksort($this->scores);
 
         // Carregar o JSON atual do disco para manter dados anteriores intactos
         $jsonData = Storage::disk('public')->exists('tbr/json/data.json')
@@ -445,18 +521,6 @@ class TbrScore extends Component
         Storage::disk('public')->put('tbr/json/data.json', json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         $this->showSuccessModal = true;
-
-        // $this->selectedTeamId = null;
-        // $this->loadEvent();
-        // $this->filterTeams();
-
-        // $this->resetValidation();
-        // $this->banner('Pontuação salva com sucesso!');
-        // $this->selectedTeamId = null;
-        // $this->scores = [];
-        // $this->comment = '';
-        // $this->bonus = 'nao';
-        // $this->loadQuestion();
     }
 
     public function render()

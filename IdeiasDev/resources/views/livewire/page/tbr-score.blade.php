@@ -43,10 +43,10 @@
 
                                 <ul
                                     class="text-gray-700 list-none grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-                                    <li class="flex flex-col items-center p-4 border rounded shadow justify-center">
+                                    {{-- <li class="flex flex-col items-center p-4 border rounded shadow justify-center">
                                         <img src="/storage/tbr/image/dp/{{ asset($block['image']) }}" alt="Imagem da questão"
                                             class="w-16 h-16 object-cover rounded shadow">
-                                    </li>
+                                    </li> --}}
 
                                     @foreach ($block['itens'] as $itemIndex => $item)
                                         <li class="flex flex-col items-center p-4 border rounded shadow">
@@ -69,7 +69,7 @@
                                                         wire:model="scores.{{ $block['mission'] }}.{{ $index }}"
                                                         class="w-5 h-5">
                                                 @elseif ($block['type'] === 'number')
-                                                    <input type="number"
+                                                    <input type="number" min="0" max="10"
                                                         class="w-20 border rounded px-2 py-1 text-center" min="0"
                                                         wire:model="scoresDP.{{ $block['mission'] }}.{{ $itemIndex }}"
                                                         wire:input="updateScoreDPManual($event.target.value, '{{ $block['mission'] }}.{{ $itemIndex }}')">
@@ -86,7 +86,7 @@
                                     @endforeach
                                 </ul>
 
-                                @if ($block['rules'])
+                                {{-- @if ($block['rules'])
                                     <div class="mt-4">
                                         <span class="font-medium text-gray-800">Bônus realizado?</span>
                                         <div class="flex gap-4 mt-2">
@@ -100,7 +100,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
                             </div>
                             <hr class="border-gray-300 my-6">
                         @endforeach
@@ -188,5 +188,4 @@
             </div>
         </div>
     @endif
-
 </div>

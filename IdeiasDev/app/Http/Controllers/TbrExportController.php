@@ -552,9 +552,9 @@ class TbrExportController extends Controller
             $teamsByCategory[$catSlug] = $teams;
         }
 
-        $backgroundPath = storage_path('app/public/tbr/image/apresentacao/img.jpg');
-        if (!file_exists($backgroundPath)) abort(500, 'Imagem de fundo não encontrada.');
-        $backgroundBase64 = 'data:image/jpg;base64,' . base64_encode(file_get_contents($backgroundPath));
+        // $backgroundPath = storage_path('app/public/tbr/image/apresentacao/img.jpg');
+        // if (!file_exists($backgroundPath)) abort(500, 'Imagem de fundo não encontrada.');
+        // $backgroundBase64 = 'data:image/jpg;base64,' . base64_encode(file_get_contents($backgroundPath));
 
         foreach ($event['equipes'] as $team) {
             $teamId = $team['id'] ?? null;
@@ -585,18 +585,19 @@ class TbrExportController extends Controller
             height: 297mm;
             width: 100%;
             font-family: Arial, sans-serif;
-            background-image: url("$backgroundBase64");
+            /* background-image: url("backgroundBase64");
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            color: white;
+            background-repeat: no-repeat; */
+            color: rgba(0, 0, 0, 1);
         }
         .page {
             width: 100%;
             height: 100%;
             page-break-after: always;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 1);
             box-sizing: border-box;
+            color: rgba(0, 0, 0, 1);
         }
         .content-center {
             position: absolute;
@@ -622,7 +623,7 @@ class TbrExportController extends Controller
                 font-size: 18pt;
                 padding: 10px;
                 text-align: center;
-                color: #fff;
+                color: rgba(0, 0, 0, 1);
             }
             .tables-wrapper {                
                 display: flex;
@@ -640,7 +641,7 @@ class TbrExportController extends Controller
                 width: 100%;
                 border-collapse: collapse;
                 font-size: 10pt;
-                color: white;                
+                color: rgba(0, 0, 0, 1);                
             }
             .bloco_filho_direita {
             position: absolute;
@@ -657,7 +658,7 @@ class TbrExportController extends Controller
             margin-bottom: 10px;
         }
             th, td {
-                border: 1px solid white;
+                border: 1px solid rgba(0, 0, 0, 1);
                 padding: 4px;
                 text-align: center;
             }
@@ -670,7 +671,7 @@ class TbrExportController extends Controller
             .comment {
                 font-size: 7pt;
                 font-style: italic;
-                color: #fff;                
+                color: rgba(0, 0, 0, 1);                
             }
         </style>
         </head>
@@ -738,17 +739,18 @@ class TbrExportController extends Controller
                     $notasRoundMaior = $roundMaior ? ($dpNotasRounds[$roundMaior] ?? []) : [];
 
                     // Agora monta a tabela usando as descrições do dpConfigLevel['itens']
-                    foreach ($dpConfigLevel as $index => $item) {                        
+                    foreach ($dpConfigLevel as $index => $item) {
                         $nota = isset($notasRoundMaior[$index]) ? number_format(floatval($notasRoundMaior[$index]), 2) : '-';
                         // dd($item, $nota);
                         $html .= '<tr><td class="desc">' . htmlspecialchars($item['description']) . '</td><td>' . $nota . '</td></tr>';
                     }
                 } else {
-                    // Caso diferente de dp, processa normal
+                    $noteIndex = 0; // contador global
                     foreach ($questionsConfigList as $block) {
-                        foreach ($block['description'] ?? [] as $i => $desc) {
-                            $nota = isset($teamNotes[$i]) ? number_format(floatval($teamNotes[$i]), 2) : '-';
+                        foreach ($block['description'] ?? [] as $desc) {
+                            $nota = isset($teamNotes[$noteIndex]) ? number_format(floatval($teamNotes[$noteIndex]), 2) : '-';
                             $html .= '<tr><td class="desc">' . htmlspecialchars($desc) . '</td><td>' . $nota . '</td></tr>';
+                            $noteIndex++;
                         }
                     }
                 }
@@ -780,7 +782,7 @@ class TbrExportController extends Controller
                     $html .= '</tbody></table>';
                 } else {
                     $html .= '<table><thead><tr><th>Comentário</th></tr></thead><tbody>';
-                    $html .= '<tr><td></td></tr>';
+                    $html .= '<tr><td> - </td></tr>';
                     $html .= '</tbody></table>';
                 }
 

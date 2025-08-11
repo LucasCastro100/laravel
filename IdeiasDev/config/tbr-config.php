@@ -465,7 +465,7 @@ return [
                         'value' => '0'
                     ]
                 ],
-                'type' => 'number',
+                'type' => 'radio',
                 'rules' => false,
                 'bonus' => '0'
             ],
