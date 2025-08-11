@@ -63,7 +63,7 @@ class TbrLinks extends Component
         $categoriesWithModalities = $this->formatCategoriesWithModalities($filteredCategories);
 
         return [
-            'event_id' => $this->event['id'],
+            'event_id' => $this->event['id'],            
             'event' => $this->event['nome'],            
             'links' => $categoriesWithModalities,
         ];
@@ -129,6 +129,7 @@ class TbrLinks extends Component
     {
         return view('livewire.page.tbr-links', [
             'categoriesWithModalities' => $this->categoriesWithModalities,
+            'status' => $this->event['status'],
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => $this->showSidebar,
             'title' => $this->title,

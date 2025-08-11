@@ -123,8 +123,9 @@ class TbrDashboard extends Component
             $json = Storage::disk('public')->get($jsonPath);
             $this->events = json_decode($json, true) ?? [];
 
+            // $a crescente, $b decrescente
             usort($this->events, function ($a, $b) {
-                return Carbon::parse($a['data'])->timestamp <=> Carbon::parse($b['data'])->timestamp;
+                return Carbon::parse($b['data'])->timestamp <=> Carbon::parse($a['data'])->timestamp;
             });
         } else {
             $this->events = [];
