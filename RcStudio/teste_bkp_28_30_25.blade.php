@@ -393,7 +393,9 @@
         <section class="relative" role="region" aria-labelledby="valores">
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
-                <h2 id="valores" class="text-2xl font-semibold">Escolha seu Plano</h2>
+
+                <h2 id="valores" class="text-2xl font-semibold">Lorem ipsum dolor sit amet</h2>
+                <h3 class="text-xl font-semibold" id="subtitulo-valores">Lorem ipsum consectetur</h3>
 
                 <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6"
                     aria-label="Planos e valores disponíveis">
@@ -403,7 +405,7 @@
                             class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg h-full">
                             <h4 id="oferta-essential" class="text-2xl font-bold mb-2">Essential</h4>
                             <ul class="text-sm mb-4 space-y-1 text-left">
-                                <li>Intro épica pronta</li>
+                                <li>✅ Intro épica pronta</li>
                                 <li class="line-through text-red-500">Arranjos mais exclusivos</li>
                                 <li class="line-through text-red-500">Mais opções de intro</li>
                                 <li>Stems individuais</li>
@@ -448,6 +450,9 @@
                         <article
                             class="bg-gray-900 bg-gradient-to-br from-orange-700 via-red-800 to-yellow-600 p-1 rounded-lg shadow-xl flex flex-col h-full">
                             <div class="bg-gray-900 p-6 rounded-lg text-center flex flex-col h-full">
+                                <span class="bg-green-600 text-black text-xs font-bold px-3 py-1 rounded-full mb-2">
+                                    MAIS VENDIDO
+                                </span>
                                 <h4 id="oferta-ultimate" class="text-2xl font-bold text-orange-400 mb-2">Ultimate</h4>
                                 <ul class="text-sm mb-4 space-y-1 text-left">
                                     <li>Intro épica pronta</li>
