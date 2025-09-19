@@ -1,5 +1,5 @@
 <div class="bg-black text-white">
-
+    {{-- VIDEO --}}
     <section style="background-image: url('{{ asset('storage/rc-studio/fundo-dobra-1.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="video-heading">
 
@@ -46,6 +46,7 @@
         </div>
     </section>
 
+    {{-- DESCRICAO PACK --}}
     <section style="background-image: url('{{ asset('storage/rc-studio/fundo-dobra-2.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="descricao-pack">
 
@@ -104,6 +105,7 @@
         </div>
     </section>
 
+    {{-- CARDS SOBRE OS PACK --}}
     <section style="background-image: url('{{ asset('storage/rc-studio/fundo-dobra-3.webp') }}')"
         class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="cards-pack">
 
@@ -184,6 +186,7 @@
         </div>
     </section>
 
+    {{-- FALANDO SOBRE OS PACK --}}
     <section class="relative" role="region" aria-labelledby="falando-pack">
         <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
@@ -315,6 +318,7 @@
         </div>
     </section>
 
+    {{-- VALORES --}}
     <section class="relative" role="region" aria-labelledby="valores">
         <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
@@ -418,52 +422,64 @@
         </div>
     </section>
 
+    {{-- FAQ --}}
     <section class="relative" aria-labelledby="faq-title">
         <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
 
             <h2 id="faq-title" class="text-2xl font-semibold">Lorem ipsum</h2>
 
-            <div class="text-left">
+            <div class="text-left" x-data="{ open: [] }">
                 <h3 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h3>
 
                 <!-- Item 1 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-1">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(1)" aria-controls="faq-answer-1"
+                        @click="open.includes(1) ? open = open.filter(i => i !== 1) : open.push(1)">
                         <span>🔸 Lorem ipsum dolor sit amet?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true" :class="open.includes(1) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-1" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-1" x-show="open.includes(1)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-1">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.
                     </div>
                 </div>
+
+                <!-- Repetir estrutura para os outros itens -->
 
                 <!-- Item 2 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-2">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(2)" aria-controls="faq-answer-2"
+                        @click="open.includes(2) ? open = open.filter(i => i !== 2) : open.push(2)">
                         <span>🔸 Lorem ipsum consectetur adipiscing?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true" :class="open.includes(2) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-2" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-2" x-show="open.includes(2)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-2">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.
                     </div>
                 </div>
 
+                <!-- Itens 3 ao 6 seguem mesma estrutura -->
+                <!-- Apenas incrementando o número dos IDs e mantendo os atributos aria -->
+
                 <!-- Item 3 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-3">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(3)" aria-controls="faq-answer-3"
+                        @click="open.includes(3) ? open = open.filter(i => i !== 3) : open.push(3)">
                         <span>🔸 Lorem ipsum dolor sit?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true" :class="open.includes(3) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-3" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-3" x-show="open.includes(3)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-3">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     </div>
                 </div>
@@ -471,12 +487,14 @@
                 <!-- Item 4 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-4">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(4)" aria-controls="faq-answer-4"
+                        @click="open.includes(4) ? open = open.filter(i => i !== 4) : open.push(4)">
                         <span>🔸 Lorem ipsum sit amet, consectetur?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true" :class="open.includes(4) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-4" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-4" x-show="open.includes(4)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-4">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore.
                     </div>
@@ -485,12 +503,14 @@
                 <!-- Item 5 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-5">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(5)" aria-controls="faq-answer-5"
+                        @click="open.includes(5) ? open = open.filter(i => i !== 5) : open.push(5)">
                         <span>🔸 Lorem ipsum dolor sit amet?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true" :class="open.includes(5) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-5" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-5" x-show="open.includes(5)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-5">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore.
                     </div>
@@ -499,12 +519,15 @@
                 <!-- Item 6 -->
                 <div class="border-b border-gray-300 py-4">
                     <button type="button"
-                        class="faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                        aria-expanded="false" aria-controls="faq-answer-6">
+                        class="flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                        :aria-expanded="open.includes(6)" aria-controls="faq-answer-6"
+                        @click="open.includes(6) ? open = open.filter(i => i !== 6) : open.push(6)">
                         <span>🔸 Lorem ipsum dolor sit amet, consectetur?</span>
-                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        <i aria-hidden="true"
+                            :class="open.includes(6) ? 'fa-solid fa-minus' : 'fa-solid fa-plus'"></i>
                     </button>
-                    <div id="faq-answer-6" class="faq-answer hidden mt-2 text-sm" role="region">
+                    <div id="faq-answer-6" x-show="open.includes(6)" x-transition class="mt-2 text-sm"
+                        role="region" aria-labelledby="faq-question-6">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     </div>
                 </div>
@@ -512,7 +535,7 @@
         </div>
     </section>
 
-
+    {{-- QUEM SOU --}}
     <section class="relative" aria-labelledby="quem-sou-titulo">
         <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
@@ -539,6 +562,7 @@
         </div>
     </section>
 
+    {{-- FALE CONOSCO --}}
     <section class="relative" aria-labelledby="fale-conosco-titulo">
         <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
             <hr class="mx-auto w-[50%] h-1 bg-gray-400 rounded" aria-hidden="true" />
@@ -559,28 +583,4 @@
             </div>
         </div>
     </section>
-
-    <script>
-        document.querySelectorAll('.faq-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('i');
-                const isOpen = !answer.classList.contains('hidden');
-
-                // Fecha todos os outros
-                document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
-                document.querySelectorAll('.faq-toggle').forEach(b => {
-                    b.setAttribute('aria-expanded', 'false');
-                    b.querySelector('i').classList.replace('fa-minus', 'fa-plus');
-                });
-
-                // Abre/fecha o clicado
-                if (!isOpen) {
-                    answer.classList.remove('hidden');
-                    button.setAttribute('aria-expanded', 'true');
-                    icon.classList.replace('fa-plus', 'fa-minus');
-                }
-            });
-        });
-    </script>
 </div>

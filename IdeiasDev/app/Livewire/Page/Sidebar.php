@@ -236,9 +236,12 @@ class Sidebar extends Component
         $this->events[] = $newEvent;
         $this->saveEventsToStorage();
 
-        $this->banner('Evento cadastrado com sucesso!');
+        // $this->banner('Evento cadastrado com sucesso!');
         $this->dispatch('eventCreated');
         $this->closeEventModal();
+
+        session()->flash('success', 'Evento cadastrado com sucesso!');
+        return redirect()->route('tbr.dashboard');
     }
 
     public function openTeamModal()

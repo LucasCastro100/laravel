@@ -28,7 +28,7 @@
     <!-- Fonte -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-  
+
 
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
@@ -39,20 +39,23 @@
             display: none
         }
 
-        .elementor embed, .elementor iframe, .elementor object, .elementor video{
+        .elementor embed,
+        .elementor iframe,
+        .elementor object,
+        .elementor video {
             border: auto !important;
         }
     </style>
 
-     <!-- Tailwind CSS -->
-     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="font-sans antialiased">
 
     <div class="bg-black text-white">
-
-        <section style="background-image: url('/assets/images/fundo-dobra-1.webp'))"
+        <!--DOBRA 1-->
+        <section style="background-image: url('/assets/images/fundo-dobra-1.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="video-heading">
 
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
@@ -71,7 +74,7 @@
 
                 <div class="relative w-full" style="padding-top: 56.25%;">
                     <iframe class="absolute top-0 left-0 w-full h-full border-4 border-blue-600 rounded-lg"
-                    style="border-width: 4px; border-radius: 0.5rem; --tw-border-opacity: 1;
+                        style="border-width: 4px; border-radius: 0.5rem; --tw-border-opacity: 1;
                     border-color: rgb(37 99 235 / var(--tw-border-opacity, 1));"
                         src="https://www.youtube.com/embed/k18wZeXXL1c"
                         title="Vídeo promocional do Shows Pro explicando os benefícios do pack"
@@ -94,18 +97,18 @@
 
 
                 <div class="w-full flex justify-center">
-                    <img src="/assets/images/pagamento.webp"
-                        alt="Meios de pagamento aceitos para adquirir o Shows Pro"
+                    <img src="/assets/images/pagamento.webp" alt="Meios de pagamento aceitos para adquirir o Shows Pro"
                         title="Formas de pagamento disponíveis" class="max-w-full rounded shadow-md" loading="lazy"
                         decoding="async" fetchpriority="low" />
                 </div>
             </div>
         </section>
 
+        <!--DOBRA 2-->
         <section style="background-image: url('/assets/images/fundo-dobra-2.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="descricao-pack">
 
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">              
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
                 <h2 id="descricao-pack" class="font-bebas text-xl lg:text-3xl" tabindex="0">
                     Você é produtor, músico ou cantor e sabe:
@@ -160,33 +163,40 @@
             </div>
         </section>
 
+        <!--DOBRA 3-->
         <section style="background-image: url('/assets/images/fundo-dobra-3.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="cards-pack">
 
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
 
                 <h2 id="cards-pack" class="font-bebas text-xl lg:text-3xl" tabindex="0">
                     Tudo que você precisa está dentro do Pack 🎶SHOWS PRO!🎶
                 </h2>
 
-                <ul class="grid grid-cols-1 gap-6" aria-label="Componentes incluídos no pack Shows Pro">
+                <div class="text-start text-xl text-gray-300">
+                    Depois de anos Produzindo aberturas para os maiores nomes do sertanejo como Hugo e Guilherme,
+                    Ana Castela, Felipe Araujo entre outros, Fael Castro decidiu abrir sua caixa de surpresas e
+                    mostrar um dos maiores segredos que torna grandes as suas produções de Shows! O Pack shows Pro
+                    une as ferramentas necessárias para seus arranjos fluirem de uma vez por todas e suas produções
+                    impactarem de verdade!
+                </div>
 
+                <ul class="flex flex-col gap-6" aria-label="Componentes incluídos no pack Shows Pro">
                     <!-- Card 1 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
                             <img src="/assets/images/card-samples.webp"
                                 alt="Imagem representando os samples incluídos no pack"
-                                title="Samples musicais exclusivos" class="w-full h-48 object-cover rounded md:h-full"
-                                loading="lazy" decoding="async" fetchpriority="low" />
+                                title="Samples musicais exclusivos"
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
 
-                            <div class="md:col-span-2 text-left">
+                            <div class="w-full text-left">
                                 <h3 id="card1-title" class="text-lg font-semibold mb-2" tabindex="0">Samples
                                     Musicais</h3>
                                 <p class="text-sm" tabindex="0">Uma seleção de samples prontos para dar identidade
-                                    ao seu
-                                    show.</p>
+                                    ao seu show.</p>
                             </div>
                         </article>
                     </li>
@@ -194,40 +204,82 @@
                     <!-- Card 2 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
-                            <div class="md:col-span-2 text-left md:order-1">
-                                <h3 id="card2-title" class="text-lg font-semibold mb-2" tabindex="0">Efeitos
-                                    Sonoros (FX)
-                                </h3>
-                                <p class="text-sm" tabindex="0">FX de impacto para criar momentos memoráveis no seu
-                                    set.
-                                </p>
-                            </div>
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
 
-                            <img src="/assets/images/card-fx.webp"
-                                alt="Imagem ilustrando efeitos sonoros disponíveis"
+                            <!-- Imagem primeiro no mobile -->
+                            <img src="/assets/images/card-fx.webp" alt="Imagem ilustrando efeitos sonoros disponíveis"
                                 title="Efeitos sonoros impactantes"
-                                class="w-full h-48 object-cover rounded md:h-full md:order-2" loading="lazy"
-                                decoding="async" fetchpriority="low" />
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0 order-1 md:order-2"
+                                loading="lazy" decoding="async" fetchpriority="low" />
+
+                            <!-- Texto depois no mobile -->
+                            <div class="w-full text-left order-2 md:order-1">
+                                <h3 id="card2-title" class="text-lg font-semibold mb-2" tabindex="0">Efeitos
+                                    Sonoros (FX)</h3>
+                                <p class="text-sm" tabindex="0">FX de impacto para criar momentos memoráveis no seu
+                                    set.</p>
+                            </div>
                         </article>
                     </li>
 
                     <!-- Card 3 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
                             <img src="/assets/images/card-loops.webp"
                                 alt="Imagem representando loops incluídos no pack" title="Loops prontos para usar"
-                                class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
-                                fetchpriority="low" />
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
 
-                            <div class="md:col-span-2 text-left">
+                            <div class="w-full text-left">
                                 <h3 id="card3-title" class="text-lg font-semibold mb-2" tabindex="0">Loops
-                                    Exclusivos
-                                </h3>
+                                    Exclusivos</h3>
                                 <p class="text-sm" tabindex="0">Crie atmosferas envolventes com loops de alta
-                                    qualidade.
-                                </p>
+                                    qualidade.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+
+                <h3 id="cards-pack" class="font-bebas text-xl lg:text-3xl" tabindex="0">
+                    Use o Shows Pro para impactar a todos em qualquer cenário abaixo:
+                </h3>
+
+                <ul class="flex flex-col md:flex-row gap-6" aria-label="Componentes incluídos no pack Shows Pro">
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                No Palco
+                            </div>
+                            <div class="text-white text-lg">
+                                Comece o show com uma intro épica que faz o público vibrar antes mesmo da
+                                primeira nota.
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                No Estúdio
+                            </div>
+                            <div class="text-white text-lg">
+                                Use os efeitos e loops como base criativa para trilhas, introduções ou
+                                ambientações. Agilidade + qualidade sonora.
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                Em Eventos
+                            </div>
+                            <div class="text-white text-lg">
+                                Tenha introduções prontas e adaptáveis para qualquer formato de apresentação
                             </div>
                         </article>
                     </li>
@@ -247,9 +299,231 @@
             </div>
         </section>
 
+        <!--DOBRA 4-->
+        <section class="relative" role="region" aria-labelledby="valores">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
+
+                <h2 id="valores" class="text-2xl font-semibold">Escolha seu Plano</h2>
+
+                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6"
+                    aria-label="Planos e valores disponíveis">
+                    <!-- Essential -->
+                    <li class="flex flex-col">
+                        <article
+                            class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg h-full">
+                            <h4 id="oferta-essential" class="text-2xl font-bold mb-2">Essential</h4>
+                            <ul class="text-sm mb-4 space-y-1 text-left">
+                                <li>Intro épica pronta</li>
+                                <li class="line-through text-red-500">Arranjos mais exclusivos</li>
+                                <li class="line-through text-red-500">Mais opções de intro</li>
+                                <li>Stems individuais</li>
+                                <li class="line-through text-red-500">Bônus Pack de Samplers</li>
+                                <li>Para quem: Primeira intro prof</li>
+                            </ul>
+                            <div class="mt-auto flex flex-col items-center">
+                                <p class="text-3xl font-bold text-green-500 mb-4">R$XX</p>
+                                <button
+                                    class="bg-white text-black font-bold px-4 py-2 rounded hover:bg-gray-300 transition">
+                                    EU QUERO ESSENTIAL
+                                </button>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- Plus -->
+                    <li class="flex flex-col">
+                        <article
+                            class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg h-full">
+                            <h4 id="oferta-plus" class="text-2xl font-bold mb-2">Plus</h4>
+                            <ul class="text-sm mb-4 space-y-1 text-left">
+                                <li>Intro épica pronta</li>
+                                <li>Arranjos mais exclusivos</li>
+                                <li>Mais opções de intro</li>
+                                <li class="line-through text-red-500">Stems individuais</li>
+                                <li class="line-through text-red-500">Bônus Pack de Samplers</li>
+                                <li>Para quem: Quer mais punch</li>
+                            </ul>
+                            <div class="mt-auto flex flex-col items-center">
+                                <p class="text-3xl font-bold text-green-500 mb-4">R$XX</p>
+                                <button
+                                    class="bg-white text-black font-bold px-4 py-2 rounded hover:bg-gray-300 transition">
+                                    EU QUERO PLUS
+                                </button>
+                            </div>
+                        </article>
+                    </li>
+
+                    <!-- Ultimate -->
+                    <li class="flex flex-col">
+                        <article
+                            class="bg-gray-900 bg-gradient-to-br from-orange-700 via-red-800 to-yellow-600 p-1 rounded-lg shadow-xl flex flex-col h-full">
+                            <div class="bg-gray-900 p-6 rounded-lg text-center flex flex-col h-full">
+                                <h4 id="oferta-ultimate" class="text-2xl font-bold text-orange-400 mb-2">Ultimate</h4>
+                                <ul class="text-sm mb-4 space-y-1 text-left">
+                                    <li>Intro épica pronta</li>
+                                    <li>Arranjos mais exclusivos</li>
+                                    <li>Mais opções de intro</li>
+                                    <li>Stems individuais</li>
+                                    <li>Bônus Pack de Samplers</li>
+                                    <li>Para quem: Busca experiência stadium</li>
+                                </ul>
+                                <div class="mt-auto flex flex-col items-center">
+                                    <p class="text-3xl font-bold text-green-500 mb-4">R$XX</p>
+                                    <button
+                                        class="bg-red-700 hover:bg-red-900 text-white font-bold px-4 py-2 rounded transition">
+                                        EU QUERO ULTIMATE
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!--DOBRA 6-->
+        <section class="relative" aria-labelledby="quem-sou-titulo">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
+
+
+                <h2 id="quem-sou-titulo" class="text-2xl font-semibold text-center md:text-left">
+                    Lorem ipsum
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-left">
+                    <div>
+                        <p class="text-base leading-relaxed">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </p>
+                    </div>
+
+                    <div class="flex justify-center" role="figure" aria-label="Imagem de apresentação de quem sou">
+                        <img src="/assets/images/rafa-quem-sou-eu.webp"
+                            alt="Rafa: produtor musical e responsável pelo RC Studio"
+                            title="Rafa: produtor musical no RC Studio" class="rounded shadow-md w-full max-w-xs"
+                            loading="lazy" decoding="async" fetchpriority="low" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--DOBRA 7-->
+        <section class="relative" aria-labelledby="faq-title">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
+
+
+                <h2 id="faq-title" class="text-2xl font-semibold">Lorem ipsum</h2>
+
+                <div class="text-left">
+                    <h3 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h3>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-1">
+                            <span>🔸 Lorem ipsum dolor sit amet?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-1" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </div>
+                    </div>
+
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-2">
+                            <span>🔸 Lorem ipsum consectetur adipiscing?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-2" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </div>
+                    </div>
+
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-3">
+                            <span>🔸 Lorem ipsum dolor sit?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-3" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-4">
+                            <span>🔸 Lorem ipsum sit amet, consectetur?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-4" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-5">
+                            <span>🔸 Lorem ipsum dolor sit amet?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-5" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-6">
+                            <span>🔸 Lorem ipsum dolor sit amet, consectetur?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-6" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--DOBRA 8-->
+        <section class="relative" aria-labelledby="fale-conosco-titulo">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
+                <h2 id="fale-conosco-titulo" class="text-2xl font-semibold">
+                    Lorem ipsum dolor?
+                </h2>
+
+                <a href="https://wa.me/5534991256642" target="_blank" rel="noopener noreferrer"
+                    class="inline-block bg-green-800 text-white py-2 px-4 rounded hover:bg-green-900 transition-colors"
+                    role="button" aria-label="Entrar em contato via WhatsApp - abre em nova aba">
+                    Entrar em contato via WhatsApp
+                </a>
+
+                <div class="mt-4" role="contentinfo" aria-live="polite">
+                    <p>Lorem ipsum</p>
+                    <p class="text-sm">© 2025 - Todos os direitos reservados</p>
+                </div>
+            </div>
+        </section>
+
+        <!--
+        SEM DOBRA
         <section class="relative" role="region" aria-labelledby="falando-pack">
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
+
 
                 <h2 id="falando-pack" class="text-2xl font-semibold" tabindex="0">Lorem ipsum</h2>
 
@@ -260,7 +534,6 @@
                 </p>
 
                 <div class="grid gap-6 p-6">
-                    <!-- Card 1 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
                         role="group" aria-labelledby="card1-pack-title">
                         <div>
@@ -282,7 +555,6 @@
                         <div class="flex justify-center" aria-hidden="true"></div>
                     </div>
 
-                    <!-- Card 2 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
                         role="group" aria-labelledby="card2-pack-title">
                         <div>
@@ -300,7 +572,6 @@
                         <div class="flex justify-center" aria-hidden="true"></div>
                     </div>
 
-                    <!-- Card 3 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
                         role="group" aria-labelledby="card3-pack-title">
                         <div>
@@ -332,13 +603,13 @@
                 </button>
 
 
-                <!-- Comparativo final -->
+                 Comparativo final
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6" role="group"
                     aria-labelledby="comparativo-title">
                     <h3 id="comparativo-title" class="sr-only">Comparativo entre o que você evita e o que você ganha
                     </h3>
 
-                    <!-- Coluna esquerda -->
+                    Coluna esquerda
                     <div class="border border-red-700 rounded-lg p-6 bg-gray-900" role="group"
                         aria-label="O que você evita">
                         <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Sem o pack</h4>
@@ -362,7 +633,7 @@
                         </ul>
                     </div>
 
-                    <!-- Coluna direita -->
+                   Coluna direita
                     <div class="border border-green-600 rounded-lg p-6 bg-gray-900" role="group"
                         aria-label="O que você ganha com o pack">
                         <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Com o pack Shows Pro</h4>
@@ -388,254 +659,7 @@
                 </div>
             </div>
         </section>
-
-        <section class="relative" role="region" aria-labelledby="valores">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
-
-                <h2 id="valores" class="text-2xl font-semibold">Lorem ipsum dolor sit amet</h2>
-                <h3 class="text-xl font-semibold" id="subtitulo-valores">Lorem ipsum consectetur</h3>
-
-                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6"
-                    aria-label="Planos e valores disponíveis">
-
-                    <!-- Oferta Básica -->
-                    <li class="flex flex-col">
-                        <article
-                            class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg h-full">
-                            <h4 id="oferta-basica" class="text-2xl font-bold mb-2">Lorem ipsum</h4>
-                            <ul class="text-sm mb-4 space-y-1">
-                                <li>✅ Lorem ipsum pack <span class="line-through text-red-500">R$00</span></li>
-                                <li>✅ Lorem ipsum presets <span class="line-through text-red-500">R$00</span></li>
-                            </ul>
-                            <div class="mt-auto flex flex-col items-center" aria-label="Preço da oferta básica">
-                                <p class="text-xs text-gray-400 mb-2">De <span
-                                        class="line-through text-red-500">R$00</span>
-                                    por apenas:</p>
-                                <p class="text-3xl font-bold text-green-500 mb-4">R$00</p>
-                                <button
-                                    class="bg-white text-black font-bold px-4 py-2 rounded hover:bg-gray-300 transition"
-                                    aria-label="Selecionar oferta básica">
-                                    EU QUERO A OFERTA BÁSICA
-                                </button>
-                                <p class="text-xs mt-2 text-gray-400">ou 12x de <strong>R$00</strong></p>
-                            </div>
-                        </article>
-                    </li>
-
-                    <!-- Oferta Advanced -->
-                    <li class="flex flex-col">
-                        <article
-                            class="bg-gray-900 border border-gray-700 p-6 rounded-lg flex flex-col text-center shadow-lg h-full">
-                            <h4 id="oferta-advanced" class="text-2xl font-bold mb-2">Lorem ipsum advanced</h4>
-                            <ul class="text-sm mb-4 space-y-1">
-                                <li>✅ Lorem ipsum pack <span class="line-through text-red-500">R$00</span></li>
-                                <li>✅ Lorem ipsum presets <span class="line-through text-red-500">R$00</span></li>
-                                <li>✅ Lorem ipsum aulas <span class="line-through text-red-500">R$00</span></li>
-                                <li>✅ Lorem ipsum networking <span class="text-red-500 italic">inacreditável</span>
-                                </li>
-                                <li>✅ Lorem ipsum exclusivas <span class="line-through text-red-500">R$00</span></li>
-                            </ul>
-                            <div class="mt-auto flex flex-col items-center" aria-label="Preço da oferta advanced">
-                                <p class="text-xs text-gray-400 mb-2">De <span
-                                        class="line-through text-red-500">R$00</span>
-                                    por apenas:</p>
-                                <p class="text-3xl font-bold text-green-500 mb-4">R$00</p>
-                                <button
-                                    class="bg-white text-black font-bold px-4 py-2 rounded hover:bg-gray-300 transition"
-                                    aria-label="Selecionar oferta advanced">
-                                    EU QUERO A OFERTA ADVANCED
-                                </button>
-                                <p class="text-xs mt-2 text-gray-400">ou 12x de <strong>R$00</strong></p>
-                            </div>
-                        </article>
-                    </li>
-
-                    <!-- Oferta Premium -->
-                    <li class="flex flex-col">
-                        <article
-                            class="bg-gray-900 bg-gradient-to-br from-orange-700 via-red-800 to-yellow-600 p-1 rounded-lg shadow-xl md:col-span-2 lg:col-span-1 md:mx-auto lg:m-0 h-full flex flex-col">
-                            <div class="bg-gray-900 p-6 rounded-lg text-center flex flex-col h-full">
-                                <span class="bg-green-600 text-black text-xs font-bold px-3 py-1 rounded-full mb-2"
-                                    aria-label="Oferta mais vendida">
-                                    MAIS VENDIDO
-                                </span>
-                                <h4 id="oferta-premium" class="text-2xl font-bold text-orange-400 mb-2">Lorem ipsum
-                                    premium
-                                </h4>
-                                <ul class="text-sm mb-4 space-y-1 text-left">
-                                    <li>✅ Lorem ipsum pack <span class="line-through text-red-500">R$00</span></li>
-                                    <li>✅ Lorem ipsum presets <span class="line-through text-red-500">R$00</span></li>
-                                    <li>✅ Lorem ipsum docs <span class="line-through text-red-500">R$00</span></li>
-                                    <li>✅ Lorem ipsum atualizações <span class="line-through text-red-500">R$00</span>
-                                    </li>
-                                    <li>✅ Lorem ipsum aulas <span class="line-through text-red-500">R$00</span></li>
-                                    <li>✅ Lorem ipsum trabalhos <span class="text-red-500">🔥</span></li>
-                                    <li>✅ Lorem ipsum networking <span class="text-red-500 italic">inacreditável</span>
-                                    </li>
-                                    <li>✅ Lorem ipsum legendas <span class="line-through text-red-500">R$00</span></li>
-                                </ul>
-                                <div class="mt-auto flex flex-col items-center" aria-label="Preço da oferta premium">
-                                    <p class="text-xs mb-2">De <span class="line-through text-red-500">R$00</span> por
-                                        apenas:
-                                    </p>
-                                    <p class="text-3xl font-bold text-green-300 mb-4">R$00</p>
-                                    <button
-                                        class="bg-red-700 hover:bg-red-900 text-white font-bold px-4 py-2 rounded transition"
-                                        aria-label="Selecionar oferta premium">
-                                        EU QUERO A OFERTA PREMIUM
-                                    </button>
-                                    <p class="text-xs mt-2 text-gray-400">ou 12x de <strong>R$00</strong></p>
-                                </div>
-                            </div>
-                        </article>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="relative" aria-labelledby="faq-title">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
-
-                <h2 id="faq-title" class="text-2xl font-semibold">Lorem ipsum</h2>
-
-                <div class="text-left">
-                    <h3 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h3>
-
-                    <!-- Item 1 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-1">
-                            <span>🔸 Lorem ipsum dolor sit amet?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-1" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-2">
-                            <span>🔸 Lorem ipsum consectetur adipiscing?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-2" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-3">
-                            <span>🔸 Lorem ipsum dolor sit?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-3" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-4">
-                            <span>🔸 Lorem ipsum sit amet, consectetur?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-4" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore.
-                        </div>
-                    </div>
-
-                    <!-- Item 5 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-5">
-                            <span>🔸 Lorem ipsum dolor sit amet?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-5" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore.
-                        </div>
-                    </div>
-
-                    <!-- Item 6 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-6">
-                            <span>🔸 Lorem ipsum dolor sit amet, consectetur?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-6" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section class="relative" aria-labelledby="quem-sou-titulo">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
-
-                <h2 id="quem-sou-titulo" class="text-2xl font-semibold text-center md:text-left">
-                    Lorem ipsum
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center text-left">
-                    <div>
-                        <p class="text-base leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </p>
-                    </div>
-
-                    <div class="flex justify-center" role="figure" aria-label="Imagem de apresentação de quem sou">
-                        <img src="/assets/images/rafa-quem-sou-eu.webp"
-                            alt="Rafa: produtor musical e responsável pelo RC Studio"
-                            title="Rafa: produtor musical no RC Studio" class="rounded shadow-md w-full max-w-xs"
-                            loading="lazy" decoding="async" fetchpriority="low" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="relative" aria-labelledby="fale-conosco-titulo">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-                
-
-                <h2 id="fale-conosco-titulo" class="text-2xl font-semibold">
-                    Lorem ipsum dolor?
-                </h2>
-
-                <a href="https://wa.me/5534991256642" target="_blank" rel="noopener noreferrer"
-                    class="inline-block bg-green-800 text-white py-2 px-4 rounded hover:bg-green-900 transition-colors"
-                    role="button" aria-label="Entrar em contato via WhatsApp - abre em nova aba">
-                    Entrar em contato via WhatsApp
-                </a>
-
-                <div class="mt-4" role="contentinfo" aria-live="polite">
-                    <p>Lorem ipsum</p>
-                    <p class="text-sm">© 2025 - Todos os direitos reservados</p>
-                </div>
-            </div>
-        </section>
-
+    -->
 
     </div>
 

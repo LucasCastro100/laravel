@@ -314,9 +314,13 @@ class TbrDashboard extends Component
 
         $this->saveEventsToStorage($this->events);
 
-        $this->banner('Evento atualizado com sucesso!');        
+        // $this->banner('Evento atualizado com sucesso!');     
+           
         $this->closeEditModal();
         $this->loadEvents();
+
+        session()->flash('success', 'Evento atualizado com sucesso!');
+        return redirect()->route('tbr.dashboard');
     }
 
 
