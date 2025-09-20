@@ -18,14 +18,14 @@ class Aside extends Model
             ['name' => 'Usuários', 'route' => route('dashboard.usersActivy'), 'role' => 3],
             ['name' => 'Propecções Desejadas', 'route' => route('dashboard.desiredProspectingrs.index'), 'role' => 3],
             ['name' => 'Serviços', 'route' => route('dashboard.typeService.index'), 'role' => 3],
-            ['name' => 'TagPro', 'route' => route('dashboard.qrCode.index'), 'role' => 2],
+            // ['name' => 'TagPro', 'route' => route('dashboard.qrCode.index'), 'role' => 2],
             ['name' => 'Associados', 'route' => route('dashboard.asociate.index'), 'role' => 1],            
             ['name' => 'Contratos', 'route' => route('dashboard.contract.index'), 'role' => 1],
             ['name' => 'Prospecções', 'route' => route('dashboard.conectionsService.index'), 'role' => 1],            
-            ['name' => 'Estante de troca', 'route' => route('dashboard.salesBooth.index'), 'role' => 0],            
-            ['name' => 'Chat', 'route' => route('dashboard.chat.index'), 'role' => 0],
+            // ['name' => 'Estante de troca', 'route' => route('dashboard.salesBooth.index'), 'role' => 0],            
+            // ['name' => 'Chat', 'route' => route('dashboard.chat.index'), 'role' => 0],
             ['name' => 'Extratos', 'route' => route('dashboard.extract.index'), 'role' => 0],                   
-            ['name' => 'Plano', 'route' => route('dashboard.plan.index'), 'role' => 0],
+            // ['name' => 'Plano', 'route' => route('dashboard.plan.index'), 'role' => 0],
         ])->sortBy('name');
     }
 

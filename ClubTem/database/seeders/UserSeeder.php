@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
             [
                 'email' => 'suporte@permutabrasil.com.br',
                 'password' => 'RAL002024',
-                'role' => '3'
+                'role' => '3',
+                'actived' => '1'
             ]
         );
 
@@ -27,15 +28,17 @@ class UserSeeder extends Seeder
             [
                 'email' => 'lucascastro121295@gmail.com',
                 'password' => 'mudar123',
-                'role' => '1'
+                'role' => '2',
+                'actived' => '1'
             ]
         );
-        
+
         User::create(
             [
-                'email' => 'kat@gmail.com',
+                'email' => 'okiafilmes@gmail.com',
                 'password' => 'mudar123',
-                'role' => '0'
+                'role' => '2',
+                'actived' => '1'
             ]
         );
     }
