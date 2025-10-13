@@ -43,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/meu-teste/{uuid}', 'testhow')->name('student.testhow');
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
+
+            Route::post('/meu-teste/salvar', 'saveTest')->name('student.saveTest');
         });
 
         Route::controller(AssessmentController::class)->group(function () {

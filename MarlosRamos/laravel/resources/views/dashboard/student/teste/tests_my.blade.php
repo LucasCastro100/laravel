@@ -1,48 +1,53 @@
 <x-app-layout :title="$title">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Teste') }}
+            {{ __('Sistema Representacional') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                @if (session('success'))
-                    <x-alert-component type="success" :message="session('success')" />
-                @endif
+                <div class="flex flex-col gap-8">
+                    <div>
+                        <h1 class="font-bold text-2xl md:text-4xl text-center">Teste do Sistema Representacional</h1>
+                        <h3 class="font-bold text-center">Ned Hermman</h3>
+                    </div>                    
 
-                @if (session('error'))
-                    <x-alert-component type="error" :message="session('error')" />
-                @endif
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                        <div class="col-span-1">4 = A que melhor descreve você</div>
 
-                @if ($tests->isEmpty())
-                    <div class="text-center
-                        text-gray-500">
-                        Você não possui nenhum teste!
+                        <div class="col-span-1">3 = A próxima melhor descrição</div>
+
+                        <div class="col-span-1">2 = A próxima melhor</div>
+
+                        <div class="col-span-1">1 = A que menos descreve você</div>
                     </div>
-                @else
-                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        @foreach ($tests as $index => $course)
-                            <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
-                                onclick="window.location.href = '{{ route('student.testhow', ['uuid' =>$test->uuid ]) }}'">
-                                <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
-                                    class="w-full h-48 object-cover">
 
-                                <div class="p-4">
-                                    <h3 class="text-xl font-semibold text-gray-800">{{ $course->title }}</h3>
-                                    <p class="text-gray-600 mt-2">{{ Str::limit($course->description, 100) }}</p>
+                    <div class="">
+                        <form class="flex flex-col gap-4" action="{{ route('student.saveTest') }}" method="POST">
+                            @csrf
+                            @foreach ($questions as $question)
+                                <div class="">
+                                    <h1 class="text-center font-bold">{{ $question['text'] }}</h1>
+
+                                    @foreach ($question['options'] as $option)
+                                        <div class="flex flex-col gap-2">
+                                            <label for="">{{ $option['text'] }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
 
-                                <div class="py-4 text-right">
-                                    <span
-                                        class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                        onclick="window.location.href = '/curso/{{ $course->uuid }}'">Acessar</span>
-                                </div>
+                                <hr />
+                            @endforeach
+
+                            <div class="text-end">
+                                <button type="submit"
+                                    class="text-white font-bold py-2 px-4 rounded-md bg-blue-400 hover:bg-blue-800">Salvar</button>
                             </div>
-                        @endforeach
+                        </form>
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </div>

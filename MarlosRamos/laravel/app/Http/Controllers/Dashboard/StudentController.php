@@ -107,16 +107,23 @@ class StudentController extends Controller
     }
 
     public function myTests(){
-        $tests = Test::whereHas('matriculations', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->paginate(10);
+        // $tests = Test::whereHas('matriculations', function ($query) {
+        //     $query->where('user_id', Auth::id());
+        // })->paginate(10);
 
         $dados = [
             'title' => 'Meus testes',
-            'tests' => $tests,
-        ];
+            // 'tests' => $tests,
+            'questions' => config('questionsTest'),
+        ];        
 
-        return view('dashboard.student.test.tests_my', $dados);
+        // dd($dados['questions']);
+
+        return view('dashboard.student.teste.tests_my', $dados);
+    }
+
+    public function saveTest(Request $request){
+        dd($request->except('_token'));
     }
 
     public function testhow(Request $request){
