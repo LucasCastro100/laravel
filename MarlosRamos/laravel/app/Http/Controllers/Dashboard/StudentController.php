@@ -109,17 +109,15 @@ class StudentController extends Controller
 
     public function myTests()
     {
-        // $tests = Test::whereHas('matriculations', function ($query) {
-        //     $query->where('user_id', Auth::id());
-        // })->paginate(10);
+        $test = Test::where('user_id', Auth::user()->id)
+            ->latest()       // ordena pelo created_at decrescente
+            ->firstOrFail();
 
         $dados = [
             'title' => 'Meus testes',
-            // 'tests' => $tests,
+            'test' => $test,
             'questions' => config('questionsTest'),
         ];
-
-        // dd($dados['questions']);
 
         return view('dashboard.student.teste.tests_my', $dados);
     }
@@ -188,7 +186,7 @@ class StudentController extends Controller
             'percentual' => $test->percentual,
             'primary' => $test->primary,
             'secondary' => $test->secondary,
-            'answers' => $test->answers,            
+            'answers' => $test->answers,
         ];
 
         return view('dashboard.student.teste.result', $dados);
