@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MatriculationCourse;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
+use Illuminate\Support\Facades\Log;
+use Stripe\Webhook;
+use Symfony\Component\HttpFoundation\Response;
 
 class StripeController extends Controller
 {
@@ -18,11 +22,11 @@ class StripeController extends Controller
     public function createCheckoutSession(Request $request)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-    
+
         $courseId = $request->input('course_id');
         $amount = $request->input('amount'); // em centavos
         $course = \App\Models\Course::findOrFail($courseId);
-    
+
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'mode' => 'payment',
@@ -43,7 +47,7 @@ class StripeController extends Controller
                 'user_id' => Auth::user()->id,
             ],
         ]);
-    
+
         // opcional: registrar tentativa de pagamento
         Payment::create([
             'stripe_id' => $session->id,
@@ -51,9 +55,9 @@ class StripeController extends Controller
             'currency' => 'brl',
             'status' => 'pending',
         ]);
-    
+
         return redirect($session->url);
-    } 
+    }
 
     public function success()
     {
@@ -64,9 +68,45 @@ class StripeController extends Controller
     {
         return "Pagamento cancelado!";
     }
-    
-    public function webhook()
+
+
+    public function webhook(Request $request)
     {
-        return "Webhook recebido!";
+        $payload = $request->getContent();
+        $sig_header = $request->server('HTTP_STRIPE_SIGNATURE');
+
+        try {
+            $event = Webhook::constructEvent(
+                $payload,
+                $sig_header,
+                env('STRIPE_WEBHOOK_SECRET')
+            );
+        } catch (\Exception $e) {
+            return response('Webhook error: ' . $e->getMessage(), 400);
+        }
+
+        if ($event->type === 'checkout.session.completed') {
+            $session = $event->data->object;
+        
+            // Atualiza pagamento
+            $payment = Payment::where('stripe_id', $session->id)->first();
+            if ($payment) {
+                $payment->update(['status' => 'paid']);
+            }
+        
+            // Matricula o usuário no curso automaticamente
+            $userId = $session->metadata->user_id ?? null;
+            $courseId = $session->metadata->course_id ?? null;
+        
+            if ($userId && $courseId) {
+                MatriculationCourse::firstOrCreate([
+                    'user_id' => $userId,
+                    'course_id' => $courseId,
+                ]);
+            }
+        }
+        
+
+        return new Response('Webhook recebido', 200);
     }
 }
