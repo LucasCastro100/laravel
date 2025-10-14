@@ -27,13 +27,13 @@
                     <div class="">
                         <form class="flex flex-col gap-4" action="{{ route('student.saveTest') }}" method="POST">
                             @csrf
-                            @foreach ($questions as $question)
+                            @foreach ($questions as $key => $question)
                                 <div class="">
-                                    <h1 class="text-center font-bold">{{ $question['text'] }}</h1>
+                                    <h1 class="text-start font-bold">{{ $key + 1 }}. {{ $question['text'] }}:</h1>
 
                                     @foreach ($question['options'] as $option)
                                         <div class="flex flex-col gap-2">
-                                            <label for="">{{ $option['text'] }}</label>
+                                            <label for="" class="text-gray-700">{{ $option['text'] }}</label>
                                         </div>
                                     @endforeach
                                 </div>
