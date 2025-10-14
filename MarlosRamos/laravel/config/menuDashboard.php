@@ -54,11 +54,11 @@ return [
             'route' => 'student.myCourses',
             'role' => 1
         ],
-        // [
-        //     'icon' => 'fa-solid fa-pencil',
-        //     'name' => 'Meus Testes',
-        //     'route' => 'student.myTests',
-        //     'role' => 1
-        // ],
+        [
+            'icon' => 'fa-solid fa-pencil',
+            'name' => 'Meus Testes',
+            'route' => 'student.myTests',
+            'role' => 1
+        ],
     ]
 ];

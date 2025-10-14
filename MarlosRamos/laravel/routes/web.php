@@ -39,8 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
             Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
             Route::get('/meus-testes', 'myTests')->name('student.myTests'); 
-            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');
-            Route::get('/meu-teste/{uuid}', 'testhow')->name('student.testhow');
+            Route::get('/meus-testes/resultado', 'resultTest')->name('student.resultTest'); 
+            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');            
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
 

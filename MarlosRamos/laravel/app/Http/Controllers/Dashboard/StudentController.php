@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Test;
+use Elementor\Core\Utils\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,18 +15,18 @@ class StudentController extends Controller
     {
         $user = Auth::user();
         $courses = Course::paginate(10);
-        $tests = Test::paginate(10);
+        // $tests = Test::paginate(10);
 
         // IDs de cursos e testes que o usuário está matriculado
         $userCourseIds = $user->enrolledCourses->pluck('id')->toArray();
-        $userTestIds = $user->enrolledTests->pluck('id')->toArray();
+        // $userTestIds = $user->enrolledTests->pluck('id')->toArray();
 
         $dados = [
             'title' => 'Painel do Aluno',
             'courses' => $courses,
-            'tests' => $tests,
+            // 'tests' => $tests,
             'userCourseIds' => $userCourseIds,
-            'userTestIds' => $userTestIds,
+            // 'userTestIds' => $userTestIds,
         ];
 
         return view('dashboard.student.dashboard', $dados);
@@ -106,7 +107,8 @@ class StudentController extends Controller
         return view('dashboard.student.course.course_show', $dados);
     }
 
-    public function myTests(){
+    public function myTests()
+    {
         // $tests = Test::whereHas('matriculations', function ($query) {
         //     $query->where('user_id', Auth::id());
         // })->paginate(10);
@@ -115,18 +117,80 @@ class StudentController extends Controller
             'title' => 'Meus testes',
             // 'tests' => $tests,
             'questions' => config('questionsTest'),
-        ];        
+        ];
 
         // dd($dados['questions']);
 
         return view('dashboard.student.teste.tests_my', $dados);
     }
 
-    public function saveTest(Request $request){
-        dd($request->except('_token'));
+    public function saveTest(Request $request)
+    {
+        try {
+            // Pega todos os dados exceto tokens
+            $data = $request->except('_token', '_method');
+
+            // Inicializa pontuação por canal
+            $scores = ['V' => 0, 'A' => 0, 'C' => 0, 'D' => 0];
+
+            // Calcula pontuação somando cada resposta
+            foreach ($data as $key => $value) {
+                $channel = substr($key, -1); // Ex: Q1_V -> 'V'
+                if (isset($scores[$channel])) {
+                    $scores[$channel] += (int)$value;
+                }
+            }
+
+            // Total de pontos
+            $total = array_sum($scores);
+
+            // Percentual por canal
+            $percentual = [];
+            foreach ($scores as $ch => $pontos) {
+                $percentual[$ch] = $total > 0 ? round(($pontos / $total) * 100, 1) : 0;
+            }
+
+            // Identifica primary e secondary
+            arsort($scores);
+            $primary = array_key_first($scores);
+            $secondary = array_keys($scores)[1];
+
+            // Salva no banco
+            $test = new Test();
+            $test->user_id = Auth::id();
+            $test->answers = $data;       // usa cast do model para array
+            $test->scores = $scores;
+            $test->percentual = $percentual;
+            $test->primary = $primary;
+            $test->secondary = $secondary;
+            $test->save();
+
+            // Redireciona para a visualização do resultado
+            return redirect()->route('student.resultTest')
+                ->with('success', 'Teste salvo com sucesso!');
+        } catch (\Exception $e) {
+            // Em caso de erro, retorna para a página anterior com mensagem
+            return redirect()->back()
+                ->with('error', 'Erro ao salvar o teste: ' . $e->getMessage());
+        }
     }
 
-    public function testhow(Request $request){
+    public function resultTest()
+    {
+        // Pega o último teste do usuário logado
+        $test = Test::where('user_id', Auth::user()->id)
+            ->latest()       // ordena pelo created_at decrescente
+            ->firstOrFail(); // garante 404 se não tiver teste
 
+        $dados = [
+            'title' => 'Relatório de Perfil Representacional',
+            'scores' => $test->scores,
+            'percentual' => $test->percentual,
+            'primary' => $test->primary,
+            'secondary' => $test->secondary,
+            'answers' => $test->answers,            
+        ];
+
+        return view('dashboard.student.teste.result', $dados);
     }
 }

@@ -58,7 +58,7 @@
                     @endif
                 </div>
 
-                <div class="p-6 text-gray-900">
+                {{-- <div class="p-6 text-gray-900">
                     <h2 class="text-lg font-medium text-gray-900 mb-4">
                         {{ __('Testes') }}
                     </h2>
@@ -103,7 +103,7 @@
                             {{ $tests->links() }}
                         </div>
                     @endif
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

@@ -11,9 +11,18 @@ class Test extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'title',
-        'description',
-        'user_id'
+        'user_id',
+        'answers',
+        'scores',
+        'percentual',
+        'primary',
+        'secondary',
+    ];
+
+    protected $casts = [
+        'answers' => 'array',      // Salva/recupera JSON automaticamente como array
+        'scores' => 'array',
+        'percentual' => 'array',
     ];
 
     public function uniqueIds()
