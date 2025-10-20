@@ -10,10 +10,13 @@ return new class extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->uuid();
+            $table->uuid('uuid')->unique();
+            $table->json('answers');       // Salvar todas as respostas
+            $table->json('scores');        // Somatória por canal
+            $table->json('percentual');    // Percentual por canal
+            $table->string('primary');     // Canal primário
+            $table->string('secondary');   // Canal secundário
             $table->timestamps();
         });
     }

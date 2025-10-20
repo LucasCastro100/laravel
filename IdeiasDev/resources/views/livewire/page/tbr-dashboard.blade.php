@@ -1,4 +1,11 @@
 <div class="p-6">
+    @if (session('success'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+            class="bg-green-500 text-white p-2 rounded mb-4 transition duration-500">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="bg-white p-4 rounded-lg shadow mb-6">
         <h1 class="text-2xl font-semibold text-gray-500">Dashboard</h1>
     </div>
@@ -10,6 +17,7 @@
         </div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+
             @foreach ($events as $event)
                 <div class="border rounded-lg p-4 shadow hover:shadow-lg transition relative">
                     {{-- Ícone engrenagem no topo direito --}}
@@ -178,7 +186,8 @@
     <!-- Modal de edição -->
     @if ($showEditModal)
         <div class="fixed p-6 inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <form wire:submit.prevent="updateEvent" class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
+            <form wire:submit.prevent="updateEvent"
+                class="bg-white p-6 rounded shadow w-full max-w-md max-h-[90vh] overflow-y-auto text-center space-y-6">
                 <h2 class="text-xl font-bold mb-4">Editar Evento</h2>
 
                 <div class="space-y-4 text-left">

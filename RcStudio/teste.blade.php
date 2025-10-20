@@ -54,8 +54,8 @@
 <body class="font-sans antialiased">
 
     <div class="bg-black text-white">
-
-        <section style="background-image: url('/assets/images/fundo-dobra-1.webp'))"
+        <!--DOBRA 1-->
+        <section style="background-image: url('/assets/images/fundo-dobra-1.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="video-heading">
 
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
@@ -104,6 +104,7 @@
             </div>
         </section>
 
+        <!--DOBRA 2-->
         <section style="background-image: url('/assets/images/fundo-dobra-2.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="descricao-pack">
 
@@ -162,33 +163,40 @@
             </div>
         </section>
 
+        <!--DOBRA 3-->
         <section style="background-image: url('/assets/images/fundo-dobra-3.webp')"
             class="relative bg-auto bg-center bg-no-repeat" role="region" aria-labelledby="cards-pack">
 
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
-
                 <h2 id="cards-pack" class="font-bebas text-xl lg:text-3xl" tabindex="0">
                     Tudo que você precisa está dentro do Pack 🎶SHOWS PRO!🎶
                 </h2>
 
-                <ul class="grid grid-cols-1 gap-6" aria-label="Componentes incluídos no pack Shows Pro">
+                <div class="text-start text-xl text-gray-300">
+                    Depois de anos Produzindo aberturas para os maiores nomes do sertanejo como Hugo e Guilherme,
+                    Ana Castela, Felipe Araujo entre outros, Fael Castro decidiu abrir sua caixa de surpresas e
+                    mostrar um dos maiores segredos que torna grandes as suas produções de Shows! O Pack shows Pro
+                    une as ferramentas necessárias para seus arranjos fluirem de uma vez por todas e suas produções
+                    impactarem de verdade!
+                </div>
 
+                <ul class="flex flex-col gap-6" aria-label="Componentes incluídos no pack Shows Pro">
                     <!-- Card 1 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
                             <img src="/assets/images/card-samples.webp"
                                 alt="Imagem representando os samples incluídos no pack"
-                                title="Samples musicais exclusivos" class="w-full h-48 object-cover rounded md:h-full"
-                                loading="lazy" decoding="async" fetchpriority="low" />
+                                title="Samples musicais exclusivos"
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
 
-                            <div class="md:col-span-2 text-left">
+                            <div class="w-full text-left">
                                 <h3 id="card1-title" class="text-lg font-semibold mb-2" tabindex="0">Samples
                                     Musicais</h3>
                                 <p class="text-sm" tabindex="0">Uma seleção de samples prontos para dar identidade
-                                    ao seu
-                                    show.</p>
+                                    ao seu show.</p>
                             </div>
                         </article>
                     </li>
@@ -196,39 +204,82 @@
                     <!-- Card 2 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
-                            <div class="md:col-span-2 text-left md:order-1">
-                                <h3 id="card2-title" class="text-lg font-semibold mb-2" tabindex="0">Efeitos
-                                    Sonoros (FX)
-                                </h3>
-                                <p class="text-sm" tabindex="0">FX de impacto para criar momentos memoráveis no seu
-                                    set.
-                                </p>
-                            </div>
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
 
+                            <!-- Imagem primeiro no mobile -->
                             <img src="/assets/images/card-fx.webp" alt="Imagem ilustrando efeitos sonoros disponíveis"
                                 title="Efeitos sonoros impactantes"
-                                class="w-full h-48 object-cover rounded md:h-full md:order-2" loading="lazy"
-                                decoding="async" fetchpriority="low" />
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0 order-1 md:order-2"
+                                loading="lazy" decoding="async" fetchpriority="low" />
+
+                            <!-- Texto depois no mobile -->
+                            <div class="w-full text-left order-2 md:order-1">
+                                <h3 id="card2-title" class="text-lg font-semibold mb-2" tabindex="0">Efeitos
+                                    Sonoros (FX)</h3>
+                                <p class="text-sm" tabindex="0">FX de impacto para criar momentos memoráveis no seu
+                                    set.</p>
+                            </div>
                         </article>
                     </li>
 
                     <!-- Card 3 -->
                     <li>
                         <article
-                            class="bg-gray-900 border border-white rounded-2xl shadow-md p-4 grid grid-cols-1 md:grid-cols-3 items-center gap-4">
+                            class="bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col md:flex-row items-center gap-4">
                             <img src="/assets/images/card-loops.webp"
                                 alt="Imagem representando loops incluídos no pack" title="Loops prontos para usar"
-                                class="w-full h-48 object-cover rounded md:h-full" loading="lazy" decoding="async"
-                                fetchpriority="low" />
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
 
-                            <div class="md:col-span-2 text-left">
+                            <div class="w-full text-left">
                                 <h3 id="card3-title" class="text-lg font-semibold mb-2" tabindex="0">Loops
-                                    Exclusivos
-                                </h3>
+                                    Exclusivos</h3>
                                 <p class="text-sm" tabindex="0">Crie atmosferas envolventes com loops de alta
-                                    qualidade.
-                                </p>
+                                    qualidade.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul>
+
+                <h3 id="cards-pack" class="font-bebas text-xl lg:text-3xl" tabindex="0">
+                    Use o Shows Pro para impactar a todos em qualquer cenário abaixo:
+                </h3>
+
+                <ul class="flex flex-col md:flex-row gap-6" aria-label="Componentes incluídos no pack Shows Pro">
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                No Palco
+                            </div>
+                            <div class="text-white text-lg">
+                                Comece o show com uma intro épica que faz o público vibrar antes mesmo da
+                                primeira nota.
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                No Estúdio
+                            </div>
+                            <div class="text-white text-lg">
+                                Use os efeitos e loops como base criativa para trilhas, introduções ou
+                                ambientações. Agilidade + qualidade sonora.
+                            </div>
+                        </article>
+                    </li>
+
+                    <li class="flex-1">
+                        <article
+                            class="h-[100%] bg-gray-900 border border-white rounded-2xl shadow-md py-4 px-8 flex flex-col items-center gap-4">
+                            <div class="font-bebas text-white text-2xl">
+                                Em Eventos
+                            </div>
+                            <div class="text-white text-lg">
+                                Tenha introduções prontas e adaptáveis para qualquer formato de apresentação
                             </div>
                         </article>
                     </li>
@@ -248,148 +299,7 @@
             </div>
         </section>
 
-        <section class="relative" role="region" aria-labelledby="falando-pack">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-
-
-                <h2 id="falando-pack" class="text-2xl font-semibold" tabindex="0">Lorem ipsum</h2>
-
-                <p class="text-base leading-relaxed" tabindex="0">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua.
-                </p>
-
-                <div class="grid gap-6 p-6">
-                    <!-- Card 1 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
-                        role="group" aria-labelledby="card1-pack-title">
-                        <div>
-                            <h3 id="card1-pack-title" class="text-red-500 text-xl font-bold mb-3" tabindex="0">
-                                Lorem
-                                ipsum</h3>
-                            <ul class="list-disc list-inside text-green-400 text-sm mb-4 space-y-1">
-                                <li tabindex="0">Lorem ipsum dolor sit amet</li>
-                                <li tabindex="0">Consectetur adipiscing elit</li>
-                                <li tabindex="0">Donec vitae sapien ut libero</li>
-                                <li tabindex="0">Curabitur ullamcorper ultricies nisi</li>
-                            </ul>
-                            <p class="text-sm" tabindex="0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
-                                lectus
-                                tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
-                            </p>
-                        </div>
-                        <div class="flex justify-center" aria-hidden="true"></div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
-                        role="group" aria-labelledby="card2-pack-title">
-                        <div>
-                            <h3 id="card2-pack-title" class="text-orange-400 text-xl font-bold mb-3" tabindex="0">
-                                Lorem
-                                ipsum</h3>
-                            <p class="text-sm mb-4" tabindex="0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus
-                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                            </p>
-                            <p class="text-sm" tabindex="0">
-                                Sed posuere consectetur est at lobortis. Aenean lacinia bibendum nulla sed consectetur.
-                            </p>
-                        </div>
-                        <div class="flex justify-center" aria-hidden="true"></div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
-                        role="group" aria-labelledby="card3-pack-title">
-                        <div>
-                            <h3 id="card3-pack-title" class="text-pink-500 text-xl font-bold mb-3" tabindex="0">
-                                Lorem
-                                ipsum</h3>
-                            <p class="text-sm mb-4" tabindex="0">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel
-                                augue
-                                laoreet rutrum faucibus dolor auctor.
-                            </p>
-                            <p class="text-sm" tabindex="0">
-                                Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-                            </p>
-                        </div>
-                        <div class="flex justify-center" aria-hidden="true"></div>
-                    </div>
-                </div>
-
-                <button
-                    class="px-8 py-3 font-bold text-white rounded
-               bg-gradient-to-r from-[#8b0000] to-[#b22222]
-               shadow-[0_0_20px_#b22222]
-               transform transition-transform duration-300
-               hover:scale-105 hover:brightness-110
-               focus:outline-none focus:ring-4 focus:ring-red-700 focus:ring-opacity-60"
-                    aria-label="Botão para garantir o produto Shows Pro">
-                    GARANTIR O SHOWS PRO AGORA
-                </button>
-
-
-                <!-- Comparativo final -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6" role="group"
-                    aria-labelledby="comparativo-title">
-                    <h3 id="comparativo-title" class="sr-only">Comparativo entre o que você evita e o que você ganha
-                    </h3>
-
-                    <!-- Coluna esquerda -->
-                    <div class="border border-red-700 rounded-lg p-6 bg-gray-900" role="group"
-                        aria-label="O que você evita">
-                        <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Sem o pack</h4>
-                        <ul class="space-y-3 text-sm" role="list">
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Coluna direita -->
-                    <div class="border border-green-600 rounded-lg p-6 bg-gray-900" role="group"
-                        aria-label="O que você ganha com o pack">
-                        <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Com o pack Shows Pro</h4>
-                        <ul class="space-y-3 text-sm" role="list">
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                            <li class="flex items-start gap-2" tabindex="0">
-                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
-                                amet.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!--DOBRA 4-->
         <section class="relative" role="region" aria-labelledby="valores">
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
@@ -468,105 +378,10 @@
                         </article>
                     </li>
                 </ul>
-
             </div>
         </section>
 
-        <section class="relative" aria-labelledby="faq-title">
-            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
-
-
-                <h2 id="faq-title" class="text-2xl font-semibold">Lorem ipsum</h2>
-
-                <div class="text-left">
-                    <h3 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h3>
-
-                    <!-- Item 1 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-1">
-                            <span>🔸 Lorem ipsum dolor sit amet?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-1" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-2">
-                            <span>🔸 Lorem ipsum consectetur adipiscing?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-2" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua.
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-3">
-                            <span>🔸 Lorem ipsum dolor sit?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-3" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-4">
-                            <span>🔸 Lorem ipsum sit amet, consectetur?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-4" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore.
-                        </div>
-                    </div>
-
-                    <!-- Item 5 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-5">
-                            <span>🔸 Lorem ipsum dolor sit amet?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-5" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore.
-                        </div>
-                    </div>
-
-                    <!-- Item 6 -->
-                    <div class="border-b border-gray-300 py-4">
-                        <button type="button"
-                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
-                            aria-expanded="false" aria-controls="faq-answer-6">
-                            <span>🔸 Lorem ipsum dolor sit amet, consectetur?</span>
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                        </button>
-                        <div id="faq-answer-6" class="faq-answer hidden mt-2 text-sm" role="region">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
+        <!--DOBRA 6-->
         <section class="relative" aria-labelledby="quem-sou-titulo">
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
@@ -593,10 +408,100 @@
             </div>
         </section>
 
-        <section class="relative" aria-labelledby="fale-conosco-titulo">
+        <!--DOBRA 7-->
+        <section class="relative" aria-labelledby="faq-title">
             <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
 
 
+                <h2 id="faq-title" class="text-2xl font-semibold">Lorem ipsum</h2>
+
+                <div class="text-left">
+                    <h3 class="text-2xl font-bold mb-6">Perguntas mais frequentes:</h3>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-1">
+                            <span>🔸 Lorem ipsum dolor sit amet?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-1" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </div>
+                    </div>
+
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-2">
+                            <span>🔸 Lorem ipsum consectetur adipiscing?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-2" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua.
+                        </div>
+                    </div>
+
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-3">
+                            <span>🔸 Lorem ipsum dolor sit?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-3" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-4">
+                            <span>🔸 Lorem ipsum sit amet, consectetur?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-4" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-5">
+                            <span>🔸 Lorem ipsum dolor sit amet?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-5" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore.
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 py-4">
+                        <button type="button"
+                            class="border-0 hover:none faq-toggle flex justify-between w-full text-left text-red-500 font-semibold text-sm"
+                            aria-expanded="false" aria-controls="faq-answer-6">
+                            <span>🔸 Lorem ipsum dolor sit amet, consectetur?</span>
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <div id="faq-answer-6" class="faq-answer hidden mt-2 text-sm" role="region">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--DOBRA 8-->
+        <section class="relative" aria-labelledby="fale-conosco-titulo">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
                 <h2 id="fale-conosco-titulo" class="text-2xl font-semibold">
                     Lorem ipsum dolor?
                 </h2>
@@ -614,6 +519,147 @@
             </div>
         </section>
 
+        <!--
+        SEM DOBRA
+        <section class="relative" role="region" aria-labelledby="falando-pack">
+            <div class="max-w-4xl mx-auto p-4 text-center space-y-6">
+
+
+                <h2 id="falando-pack" class="text-2xl font-semibold" tabindex="0">Lorem ipsum</h2>
+
+                <p class="text-base leading-relaxed" tabindex="0">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua.
+                </p>
+
+                <div class="grid gap-6 p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
+                        role="group" aria-labelledby="card1-pack-title">
+                        <div>
+                            <h3 id="card1-pack-title" class="text-red-500 text-xl font-bold mb-3" tabindex="0">
+                                Lorem
+                                ipsum</h3>
+                            <ul class="list-disc list-inside text-green-400 text-sm mb-4 space-y-1">
+                                <li tabindex="0">Lorem ipsum dolor sit amet</li>
+                                <li tabindex="0">Consectetur adipiscing elit</li>
+                                <li tabindex="0">Donec vitae sapien ut libero</li>
+                                <li tabindex="0">Curabitur ullamcorper ultricies nisi</li>
+                            </ul>
+                            <p class="text-sm" tabindex="0">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse
+                                lectus
+                                tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                            </p>
+                        </div>
+                        <div class="flex justify-center" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
+                        role="group" aria-labelledby="card2-pack-title">
+                        <div>
+                            <h3 id="card2-pack-title" class="text-orange-400 text-xl font-bold mb-3" tabindex="0">
+                                Lorem
+                                ipsum</h3>
+                            <p class="text-sm mb-4" tabindex="0">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus
+                                commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                            </p>
+                            <p class="text-sm" tabindex="0">
+                                Sed posuere consectetur est at lobortis. Aenean lacinia bibendum nulla sed consectetur.
+                            </p>
+                        </div>
+                        <div class="flex justify-center" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 bg-gray-900 border border-gray-700 rounded-lg p-6 items-center gap-6"
+                        role="group" aria-labelledby="card3-pack-title">
+                        <div>
+                            <h3 id="card3-pack-title" class="text-pink-500 text-xl font-bold mb-3" tabindex="0">
+                                Lorem
+                                ipsum</h3>
+                            <p class="text-sm mb-4" tabindex="0">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis lacus vel
+                                augue
+                                laoreet rutrum faucibus dolor auctor.
+                            </p>
+                            <p class="text-sm" tabindex="0">
+                                Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+                            </p>
+                        </div>
+                        <div class="flex justify-center" aria-hidden="true"></div>
+                    </div>
+                </div>
+
+                <button
+                    class="px-8 py-3 font-bold text-white rounded
+               bg-gradient-to-r from-[#8b0000] to-[#b22222]
+               shadow-[0_0_20px_#b22222]
+               transform transition-transform duration-300
+               hover:scale-105 hover:brightness-110
+               focus:outline-none focus:ring-4 focus:ring-red-700 focus:ring-opacity-60"
+                    aria-label="Botão para garantir o produto Shows Pro">
+                    GARANTIR O SHOWS PRO AGORA
+                </button>
+
+
+                 Comparativo final
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6" role="group"
+                    aria-labelledby="comparativo-title">
+                    <h3 id="comparativo-title" class="sr-only">Comparativo entre o que você evita e o que você ganha
+                    </h3>
+
+                    Coluna esquerda
+                    <div class="border border-red-700 rounded-lg p-6 bg-gray-900" role="group"
+                        aria-label="O que você evita">
+                        <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Sem o pack</h4>
+                        <ul class="space-y-3 text-sm" role="list">
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-red-500 text-xl" aria-hidden="true">❌</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                        </ul>
+                    </div>
+
+                   Coluna direita
+                    <div class="border border-green-600 rounded-lg p-6 bg-gray-900" role="group"
+                        aria-label="O que você ganha com o pack">
+                        <h4 class="text-white text-lg font-semibold mb-4" tabindex="0">Com o pack Shows Pro</h4>
+                        <ul class="space-y-3 text-sm" role="list">
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                            <li class="flex items-start gap-2" tabindex="0">
+                                <span class="text-green-400 text-xl" aria-hidden="true">✅</span> Lorem ipsum dolor sit
+                                amet.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    -->
 
     </div>
 

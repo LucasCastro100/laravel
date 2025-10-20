@@ -87,22 +87,6 @@
                                             </li>
                                         @endforeach
                                     </ul>
-
-                                    {{-- @if ($block['rules'])
-                                <div class="mt-4">
-                                    <span class="font-medium text-gray-800">Bônus realizado?</span>
-                                    <div class="flex gap-4 mt-2">
-                                        <label>
-                                            <input type="radio" name="bonus" value="sim"
-                                                wire:click="$set('bonus', 'sim')"> Sim
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="bonus" value="nao" checked
-                                                wire:click="$set('bonus', 'nao')"> Não
-                                        </label>
-                                    </div>
-                                </div>
-                            @endif --}}
                                 </div>
                                 <hr class="border-gray-300 my-6">
                             @endforeach
@@ -148,10 +132,11 @@
                         @endif
 
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-blue-700">Observações</h3>
-                            <textarea wire:model="comment" rows="4" class="w-full border-gray-300 rounded shadow-sm p-2"></textarea>
-
-                            <hr class="border-gray-300 my-6">
+                            @if ($modalitieSlug !== 'dp')
+                                <h3 class="text-lg font-semibold text-blue-700">Observações</h3>
+                                <textarea wire:model="comment" rows="4" class="w-full border-gray-300 rounded shadow-sm p-2"></textarea>
+                                <hr class="border-gray-300 my-6">
+                            @endif
 
                             <div class="text-end">
                                 <button wire:click="saveScores"

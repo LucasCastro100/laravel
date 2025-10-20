@@ -34,16 +34,5 @@ class ClientSeed extends Seeder
             'type_service_id' => 14,
             'associate' => 1,                           
         ]);
-
-        Client::create([
-            'user_id' => 3,
-            'name' => 'Kathelin Alves Lobato',
-            'cnpj' => '00.000.000/0001-02',            
-            'whatsapp' => '(34) 98856-1044',
-            'state_id' => 13,
-            'city_id' => 2387,
-            'type_service_id' => 9,
-            'associate' => 1,                                 
-        ]);
     }
 }

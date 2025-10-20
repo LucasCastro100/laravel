@@ -132,14 +132,10 @@ Route::middleware(['auth', 'permission:1', 'checkProfile'])->group(function(){
     
 });    
 
-Route::middleware(['auth', 'permission:2', 'checkProfile'])->group(function(){
-    Route::controller(QrCodeController::class)->group(function(){
+Route::middleware(['auth', 'permission:2', 'checkProfile'])->group(function () {
+    Route::controller(QrCodeController::class)->group(function () {
         Route::get('/painel/tag-pro', 'index')->name('dashboard.qrCode.index');
-
-        Route::get('/painel/tag-pro/redirecionamento/{codigo}', function ($codigo) {
-            $redirecionamento = QrCodeRedirect::where('codigo', $codigo)->firstOrFail();
-            return redirect()->to($redirecionamento->url_destino);
-        });
+        Route::get('/painel/tag-pro/redirecionamento/{codigo}', 'redirecionar')->name('dashboard.qrCode.redirect');
     });
 });
 

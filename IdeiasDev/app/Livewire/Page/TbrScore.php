@@ -382,6 +382,8 @@ class TbrScore extends Component
 
     private function validateScores()
     {
+        $modalitySlug = $this->modality['slug'];
+        
         // Verifica se equipe foi selecionada
         if (!$this->selectedTeamId) {
             $this->dangerBanner('Selecione uma equipe antes de salvar.');
@@ -397,57 +399,60 @@ class TbrScore extends Component
         // Inicializa o bônus como 'nao'
         $this->bonus = 'nao';
 
-        foreach ($this->question ?? [] as $index => $question) {
-            $type = $question['type'] ?? 'radio';
-            $description = $question['description'] ?? "Pergunta {$index}";
 
-            if ($type === 'radio') {
-                // Para radio, pega o valor em scores
-                $value = $this->scores[$index] ?? null;
-                if ($value === null || $value === '') {
-                    $this->dangerBanner("Você precisa selecionar uma opção para a pergunta '{$description}'.");
-                    return false;
-                }
-            } elseif ($type === 'number') {
-                // Para number, pega valores do scoresDP
-                $values = $this->scoresDP[$index] ?? null;
+        if ($modalitySlug === 'dp') {
+            foreach ($this->question ?? [] as $index => $question) {
+                $type = $question['type'] ?? 'radio';
+                $description = $question['description'] ?? "Pergunta {$index}";
 
-                if (!is_array($values) || empty($values)) {
-                    $this->dangerBanner("Você precisa preencher a pergunta '{$description}'.");
-                    return false;
-                }
-
-                $sumValues = 0;
-
-                foreach ($values as $itemIndex => $value) {
+                if ($type === 'radio') {
+                    // Para radio, pega o valor em scores
+                    $value = $this->scores[$index] ?? null;
                     if ($value === null || $value === '') {
-                        $this->dangerBanner("Você precisa preencher o item #{$itemIndex} da pergunta '{$description}'.");
+                        $this->dangerBanner("Você precisa selecionar uma opção para a pergunta '{$description}'.");
+                        return false;
+                    }
+                } elseif ($type === 'number') {
+                    // Para number, pega valores do scoresDP
+                    $values = $this->scoresDP[$index] ?? null;
+
+                    if (!is_array($values) || empty($values)) {
+                        $this->dangerBanner("Você precisa preencher a pergunta '{$description}'.");
                         return false;
                     }
 
-                    // Verifica se é inteiro (pode ajustar para float se quiser)
-                    if (!is_numeric($value) || intval($value) != $value) {
-                        $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve ser um número inteiro.");
+                    $sumValues = 0;
+
+                    foreach ($values as $itemIndex => $value) {
+                        if ($value === null || $value === '') {
+                            $this->dangerBanner("Você precisa preencher o item #{$itemIndex} da pergunta '{$description}'.");
+                            return false;
+                        }
+
+                        // Verifica se é inteiro (pode ajustar para float se quiser)
+                        if (!is_numeric($value) || intval($value) != $value) {
+                            $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve ser um número inteiro.");
+                            return false;
+                        }
+
+                        $intValue = intval($value);
+
+                        if ($intValue < 0 || $intValue > 10) {
+                            $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve estar entre 0 e 10.");
+                            return false;
+                        }
+
+                        $sumValues += $intValue;
+                    }
+
+                    if ($sumValues > 10) {
+                        $this->dangerBanner("A soma dos valores da pergunta '{$description}' não pode ser maior que 10. Atualmente está {$sumValues}.");
                         return false;
                     }
 
-                    $intValue = intval($value);
-
-                    if ($intValue < 0 || $intValue > 10) {
-                        $this->dangerBanner("O valor do item #{$itemIndex} da pergunta '{$description}' deve estar entre 0 e 10.");
-                        return false;
+                    if ($sumValues === 10) {
+                        $this->bonus = 'sim';
                     }
-
-                    $sumValues += $intValue;
-                }
-
-                if ($sumValues > 10) {
-                    $this->dangerBanner("A soma dos valores da pergunta '{$description}' não pode ser maior que 10. Atualmente está {$sumValues}.");
-                    return false;
-                }
-
-                if ($sumValues === 10) {
-                    $this->bonus = 'sim';
                 }
             }
         }
@@ -473,7 +478,7 @@ class TbrScore extends Component
         if (!$modalitySlug) {
             $this->warningBanner('Modalidade inválida.');
             return;
-        }        
+        }
 
         $this->calculateScorePerQuestion();
 
