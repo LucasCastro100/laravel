@@ -110,8 +110,8 @@ class StudentController extends Controller
     public function myTests()
     {
         $test = Test::where('user_id', Auth::user()->id)
-            ->latest()       // ordena pelo created_at decrescente
-            ->firstOrFail();
+            ->latest()
+            ->first();
 
         $dados = [
             'title' => 'Meus testes',
@@ -180,12 +180,20 @@ class StudentController extends Controller
             ->latest()       // ordena pelo created_at decrescente
             ->firstOrFail(); // garante 404 se não tiver teste
 
+        $perfil = config('relatorios');
+
+        $perfilUsuario = [
+            $perfil[$test->primary] ?? null,
+            $perfil[$test->secondary] ?? null,
+        ];
+
         $dados = [
             'title' => 'Relatório de Perfil Representacional',
             'scores' => $test->scores,
             'percentual' => $test->percentual,
             'primary' => $test->primary,
             'secondary' => $test->secondary,
+            'perfilUsuario' => $perfilUsuario,
             'answers' => $test->answers,
         ];
 

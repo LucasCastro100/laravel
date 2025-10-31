@@ -1,6 +1,12 @@
 @php
-    // Decodifica o JSON das respostas, se houver
-    $answers = is_array($test->answers) ? $test->answers : json_decode($test->answers, true);
+    // Verifica se $test existe e tem o atributo 'answers'
+    $answers = [];
+
+    if (isset($test) && isset($test->answers)) {
+        $answers = is_array($test->answers)
+            ? $test->answers
+            : json_decode($test->answers, true);
+    }
 @endphp
 
 <x-app-layout :title="$title">
@@ -30,7 +36,7 @@
                         <div class="col-span-1">1 = A que menos descreve você</div>
                     </div>
 
-                    @if ($test->count() > 0)
+                    @if (!empty($test))
                         <p class="text-red-500">Você já realizou este teste.</p>
                     @endif
 
@@ -42,22 +48,8 @@
                                     <h1 class="text-start font-bold">{{ $key + 1 }}. {{ $question['text'] }}
                                     </h1>
 
-                                    {{-- @foreach ($question['options'] as $option)
-                                            <div class="flex flex-col md:flex-row gap-2 mt-2">
-                                                <input type="number"
-                                                    class="flex border-0 border-b-2 border-black focus:ring-0 focus:border-black focus:outline-none"
-                                                    name="{{ $option['id'] }}" id="{{ $option['id'] }}"
-                                                    data-channel={{ $option['channel'] }} min="1" max="4">
-                                                <label for="{{ $option['id'] }}"
-                                                    class="flex flex-1 text-gray-700 items-end">{{ $option['text'] }}
-                                                    ({{ $option['channel'] }})
-                                                </label>
-                                            </div>
-                                        @endforeach --}}
-
                                     @foreach ($question['options'] as $option)
                                         @php
-                                            // Busca o valor salvo (ex: "Q1_V" => "1")
                                             $value = $answers[$option['id']] ?? '';
                                         @endphp
 
@@ -67,7 +59,7 @@
                                                 name="{{ $option['id'] }}" id="{{ $option['id'] }}"
                                                 data-channel="{{ $option['channel'] }}" min="1" max="4"
                                                 value="{{ $value }}"
-                                                @if (!empty($answers)) disabled @endif> {{-- Desativa se já respondeu --}}
+                                                @if (!empty($answers)) disabled @endif> 
                                             <label for="{{ $option['id'] }}"
                                                 class="flex flex-1 text-gray-700 items-end">
                                                 {{ $option['text'] }} ({{ $option['channel'] }})
@@ -80,7 +72,7 @@
                             @endforeach
 
                             <div class="text-end">
-                                @if ($test->count() > 0)
+                                @if (!empty($test))
                                     <a href="{{ route('student.resultTest') }}"
                                         class="text-white font-bold py-2 px-4 rounded-md bg-orange-400 hover:bg-orange-800">Resultado</a>
                                 @else
