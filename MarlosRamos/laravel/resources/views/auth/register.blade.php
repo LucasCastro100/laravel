@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div x-data="{ tab: 'student' }" class="max-w-xl mx-auto">
         <!-- Abas -->
-        <div class="flex flex-col sm:flex-row flex-wrap border-b border-gray-200 mb-4">
+        {{-- <div class="flex flex-col sm:flex-row flex-wrap border-b border-gray-200 mb-4">
             <button type="button" @click="tab = 'student'"
                 :class="tab === 'student' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-600'"
                 class="py-2 px-4 font-medium text-sm hover:text-gray-600 hover:border-b-2 hover:border-gray-300">
@@ -12,10 +12,11 @@
                 class="py-2 px-4 font-medium text-sm hover:text-gray-600 hover:border-b-2 hover:border-gray-300">
                 Professor
             </button>
-        </div>
+        </div> --}}
 
         <!-- Formulário para aluno -->
-        <form method="POST" action="{{ route('register') }}" x-show="tab === 'student'" x-cloak>
+        {{-- <form method="POST" action="{{ route('register') }}" x-show="tab === 'student'" x-cloak> --}}
+        <form method="POST" action="{{ route('register') }}">
             @csrf
             <input type="hidden" name="role_id" value="1"> <!-- Aluno -->
 
@@ -75,14 +76,15 @@
                     </a>
 
                     <x-primary-button class="ms-4">
-                        {{ __('Registrar como Aluno') }}
+                        {{-- {{ __('Registrar como Aluno') }} --}}
+                        {{ __('Registrar') }}
                     </x-primary-button>
                 </div>
             </div>
         </form>
 
 
-        <!-- Formulário para professor -->
+        {{-- <!-- Formulário para professor -->
         <form method="POST" action="{{ route('register') }}" x-show="tab === 'teacher'" x-cloak>
             @csrf
             <input type="hidden" name="role_id" value="2"> <!-- Professor -->
@@ -155,7 +157,7 @@
                     </x-primary-button>
                 </div>
             </div>
-        </form>
+        </form> --}}
     </div>
 </x-guest-layout>
 
