@@ -15,7 +15,9 @@ class StudentController extends Controller
     {
         $user = Auth::user();
         $courses = Course::paginate(10);
-        // $tests = Test::paginate(10);
+        $test = Test::where('user_id', Auth::user()->id)
+            ->latest()
+            ->first();
 
         // IDs de cursos e testes que o usuário está matriculado
         $userCourseIds = $user->enrolledCourses->pluck('id')->toArray();
@@ -24,10 +26,13 @@ class StudentController extends Controller
         $dados = [
             'title' => 'Painel do Aluno',
             'courses' => $courses,
-            // 'tests' => $tests,
             'userCourseIds' => $userCourseIds,
+            'test' => $test,
+            'percentual' => $test ? $test->percentual : null            
             // 'userTestIds' => $userTestIds,
         ];
+
+        // dd($dados['test'], $dados['percentual']);
 
         return view('dashboard.student.dashboard', $dados);
     }
@@ -110,8 +115,8 @@ class StudentController extends Controller
     public function myTests()
     {
         $test = Test::where('user_id', Auth::user()->id)
-            ->latest()       // ordena pelo created_at decrescente
-            ->firstOrFail();
+            ->latest()
+            ->first();
 
         $dados = [
             'title' => 'Meus testes',
@@ -178,7 +183,14 @@ class StudentController extends Controller
         // Pega o último teste do usuário logado
         $test = Test::where('user_id', Auth::user()->id)
             ->latest()       // ordena pelo created_at decrescente
-            ->firstOrFail(); // garante 404 se não tiver teste
+            ->first(); // garante 404 se não tiver teste
+
+        $perfil = config('relatorios');
+
+        $perfilUsuario = [
+            $perfil[$test->primary] ?? null,
+            $perfil[$test->secondary] ?? null,
+        ];
 
         $dados = [
             'title' => 'Relatório de Perfil Representacional',
@@ -186,6 +198,7 @@ class StudentController extends Controller
             'percentual' => $test->percentual,
             'primary' => $test->primary,
             'secondary' => $test->secondary,
+            'perfilUsuario' => $perfilUsuario,
             'answers' => $test->answers,
         ];
 

@@ -42,17 +42,90 @@
                         <div class="mb-6 w-full max-w-md mx-auto">
                             <canvas id="percentualChart" class="w-full h-64"></canvas>
                         </div>
+                    </div>
 
+                    <hr class="my-2 col-span-1 md:col-span-3" />
+
+                    <div class="col-span-1 md:col-span-3">
+                        <h2 class="text-2xl font-bold mb-4 text-center">Descrição dos Perfil</h2>
+                        <div class="space-y-8">
+                            @foreach ($perfilUsuario as $key => $perfil)
+                                <div class="space-y-2">
+                                    <h3 class="font-medium text-xl">{{ $key + 1 }}. {{ $perfil['nome'] }}</h3>
+                                    <p class="text-justify text-gray-700">{{ $perfil['texto'] }}</p>
+
+                                    <p class="font-medium mt-2">
+                                        <span class="font-bold">Palavra-chave:</span>
+                                        <span class="text-gray-700">{{ $perfil['palavra-chave'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Arquétipo simbólico:</span>
+                                        <span class="text-gray-700">{{ $perfil['arquetipo'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Força essencial</span>
+                                        <span class="text-gray-700">{{ $perfil['forca-essencial'] }}</span>
+                                    </p>
+
+                                    <h4 class="font-bold mt-2">Aplicações práticas</h4>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Aprendizagem:</span>
+                                        <span class="text-gray-700">{{ $perfil['aprendizagem'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Relacionamentos amorosos:</span>
+                                        <span class="text-gray-700">{{ $perfil['relacionamento'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Comunicação em público:</span>
+                                        <span class="text-gray-700">{{ $perfil['comunicacao'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Vendas:</span>
+                                        <span class="text-gray-700">{{ $perfil['venda'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Liderança:</span>
+                                        <span class="text-gray-700">{{ $perfil['lideranca'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Integração simbólica:</span>
+                                        <span class="text-gray-700">{{ $perfil['integracao'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Dicas:</span>
+                                        <span class="text-gray-700">{{ $perfil['dicas'] }}</span>
+                                    </p>
+
+                                    <p class="font-medium">
+                                        <span class="font-bold">Cuidados:</span>
+                                        <span class="text-gray-700">{{ $perfil['cuidados'] }}</span>
+                                    </p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <hr class="my-2 col-span-1 md:col-span-3" />
+
+                    <div class="col-span-1 md:col-span-3 space-y-1">
+                        <p class="font-medium text-center">Sua mente cria a imagem.</p>
+                        <p class="font-medium text-center">Sua voz dá forma à emoção.</p>
+                        <p class="font-medium text-center">Seu corpo sente o caminho.</p>
+                        <p class="font-medium text-center">Sua razão constrói o método.</p>
+                        <p class="font-medium text-center">Quando esses quatro centros trabalham juntos, nasce a
+                            verdadeira Alquimia da Comunicação.</p>
                     </div>
                 </div>
-
-                {{-- Exibir respostas do usuário --}}
-                {{-- <h2 class="text-xl font-semibold mb-2">Suas Respostas:</h2>
-                <ul class="list-disc pl-6">
-                    @foreach ($answers as $question => $answer)
-                        <li><strong>{{ $question }}:</strong> {{ $answer }}</li>
-                    @endforeach
-                </ul> --}}
             </div>
         </div>
     </div>
