@@ -51,6 +51,11 @@ return [
     */
 
     'channels' => [
+        'command-log' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/command-log.log'),
+            'level' => 'debug',
+        ],
 
         'stack' => [
             'driver' => 'stack',

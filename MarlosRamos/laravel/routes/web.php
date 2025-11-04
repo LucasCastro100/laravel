@@ -1,11 +1,15 @@
 <?php
 
+// Web Controllers
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\TesteRepresentacionalController;
+
+// Dashboard Controllers
 use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AssessmentController;
 use App\Http\Controllers\Dashboard\ClassroomController;
 use App\Http\Controllers\Dashboard\CommentController;
 use App\Http\Controllers\Dashboard\CourseController;
-use App\Http\Controllers\Dashboard\MatriculationController;
 use App\Http\Controllers\Dashboard\MatriculationCourseController;
 use App\Http\Controllers\Dashboard\MatriculationTestController;
 use App\Http\Controllers\Dashboard\ModuleController;
@@ -13,12 +17,22 @@ use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\StudentController;
 use App\Http\Controllers\Dashboard\TeacherController;
 use App\Http\Controllers\Dashboard\TestController;
+
+// Demais Controllers
 use App\Http\Controllers\StripeController;
-use App\Models\MatriculationCourse;
+
+
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home.index');
+});
+
+Route::controller(TesteRepresentacionalController::class)->group(function () {
+    Route::get('/teste-representacional', 'index')->name('teste.representacional.index');    
+    Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
+
+    Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
 });
 
 // Route::get('/dashboard', function () {
