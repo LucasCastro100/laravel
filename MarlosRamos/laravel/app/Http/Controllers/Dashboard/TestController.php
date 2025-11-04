@@ -13,9 +13,7 @@ class TestController extends Controller
         $dados = [
             'title' => 'Testes Representacionais',
             'questions' => config('questionsTest'),
-        ];
-
-        dd($dados['questions']);
+        ];        
 
         return view('dashboard.admin.tests', $dados);
     }
