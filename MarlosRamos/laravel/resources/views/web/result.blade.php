@@ -16,14 +16,15 @@
                     <x-alert-component type="error" :message="session('error')" />
                 @endif
 
-                <h1 class="text-2xl font-bold mb-4 text-center">Resultado Final</h1>
-
-                @if (!empty($test))
-                @endif
+                <div class="space-y-2">
+                    <x-application-logo />
+                    <h1 class="font-bold text-2xl md:text-4xl text-center">Teste do Sistema Representacional</h1>
+                    <h3 class="font-bold text-center">Resultado final</h3>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <div class="col-span-1 lg:col-span-3">
-                        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-4 mb-6">
+                        <div class="flex md:flex-row items-center justify-center gap-4 mt-4 mb-6">
                             <p class="text-lg">Perfil Primário: <span class="font-bold">{{ $test->primary }}</span></p>
                             <p class="text-lg hide md:flex">|</p>
                             <p class="text-lg">Perfil Secundário: <span class="font-bold">{{ $test->secondary }}</span>
@@ -60,22 +61,22 @@
                         <h2 class="text-lg font-semibold mb-3 text-center">Dados do Participante</h2>
 
                         <div class="flex flex-col gap-4 text-gray-800">
-                            <div class="flex flex-col md:flex-row gap-2 items-center">
+                            <div class="flex flex-row gap-2 items-center">
                                 <i class="fa-solid fa-user"></i>
                                 <p class="font-medium text-gray-700">{{ $test->name ?? '—' }}</p>
                             </div>
 
-                            <div class="flex flex-col md:flex-row gap-2 items-center">
+                            <div class="flex flex-row gap-2 items-center">
                                 <i class="fa-solid fa-envelope"></i>
                                 <p class="font-medium text-gray-700">{{ $test->email ?? '—' }}</p>
                             </div>
 
-                            <div class="flex flex-col md:flex-row gap-2 items-center">
+                            <div class="flex flex-row gap-2 items-center">
                                 <i class="fa-solid fa-phone"></i>
                                 <p class="font-medium text-gray-700">{{ $test->phone ?? '—' }}</p>
                             </div>
 
-                            <div class="flex flex-col md:flex-row gap-2 items-center">
+                            <div class="flex flex-row gap-2 items-center">
                                 <a href="{{ url('/teste-representacional/' . $test->uuid) }}"
                                     class="text-blue-600 underline hover:text-blue-800" target="_blank">
                                     <i class="fa-solid fa-link"></i>

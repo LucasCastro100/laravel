@@ -9,7 +9,8 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="flex flex-col gap-8">
-                    <div>
+                    <div class="space-y-2">
+                        <x-application-logo />
                         <h1 class="font-bold text-2xl md:text-4xl text-center">Teste do Sistema Representacional</h1>
                         <h3 class="font-bold text-center">Ned Hermman</h3>
                     </div>
@@ -87,7 +88,7 @@
                                                 data-channel="{{ $option['channel'] }}" min="1" max="4">
                                             <label for="{{ $option['id'] }}"
                                                 class="flex flex-1 text-gray-700 items-end">
-                                                {{ $option['text'] }} ({{ $option['channel'] }})
+                                                {{ $option['text'] }}
                                             </label>
                                         </div>
                                     @endforeach
