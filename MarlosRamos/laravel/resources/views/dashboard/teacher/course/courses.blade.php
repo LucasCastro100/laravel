@@ -38,7 +38,7 @@
                         Nenhum curso cadastrado.
                     </div>
                 @else
-                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                         @foreach ($courses as $index => $course)
                             <div class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer relative"
                                 onclick="window.location.href = '{{ route('course.show', ['uuid' => $course->uuid]) }}'">
@@ -81,10 +81,9 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="block text-gray-700 font-medium">Link de venda</label>
-                                    <input type="text" name="sales_link"
-                                        class="w-full border border-gray-300 p-2 rounded">
-                                </div>
+                                    <label class="block text-gray-700 font-medium">Preço (R$)</label>
+                                    <input type="number" name="price" step="0.01" min="0" class="w-full border border-gray-300 p-2 rounded">
+                                 </div>
 
                                 <div class="mb-4">
                                     <label class="block text-gray-700 font-medium">Descrição</label>

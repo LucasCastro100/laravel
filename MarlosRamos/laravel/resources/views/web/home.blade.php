@@ -1235,7 +1235,7 @@
                             @php
                                 $url = match (Auth::user()->role_id) {
                                     3 => 'admin.dashBoard',
-                                    2 => 'teacher.dashboard',
+                                    2 => 'teacher.dashBoard',
                                     1 => 'student.dashBoard',
                                     default => '/', // fallback
                                 };
@@ -1245,7 +1245,7 @@
                                 class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20] ">
                                 Painel
                             </a>
-                        < @else <a href="{{ route('login') }}"
+                        @else <a href="{{ route('login') }}"
                                 class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white focus:outline-none focus-visible:ring-[#FF2D20] ">
                                 Acessar
                                 </a>

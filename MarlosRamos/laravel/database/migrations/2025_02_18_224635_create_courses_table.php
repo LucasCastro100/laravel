@@ -12,9 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');            
             $table->text('description');
-            $table->string('sales_link');
-            // $table->string('certificate');
-            $table->string('image')->nullable();            
+            $table->string('sales_link')->nullable();
+            $table->string('certificate')->nullable();
+            $table->string('image')->nullable();
+            $table->decimal('price', 8, 2);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->uuid();
             $table->timestamps();

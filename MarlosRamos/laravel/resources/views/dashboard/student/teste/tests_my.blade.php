@@ -62,7 +62,7 @@
                                                 @if (!empty($answers)) disabled @endif> 
                                             <label for="{{ $option['id'] }}"
                                                 class="flex flex-1 text-gray-700 items-end">
-                                                {{ $option['text'] }} ({{ $option['channel'] }})
+                                                {{ $option['text'] }}
                                             </label>
                                         </div>
                                     @endforeach

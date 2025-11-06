@@ -37,5 +37,11 @@ return [
     'youtube' => [
         'key' => env('YOUTUBE_API_KEY'),
     ],
+    'eduzz' => [
+        'base_url' => env('EDUZZ_API_BASE', 'https://api.eduzz.com/'),
+        'client_id' => env('EDUZZ_CLIENT_ID'),
+        'client_secret' => env('EDUZZ_CLIENT_SECRET'),
+        'token' => env('EDUZZ_CLIENT_TOKEN'),
+    ],
 
 ];
