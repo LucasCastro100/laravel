@@ -15,7 +15,7 @@ class CourseRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'sales_link' => 'required|string',
+            // 'sales_link' => 'required|string',
             // 'certificate' => 'required|string',
             'description' => 'required|string',            
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -26,7 +26,7 @@ class CourseRequest extends FormRequest
     {
         return [
             'title.required' => 'O título do curso é obrigatório.',
-            'sales_link.required' => 'O link de vendas do curso é obrigatório.',
+            // 'sales_link.required' => 'O link de vendas do curso é obrigatório.',
             // 'certificate.required' => 'O certificado do curso é obrigatório.',
             'description.required' => 'A descrição do curso é obrigatória.',            
             'image.image' => 'O arquivo enviado não é uma imagem válida.',

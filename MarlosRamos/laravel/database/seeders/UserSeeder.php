@@ -25,11 +25,11 @@ class UserSeeder extends Seeder
                 'role_id' => '3'
             ],
             [
-                'name' => 'Professor',
-                'email' => 'professor@gmail.com',
+                'name' => 'Marlos Ramos',
+                'email' => 'marlosramos@yahoo.com.br',
                 'password' => 'mudar123',
                 'cpf' => '111.111.111-11',
-                'phone' => '(34) 91111-1111',
+                'phone' => '(34) 90000-0000',
                 'role_id' => '2'
             ],
             [
