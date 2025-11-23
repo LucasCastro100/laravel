@@ -11,7 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     public function index(){
+        $comments = Comment::with(['user', 'classroom'])->get();
 
+        $dados = [
+            'title' => 'Comentários',
+            'comments' => $comments
+        ];
+
+        dd($comments);
+
+        return view('dashboard.teacher.comment', $dados);
     }
 
     public function classroomShow(){

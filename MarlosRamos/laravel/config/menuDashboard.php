@@ -34,12 +34,12 @@ return [
             'route' => 'teacher.myCourses',
             'role' => 2
         ],
-        // [
-        //     'icon' => 'fa-solid fa-comments',
-        //     'name' => 'Gerenciar Comentários',
-        //     'route' => 'comment.index',
-        //     'role' => 2
-        // ],
+        [
+            'icon' => 'fa-solid fa-comments',
+            'name' => 'Gerenciar Comentários',
+            'route' => 'comment.index',
+            'role' => 2
+        ],
     ],
     'student' => [
         [
