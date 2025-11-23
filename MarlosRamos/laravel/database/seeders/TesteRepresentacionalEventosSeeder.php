@@ -41,6 +41,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 20, "A" => 30, "C" => 22, "D" => 28]),
                 'primary' => 'A',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:11:57',
+                'updated_at' => '2025-11-08 11:11:57',
             ],
             [
                 'uuid' => 'a04efd63-7163-4424-8cfd-f27869300473',
@@ -73,6 +75,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 14, "A" => 34, "C" => 22, "D" => 30]),
                 'primary' => 'A',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:13:10',
+                'updated_at' => '2025-11-08 11:13:10',
             ],
             [
                 'uuid' => 'a04efd76-4e28-4bca-9474-050afe82e2cb',
@@ -105,6 +109,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 20, "A" => 18, "C" => 24, "D" => 38]),
                 'primary' => 'D',
                 'secondary' => 'C',
+                'created_at' => '2025-11-08 11:13:22',
+                'updated_at' => '2025-11-08 11:13:22',
             ],
             [
                 'uuid' => 'a04efd79-60b0-4988-a4d1-1535ce5eeda0',
@@ -137,6 +143,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 30, "A" => 22, "C" => 20, "D" => 28]),
                 'primary' => 'V',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:13:24',
+                'updated_at' => '2025-11-08 11:13:24',
             ],
             [
                 'uuid' => 'a04f0008-8b7d-4d33-ab82-0bc3e0f97958',
@@ -169,6 +177,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 20, "A" => 28, "C" => 24, "D" => 24]),
                 'primary' => 'A',
                 'secondary' => 'C',
+                'created_at' => '2025-11-08 11:14:43',
+                'updated_at' => '2025-11-08 11:14:43',
             ],
             [
                 'uuid' => 'a04f0059-40e5-4c93-8a36-73ea87f001bf',
@@ -201,6 +211,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 16, "A" => 24, "C" => 24, "D" => 28]),
                 'primary' => 'D',
                 'secondary' => 'A',
+                'created_at' => '2025-11-08 11:15:31',
+                'updated_at' => '2025-11-08 11:15:31',
             ],
             [
                 'uuid' => 'a04f007a-0ae7-49c1-8e2f-be5937995bc7',
@@ -233,6 +245,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 24, "A" => 32, "C" => 16, "D" => 28]),
                 'primary' => 'A',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:16:15',
+                'updated_at' => '2025-11-08 11:16:15',
             ],
             [
                 'uuid' => 'a04f00ae-3804-41fe-ab3d-afbc2087ca94',
@@ -265,6 +279,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 32, "A" => 24, "C" => 14, "D" => 30]),
                 'primary' => 'V',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:17:50',
+                'updated_at' => '2025-11-08 11:17:50',
             ],
             [
                 'uuid' => 'a04f012b-b93a-4b48-931f-5f2f9c8eb5c2',
@@ -297,6 +313,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 20, "A" => 28, "C" => 24, "D" => 28]),
                 'primary' => 'A',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 11:26:11',
+                'updated_at' => '2025-11-08 11:26:11',
             ],
             [
                 'uuid' => 'a04f015d-b0f8-4dae-90c1-89b3cd384a93',
@@ -329,6 +347,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 24, "A" => 26, "C" => 20, "D" => 26]),
                 'primary' => 'A',
                 'secondary' => 'D',
+                'created_at' => '2025-11-08 12:08:21',
+                'updated_at' => '2025-11-08 12:08:21',
             ],
             [
                 'uuid' => 'a04f01e7-b7bb-4250-a13d-b13b105f1ba4',
@@ -361,6 +381,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 20, "A" => 20, "C" => 32, "D" => 28]),
                 'primary' => 'C',
                 'secondary' => 'D',
+                'created_at' => '2025-11-19 07:26:06',
+                'updated_at' => '2025-11-19 07:26:06',
             ],
             [
                 'uuid' => 'a04f0267-6f04-4aef-8363-4d0b7d2d7f36',
@@ -393,6 +415,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 28, "A" => 30, "C" => 18, "D" => 24]),
                 'primary' => 'A',
                 'secondary' => 'V',
+                'created_at' => '2025-11-19 08:12:29',
+                'updated_at' => '2025-11-19 08:12:29',
             ],
             [
                 'uuid' => 'a04f02df-7e17-4df0-aa44-706a2e547c2c',
@@ -425,6 +449,8 @@ class TesteRepresentacionalEventosSeeder extends Seeder
                 'percentual' => json_encode(["V" => 24, "A" => 32, "C" => 16, "D" => 24]),
                 'primary' => 'A',
                 'secondary' => 'V',
+                'created_at' => '2025-11-19 13:45:56',
+                'updated_at' => '2025-11-19 13:45:56',
             ],
 
         ];

@@ -5,22 +5,23 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\Comment;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function index(){
-        $comments = Comment::with(['user', 'classroom'])->get();
+    public function index(){        
+        $courses = Course::with('modules.classrooms.comments.user')->get();
 
         $dados = [
             'title' => 'Comentários',
-            'comments' => $comments
+            'courses' => $courses
         ];
 
-        dd($comments);
+        // dd($courses);
 
-        return view('dashboard.teacher.comment', $dados);
+        return view('dashboard.teacher.comment.comment_list', $dados);
     }
 
     public function classroomShow(){
@@ -29,12 +30,12 @@ class CommentController extends Controller
 
     public function store(Request $request, $uuid_classroom)
     {
-        try {
-            // Validação do comentário
-            $request->validate([
-                'comment' => 'required|string|max:1000', // Valida o comentário
-            ]);
+        // Validação do comentário
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
 
+        try {
             // Encontrar a aula com base no UUID
             $classroom = Classroom::where('uuid', $uuid_classroom)->firstOrFail();
 
@@ -45,8 +46,7 @@ class CommentController extends Controller
                 'user_id' => Auth::id(), // Associar o comentário ao usuário logado
             ]);
 
-            return redirect()->route('classroom.show', ['uuid_classroom' => $uuid_classroom])
-                ->with('success', 'Comentário enviado com sucesso!');
+            return redirect()->back()->with('success', 'Comentário enviado com sucesso!');
         } catch (\Exception $e) {
             // Se ocorrer um erro, redireciona de volta com uma mensagem de erro
             return redirect()->back()

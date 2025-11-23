@@ -24,6 +24,10 @@ use App\Http\Controllers\StripeController;
 
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home.index');
 });
@@ -35,10 +39,6 @@ Route::controller(TesteRepresentacionalController::class)->group(function () {
     Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(StripeController::class)->group(function () {
         Route::get('/checkout', 'checkoutForm')->name('checkout.form');
@@ -48,7 +48,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/stripe/webhook', 'webhook')->name('stripe.webhook');
     });
-
 
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/perfil', 'edit')->name('profile.edit');

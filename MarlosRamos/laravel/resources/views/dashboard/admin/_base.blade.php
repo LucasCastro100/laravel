@@ -8,14 +8,14 @@
 
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900">
                 @if (session('success'))
-                <x-alert-component type="success" :message="session('success')" />
-            @endif
+                    <x-alert-component type="success" :message="session('success')" />
+                @endif
 
-            @if (session('error'))
-                <x-alert-component type="error" :message="session('error')" />
-            @endif
+                @if (session('error'))
+                    <x-alert-component type="error" :message="session('error')" />
+                @endif
 
                 {{-- CONTEUDO --}}
             </div>

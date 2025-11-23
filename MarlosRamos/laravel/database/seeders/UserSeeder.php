@@ -48,5 +48,6 @@ class UserSeeder extends Seeder
                 Teacher::create(['user_id' => $user->id, 'specialty' => 'Teste']);
             }
         }
+        
     }
 }
