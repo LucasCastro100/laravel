@@ -15,8 +15,8 @@ class CourseSeeder extends Seeder
             'sales_link'  => null,
             'price'       => 0,
             'certificate' => null,
-            'image'       => null,
-            'user_id'     => 2, // coloque o ID do professor dono do curso
+            'image'       => 'courses/formacao_pnl.png',
+            'user_id'     => 2,
         ]);
     }
 }
