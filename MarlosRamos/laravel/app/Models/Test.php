@@ -35,8 +35,14 @@ class Test extends Model
         return $this->hasMany(MatriculationTest::class);
     }
 
-    public function users()
-    {
-        return $this->hasManyThrough(User::class, MatriculationTest::class, 'test_id', 'id', 'id', 'user_id');
-    }
+    // public function users()
+    // {
+    //     return $this->hasManyThrough(User::class, MatriculationTest::class, 'test_id', 'id', 'id', 'user_id');
+    //     // return $this->belongsTo(User::class);
+    // }
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

@@ -28,12 +28,12 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home.index');
 });
 
-// Route::controller(TesteRepresentacionalController::class)->group(function () {
-//     Route::get('/teste-representacional', 'index')->name('teste.representacional.index');
-//     Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
+Route::controller(TesteRepresentacionalController::class)->group(function () {
+    Route::get('/teste-representacional', 'index')->name('teste.representacional.index');
+    Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
 
-//     Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
-// });
+    Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

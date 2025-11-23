@@ -22,12 +22,12 @@ return [
             'route' => 'teacher.dashBoard',
             'role' => 2
         ],
-        // [
-        //     'icon' => 'fa-solid fa-list-check',
-        //     'name' => 'Gerenciar Testes',
-        //     'route' => 'teacher.myTests',
-        //     'role' => 2
-        // ],
+        [
+            'icon' => 'fa-solid fa-list-check',
+            'name' => 'Gerenciar Testes',
+            'route' => 'teacher.myTests',
+            'role' => 2
+        ],
         [
             'icon' => 'fa-solid fa-chalkboard-teacher',
             'name' => 'Gerenciar Cursos',
