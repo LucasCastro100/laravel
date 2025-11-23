@@ -3,19 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Test;
 
 class TesteSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('tests')->insert([
+        Test::create([
             'user_id' => 3,
             'uuid' => 'a06c1df2-f0b0-4763-af81-0fc1f03ab6f8',
-            'answers' => json_encode([
+            'answers' => [
                 'Q1_V' => "4",
                 'Q1_A' => "3",
                 'Q1_C' => "2",
@@ -36,23 +33,21 @@ class TesteSeeder extends Seeder
                 'Q5_D' => "3",
                 'Q5_C' => "2",
                 'Q5_V' => "1",
-            ]),
-            'scores' => json_encode([
+            ],
+            'scores' => [
                 'A' => 16,
                 'V' => 13,
                 'D' => 11,
                 'C' => 10,
-            ]),
-            'percentual' => json_encode([
+            ],
+            'percentual' => [
                 'V' => 26,
                 'A' => 32,
                 'C' => 20,
                 'D' => 22,
-            ]),
-
+            ],
             'primary' => "A",
             'secondary' => "V",
-
             'created_at' => '2025-11-22 22:43:14',
             'updated_at' => '2025-11-22 22:43:14',
         ]);
