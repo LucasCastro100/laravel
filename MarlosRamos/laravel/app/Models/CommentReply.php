@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class Comment extends Model
+class CommentReply extends Model
 {
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'comment',
-        'classroom_id',
-        'user_id'
+        'comment_id',
+        'user_id',
+        'reply',
     ];
 
     public function uniqueIds()
@@ -21,17 +21,11 @@ class Comment extends Model
         return ['uuid'];
     }
 
-    public function classroom()
-    {
-        return $this->belongsTo(Classroom::class);
-    }
-
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function replies() {
-        return $this->hasMany(CommentReply::class);
+    
+    public function comment() {
+        return $this->belongsTo(Comment::class);
     }
 }

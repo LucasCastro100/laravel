@@ -38,6 +38,23 @@
                                                             <small class="text-gray-500">
                                                                 {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
                                                             </small>
+
+                                                            <div class="mt-2">
+                                                                <a href="{{ route('comments.reply.get', $comment->uuid) }}" 
+                                                                   class="inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                                                                    Responder
+                                                                </a>
+                                                            </div>
+
+                                                            {{-- Replies do comentário --}}
+                                                            @foreach ($comment->replies as $reply)
+                                                                <div class="bg-gray-100 p-2 rounded border-l-2 border-gray-200 mt-2 ml-4">
+                                                                    <p class="text-gray-700">{{ $reply->reply }}</p>
+                                                                    <small class="text-gray-500">
+                                                                        {{ $reply->user->name }} - {{ $reply->created_at->diffForHumans() }}
+                                                                    </small>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
                                                     @endforeach
                                                 </div>

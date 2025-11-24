@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     public function index(){        
-        $courses = Course::with('modules.classrooms.comments.user')->get();
+        $courses = Course::with([
+            'modules.classrooms.comments.user',
+            'modules.classrooms.comments.replies.user'
+        ])->get();
 
         $dados = [
             'title' => 'Comentários',

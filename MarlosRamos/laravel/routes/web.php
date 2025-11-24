@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\AssessmentController;
 use App\Http\Controllers\Dashboard\ClassroomController;
 use App\Http\Controllers\Dashboard\CommentController;
+use App\Http\Controllers\Dashboard\CommentReplyController;
 use App\Http\Controllers\Dashboard\CourseController;
 use App\Http\Controllers\Dashboard\MatriculationCourseController;
 use App\Http\Controllers\Dashboard\MatriculationTestController;
@@ -108,6 +109,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
         });
+
+        Route::controller(CommentReplyController::class)->group(function () {
+            Route::post('/comments/{comment}/reply', 'store')->name('comments.reply');
+        });
     });
 
     // Rotas da área do professor
@@ -159,6 +164,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
             Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
+        });
+
+        Route::controller(CommentController::class)->group(function () {
+            Route::get('/comentarios', 'index')->name('comment.index');
+            Route::get('/comentarios/{uuid_classroom}/{id}', 'show')->name('comment.classroomShow');
+
+            Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
+
+            Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
+        });
+
+        Route::controller(CommentReplyController::class)->group(function () {
+            Route::get('/comments/{comment}/reply', 'store')->name('comments.reply.get');
+            Route::post('/comments/{comment}', 'store')->name('comments.reply.store');
         });
 
         Route::controller(EduzCourseController::class)->group(function () {

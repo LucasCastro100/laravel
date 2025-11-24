@@ -14,7 +14,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('currency')->default('brl');
             $table->string('status')->default('pending');
-            $table->uuid();
+            $table->uuid()->unique();
             $table->timestamps();
         });
     }
