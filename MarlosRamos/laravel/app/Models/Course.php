@@ -14,7 +14,8 @@ class Course extends Model
         'title',
         'description',
         'sales_link',
-        // 'certificate',       
+        'price',
+        'certificate',       
         'image',
         'user_id'
     ];

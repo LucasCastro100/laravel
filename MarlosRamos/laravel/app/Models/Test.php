@@ -17,10 +17,11 @@ class Test extends Model
         'percentual',
         'primary',
         'secondary',
+        'uuid'
     ];
 
     protected $casts = [
-        'answers' => 'array',      // Salva/recupera JSON automaticamente como array
+        'answers' => 'array',
         'scores' => 'array',
         'percentual' => 'array',
     ];
@@ -35,8 +36,8 @@ class Test extends Model
         return $this->hasMany(MatriculationTest::class);
     }
 
-    public function users()
+    public function user()
     {
-        return $this->hasManyThrough(User::class, MatriculationTest::class, 'test_id', 'id', 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

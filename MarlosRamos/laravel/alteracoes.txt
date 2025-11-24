@@ -1,3 +1,0 @@
-painel mostra todos os cursos
-cursos - so os que ela possui
-subir imagem do certificado e link de compra -  cadastro do curso

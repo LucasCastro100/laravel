@@ -10,9 +10,6 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $users = [
@@ -51,5 +48,6 @@ class UserSeeder extends Seeder
                 Teacher::create(['user_id' => $user->id, 'specialty' => 'Teste']);
             }
         }
+        
     }
 }

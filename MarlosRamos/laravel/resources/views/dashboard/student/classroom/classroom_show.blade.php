@@ -32,11 +32,11 @@
                                 class="py-2 px-4 font-medium text-sm hover:text-gray-600 hover:border-b-2 hover:border-gray-300">
                                 Aula
                             </button>
-                            {{-- <button @click="tab = 'comments'"
+                            <button @click="tab = 'comments'"
                                 :class="tab === 'comments' ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-600'"
                                 class="py-2 px-4 font-medium text-sm hover:text-gray-600 hover:border-b-2 hover:border-gray-300">
                                 Comentários
-                            </button> --}}
+                            </button>
                         </div>
                 
                         <!-- Conteúdo da Aula -->
@@ -79,7 +79,7 @@
                         </div>
                 
                         <!-- Comentários -->
-                        {{-- <div x-show="tab === 'comments'" x-transition>
+                        <div x-show="tab === 'comments'" x-transition>
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 mt-6">Deixe sua dúvida ou comentário</h3>
                 
                             <form method="POST"
@@ -114,7 +114,7 @@
                                     @endforeach
                                 @endif
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 
                     <!-- Coluna lateral: Módulos e Aulas (somente na aba "Aula") -->

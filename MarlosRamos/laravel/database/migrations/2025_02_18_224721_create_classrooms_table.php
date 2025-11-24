@@ -15,7 +15,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('video');
             $table->string('duration');
-            $table->uuid();            
+            $table->uuid()->unique();      
             $table->timestamps();
         });
     }
