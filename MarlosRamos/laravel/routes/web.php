@@ -176,8 +176,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::controller(CommentReplyController::class)->group(function () {
-            Route::get('/comments/{comment}/reply', 'store')->name('comments.reply.get');
-            Route::post('/comments/{comment}', 'store')->name('comments.reply.store');
+            Route::get('/comments/{comment}/reply', 'show')->name('comments.reply.show');
+            Route::post('/comments/{comment}/reply', 'store')->name('comments.reply.store');
         });
 
         Route::controller(EduzCourseController::class)->group(function () {

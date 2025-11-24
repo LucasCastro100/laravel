@@ -40,7 +40,7 @@
                                                             </small>
 
                                                             <div class="mt-2">
-                                                                <a href="{{ route('comments.reply.get', $comment->uuid) }}" 
+                                                                <a href="{{ route('comments.reply.show', $comment->uuid) }}" 
                                                                    class="inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
                                                                     Responder
                                                                 </a>
