@@ -96,6 +96,18 @@
                             @if ($testsNotLogin->isEmpty())
                                 <p class="p-4 text-gray-500">Nenhum aluno cadastrado</p>
                             @else
+                                <form method="GET" action="{{ route('teacher.report') }}"
+                                    class="w-full flex items-center justify-end mb-8">
+                                    <div class="flex flex-row gap-4 items-center justify-center">
+                                        <input type="date" name="date" class="border p-2 rounded" value="{{ request('date') ?? now()->format('Y-m-d') }}">
+
+                                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+
+
                                 <table class="w-full text-left border">
                                     <thead class="bg-gray-100 text-sm font-semibold text-gray-700">
                                         <tr class="text-center">
@@ -114,8 +126,7 @@
                                                     {{ mb_strtoupper($notLogin->name, 'UTF-8') }}</td>
                                                 <td class="p-2">{{ $notLogin?->phone }}</td>
                                                 <td class="p-2">
-                                                    @php
-                                                        // Garante que sempre será array
+                                                    @php                                                        
                                                         $percent = $notLogin->percentual ?? [];
 
                                                         if (!is_array($percent)) {

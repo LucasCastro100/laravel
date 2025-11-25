@@ -121,6 +121,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', 'dashBoard')->name('teacher.dashBoard');
             Route::get('/meus-cursos', 'myCourses')->name('teacher.myCourses');
             Route::get('/meus-testes', 'myTests')->name('teacher.myTests');
+            Route::get('/meus-testes/relatorio', 'report')->name('teacher.report');
         });
 
         Route::controller(CourseController::class)->group(function () {

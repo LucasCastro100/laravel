@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
+
     public function dashBoard()
     {
         $testWithLogin = Test::count();
@@ -60,38 +61,59 @@ class TeacherController extends Controller
         return view('dashboard.teacher.test.tests', $dados);
     }
 
-    public function index()
+    public function report(Request $request)
     {
-        //
+        $query = TesteRepresentacional::orderBy('created_at', 'desc');
+    
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+        }
+    
+        $testsNotLogin = $query->get();
+    
+        // Totais
+        $totalPercent = [
+            'V' => 0,
+            'A' => 0,
+            'C' => 0,
+            'D' => 0,
+        ];
+    
+        foreach ($testsNotLogin as $test) {
+            $percent = $test->percentual;
+    
+            // Se banco for string antiga → converte
+            if (!is_array($percent)) {
+                $percent = json_decode($percent, true) ?? [];
+            }
+    
+            foreach ($percent as $l => $v) {
+                if (isset($totalPercent[$l])) {
+                    $totalPercent[$l] += intval($v);
+                }
+            }
+        }
+    
+        // Frequência PRIMARY
+        $primaryCount = $testsNotLogin
+            ->groupBy('primary')
+            ->map->count()
+            ->sortDesc();
+    
+        // Frequência SECONDARY
+        $secondaryCount = $testsNotLogin
+            ->groupBy('secondary')
+            ->map->count()
+            ->sortDesc();
+    
+        return view('dashboard.teacher.test.report', [
+            'title'          => 'Relatório de testes do Professor',
+            'date'           => $request->date,
+            'testsNotLogin'  => $testsNotLogin,
+            'totalPercent'   => $totalPercent,
+            'primaryCount'   => $primaryCount,
+            'secondaryCount' => $secondaryCount,
+        ]);
     }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(Teacher $teacher)
-    {
-        //
-    }
-
-    public function edit(Teacher $teacher)
-    {
-        //
-    }
-
-    public function update(Request $request, Teacher $teacher)
-    {
-        //
-    }
-
-    public function destroy(Teacher $teacher)
-    {
-        //
-    }
+    
 }
