@@ -55,12 +55,14 @@ class CommentReplyController extends Controller
      */
     public function show(string $commentReply)
     {
-        $commentReply = Comment::with(['user', 'replies.user'])->where('uuid', $commentReply)->first();
+        $commentReply = Comment::with(['user', 'replies.user',  'classroom.module.course'])->where('uuid', $commentReply)->first();
         
         $dados = [
             'title' => 'Respondendo Comentário',
             'commentReply' => $commentReply
         ];
+
+        // dd($commentReply);
 
         return view('dashboard.teacher.comment.reply', $dados);
     }

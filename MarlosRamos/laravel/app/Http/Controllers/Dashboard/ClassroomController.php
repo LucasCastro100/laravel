@@ -15,7 +15,7 @@ class ClassroomController extends Controller
     {
         $user = Auth::user();
 
-        $classroom = Classroom::with('module.course.modules.classrooms', 'comments.user')
+        $classroom = Classroom::with('module.course.modules.classrooms', 'comments.replies.user', 'comments.user')
             ->where('uuid', $request->uuid_classroom)
             ->firstOrFail();
 
@@ -69,7 +69,7 @@ class ClassroomController extends Controller
             'classroomCompletions' => $classroomCompletions,
         ];
 
-        // dd($nextClassroom);
+        // dd($classroom);
 
         return view('dashboard.student.classroom.classroom_show', $dados);
     }

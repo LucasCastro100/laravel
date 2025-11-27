@@ -17,18 +17,24 @@
 
                         <div x-show="openCourse" x-transition class="mt-6 space-y-4 pl-6 border-l-4 border-blue-200">
                             @foreach ($course->modules as $module)
-                                <div x-data="{ openModule: false }" class="bg-blue-50 rounded-lg p-4 hover:bg-blue-100 transition">
-                                    <div class="flex items-center justify-between cursor-pointer" @click="openModule = !openModule">
+                                <div x-data="{ openModule: false }"
+                                    class="bg-blue-50 rounded-lg p-4 hover:bg-blue-100 transition">
+                                    <div class="flex items-center justify-between cursor-pointer"
+                                        @click="openModule = !openModule">
                                         <h4 class="font-semibold text-blue-600">{{ $module->title }}</h4>
                                         <span x-text="openModule ? '-' : '+' " class="text-blue-500 font-bold"></span>
                                     </div>
 
-                                    <div x-show="openModule" x-transition class="mt-4 space-y-4 pl-6 border-l-2 border-blue-300">
+                                    <div x-show="openModule" x-transition
+                                        class="mt-4 space-y-4 pl-6 border-l-2 border-blue-300">
                                         @foreach ($module->classrooms as $classroom)
-                                            <div x-data="{ openClass: false }" class="bg-white rounded-lg p-3 shadow-sm hover:shadow transition">
-                                                <div class="flex items-center justify-between cursor-pointer" @click="openClass = !openClass">
+                                            <div x-data="{ openClass: false }"
+                                                class="bg-white rounded-lg p-3 shadow-sm hover:shadow transition">
+                                                <div class="flex items-center justify-between cursor-pointer"
+                                                    @click="openClass = !openClass">
                                                     <h5 class="font-medium text-gray-700">{{ $classroom->title }}</h5>
-                                                    <span x-text="openClass ? '-' : '+' " class="text-gray-500 font-bold"></span>
+                                                    <span x-text="openClass ? '-' : '+' "
+                                                        class="text-gray-500 font-bold"></span>
                                                 </div>
 
                                                 <div x-show="openClass" x-transition class="mt-3 space-y-3 pl-6">
@@ -36,24 +42,37 @@
                                                         <div class="bg-gray-50 p-3 rounded border-l-2 border-gray-300">
                                                             <p class="text-gray-700">{{ $comment->comment }}</p>
                                                             <small class="text-gray-500">
-                                                                {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
+                                                                {{ $comment->user->name }} -
+                                                                {{ $comment->created_at->diffForHumans() }}
                                                             </small>
 
-                                                            <div class="mt-2">
-                                                                <a href="{{ route('comments.reply.show', $comment->uuid) }}" 
-                                                                   class="inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
-                                                                    Responder
-                                                                </a>
-                                                            </div>
+                                                            @php
+                                                                $iAlreadyReplied = $comment->replies->contains(
+                                                                    function ($r) {
+                                                                        return $r->user_id === Auth::id();
+                                                                    },
+                                                                );
+                                                            @endphp
+
+                                                            @if (!$iAlreadyReplied)
+                                                                <div class="mt-2">
+                                                                    <a href="{{ route('comments.reply.show', $comment->uuid) }}"
+                                                                        class="inline-block bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                                                                        Responder
+                                                                    </a>
+                                                                </div>
+                                                            @endif
 
                                                             {{-- Replies do comentário --}}
                                                             @foreach ($comment->replies as $reply)
-                                                                <div class="bg-gray-100 p-2 rounded border-l-2 border-gray-200 mt-2 ml-4">
+                                                                <div
+                                                                    class="bg-gray-100 p-2 rounded border-l-2 border-gray-200 mt-2 ml-4">
                                                                     <p class="text-gray-700">{{ $reply->reply }}</p>
                                                                     <small class="text-gray-500">
-                                                                        {{ $reply->user->name }} - {{ $reply->created_at->diffForHumans() }}
+                                                                        {{ $reply->user->name }} -
+                                                                        {{ $reply->created_at->diffForHumans() }}
                                                                     </small>
-                                                                </div>
+                                                                </div>                                                               
                                                             @endforeach
                                                         </div>
                                                     @endforeach

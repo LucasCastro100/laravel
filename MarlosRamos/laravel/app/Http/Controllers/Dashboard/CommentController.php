@@ -22,8 +22,6 @@ class CommentController extends Controller
             'courses' => $courses
         ];
 
-        // dd($courses);
-
         return view('dashboard.teacher.comment.comment_list', $dados);
     }
 

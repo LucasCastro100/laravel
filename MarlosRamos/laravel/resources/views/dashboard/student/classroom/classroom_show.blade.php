@@ -22,7 +22,8 @@
                     {{ $classroom_current->description }}
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full" x-data="{ tab: 'classroom', openModule: 0 }" x-cloak @resize.window="$store.video.calcHeight()" x-init="$store.video.calcHeight()">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full" x-data="{ tab: 'classroom', openModule: 0 }" x-cloak
+                    @resize.window="$store.video.calcHeight()" x-init="$store.video.calcHeight()">
                     <!-- Coluna Principal -->
                     <div :class="tab === 'comments' ? 'col-span-1 lg:col-span-3' : 'col-span-1 lg:col-span-2'">
                         <!-- Tabs -->
@@ -38,7 +39,7 @@
                                 Comentários
                             </button>
                         </div>
-                
+
                         <!-- Conteúdo da Aula -->
                         <div x-show="tab === 'classroom'" x-transition>
                             <div>
@@ -49,7 +50,7 @@
                                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
                                     class="w-full"></iframe>
                             </div>
-                
+
                             <div class="mt-4 flex flex-row justify-between items-center gap-4">
                                 {{-- Aula concluída ou botão de concluir --}}
                                 @if ($isCompleted)
@@ -67,7 +68,7 @@
                                         </button>
                                     </form>
                                 @endif
-                
+
                                 {{-- Próxima aula --}}
                                 @if ($nextClassroom != null)
                                     <a href="{{ route('student.classroom.show', ['uuid_classroom' => $nextClassroom->uuid]) }}"
@@ -77,46 +78,86 @@
                                 @endif
                             </div>
                         </div>
-                
+
                         <!-- Comentários -->
                         <div x-show="tab === 'comments'" x-transition>
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 mt-6">Deixe sua dúvida ou comentário</h3>
-                
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 mt-6">Deixe sua
+                                dúvida ou comentário</h3>
+
                             <form method="POST"
                                 action="{{ route('comment.store', ['uuid_classroom' => $classroom_current->uuid]) }}">
                                 @csrf
                                 <textarea name="comment" rows="4"
                                     class="w-full p-4 border rounded-md focus:ring-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
                                     placeholder="Escreva seu comentário ou dúvida aqui...">{{ old('comment') }}</textarea>
-                
+
                                 @error('comment')
                                     <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
                                 @enderror
-                
+
                                 <button type="submit"
                                     class="mt-2 px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-500">
                                     Enviar Comentário
                                 </button>
                             </form>
-                
+
                             <div class="mt-8">
                                 @if ($comments->isEmpty())
-                                    <p class="text-gray-500 dark:text-gray-400 mt-4">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+                                    <p class="text-gray-500 dark:text-gray-400 mt-4">
+                                        Nenhum comentário ainda. Seja o primeiro a comentar!
+                                    </p>
                                 @else
-                                    <h4 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">Comentários:</h4>
+                                    <h4 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
+                                        Comentários:
+                                    </h4>
+
                                     @foreach ($comments as $comment)
-                                        <div class="mt-4 p-4 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-800">
-                                            <p class="text-gray-600 dark:text-gray-400">{{ $comment->comment }}</p>
-                                            <p class="text-right text-sm text-gray-500 dark:text-gray-300 mt-2">
-                                                Comentado por: {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
-                                            </p>
+                                        <div
+                                            class="mt-4 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+                                            {{-- Comentário principal --}}
+                                            <div class="flex flex-col">
+                                                <p class="text-gray-700 dark:text-gray-200">{{ $comment->comment }}</p>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 text-right">
+                                                    Comentado por: <span
+                                                        class="font-medium">{{ $comment->user->name }}</span> -
+                                                    {{ $comment->created_at->diffForHumans() }}
+                                                </p>
+                                            </div>
+
+                                            {{-- Respostas --}}
+                                            @if ($comment->replies->isNotEmpty())
+                                                <div class="mt-3 pl-6 border-l-2 border-gray-300 dark:border-gray-600">
+                                                    @foreach ($comment->replies as $reply)
+                                                        <div
+                                                            class="mt-2 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm">
+                                                            <p class="text-gray-700 dark:text-gray-200">
+                                                                {{ $reply->reply }}</p>
+                                                            <p
+                                                                class="text-sm text-gray-500 dark:text-gray-400 mt-1 text-right">
+                                                                Respondido por: <span
+                                                                    class="font-medium">{{ $reply->user->name }}</span>
+                                                                - {{ $reply->created_at->diffForHumans() }}
+                                                            </p>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @elseif ($classroom_current->module->course->user_id === Auth::user()->id)
+                                                {{-- Botão para professor caso não haja respostas --}}
+                                                <div class="mt-3 text-right">
+                                                    <a href="{{ route('comments.reply.show', $comment->uuid) }}"
+                                                        class="inline-block bg-blue-500 text-white px-4 py-1 rounded-lg hover:bg-blue-600 transition">
+                                                        Responder
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </div>
                                     @endforeach
+
                                 @endif
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- Coluna lateral: Módulos e Aulas (somente na aba "Aula") -->
                     <div x-show="tab === 'classroom'" x-transition>
                         <div>
@@ -131,28 +172,32 @@
                                             <svg :class="openModule === {{ $key }} ? 'rotate-180' : ''"
                                                 class="w-4 h-4 transition-transform duration-300" fill="none"
                                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19 9l-7 7-7-7" />
                                             </svg>
                                         </button>
                                     </h2>
-                
+
                                     <!-- Conteúdo do Módulo (Aulas) -->
-                                    <div x-show="openModule === {{ $key }}" x-collapse class="bg-white dark:bg-black-900">
+                                    <div x-show="openModule === {{ $key }}" x-collapse
+                                        class="bg-white dark:bg-black-900">
                                         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                                             @foreach ($module->classrooms as $classroom)
                                                 <li class="flex items-center p-2">
                                                     @php
                                                         $completed = in_array($classroom->id, $classroomCompletions);
                                                     @endphp
-                
-                                                    <i class="mr-2 text-sm {{ $completed ? 'fa-solid fa-circle-check text-green-500' : 'fa-solid fa-circle-xmark text-gray-400' }}"></i>
-                
+
+                                                    <i
+                                                        class="mr-2 text-sm {{ $completed ? 'fa-solid fa-circle-check text-green-500' : 'fa-solid fa-circle-xmark text-gray-400' }}"></i>
+
                                                     <a href="{{ route('student.classroom.show', ['uuid_classroom' => $classroom->uuid]) }}"
                                                         class="flex-1 block text-sm text-black-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400">
                                                         {{ mb_strtoupper($classroom->title) }}
-                
+
                                                         @if ($classroom->uuid === $classroom_current->uuid)
-                                                            <span class="text-xs text-indigo-500 animate-pulse ml-2">ASSISTINDO</span>
+                                                            <span
+                                                                class="text-xs text-indigo-500 animate-pulse ml-2">ASSISTINDO</span>
                                                         @endif
                                                     </a>
                                                 </li>
@@ -164,7 +209,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
