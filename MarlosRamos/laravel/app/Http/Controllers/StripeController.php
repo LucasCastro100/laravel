@@ -2,111 +2,145 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MatriculationCourse;
+use App\Models\Course;
+use App\Models\User;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Stripe\Stripe;
-use Stripe\Checkout\Session as CheckoutSession;
-use Illuminate\Support\Facades\Log;
-use Stripe\Webhook;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\AccessGrantedMail;
+use App\Mail\CoursePurchasedMail;
 
 class StripeController extends Controller
 {
-    public function checkoutForm()
+    /**
+     * Exibe a página do checkout
+     */
+    public function checkoutForm(string $uuid)
     {
-        return view('checkout');
+        $course = Course::whereUuid($uuid)->firstOrFail();
+        return view('stripe.checkout', compact('course'));
     }
 
-    public function createCheckoutSession(Request $request)
+    /**
+     * Cria PaymentIntent para o Payment Element
+     */
+    public function createPaymentIntent(Request $request)
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $courseId = $request->input('course_id');
-        $amount = $request->input('amount'); // em centavos
-        $course = \App\Models\Course::findOrFail($courseId);
+        $course = Course::findOrFail($request->course_id);
 
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'mode' => 'payment',
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'brl',
-                    'product_data' => [
-                        'name' => $course->title,
-                    ],
-                    'unit_amount' => $amount,
-                ],
-                'quantity' => 1,
-            ]],
-            'success_url' => route('payment.success'),
-            'cancel_url' => route('payment.cancel'),
+        if (Auth::check()) {
+            $buyerName  = Auth::user()->name;
+            $buyerEmail = Auth::user()->email;
+            $userId     = Auth::id();
+        } else {
+            $request->validate([
+                'name'  => 'required|string|min:3',
+                'email' => 'required|email',
+            ]);
+
+            $buyerName  = $request->name;
+            $buyerEmail = $request->email;
+            $userId     = null;
+        }
+
+        // Cria PaymentIntent
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $course->price_in_cents, // valor em centavos
+            'currency' => 'brl',
+            'payment_method_types' => ['card', 'boleto'], // Cartão e Boleto
+            'receipt_email' => $buyerEmail,
             'metadata' => [
-                'course_id' => $course->id,
-                'user_id' => Auth::user()->id,
+                'course_id'   => $course->id,
+                'buyer_name'  => $buyerName,
+                'buyer_email' => $buyerEmail,
+                'user_logged' => $userId ?? 'guest',
             ],
         ]);
 
-        // opcional: registrar tentativa de pagamento
         Payment::create([
-            'stripe_id' => $session->id,
-            'amount' => $amount,
-            'currency' => 'brl',
-            'status' => 'pending',
+            'stripe_id' => $paymentIntent->id,
+            'amount'    => $course->price_in_cents,
+            'currency'  => 'brl',
+            'status'    => 'pending',
         ]);
 
-        return redirect($session->url);
+        return response()->json([
+            'clientSecret' => $paymentIntent->client_secret,
+        ]);
     }
 
-    public function success()
+    /**
+     * Redirecionamento após pagamento
+     */
+    public function success(Request $request)
     {
-        return "Pagamento realizado com sucesso!";
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $intent = \Stripe\PaymentIntent::retrieve($request->payment_intent);
+
+        $email     = $intent->metadata->buyer_email;
+        $name      = $intent->metadata->buyer_name;
+        $courseId  = $intent->metadata->course_id;
+
+        $course = Course::findOrFail($courseId);
+
+        $user = User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name' => $name,
+                'password' => bcrypt(Str::random(10)),
+                'role' => 'student',
+            ]
+        );
+
+        if ($user->wasRecentlyCreated) {
+            Mail::to($email)->send(new AccessGrantedMail($user, $user->password, $course));
+        } else {
+            Mail::to($email)->send(new CoursePurchasedMail($user, $course));
+        }
+
+        $user->courses()->syncWithoutDetaching([$courseId]);
+
+        Payment::where('stripe_id', $intent->id)->update(['status' => 'paid']);
+
+        return view('stripe.success', compact('course'));
     }
 
+    /**
+     * Página de cancelamento
+     */
     public function cancel()
     {
-        return "Pagamento cancelado!";
+        return view('stripe.cancel');
     }
 
-
+    /**
+     * Webhook Stripe — atualiza status do pagamento
+     */
     public function webhook(Request $request)
     {
         $payload = $request->getContent();
-        $sig_header = $request->server('HTTP_STRIPE_SIGNATURE');
+        $sig = $request->header('Stripe-Signature');
 
         try {
-            $event = Webhook::constructEvent(
+            $event = \Stripe\Webhook::constructEvent(
                 $payload,
-                $sig_header,
+                $sig,
                 env('STRIPE_WEBHOOK_SECRET')
             );
         } catch (\Exception $e) {
-            return response('Webhook error: ' . $e->getMessage(), 400);
+            return response('Webhook error', 400);
         }
 
-        if ($event->type === 'checkout.session.completed') {
-            $session = $event->data->object;
-        
-            // Atualiza pagamento
-            $payment = Payment::where('stripe_id', $session->id)->first();
-            if ($payment) {
-                $payment->update(['status' => 'paid']);
-            }
-        
-            // Matricula o usuário no curso automaticamente
-            $userId = $session->metadata->user_id ?? null;
-            $courseId = $session->metadata->course_id ?? null;
-        
-            if ($userId && $courseId) {
-                MatriculationCourse::firstOrCreate([
-                    'user_id' => $userId,
-                    'course_id' => $courseId,
-                ]);
-            }
+        if ($event->type === 'payment_intent.succeeded') {
+            $intent = $event->data->object;
+            Payment::where('stripe_id', $intent->id)->update(['status' => 'paid']);
         }
-        
 
-        return new Response('Webhook recebido', 200);
+        return response('ok', 200);
     }
 }

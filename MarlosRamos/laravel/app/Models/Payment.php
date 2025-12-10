@@ -1,19 +1,30 @@
-<?php
-
+<?php 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Payment extends Model
 {
-    use HasFactory, HasUuids;
+    protected $fillable = [
+        'stripe_payment_intent_id',
+        'stripe_charge_id',
+        'user_id',
+        'course_id',
+        'amount',
+        'currency',
+        'status',
+        'installments',
+    ];
 
-    protected $fillable = ['stripe_id', 'amount', 'currency', 'status'];
+    protected $casts = [
+        'installments' => 'array',
+    ];
 
-    public function uniqueIds()
-    {
-        return ['uuid'];
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function course() {
+        return $this->belongsTo(Course::class);
     }
 }

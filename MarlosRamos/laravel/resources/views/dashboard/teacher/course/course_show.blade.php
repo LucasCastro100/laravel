@@ -69,7 +69,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full">
                         <!-- Card de Alunos -->
-                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
+                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
                             <i class="fas fa-user-graduate text-3xl text-blue-500"></i>
                             <div>
                                 <p class="text-lg font-medium">Alunos</p>
@@ -78,7 +78,7 @@
                         </div>
 
                         <!-- Card de Módulos -->
-                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
+                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
                             <i class="fas fa-cogs text-3xl text-green-500"></i>
                             <div>
                                 <p class="text-lg font-medium">Módulos</p>
@@ -87,7 +87,7 @@
                         </div>
 
                         <!-- Card de Aulas -->
-                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
+                        <div class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
                             <i class="fas fa-chalkboard-teacher text-3xl text-yellow-500"></i>
                             <div>
                                 <p class="text-lg font-medium">Aulas</p>
@@ -96,14 +96,13 @@
                         </div>
 
                         <!-- Card Link de Compra -->
-                        <a href="{{ $course->sales_link }}" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ route('checkout.form', $course->uuid) }}" target="_blank" rel="noopener noreferrer"
                             class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
-                             <i class="fas fa-shopping-bag text-3xl text-purple-500"></i>
-                             <div>
-                                 <p class="text-lg font-medium">Link de Compra</p>
-                                 <p class="text-blue-600 underline truncate max-w-xs">{{ $course->sales_link }}</p>
-                             </div>
-                         </a>
+                            <i class="fas fa-shopping-bag text-3xl text-purple-500"></i>
+                            <div>
+                                <p class="text-lg font-medium text-black">Link de Compra</p>
+                            </div>
+                        </a>
                     </div>
 
                     <div class="w-full" x-data="{ dropClassroom: [] }">
@@ -129,11 +128,13 @@
                                                     <div class="flex items-center space-x-2">
                                                         <!-- Botão de Expandir/Recolher -->
                                                         <button
-                                                        @click="if (dropClassroom.includes({{ $module->id }})) { dropClassroom = dropClassroom.filter(id => id !== {{ $module->id }}); } else { dropClassroom.push({{ $module->id }}); }"
-                                                        class="text-blue-500">
-                                                        <span x-show="!dropClassroom.includes({{ $module->id }})">+</span>
-                                                        <span x-show="dropClassroom.includes({{ $module->id }})">-</span>
-                                                    </button>
+                                                            @click="if (dropClassroom.includes({{ $module->id }})) { dropClassroom = dropClassroom.filter(id => id !== {{ $module->id }}); } else { dropClassroom.push({{ $module->id }}); }"
+                                                            class="text-blue-500">
+                                                            <span
+                                                                x-show="!dropClassroom.includes({{ $module->id }})">+</span>
+                                                            <span
+                                                                x-show="dropClassroom.includes({{ $module->id }})">-</span>
+                                                        </button>
 
                                                         <!-- Dropdown de Opções -->
                                                         <div class="relative" x-data="{ openMenuModule: false }">
@@ -145,7 +146,7 @@
 
                                                             <!-- Menu Dropdown -->
                                                             <div x-show="openMenuModule"
-                                                            @click.away="openMenuModule = false"                                                                
+                                                                @click.away="openMenuModule = false"
                                                                 class="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg p-2 z-10"
                                                                 x-transition>
                                                                 <ul class="space-y-1">
@@ -178,8 +179,10 @@
                                                         </div>
                                                     @else
                                                         @foreach ($module->classrooms as $classroom)
-                                                            <div class="flex justify-between items-center p-2 border-b relative">
-                                                                <div class="flex items-center cursor-pointer" @click="window.location.href = '/painel-professor/aula/' + {{ json_encode($classroom->uuid) }}">
+                                                            <div
+                                                                class="flex justify-between items-center p-2 border-b relative">
+                                                                <div class="flex items-center cursor-pointer"
+                                                                    @click="window.location.href = '/painel-professor/aula/' + {{ json_encode($classroom->uuid) }}">
                                                                     <span>{{ $classroom->title }}</span>
                                                                 </div>
 
@@ -197,7 +200,7 @@
                                                                         <ul class="space-y-1">
                                                                             <li>
                                                                                 <button
-                                                                                    @click="selectedModuleId = {{ ($module->id) }}; selectClassroom = {{ json_encode($classroom) }}; selectedParentUuid = '{{ $classroom->uuid }}';editClassroom = true"
+                                                                                    @click="selectedModuleId = {{ $module->id }}; selectClassroom = {{ json_encode($classroom) }}; selectedParentUuid = '{{ $classroom->uuid }}';editClassroom = true"
                                                                                     class="w-full text-left px-4 py-2 rounded hover:bg-blue-500 hover:text-white">
                                                                                     Editar Aula
                                                                                 </button>
@@ -227,14 +230,16 @@
             </div>
         </div>
 
-          <template x-if="openEdit">
+        <template x-if="openEdit">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 p-1">
                 <div class="bg-white p-6 rounded-lg relative w-full max-w-md max-h-full">
-                    <button @click="openEdit = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                    <button @click="openEdit = false"
+                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                     <h2 class="text-xl mb-4">Editar Curso</h2>
-                    <form method="POST" :action="`/painel-professor/curso/${selectedCourse.uuid}`" enctype="multipart/form-data">
+                    <form method="POST" :action="`/painel-professor/curso/${selectedCourse.uuid}`"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -316,15 +321,13 @@
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input type="text" id="title" name="title"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                ></textarea>
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                         </div>
 
                         <div class="flex justify-end">
@@ -350,19 +353,17 @@
                     <form method="POST" :action="`/painel-professor/modulo/${selectedModule.uuid}`">
                         @csrf
                         @method('PUT') <!-- Usando PUT para editar -->
-                        
+
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                             <input type="text" id="title" name="title" x-model="selectedModule.title"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" x-model="selectedModule.description" rows="4"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                ></textarea>
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                         </div>
 
                         <div class="flex justify-end">
@@ -387,35 +388,31 @@
                     <!-- Formulário de Criação de Aula -->
                     <form method="POST" action="{{ route('classroom.store') }}">
                         @csrf
-                        
+
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Nome da Aula</label>
                             <input type="text" id="title" name="title"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                ></textarea>
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                         </div>
 
                         <div class="mb-4">
                             <label for="video" class="block text-sm font-medium text-gray-700">URL do
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
 
                         <div class="mb-4">
                             <label for="module_id" class="block text-sm font-medium text-gray-700">Selecionar
                                 Módulo</label>
                             <select id="module_id" name="module_id"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                                 <option disabled selected>Selecione o Módulo</option>
                                 @foreach ($course->modules as $module)
@@ -434,7 +431,7 @@
                 </div>
             </div>
         </template>
-        
+
         <template x-if="editClassroom">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 p-1">
                 <div class="bg-white p-6 rounded-lg relative w-full max-w-md max-h-full">
@@ -446,19 +443,19 @@
                     <form method="POST" :action="`/painel-professor/aula/${selectClassroom.uuid}/editar`">
                         @csrf
                         @method('PUT') <!-- Usando PUT para editar -->
-                        
+
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Nome da Aula</label>
                             <input type="text" id="title" name="title"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                  x-model="selectClassroom.title">
+                                x-model="selectClassroom.title">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                             <textarea id="description" name="description" rows="4"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                 x-model="selectClassroom.description"></textarea>
+                                x-model="selectClassroom.description"></textarea>
                         </div>
 
                         <div class="mb-4">
@@ -466,15 +463,14 @@
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                  x-model="selectClassroom.video">
+                                x-model="selectClassroom.video">
                         </div>
 
                         <div class="mb-4">
                             <label for="module_id" class="block text-sm font-medium text-gray-700">Selecionar
                                 Módulo</label>
                             <select id="module_id" name="module_id" x-model="selectedModuleId"
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                >
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="" disabled selected>Selecione o Módulo</option>
                                 @foreach ($course->modules as $module)
                                     <option value="{{ $module->id }}"

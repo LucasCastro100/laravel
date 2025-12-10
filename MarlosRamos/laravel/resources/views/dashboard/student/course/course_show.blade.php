@@ -61,7 +61,7 @@
                                     @foreach ($course->modules as $module)
                                         <div class="mb-4 relative z-0">
                                             <div class="border rounded-lg p-4 bg-gray-100">
-                                                <div class="flex justify-between items-center relative">
+                                                <div class="flex justify-between items-center relative cursor-pointer"  @click="dropClassroom.includes({{ $module->id }}) ? dropClassroom = dropClassroom.filter(id => id !== {{ $module->id }}) : dropClassroom.push({{ $module->id }})">
                                                     <div class="flex items-center gap-4">
                                                         <h3 class="font-semibold">{{ $module->title }}</h3>
 
@@ -81,9 +81,7 @@
                                                         <p class="text-sm text-gray-600">{{ $module->total_duration }}</p>
                                                     </div>
 
-                                                    <button
-                                                        @click="dropClassroom.includes({{ $module->id }}) ? dropClassroom = dropClassroom.filter(id => id !== {{ $module->id }}) : dropClassroom.push({{ $module->id }})"
-                                                        class="text-blue-500">
+                                                    <button class="text-blue-500">
                                                         <span
                                                             x-show="!dropClassroom.includes({{ $module->id }})">+</span>
                                                         <span

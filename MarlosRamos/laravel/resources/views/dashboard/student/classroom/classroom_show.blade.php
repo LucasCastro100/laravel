@@ -53,29 +53,46 @@
 
                             <div class="mt-4 flex flex-row justify-between items-center gap-4">
                                 {{-- Aula concluída ou botão de concluir --}}
-                                @if ($isCompleted)
-                                    <div class="flex items-center text-green-600 font-medium">
-                                        <i class="fa-solid fa-circle-check mr-2"></i> Aula Concluída
-                                    </div>
-                                @else
-                                    <form
-                                        action="{{ route('classroom.completeClassroom', ['uuid_classroom' => $classroom_current->uuid]) }}"
-                                        method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                                            <i class="fa-solid fa-check mr-2"></i> Concluir Aula
-                                        </button>
-                                    </form>
+                                @if (Auth::user()->role->id != 2)
+                                    @if ($isCompleted)
+                                        <div class="flex items-center text-green-600 font-medium">
+                                            <i class="fa-solid fa-circle-check mr-2"></i> Aula Concluída
+                                        </div>
+                                    @else
+                                        <form
+                                            action="{{ route('classroom.completeClassroom', ['uuid_classroom' => $classroom_current->uuid]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                                <i class="fa-solid fa-check mr-2"></i> Concluir Aula
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endif
 
-                                {{-- Próxima aula --}}
-                                @if ($nextClassroom != null)
-                                    <a href="{{ route('student.classroom.show', ['uuid_classroom' => $nextClassroom->uuid]) }}"
-                                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                        <i class="fa-solid fa-forward mr-2"></i> Próxima Aula
-                                    </a>
-                                @endif
+                                <div class="flex flex-row gap-4 items-center justify-end">
+                                    {{-- Aula anterior --}}
+                                    @if ($previousClassroom != null)
+                                        <a href="{{ route('student.classroom.show', ['uuid_classroom' => $previousClassroom->uuid]) }}"
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                            title="Aula Anterior">
+                                            <i class="fa-solid fa-angles-left"></i>
+                                            {{-- Aula Anterior --}}
+                                        </a>
+                                    @endif
+
+                                    {{-- Próxima aula --}}
+                                    @if ($nextClassroom != null)
+                                        <a href="{{ route('student.classroom.show', ['uuid_classroom' => $nextClassroom->uuid]) }}"
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                            title="Próxima Aula">
+                                            <i class="fa-solid fa-angles-right"></i>
+                                            {{-- Próxima Aula --}}
+                                        </a>
+                                    @endif
+                                </div>
+
                             </div>
                         </div>
 
@@ -162,15 +179,42 @@
                     <div x-show="tab === 'classroom'" x-transition>
                         <div>
                             @foreach ($modules as $key => $module)
-                                <div class="border border-gray-200 dark:border-gray-700 rounded mb-2">
+                                @php
+                                    // Verifica se todas as aulas do módulo foram concluídas
+                                    $moduleCompleted = collect($module->classrooms)->every(
+                                        fn($c) => in_array($c->id, $classroomCompletions),
+                                    );
+                                @endphp
+
+                                <div class="border border-gray-200 dark:border-gray-700 rounded mb-3">
+
                                     <!-- Cabeçalho do Módulo -->
                                     <h2>
                                         <button
                                             @click="openModule === {{ $key }} ? openModule = null : openModule = {{ $key }}"
-                                            class="flex items-center justify-between w-full p-4 font-medium text-left text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
-                                            <span>{{ mb_strtoupper($module->title) }}</span>
+                                            class="flex items-center justify-between w-full p-4 font-medium text-left 
+                       text-gray-700 dark:text-gray-300 
+                       bg-gray-100 dark:bg-gray-800 
+                       hover:bg-gray-200 dark:hover:bg-gray-700">
+
+                                            <!-- Número + título -->
+                                            <span class="flex items-center gap-2">
+                                                {{-- <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold border">
+                        {{ $key + 1 }}
+                    </span> --}}
+                                                {{ mb_strtoupper($module->title) }}
+                                            </span>
+
+                                            <!-- Status do módulo -->
+                                            @if ($moduleCompleted)
+                                                <span class="text-green-500 text-sm flex items-center gap-1 mr-4">
+                                                    <i class="fa-solid fa-circle-check"></i> Completo
+                                                </span>
+                                            @endif
+
+                                            <!-- Ícone Arrow -->
                                             <svg :class="openModule === {{ $key }} ? 'rotate-180' : ''"
-                                                class="w-4 h-4 transition-transform duration-300" fill="none"
+                                                class="w-4 h-4 ml-2 transition-transform duration-300" fill="none"
                                                 stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M19 9l-7 7-7-7" />
@@ -181,31 +225,51 @@
                                     <!-- Conteúdo do Módulo (Aulas) -->
                                     <div x-show="openModule === {{ $key }}" x-collapse
                                         class="bg-white dark:bg-black-900">
-                                        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-                                            @foreach ($module->classrooms as $classroom)
-                                                <li class="flex items-center p-2">
-                                                    @php
-                                                        $completed = in_array($classroom->id, $classroomCompletions);
-                                                    @endphp
 
-                                                    <i
-                                                        class="mr-2 text-sm {{ $completed ? 'fa-solid fa-circle-check text-green-500' : 'fa-solid fa-circle-xmark text-gray-400' }}"></i>
+                                        <ul class="relative border-l border-gray-300 dark:border-gray-700 ml-6 py-4">
 
+                                            @foreach ($module->classrooms as $index => $classroom)
+                                                @php
+                                                    $completed = in_array($classroom->id, $classroomCompletions);
+                                                @endphp
+
+                                                <li class="relative pl-8 mb-8">
+
+                                                    <!-- Bolinha numerada -->
+                                                    <div
+                                                        class="absolute -left-[14px] top-1 w-7 h-7 rounded-full flex items-center justify-center 
+                            text-xs font-semibold border
+                            {{ $completed ? 'bg-green-500 text-white border-green-600' : 'bg-gray-200 text-gray-700 border-gray-400' }}">
+                                                        {{ $index + 1 }}
+                                                    </div>
+
+                                                    <!-- Título da aula -->
                                                     <a href="{{ route('student.classroom.show', ['uuid_classroom' => $classroom->uuid]) }}"
-                                                        class="flex-1 block text-sm text-black-600 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400">
+                                                        class="block text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-indigo-500">
+
                                                         {{ mb_strtoupper($classroom->title) }}
 
                                                         @if ($classroom->uuid === $classroom_current->uuid)
                                                             <span
-                                                                class="text-xs text-indigo-500 animate-pulse ml-2">ASSISTINDO</span>
+                                                                class="text-xs text-indigo-500 animate-pulse ml-1">ASSISTINDO</span>
                                                         @endif
                                                     </a>
+
+                                                    <!-- Status da aula -->
+                                                    <span
+                                                        class="text-xs mt-1 block
+                            {{ $completed ? 'text-green-600' : 'text-gray-400' }}">
+                                                        {{ $completed ? '✔ Completo' : '• Em aberto' }}
+                                                    </span>
+
                                                 </li>
                                             @endforeach
+
                                         </ul>
                                     </div>
                                 </div>
                             @endforeach
+
                         </div>
                     </div>
                 </div>

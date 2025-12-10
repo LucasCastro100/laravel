@@ -41,6 +41,7 @@ class ClassroomController extends Controller
             return $item->id === $classroom->id;
         });
 
+        $previousClassroom = $allClassrooms->get($currentIndex - 1);
         $nextClassroom = $allClassrooms->get($currentIndex + 1);
 
         // Verifica se o usuário já completou outras aulas
@@ -65,6 +66,7 @@ class ClassroomController extends Controller
             'comments' => $classroom->comments,
             'completedAt' => $completedAt,
             'isCompleted' => $isCompleted,
+            'previousClassroom' => $previousClassroom,
             'nextClassroom' => $nextClassroom,
             'classroomCompletions' => $classroomCompletions,
         ];
