@@ -11,9 +11,8 @@ class CourseSeeder extends Seeder
     {
         Course::create([
             'title'       => 'Formação PNL',
-            'description' => 'Formação PNL',
-            'sales_link'  => null,
-            'price'       => 0,
+            'description' => 'Formação PNL',            
+            'price'       => 100,
             'certificate' => null,
             'image'       => 'courses/formacao_pnl.png',
             'user_id'     => 2,

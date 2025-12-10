@@ -11,8 +11,7 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title');            
-            $table->text('description');
-            $table->string('sales_link')->nullable();
+            $table->text('description');            
             $table->string('certificate')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 8, 2)->default(0);

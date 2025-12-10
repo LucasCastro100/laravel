@@ -43,5 +43,10 @@ return [
         'client_secret' => env('EDUZZ_CLIENT_SECRET'),
         'token' => env('EDUZZ_CLIENT_TOKEN'),
     ],
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
 
 ];

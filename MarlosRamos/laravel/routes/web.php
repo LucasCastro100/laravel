@@ -42,24 +42,29 @@ Route::controller(TesteRepresentacionalController::class)->group(function () {
 
 Route::controller(StripeController::class)->group(function () {
 
-    // Página do checkout
-    Route::get('/checkout/{uuid}', 'checkoutForm')->name('checkout.form');
+    // // Página do checkout
+    // Route::get('/checkout/{uuid}', 'checkoutForm')->name('checkout.form');
 
-    // Criação do PaymentIntent (API)
-    Route::post('/create-payment-intent', 'createPaymentIntent')->name('stripe.paymentIntent');
+    // // Criação do PaymentIntent (API)
+    // Route::post('/create-payment-intent', 'createPaymentIntent')->name('stripe.paymentIntent');
 
-    // Redirecionamento após pagamento
-    Route::get('/success', 'success')->name('payment.success');
+    // // Redirecionamento após pagamento
+    // Route::get('/success', 'success')->name('payment.success');
 
-    // Página de cancelamento
-    Route::get('/cancel', 'cancel')->name('payment.cancel');
+    // // Página de cancelamento
+    // Route::get('/cancel', 'cancel')->name('payment.cancel');
 
-    // Webhook Stripe
-    Route::post('/stripe/webhook', 'webhook')->name('stripe.webhook');
+    // // Webhook Stripe
+    // Route::post('/stripe/webhook', 'webhook')->name('stripe.webhook');
+
+    Route::get('/checkout/{uuid}', 'checkoutPage')->name('checkout.page');
+    Route::post('/checkout/{uuid}/create', 'createCheckoutSession')->name('checkout.create');
+    Route::get('/checkout/{uuid}/success', 'success')->name('checkout.success');
+    Route::get('/checkout/{uuid}/cancel', 'cancel')->name('checkout.cancel');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::controller(ClassroomController::class)->group(function(){
+    Route::controller(ClassroomController::class)->group(function () {
         Route::post('/completar-aula/{uuid_classroom}', 'completeClassroom')->name('classroom.completeClassroom');
     });
 
@@ -106,7 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::controller(ClassroomController::class)->group(function () {
             Route::get('/aula/{uuid_classroom}', 'show')->name('student.classroom.show');
 
-            Route::post('/aula', 'store')->name('classroom.store');           
+            Route::post('/aula', 'store')->name('classroom.store');
 
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
@@ -171,7 +176,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::controller(ClassroomController::class)->group(function () {
             Route::get('/aula/{uuid_classroom}', 'show')->name('tacher.classroom.show');
 
-            Route::post('/aula', 'store')->name('classroom.store');            
+            Route::post('/aula', 'store')->name('classroom.store');
 
             Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
 
@@ -193,7 +198,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::controller(EduzCourseController::class)->group(function () {
-            Route::get('/eduzz/account', 'account')->name('eduzz.courses.account');            
+            Route::get('/eduzz/account', 'account')->name('eduzz.courses.account');
             Route::get('/eduzz/index', 'index')->name('eduzz.courses.index');
         });
     });

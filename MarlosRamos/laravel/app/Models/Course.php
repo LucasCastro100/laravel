@@ -13,9 +13,8 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
-        'sales_link',
         'price',
-        'certificate',       
+        'certificate',
         'image',
         'user_id'
     ];
@@ -37,6 +36,11 @@ class Course extends Model
 
     public function users()
     {
-        return $this->hasManyThrough(User::class, MatriculationCourse::class, 'course_id', 'id', 'id', 'user_id');
+        return $this->belongsToMany(
+            User::class,
+            'matriculation_courses',
+            'course_id', 
+            'user_id'    
+        )->withTimestamps()->withPivot('uuid');
     }
 }

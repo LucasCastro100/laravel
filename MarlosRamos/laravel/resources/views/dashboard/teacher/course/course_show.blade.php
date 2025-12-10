@@ -96,7 +96,7 @@
                         </div>
 
                         <!-- Card Link de Compra -->
-                        <a href="{{ route('checkout.form', $course->uuid) }}" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ route('checkout.page', $course->uuid) }}" target="_blank" rel="noopener noreferrer"
                             class="bg-white p-4 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-blue-50 transition-colors">
                             <i class="fas fa-shopping-bag text-3xl text-purple-500"></i>
                             <div>

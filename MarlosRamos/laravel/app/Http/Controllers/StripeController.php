@@ -6,141 +6,134 @@ use App\Models\Course;
 use App\Models\User;
 use App\Models\Payment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\AccessGrantedMail;
 use App\Mail\CoursePurchasedMail;
+use App\Models\MatriculationCourse;
+use Stripe\StripeClient;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
-    /**
-     * Exibe a página do checkout
-     */
-    public function checkoutForm(string $uuid)
+    public function checkoutPage(string $uuid)
     {
-        $course = Course::whereUuid($uuid)->firstOrFail();
-        return view('stripe.checkout', compact('course'));
+        $course = Course::where('uuid', $uuid)->firstOrFail();
+        // dd($course);
+        return view('stripe.checkout', [
+            'course' => $course,
+            'stripeKey' => config('services.stripe.key'),
+        ]);
     }
 
-    /**
-     * Cria PaymentIntent para o Payment Element
-     */
-    public function createPaymentIntent(Request $request)
+    public function createCheckoutSession(Request $request, string $uuid)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $course = Course::where('uuid', $uuid)->firstOrFail();
 
-        $course = Course::findOrFail($request->course_id);
+        $stripe = new StripeClient(config('services.stripe.secret'));
 
-        if (Auth::check()) {
-            $buyerName  = Auth::user()->name;
-            $buyerEmail = Auth::user()->email;
-            $userId     = Auth::id();
-        } else {
-            $request->validate([
-                'name'  => 'required|string|min:3',
-                'email' => 'required|email',
+        try {
+            $amountInCents = intval(round($course->price * 100));
+            $session = $stripe->checkout->sessions->create([
+                // 'payment_method_types' => ['card'],
+                'mode' => 'payment',
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'brl',
+                        'product_data' => ['name' => $course->title],
+                        'unit_amount' => $amountInCents,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'payment_method_options' => [
+                    'card' => [
+                        'installments' => ['enabled' => true],
+                    ],
+                ],
+                'metadata' => [
+                    'buyer_name' => $request->buyer_name,
+                    'buyer_email' => $request->buyer_email,
+                    'buyer_cpf' => $request->buyer_cpf,
+                    'buyer_phone' => $request->buyer_phone,
+                    'course_id' => $course->id
+                ],
+                'success_url' => route('checkout.success', $uuid) . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('checkout.cancel', $uuid),
             ]);
 
-            $buyerName  = $request->name;
-            $buyerEmail = $request->email;
-            $userId     = null;
+            return response()->json(['id' => $session->id]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Cria PaymentIntent
-        $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $course->price_in_cents, // valor em centavos
-            'currency' => 'brl',
-            'payment_method_types' => ['card', 'boleto'], // Cartão e Boleto
-            'receipt_email' => $buyerEmail,
-            'metadata' => [
-                'course_id'   => $course->id,
-                'buyer_name'  => $buyerName,
-                'buyer_email' => $buyerEmail,
-                'user_logged' => $userId ?? 'guest',
-            ],
-        ]);
-
-        Payment::create([
-            'stripe_id' => $paymentIntent->id,
-            'amount'    => $course->price_in_cents,
-            'currency'  => 'brl',
-            'status'    => 'pending',
-        ]);
-
-        return response()->json([
-            'clientSecret' => $paymentIntent->client_secret,
-        ]);
     }
 
-    /**
-     * Redirecionamento após pagamento
-     */
-    public function success(Request $request)
+    public function success(Request $request, string $uuid)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripe = new StripeClient(config('services.stripe.secret'));
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
 
-        $intent = \Stripe\PaymentIntent::retrieve($request->payment_intent);
+        $email = $session->metadata->buyer_email;
+        $name = $session->metadata->buyer_name;
+        $cpf = $session->metadata->buyer_cpf;
+        $phone = $session->metadata->buyer_phone;
+        $courseId = $session->metadata->course_id;
 
-        $email     = $intent->metadata->buyer_email;
-        $name      = $intent->metadata->buyer_name;
-        $courseId  = $intent->metadata->course_id;
-
-        $course = Course::findOrFail($courseId);
+        $amount = $session->amount_total ?? 0;
+        $status = $session->payment_status ?? 'pending';
+        $installments = $session->total_details['installments'] ?? null;
 
         $user = User::firstOrCreate(
             ['email' => $email],
             [
                 'name' => $name,
                 'password' => bcrypt(Str::random(10)),
-                'role' => 'student',
+                'cpf' => $cpf,
+                'phone' => $phone,
+                'role_id' => 1,
             ]
         );
 
-        if ($user->wasRecentlyCreated) {
-            Mail::to($email)->send(new AccessGrantedMail($user, $user->password, $course));
-        } else {
-            Mail::to($email)->send(new CoursePurchasedMail($user, $course));
-        }
-
-        $user->courses()->syncWithoutDetaching([$courseId]);
-
-        Payment::where('stripe_id', $intent->id)->update(['status' => 'paid']);
-
-        return view('stripe.success', compact('course'));
-    }
-
-    /**
-     * Página de cancelamento
-     */
-    public function cancel()
-    {
-        return view('stripe.cancel');
-    }
-
-    /**
-     * Webhook Stripe — atualiza status do pagamento
-     */
-    public function webhook(Request $request)
-    {
-        $payload = $request->getContent();
-        $sig = $request->header('Stripe-Signature');
-
         try {
-            $event = \Stripe\Webhook::constructEvent(
-                $payload,
-                $sig,
-                env('STRIPE_WEBHOOK_SECRET')
-            );
-        } catch (\Exception $e) {
-            return response('Webhook error', 400);
+            MatriculationCourse::firstOrCreate([
+                'course_id' => $courseId,
+                'user_id' => $user->id,
+            ]);
+        } catch (QueryException $e) {
+            Log::error('Erro ao criar matrícula: ' . $e->getMessage());
         }
 
-        if ($event->type === 'payment_intent.succeeded') {
-            $intent = $event->data->object;
-            Payment::where('stripe_id', $intent->id)->update(['status' => 'paid']);
+        $chargeId = null;
+        if (!empty($session->charges) && !empty($session->charges->data)) {
+            $chargeId = $session->charges->data[0]->id;
         }
 
-        return response('ok', 200);
+        Payment::updateOrCreate(
+            ['stripe_payment_intent_id' => $session->payment_intent],
+            [
+                'stripe_charge_id' => $chargeId,
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+                'amount' => $amount,
+                'currency' => 'brl',
+                'status' => $status,
+                'installments' => $installments,
+            ]
+        );
+
+        // Enviar email
+        if ($user->wasRecentlyCreated) {
+            Mail::to($email)->send(new AccessGrantedMail($user, $user->password, Course::find($courseId)));
+        } else {
+            Mail::to($email)->send(new CoursePurchasedMail($user, Course::find($courseId)));
+        }
+
+        return view('stripe.success', compact('course', 'user'));
+    }
+
+    public function cancel(string $uuid)
+    {
+        $course = Course::where('uuid', $uuid)->firstOrFail();
+        return view('stripe.cancel', compact('course'));
     }
 }
