@@ -22,39 +22,49 @@
                         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             @foreach ($courses as $index => $course)
                                 <div
-                                    class="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
-                                    <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
-                                        class="w-full h-48 object-cover">
+                                    class="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                                    <div class="">
+                                        {{-- <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
+                                        class="w-full h-48 object-cover"> --}}
 
-                                    <div class="p-4">
-                                        <h3 class="text-xl font-semibold text-gray-800">{{ $course->title }}</h3>
-                                        <p class="text-gray-600 mt-2">{{ Str::limit($course->description, 100) }}</p>
+                                        <img src="{{ Storage::url($course->image) }}" alt="Imagem do curso"
+                                        class="w-full h-48">
                                     </div>
+                                    
+                                    <div class="flex flex-col justify-between h-full">
+                                        <div class="p-4 ">
+                                            <h3 class="text-xl font-semibold text-gray-800">{{ $course->title }}
+                                            </h3>
+                                            <p class="text-gray-600 mt-2">
+                                                {{ Str::limit($course->description, 100) }}
+                                            </p>
+                                        </div>
 
-                                    <div class="py-4 text-right">
-                                        @if (in_array($course->id, $userCourseIds))
-                                            <span
-                                                class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                                onclick="window.location.href = '{{ route('student.courseShow', ['uuid' => $course->uuid]) }}'">Acessar</span>
-                                        @else
-                                            @if ($course->price > 0)
-                                                <a href="{{ route('checkout.page', $course->uuid) }}" target="_blank"
-                                                    rel="noopener noreferrer">
-                                                    <span
-                                                        class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Compar</span>
-                                                </a>
+                                        <div class="py-4 text-right">
+                                            @if (in_array($course->id, $userCourseIds))
+                                                <span
+                                                    class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                                                    onclick="window.location.href = '{{ route('student.courseShow', ['uuid' => $course->uuid]) }}'">Acessar</span>
                                             @else
-                                                <form
-                                                    action="{{ route('matriculation.course.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                                        Matrícular
-                                                    </button>
-                                                </form>
+                                                @if ($course->price > 0)
+                                                    <a href="{{ route('checkout.page', $course->uuid) }}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        <span
+                                                            class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-green-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:text-white dark:border-gray-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Compar</span>
+                                                    </a>
+                                                @else
+                                                    <form
+                                                        action="{{ route('matriculation.course.store', ['course_uuid' => $course->uuid, 'user_uuid' => Auth::user()->uuid]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="cursor-pointer text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                                            Matrícular
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
