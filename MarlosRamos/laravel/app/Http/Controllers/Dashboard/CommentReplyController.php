@@ -62,8 +62,6 @@ class CommentReplyController extends Controller
             'commentReply' => $commentReply
         ];
 
-        // dd($commentReply);
-
         return view('dashboard.teacher.comment.reply', $dados);
     }
 

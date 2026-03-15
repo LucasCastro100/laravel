@@ -265,7 +265,7 @@
         </section>
 
         <section style="background-image: url('/assets/images/fundo-dobra-3.webp')" aria-labelledby="cards-pack"
-            class="relative bg-auto bg-center bg-no-repeat" role="region" >
+            class="relative bg-auto bg-center bg-no-repeat" role="region">
 
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
 
@@ -406,31 +406,71 @@
 
                 <div class="relative w-full overflow-hidden bg-transparent py-10">
                     <div class="flex w-max animate-scroll pause-hover gap-6">
-                        
+
                         <div class="flex gap-6">
-                            <img src="/assets/images/prova_social/image_1.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 1">
-                            <img src="/assets/images/prova_social/image_2.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 2">
-                            <img src="/assets/images/prova_social/image_3.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 3">
-                            <img src="/assets/images/prova_social/image_4.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 4">
-                            <img src="/assets/images/prova_social/image_5.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 5">
-                            <img src="/assets/images/prova_social/image_6.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 6">
-                            <img src="/assets/images/prova_social/image_7.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 7">
-                            <img src="/assets/images/prova_social/image_8.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 8">
-                            <img src="/assets/images/prova_social/image_9.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 9">
-                            <img src="/assets/images/prova_social/image_10.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 10">
+                            <img src="/assets/images/prova_social/image_1.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 1">
+                            <img src="/assets/images/prova_social/image_2.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 2">
+                            <img src="/assets/images/prova_social/image_3.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 3">
+                            <img src="/assets/images/prova_social/image_4.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 4">
+                            <img src="/assets/images/prova_social/image_5.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 5">
+                            <img src="/assets/images/prova_social/image_6.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 6">
+                            <img src="/assets/images/prova_social/image_7.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 7">
+                            <img src="/assets/images/prova_social/image_8.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 8">
+                            <img src="/assets/images/prova_social/image_9.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 9">
+                            <img src="/assets/images/prova_social/image_10.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 10">
                         </div>
-                
+
                         <div class="flex gap-6">
-                            <img src="/assets/images/prova_social/image_1.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 1">
-                            <img src="/assets/images/prova_social/image_2.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 2">
-                            <img src="/assets/images/prova_social/image_3.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 3">
-                            <img src="/assets/images/prova_social/image_4.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 4">
-                            <img src="/assets/images/prova_social/image_5.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 5">
-                            <img src="/assets/images/prova_social/image_6.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 6">
-                            <img src="/assets/images/prova_social/image_7.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 7">
-                            <img src="/assets/images/prova_social/image_8.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 8">
-                            <img src="/assets/images/prova_social/image_9.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 9">
-                            <img src="/assets/images/prova_social/image_10.jpg" class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200" alt="Prova 10">
+                            <img src="/assets/images/prova_social/image_1.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 1">
+                            <img src="/assets/images/prova_social/image_2.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 2">
+                            <img src="/assets/images/prova_social/image_3.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 3">
+                            <img src="/assets/images/prova_social/image_4.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 4">
+                            <img src="/assets/images/prova_social/image_5.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 5">
+                            <img src="/assets/images/prova_social/image_6.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 6">
+                            <img src="/assets/images/prova_social/image_7.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 7">
+                            <img src="/assets/images/prova_social/image_8.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 8">
+                            <img src="/assets/images/prova_social/image_9.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 9">
+                            <img src="/assets/images/prova_social/image_10.jpg"
+                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+                                alt="Prova 10">
                         </div>
                     </div>
                 </div>
@@ -570,41 +610,44 @@
         </section>
 
         <section class="relative" aria-labelledby="quem-sou-titulo">
-            <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center text-left">
-                    <div class="space-y-2 col-span-2">
-                        <p class="text-base leading-relaxed">
-                            Meu nome é Rafael Castro, mas muitos me conhecem como Fael Castro — músico e produtor
-                            musical com uma trajetória construída nos palcos e nos bastidores da música brasileira.
+            <div class="max-w-5xl mx-auto p-4">
 
+                <div class="grid grid-cols-1 md:grid-cols-5 md:grid-rows-5 gap-6 md:gap-4 items-start">
+
+                    <div class="md:col-span-3 md:row-span-3 flex justify-center" role="figure">
+                        <img src="/assets/images/rafa-quem-sou-eu-2.jpeg" alt="Rafa: produtor musical"
+                            class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
+                            loading="lazy">
+                    </div>
+
+                    <div class="md:col-span-2 md:row-span-3 space-y-4">
+                        <p class="text-lg leading-relaxed">
+                            Meu nome é Rafael Castro, mas muitos me conhecem como <strong>Fael Castro</strong> — músico
+                            e produtor musical com uma trajetória construída nos palcos e nos bastidores da música
+                            brasileira.
                         </p>
 
-                        <p class="text-base leading-relaxed">
+                        <p class="text-lg leading-relaxed">
                             Ao longo dos anos, tive o privilégio de atuar acompanhando grandes artistas nacionais em
                             shows por todo o país, contribuindo diretamente na performance ao vivo e na construção de
                             experiências memoráveis para o público. Entre os nomes com quem já trabalhei nos palcos
-                            estão Diego & Victor Hugo, Ana Castela e Israel & Rodolffo.
+                            estão <strong>Diego & Victor Hugo, Ana Castela e Israel & Rodolffo.</strong>
                         </p>
+                    </div>
 
-                        <p class="text-base leading-relaxed">
+                    <div class="md:col-span-5 md:row-span-2 space-y-4">                      
+                        <p class="text-lg leading-relaxed">
                             Nos bastidores, minha atuação vai além da performance. Como produtor musical, participei da
-                            produção de aberturas e shows de artistas como Hugo & Guilherme, Felipe Araújo, Ana Castela,
-                            Emílio & Eduardo, Rio Negro & Solimões, entre outros grandes nomes do mercado sertanejo.
+                            produção de aberturas e shows de artistas como <strong>Hugo & Guilherme, Felipe Araújo, Ana
+                                Castela, Emílio & Eduardo, Rio Negro & Solimões</strong>, entre outros grandes nomes do
+                            mercado sertanejo.
                         </p>
 
-                        <p class="text-base leading-relaxed">
+                        <p class="text-lg leading-relaxed">
                             Minha trajetória também ultrapassou fronteiras: já realizei turnês internacionais, levando a
                             música brasileira para os Estados Unidos e para a Europa, ampliando minha vivência artística
                             e experiência de palco.
                         </p>
-                    </div>
-
-                    <div class="flex justify-center col-span-1" role="figure"
-                        aria-label="Imagem de apresentação de quem sou">
-                        <img src="/assets/images/rafa-quem-sou-eu-2.jpeg"
-                            alt="Rafa: produtor musical e responsável pelo RC Studio"
-                            title="Rafa: produtor musical no RC Studio" class="rounded shadow-md w-full max-w-xs"
-                            loading="lazy" decoding="async" fetchpriority="low" />
                     </div>
                 </div>
             </div>
