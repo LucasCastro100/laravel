@@ -202,7 +202,7 @@
                 </h2>
 
                 <h3 class="text-xl font-semibold">
-                    Assista abaixo aberturas feitas pelo Fael Castro utilizando todos os Packs do Shows Pro
+                    Assista abaixo aberturas feitas pelo Rafael Castro utilizando todos os Packs do Shows Pro
                 </h3>
 
                 <!-- CARROSSEL -->
@@ -393,115 +393,120 @@
 
             </div>
         </section>
-        
-        <section class="relative py-20 bg-gradient-to-b from-black via-zinc-900 to-black overflow-hidden" aria-labelledby="quem-usa">
+
+        <section class="relative py-20 bg-gradient-to-b from-black via-zinc-900 to-black overflow-hidden"
+            aria-labelledby="quem-usa">
 
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-        
+
                 <h2 id="relatos-usuarios" class="text-3xl font-bold text-white">
                     Quem usa o Shows Pro para produzir chega em resultados incríveis
                 </h2>
-        
+
                 <h3 id="relatos-usuarios-subheadline" class="text-lg text-zinc-400">
                     Veja o feedback real de quem já está aplicando o Shows Pro
                 </h3>
-        
+
                 <!-- fade lateral -->
-                <div class="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-black to-transparent z-10"></div>
-                <div class="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent z-10"></div>
-        
-                <div class="relative w-full overflow-hidden py-10">
-        
-                    <div class="flex w-max animate-scroll pause-hover gap-8">
-        
-                        <div class="flex gap-8">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 1">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 3">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 4">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 5">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 6">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 7">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 8">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 9">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 10">
-        
-                        </div>
-        
-                        <!-- duplicação para scroll infinito -->
-        
-                        <div class="flex gap-8">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 1">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 3">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 4">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 5">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 6">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 7">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 8">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 9">
-        
-                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 10">
-        
-                        </div>
-        
-                    </div>
-        
+                <div
+                    class="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-black to-transparent z-10">
                 </div>
-        
+                <div
+                    class="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent z-10">
+                </div>
+
+                <div class="relative w-full overflow-hidden py-10">
+
+                    <div class="flex w-max animate-scroll pause-hover gap-8">
+
+                        <div class="flex gap-8">
+
+                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 1">
+
+                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 3">
+
+                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 4">
+
+                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 5">
+
+                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 6">
+
+                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 7">
+
+                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 8">
+
+                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 9">
+
+                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 10">
+
+                        </div>
+
+                        <!-- duplicação para scroll infinito -->
+
+                        <div class="flex gap-8">
+
+                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 1">
+
+                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 3">
+
+                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 4">
+
+                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 5">
+
+                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 6">
+
+                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 7">
+
+                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 8">
+
+                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 9">
+
+                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
+                                alt="Prova 10">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-        
+
         </section>
 
         <section class="relative" role="region" aria-labelledby="valores" id="preco">
@@ -527,6 +532,10 @@
                             <h4 id="oferta-essential" class="text-2xl font-bold mb-2 text-white">
                                 Essential
                             </h4>
+
+                            <img src="/assets/images/shows-pro-essentialpng" alt="Shows Pro: Essential"
+                                class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
+                                loading="lazy">
 
                             <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
                                 <li>Intro épica pronta</li>
@@ -564,11 +573,15 @@
                                 Plus
                             </h4>
 
+                            <img src="/assets/images/shows-pro-plus.png" alt="Shows Pro: Plus"
+                                class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
+                                loading="lazy">
+
                             <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
                                 <li>Intro épica pronta</li>
                                 <li>Arranjos mais exclusivos</li>
                                 <li>Mais opções de intro</li>
-                                <li class="line-through text-red-500">Stems individuais</li>
+                                <li>Stems individuais</li>
                                 <li class="line-through text-red-500">Bônus Pack de Samplers</li>
                                 <li>Para quem: Quer mais punch</li>
                             </ul>
@@ -607,6 +620,10 @@
                                     transition-all duration-500">
                                     Ultimate
                                 </h4>
+
+                                <img src="/assets/images/shows-pro-ultimate.png" alt="Shows Pro: Ultimate"
+                                    class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
+                                    loading="lazy">
 
                                 <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
                                     <li>Intro épica pronta</li>
@@ -662,7 +679,7 @@
                         </p>
                     </div>
 
-                    <div class="md:col-span-5 md:row-span-2 space-y-4">                      
+                    <div class="md:col-span-5 md:row-span-2 space-y-4">
                         <p class="text-lg leading-relaxed">
                             Nos bastidores, minha atuação vai além da performance. Como produtor musical, participei da
                             produção de aberturas e shows de artistas como <strong>Hugo & Guilherme, Felipe Araújo, Ana
@@ -782,7 +799,6 @@
                 const isOpen = button.getAttribute('aria-expanded') === 'true';
                 const icon = button.querySelector('i');
 
-                // --- OPCIONAL: Fecha outros FAQs abertos (Estilo Sanfona) ---
                 document.querySelectorAll('.faq-toggle').forEach(otherBtn => {
                     if (otherBtn !== button) {
                         otherBtn.setAttribute('aria-expanded', 'false');
@@ -792,9 +808,7 @@
                         otherBtn.querySelector('i').style.transform = 'rotate(0deg)';
                     }
                 });
-                // ----------------------------------------------------------
 
-                // Alterna o estado do FAQ atual
                 if (isOpen) {
                     button.setAttribute('aria-expanded', 'false');
                     faqAnswer.classList.replace('grid-rows-[1fr]', 'grid-rows-[0fr]');
@@ -871,7 +885,6 @@
             isDown = false
             carousel.classList.remove("cursor-grabbing")
 
-            // snap correto após soltar
             currentIndex = Math.round(carousel.scrollLeft / getSlideWidth())
             scrollToIndex(currentIndex)
         })
