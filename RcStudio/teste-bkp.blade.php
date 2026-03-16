@@ -29,8 +29,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-
 
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
@@ -81,14 +79,6 @@
             animation-play-state: paused;
             /* O carrossel para quando o usuário coloca o mouse em cima */
         }
-
-        .font-title {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .font-body {
-            font-family: 'Figtree', sans-serif;
-        }
     </style>
 
     <!-- Tailwind CSS -->
@@ -107,7 +97,7 @@
                         Orquestre o Show Perfeito, Faça as suas produções impressionarem de verdade
                     </h1>
 
-                    <h2 class="font-title text-2xl lg:text-4xl" tabindex="0">
+                    <h2 class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                         O Shows Pro é o pack de samples e efeitos que vai mudar sua maneira de produzir! Eleve o nível
                         da
                         sua produção do dia pra noite!
@@ -151,7 +141,7 @@
 
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
 
-                <h2 id="descricao-pack" class="font-title text-2xl lg:text-4xl" tabindex="0">
+                <h2 id="descricao-pack" class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                     Você é produtor, músico ou cantor e sabe:
                 </h2>
 
@@ -186,8 +176,7 @@
 
                 <!-- Dor reforçada -->
                 <p class="text-xl md:text-2xl text-gray-300 mb-10 text-center" tabindex="0">
-                    Muitas vezes você terá <span class="text-white font-bold">apenas segundos</span> para provar que
-                    não
+                    Muitas vezes você terá <span class="text-white font-bold">apenas segundos</span> para provar que não
                     veio brincar!
                 </p>
 
@@ -208,7 +197,7 @@
         <section class="relative" aria-labelledby="videos-usuarios">
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
 
-                <h2 id="videos-usuarios" class="text-2xl font-semibold font-title">
+                <h2 id="videos-usuarios" class="text-2xl font-semibold">
                     O Shows Pro permite elevar o nível da sua Produção!
                 </h2>
 
@@ -280,7 +269,7 @@
 
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
 
-                <h2 id="cards-pack" class="font-title text-2xl lg:text-4xl" tabindex="0">
+                <h2 id="cards-pack" class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                     Tudo que você precisa está dentro do Pack 🎶SHOWS PRO!🎶
                 </h2>
 
@@ -352,7 +341,7 @@
                     </li>
                 </ul>
 
-                <h3 id="cards-pack" class="font-title text-2xl lg:text-4xl" tabindex="0">
+                <h3 id="cards-pack" class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                     Use o Shows Pro para impactar a todos em qualquer cenário abaixo:
                 </h3>
 
@@ -360,7 +349,7 @@
                     <li class="flex-1">
                         <article
                             class="h-[100%] bg-gray-900 border  border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]  rounded-2xl py-4 px-8 flex flex-col items-center gap-4">
-                            <div class="font-title text-white text-2xl">
+                            <div class="font-bebas text-white text-2xl">
                                 No Palco
                             </div>
                             <div class="text-white text-lg">
@@ -373,7 +362,7 @@
                     <li class="flex-1">
                         <article
                             class="h-[100%] bg-gray-900 border  border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]  rounded-2xl py-4 px-8 flex flex-col items-center gap-4">
-                            <div class="font-title text-white text-2xl">
+                            <div class="font-bebas text-white text-2xl">
                                 No Estúdio
                             </div>
                             <div class="text-white text-lg">
@@ -386,7 +375,7 @@
                     <li class="flex-1">
                         <article
                             class="h-[100%] bg-gray-900 border  border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]  rounded-2xl py-4 px-8 flex flex-col items-center gap-4">
-                            <div class="font-title text-white text-2xl">
+                            <div class="font-bebas text-white text-2xl">
                                 Em Eventos
                             </div>
                             <div class="text-white text-lg">
@@ -410,7 +399,7 @@
 
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
 
-                <h2 id="relatos-usuarios" class="text-3xl font-bold font-title text-white">
+                <h2 id="relatos-usuarios" class="text-3xl font-bold text-white">
                     Quem usa o Shows Pro para produzir chega em resultados incríveis
                 </h2>
 
@@ -521,42 +510,31 @@
         </section>
 
         <section class="relative" role="region" aria-labelledby="valores" id="preco">
-            <div class="max-w-6xl mx-auto p-4 text-center space-y-8">
-
-                <h2 id="valores"
-class="font-title text-3xl lg:text-5xl font-bold
-bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400
-bg-clip-text text-transparent
-tracking-widest
-drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
+            <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
+                <h2 id="valores" class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                     Escolha seu Plano
                 </h2>
 
-                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6"
+                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6"
                     aria-label="Planos e valores disponíveis">
 
                     <!-- Essential -->
                     <li class="flex flex-col">
-
                         <article
-                            class="relative bg-black/60 backdrop-blur-md border border-red-500/30
-            p-6 rounded-xl
-            shadow-[0_0_25px_rgba(255,0,0,0.25)]
-            hover:shadow-[0_0_60px_rgba(255,50,0,0.8)]
-            hover:-translate-y-2
-            transition-all duration-500
-            flex flex-col text-center h-full overflow-hidden">
+                            class="relative bg-black/80 border border-red-500/30 p-6 rounded-xl 
+                            shadow-[0_0_20px_rgba(255,0,0,0.25)] hover:scale-105                         
+                            transition-all duration-500 
+                            flex flex-col text-center h-full overflow-hidden">
 
                             <span
                                 class="absolute inset-0 rounded-xl border border-red-500/20 animate-pulse pointer-events-none"></span>
 
-                            <h4 id="oferta-essential" class="text-2xl font-bold font-title mb-2 text-white tracking-wide">
+                            <h4 id="oferta-essential" class="text-2xl font-bold mb-2 text-white">
                                 Essential
                             </h4>
 
                             <img src="/assets/images/shows-pro-essential.png" alt="Shows Pro: Essential"
-                                class="rounded shadow-md w-full object-cover
-            hover:scale-105 transition-transform duration-500"
+                                class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
                                 loading="lazy">
 
                             <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
@@ -569,52 +547,34 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                             </ul>
 
                             <div class="mt-auto flex flex-col items-center">
-
-                                <p
-                                    class="text-4xl font-extrabold
-            bg-gradient-to-r from-green-400 to-emerald-500
-            bg-clip-text text-transparent
-            drop-shadow-[0_0_15px_rgba(0,255,100,0.6)]
-            mb-4">
-                                    R$ 97
-                                </p>
+                                <p class="text-3xl font-bold text-green-500 mb-4">R$ 97,00</p>
 
                                 <a href="https://pay.kiwify.com.br/rfC2ZVx"
-                                    class="bg-gradient-to-r from-red-600 to-orange-500
-            text-white font-bold px-6 py-3 rounded-lg
-            shadow-[0_0_25px_rgba(255,0,0,0.6)]
-            hover:shadow-[0_0_45px_rgba(255,0,0,1)]
-            hover:scale-110
-            transition-all duration-300">
+                                    class="bg-white text-black font-bold px-4 py-2 rounded 
+                                    hover:bg-gray-300 transition">
                                     EU QUERO ESSENTIAL
                                 </a>
-
                             </div>
                         </article>
                     </li>
 
                     <!-- Plus -->
                     <li class="flex flex-col">
-
                         <article
-                            class="relative bg-black/60 backdrop-blur-md border border-red-500/30
-            p-6 rounded-xl
-            shadow-[0_0_25px_rgba(255,0,0,0.25)]
-            hover:shadow-[0_0_60px_rgba(255,50,0,0.8)]
-            hover:-translate-y-2
-            transition-all duration-500
-            flex flex-col text-center h-full overflow-hidden">
+                            class="relative bg-black/80 border border-red-500/30 p-6 rounded-xl 
+                            shadow-[0_0_20px_rgba(255,0,0,0.25)]                             
+                            transition-all duration-500  hover:scale-105
+                            flex flex-col text-center h-full overflow-hidden">
 
                             <span
                                 class="absolute inset-0 rounded-xl border border-red-500/20 animate-pulse pointer-events-none"></span>
 
-                            <h4 id="oferta-plus" class="text-2xl font-bold font-title mb-2 text-white tracking-wide">
+                            <h4 id="oferta-plus" class="text-2xl font-bold mb-2 text-white">
                                 Plus
                             </h4>
 
                             <img src="/assets/images/shows-pro-plus.png" alt="Shows Pro: Plus"
-                                class="rounded shadow-md w-full object-cover
-            hover:scale-105 transition-transform duration-500"
+                                class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
                                 loading="lazy">
 
                             <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
@@ -627,26 +587,12 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                             </ul>
 
                             <div class="mt-auto flex flex-col items-center">
-
-                                <p
-                                    class="text-4xl font-extrabold
-            bg-gradient-to-r from-green-400 to-emerald-500
-            bg-clip-text text-transparent
-            drop-shadow-[0_0_15px_rgba(0,255,100,0.6)]
-            mb-4">
-                                    R$ 147
-                                </p>
-
+                                <p class="text-3xl font-bold text-green-500 mb-4">R$ 147,00</p>
                                 <a href="https://pay.kiwify.com.br/9iJZ4pB"
-                                    class="bg-gradient-to-r from-red-600 to-orange-500
-            text-white font-bold px-6 py-3 rounded-lg
-            shadow-[0_0_25px_rgba(255,0,0,0.6)]
-            hover:shadow-[0_0_45px_rgba(255,0,0,1)]
-            hover:scale-110
-            transition-all duration-300">
+                                    class="bg-white text-black font-bold px-4 py-2 rounded 
+                                    hover:bg-gray-300 transition">
                                     EU QUERO PLUS
                                 </a>
-
                             </div>
                         </article>
                     </li>
@@ -655,38 +601,28 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                     <li class="flex flex-col">
 
                         <article
-                            class="group relative p-[2px] rounded-xl overflow-hidden
-            transition-all duration-500
-            hover:scale-105
-            shadow-[0_0_25px_rgba(255,0,0,0.35)]">
+                            class="group relative p-[2px] rounded-xl overflow-hidden transition-all duration-500 hover:scale-105 shadow-[0_0_20px_rgba(255,0,0,0.25)] ">
 
+                            <!-- Borda neon girando -->
                             <span
-                                class="absolute inset-0 rounded-xl
-            bg-gradient-to-r from-red-600 via-yellow-500 to-red-600
-            animate-[spin_6s_linear_infinite]
-            group-hover:animate-[spin_2s_linear_infinite]
-            blur-md opacity-70 group-hover:opacity-100
-            transition-all duration-500">
+                                class="absolute inset-0 rounded-xl                     bg-gradient-to-r from-red-600 via-yellow-500 to-red-600 
+                                animate-[spin_6s_linear_infinite] group-hover:animate-[spin_2s_linear_infinite]
+                                blur-md opacity-70 group-hover:opacity-100 transition-all duration-500">
                             </span>
 
                             <div
-                                class="relative bg-black/90 backdrop-blur-md
-            p-6 rounded-xl text-center
-            flex flex-col h-full
-            shadow-[0_0_60px_rgba(255,80,0,0.6)]
-            group-hover:shadow-[0_0_120px_rgba(255,80,0,1)]
-            transition-all duration-500">
+                                class="relative bg-black/95 p-6 rounded-xl text-center                             flex flex-col h-full                             shadow-[0_0_60px_rgba(255,80,0,0.6)]                            group-hover:shadow-[0_0_100px_rgba(255,80,0,1)]                             transition-all duration-500">
 
                                 <h4 id="oferta-ultimate"
-                                    class="text-2xl font-bold font-title text-orange-400 mb-2
-            drop-shadow-[0_0_20px_rgba(255,140,0,1)]
-            transition-all duration-500">
+                                    class="text-2xl font-bold text-orange-400 mb-2 
+                                     drop-shadow-[0_0_15px_rgba(255,140,0,0.9)]
+                                 group-hover:drop-shadow-[0_0_25px_rgba(255,200,0,1)]
+                                    transition-all duration-500">
                                     Ultimate
                                 </h4>
 
                                 <img src="/assets/images/shows-pro-ultimate.png" alt="Shows Pro: Ultimate"
-                                    class="rounded shadow-md w-full object-cover
-            hover:scale-105 transition-transform duration-500"
+                                    class="rounded shadow-md w-full max-w-sm md:max-w-none h-auto md:h-full object-cover"
                                     loading="lazy">
 
                                 <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
@@ -699,30 +635,19 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                                 </ul>
 
                                 <div class="mt-auto flex flex-col items-center">
-
-                                    <p
-                                        class="text-4xl font-extrabold
-            bg-gradient-to-r from-green-400 to-emerald-500
-            bg-clip-text text-transparent
-            drop-shadow-[0_0_20px_rgba(0,255,100,0.8)]
-            mb-4">
-                                        R$ 197
-                                    </p>
+                                    <p class="text-3xl font-bold text-green-500 mb-4">R$ 197,00</p>
 
                                     <a href="https://pay.kiwify.com.br/hjmY5oG"
-                                        class="bg-gradient-to-r from-red-600 to-orange-500
-            text-white font-bold px-6 py-3 rounded-lg
-            shadow-[0_0_30px_rgba(255,0,0,0.8)]
-            hover:shadow-[0_0_60px_rgba(255,0,0,1)]
-            hover:scale-110
-            transition-all duration-300">
+                                        class="bg-gradient-to-r from-red-600 to-orange-500 
+                                    shadow-[0_0_25px_rgba(255,0,0,0.7)] 
+                                    group-hover:shadow-[0_0_50px_rgba(255,0,0,1)] 
+                                    text-white font-bold px-4 py-2 rounded 
+                                    transition-all duration-300 hover:scale-110">
                                         EU QUERO ULTIMATE
                                     </a>
-
                                 </div>
                             </div>
                         </article>
-
                     </li>
                 </ul>
             </div>
@@ -774,7 +699,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
 
         <section class="relative" aria-labelledby="faq-title">
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-                <h2 id="faq-title" class="font-title text-2xl lg:text-4xl" tabindex="0">
+                <h2 id="faq-title" class="font-bebas text-2xl lg:text-4xl" tabindex="0">
                     Perguntas Frequentes
                 </h2>
 
