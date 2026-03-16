@@ -393,88 +393,115 @@
 
             </div>
         </section>
+        
+        <section class="relative py-20 bg-gradient-to-b from-black via-zinc-900 to-black overflow-hidden" aria-labelledby="quem-usa">
 
-        <section class="relative" aria-labelledby="quem-usa">
             <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-                <h2 id="relatos-usuarios" class="text-2xl font-semibold">
-                    Quem usa o Shows Pro para produzir chega em resultados incríveis!
+        
+                <h2 id="relatos-usuarios" class="text-3xl font-bold text-white">
+                    Quem usa o Shows Pro para produzir chega em resultados incríveis
                 </h2>
-
-                <h3 id="relatos-usuarios-subheadline" class="text-xl font-semibold">
-                    Olha o feedback de quem já está aplicando o Shows Pro
+        
+                <h3 id="relatos-usuarios-subheadline" class="text-lg text-zinc-400">
+                    Veja o feedback real de quem já está aplicando o Shows Pro
                 </h3>
-
-                <div class="relative w-full overflow-hidden bg-transparent py-10">
-                    <div class="flex w-max animate-scroll pause-hover gap-6">
-
-                        <div class="flex gap-6">
-                            <img src="/assets/images/prova_social/image_1.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                <!-- fade lateral -->
+                <div class="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-black to-transparent z-10"></div>
+                <div class="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent z-10"></div>
+        
+                <div class="relative w-full overflow-hidden py-10">
+        
+                    <div class="flex w-max animate-scroll pause-hover gap-8">
+        
+                        <div class="flex gap-8">
+        
+                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 1">
-                            <img src="/assets/images/prova_social/image_2.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
-                                alt="Prova 2">
-                            <img src="/assets/images/prova_social/image_3.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 3">
-                            <img src="/assets/images/prova_social/image_4.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 4">
-                            <img src="/assets/images/prova_social/image_5.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 5">
-                            <img src="/assets/images/prova_social/image_6.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 6">
-                            <img src="/assets/images/prova_social/image_7.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 7">
-                            <img src="/assets/images/prova_social/image_8.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 8">
-                            <img src="/assets/images/prova_social/image_9.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 9">
-                            <img src="/assets/images/prova_social/image_10.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 10">
+        
                         </div>
-
-                        <div class="flex gap-6">
-                            <img src="/assets/images/prova_social/image_1.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                        <!-- duplicação para scroll infinito -->
+        
+                        <div class="flex gap-8">
+        
+                            <img src="/assets/images/prova_social_depoimentos/d1.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 1">
-                            <img src="/assets/images/prova_social/image_2.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
-                                alt="Prova 2">
-                            <img src="/assets/images/prova_social/image_3.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d3.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 3">
-                            <img src="/assets/images/prova_social/image_4.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d4.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 4">
-                            <img src="/assets/images/prova_social/image_5.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d5.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 5">
-                            <img src="/assets/images/prova_social/image_6.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d6.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 6">
-                            <img src="/assets/images/prova_social/image_7.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d7.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 7">
-                            <img src="/assets/images/prova_social/image_8.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d8.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 8">
-                            <img src="/assets/images/prova_social/image_9.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 9">
-                            <img src="/assets/images/prova_social/image_10.jpg"
-                                class="h-100 w-96 object-contain rounded-xl shadow-lg border border-gray-200"
+        
+                            <img src="/assets/images/prova_social_depoimentos/d10.webp"
+                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 10">
+        
                         </div>
+        
                     </div>
+        
                 </div>
+        
             </div>
+        
         </section>
 
         <section class="relative" role="region" aria-labelledby="valores" id="preco">
