@@ -205,75 +205,55 @@
             </div>
         </section>
 
-        <section class="relative" aria-labelledby="videos-usuarios">
-            <div class="max-w-5xl mx-auto p-4 text-center space-y-6">
-
-                <h2 id="videos-usuarios" class="text-2xl font-semibold font-title">
-                    O Shows Pro permite elevar o nível da sua Produção!
-                </h2>
-
-                <h3 class="text-xl font-semibold">
-                    Assista abaixo aberturas feitas pelo Rafael Castro utilizando todos os Packs do Shows Pro
-                </h3>
-
-                <!-- CARROSSEL -->
-                <div class="relative">
-
-                    <!-- SLIDER -->
-                    <div id="video-carousel"
-                        class="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth cursor-grab select-none hide-scrollbar">
-
-                        <!-- Slide 1 -->
-                        <div class="snap-center shrink-0 w-full md:w-1/2">
-                            <div class="aspect-video rounded-xl overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full pointer-events-none"
-                                    src="https://www.youtube.com/embed/eWUaNe4NY74" title="Vídeo 1" loading="lazy"
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-
-                        <!-- Slide 2 -->
-                        <div class="snap-center shrink-0 w-full md:w-1/2">
-                            <div class="aspect-video rounded-xl overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full pointer-events-none"
-                                    src="https://www.youtube.com/embed/PDvOcu9ASvI" title="Vídeo 2" loading="lazy"
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-
-                        <!-- Slide 3 -->
-                        <div class="snap-center shrink-0 w-full md:w-1/2">
-                            <div class="aspect-video rounded-xl overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full pointer-events-none"
-                                    src="https://www.youtube.com/embed/oDZ_Pp0dvrA" title="Vídeo 3" loading="lazy"
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-
-                        <!-- Slide 4 -->
-                        <div class="snap-center shrink-0 w-full md:w-1/2">
-                            <div class="aspect-video rounded-xl overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full pointer-events-none"
-                                    src="https://www.youtube.com/embed/P40iBXVTcRk" title="Vídeo 3" loading="lazy"
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
+        <div class="relative max-w-6xl mx-auto px-4">
+    
+            <div id="video-carousel"
+                class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar gap-4">
+        
+                <div class="snap-center shrink-0 w-full flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-white/10">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/eWUaNe4NY74" title="Vídeo 1" loading="lazy" allowfullscreen></iframe>
                     </div>
-
-                    <!-- DOTS (MOBILE) -->
-                    <div class="flex justify-center gap-2 mt-4">
-                        <button class="dot w-2.5 h-2.5 rounded-full bg-gray-400" onclick="goToSlide(0)"></button>
-                        <button class="dot w-2.5 h-2.5 rounded-full bg-gray-300" onclick="goToSlide(1)"></button>
-                        <button class="dot w-2.5 h-2.5 rounded-full bg-gray-300" onclick="goToSlide(2)"></button>
+                    <div class="flex-1 aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-white/10">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/PDvOcu9ASvI" title="Vídeo 2" loading="lazy" allowfullscreen></iframe>
                     </div>
-
+                </div>
+        
+                <div class="snap-center shrink-0 w-full flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-white/10">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/oDZ_Pp0dvrA" title="Vídeo 3" loading="lazy" allowfullscreen></iframe>
+                    </div>
+                    <div class="flex-1 aspect-video rounded-xl overflow-hidden shadow-lg border-2 border-white/10">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/P40iBXVTcRk" title="Vídeo 4" loading="lazy" allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
-        </section>
+        
+            <div class="mt-8 flex flex-col items-center gap-4">
+                
+                <div class="flex items-center gap-4">
+                    <button onclick="scrollCarousel(-1)" 
+                        class="flex items-center justify-center w-10 h-10 rounded-full 
+                               bg-red-700 hover:bg-red-600 text-white shadow-[0_0_15px_rgba(185,28,28,0.4)] 
+                               transition-all hover:scale-110 active:scale-90"
+                        aria-label="Anterior">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+        
+                    <button onclick="scrollCarousel(1)" 
+                        class="flex items-center justify-center w-10 h-10 rounded-full 
+                               bg-red-700 hover:bg-red-600 text-white shadow-[0_0_15px_rgba(185,28,28,0.4)] 
+                               transition-all hover:scale-110 active:scale-90"
+                        aria-label="Próximo">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
+                </div>
+        
+                <p class="font-title text-white text-[10px] md:text-xs uppercase tracking-[0.3em] opacity-70 text-center">
+                    Clique para ver os próximos
+                </p>
+            </div>
+        </div>
 
         <section style="background-image: url('/assets/images/fundo-dobra-3.webp')" aria-labelledby="cards-pack"
             class="relative bg-auto bg-center bg-no-repeat" role="region">
@@ -458,22 +438,14 @@
 
                             <img src="/assets/images/prova_social_depoimentos/d8.webp"
                                 class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 8">
-
-                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 9">
+                                alt="Prova 8">                            
 
                             <img src="/assets/images/prova_social_depoimentos/d10.webp"
                                 class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 10">
-
                         </div>
 
-                        <!-- duplicação para scroll infinito -->
-
                         <div class="flex gap-8">
-
                             <img src="/assets/images/prova_social_depoimentos/d1.webp"
                                 class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
                                 alt="Prova 1">
@@ -500,11 +472,7 @@
 
                             <img src="/assets/images/prova_social_depoimentos/d8.webp"
                                 class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 8">
-
-                            <img src="/assets/images/prova_social_depoimentos/d9.webp"
-                                class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
-                                alt="Prova 9">
+                                alt="Prova 8">                            
 
                             <img src="/assets/images/prova_social_depoimentos/d10.webp"
                                 class="w-72 h-auto object-contain rounded-2xl shadow-2xl border border-white/10 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition duration-300"
@@ -524,7 +492,7 @@
             <div class="max-w-6xl mx-auto p-4 text-center space-y-8">
 
                 <h2 id="valores"
-class="font-title text-3xl lg:text-5xl font-bold
+                    class="font-title text-3xl lg:text-5xl font-bold
 bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400
 bg-clip-text text-transparent
 tracking-widest
@@ -550,7 +518,8 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                             <span
                                 class="absolute inset-0 rounded-xl border border-red-500/20 animate-pulse pointer-events-none"></span>
 
-                            <h4 id="oferta-essential" class="text-2xl font-bold font-title mb-2 text-white tracking-wide">
+                            <h4 id="oferta-essential"
+                                class="text-2xl font-bold font-title mb-2 text-white tracking-wide">
                                 Essential
                             </h4>
 
@@ -559,13 +528,13 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             hover:scale-105 transition-transform duration-500"
                                 loading="lazy">
 
-                            <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
-                                <li>Intro épica pronta</li>
-                                <li class="line-through text-red-500">Arranjos mais exclusivos</li>
-                                <li class="line-through text-red-500">Mais opções de intro</li>
-                                <li>Stems individuais</li>
-                                <li class="line-through text-red-500">Bônus Pack de Samplers</li>
-                                <li>Para quem: Primeira intro prof</li>
+                            <ul class="text-sm mb-4 space-y-2 text-left text-gray-300">
+                                <li class="font-title font-semibold text-md text-gray-400">Intro épica pronta</li>
+                                <li class="font-title font-semibold text-md line-through text-red-500">Arranjos mais exclusivos</li>
+                                <li class="font-title font-semibold text-md line-through text-red-500">Mais opções de intro</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
+                                <li class="font-title font-semibold text-md  line-through text-red-500">Bônus Pack de Samplers</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Para quem: Primeira intro profissional</li>
                             </ul>
 
                             <div class="mt-auto flex flex-col items-center">
@@ -617,13 +586,13 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             hover:scale-105 transition-transform duration-500"
                                 loading="lazy">
 
-                            <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
-                                <li>Intro épica pronta</li>
-                                <li>Arranjos mais exclusivos</li>
-                                <li>Mais opções de intro</li>
-                                <li>Stems individuais</li>
-                                <li class="line-through text-red-500">Bônus Pack de Samplers</li>
-                                <li>Para quem: Quer mais punch</li>
+                            <ul class="text-sm mb-4 space-y-2 text-left text-gray-300">
+                                <li class="font-title font-semibold text-md text-gray-400">Intro épica pronta</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Arranjos mais exclusivos</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Mais opções de intro</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
+                                <li class="font-title font-semibold text-md line-through text-red-500">Bônus Pack de Samplers</li>
+                                <li class="font-title font-semibold text-md text-gray-400">Para quem: Quer mais punch</li>
                             </ul>
 
                             <div class="mt-auto flex flex-col items-center">
@@ -689,13 +658,13 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             hover:scale-105 transition-transform duration-500"
                                     loading="lazy">
 
-                                <ul class="text-sm mb-4 space-y-1 text-left text-gray-300">
-                                    <li>Intro épica pronta</li>
-                                    <li>Arranjos mais exclusivos</li>
-                                    <li>Mais opções de intro</li>
-                                    <li>Stems individuais</li>
-                                    <li>Bônus Pack de Samplers</li>
-                                    <li>Para quem: Busca experiência stadium</li>
+                                <ul class="text-sm mb-4 space-y-2 text-left text-gray-300">
+                                    <li class="font-title font-semibold text-md text-gray-400">Intro épica pronta</li>
+                                    <li class="font-title font-semibold text-md text-gray-400">Arranjos mais exclusivos</li>
+                                    <li class="font-title font-semibold text-md text-gray-400">Mais opções de intro</li>
+                                    <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
+                                    <li class="font-title font-semibold text-md text-gray-400">Bônus Pack de Samplers</li>
+                                    <li class="font-title font-semibold text-md text-gray-400">Para quem: Busca experiência stadium</li>
                                 </ul>
 
                                 <div class="mt-auto flex flex-col items-center">
@@ -854,7 +823,8 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
            hover:shadow-[0_0_20px_#25D366] 
            hover:scale-105            
            transition-all duration-300"
-                    role="button" aria-label="Entrar em contato via WhatsApp">
+                    role="button"  aria-label="Falar conosco no WhatsApp"
+                    title="Falar conosco no WhatsApp">>
                     <span class="flex items-center gap-2">
                         Entrar em contato via WhatsApp
                     </span>
@@ -865,6 +835,20 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                 </div>
             </div>
         </section>
+
+        <div class="fixed bottom-6 right-6 z-[9999]">
+            <a href="https://wa.me/5534991256642" target="_blank" rel="noopener noreferrer" 
+               class="flex items-center justify-center w-16 h-16 rounded-full 
+                      bg-[#25D366] text-white shadow-[0_4px_10px_rgba(37,211,102,0.5)] 
+                      transition-all duration-300 transform 
+                      hover:scale-110 hover:shadow-[0_6px_20px_rgba(37,211,102,0.6)] 
+                      active:scale-95 active:shadow-md
+                      whatsapp-pulse" 
+               aria-label="Falar conosco no WhatsApp"
+               title="Falar conosco no WhatsApp">
+                <i class="fab fa-whatsapp text-4xl"></i>
+            </a>
+        </div>
     </div>
 
     <script>
@@ -898,90 +882,18 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             });
         });
 
-        const carousel = document.getElementById("video-carousel")
-        const slides = carousel.children
-        const slideGap = 16
-        let currentIndex = 0
-        let isAnimating = false
 
-        function getSlideWidth() {
-            return slides[0].offsetWidth + slideGap
+        function scrollCarousel(direction) {
+            const carousel = document.getElementById("video-carousel");
+            if (!carousel || !carousel.firstElementChild) return;
+
+            const scrollAmount = carousel.offsetWidth + 16;
+
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: "smooth"
+            });
         }
-
-        function scrollToIndex(index) {
-            if (isAnimating) return
-            isAnimating = true
-
-            const maxIndex = slides.length - 1
-            if (index < 0) index = maxIndex
-            if (index > maxIndex) index = 0
-
-            currentIndex = index
-
-            carousel.scrollTo({
-                left: getSlideWidth() * currentIndex,
-                behavior: "smooth",
-            })
-
-            setTimeout(() => {
-                isAnimating = false
-                updateDots()
-            }, 450)
-        }
-
-        function goToSlide(index) {
-            scrollToIndex(index)
-        }
-
-        function updateDots() {
-            document.querySelectorAll(".dot").forEach((dot, i) => {
-                dot.classList.toggle("bg-gray-400", i === currentIndex)
-                dot.classList.toggle("bg-gray-300", i !== currentIndex)
-            })
-        }
-
-        let isDown = false
-        let startX
-        let scrollLeft
-
-        carousel.addEventListener("mousedown", (e) => {
-            isDown = true
-            carousel.classList.add("cursor-grabbing")
-            startX = e.pageX - carousel.offsetLeft
-            scrollLeft = carousel.scrollLeft
-        })
-
-        carousel.addEventListener("mouseleave", () => {
-            isDown = false
-            carousel.classList.remove("cursor-grabbing")
-        })
-
-        carousel.addEventListener("mouseup", () => {
-            isDown = false
-            carousel.classList.remove("cursor-grabbing")
-
-            currentIndex = Math.round(carousel.scrollLeft / getSlideWidth())
-            scrollToIndex(currentIndex)
-        })
-
-        carousel.addEventListener("mousemove", (e) => {
-            if (!isDown) return
-            e.preventDefault()
-            const x = e.pageX - carousel.offsetLeft
-            const walk = (x - startX) * 1.4
-            carousel.scrollLeft = scrollLeft - walk
-        })
-
-        let scrollTimeout
-        carousel.addEventListener("scroll", () => {
-            if (isAnimating || isDown) return
-
-            clearTimeout(scrollTimeout)
-            scrollTimeout = setTimeout(() => {
-                currentIndex = Math.round(carousel.scrollLeft / getSlideWidth())
-                updateDots()
-            }, 120)
-        })
     </script>
 </body>
 
