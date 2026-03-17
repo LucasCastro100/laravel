@@ -192,7 +192,7 @@
                                 Chega de intros e samples genéricos copiados do YouTube.
                             </p>
                             <p tabindex="0">
-                                Chega de produções que <span class="text-red-400 italic">nunca parecem prontas</span>.
+                                Chega de mixagens que <span class="text-red-400 italic">nunca parecem prontas</span>.
                             </p>
                         </div>
                     </div>
@@ -283,63 +283,126 @@
                     impactarem de verdade!
                 </div>
 
-                <ul class="flex flex-col gap-10" aria-label="Componentes incluídos no pack Shows Pro">
+                <!-- <ul class="flex flex-col gap-6" aria-label="Componentes incluídos no pack Shows Pro">
+                    
+                    <li>
+                        <article
+                            class="bg-gray-900  border border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]          transition-all duration-500  rounded-2xl py-4 px-8 flex flex-col md:flex-row items-center gap-4">
+                            <img src="/assets/images/card-samples.webp"
+                                alt="Imagem representando os samples incluídos no pack"
+                                title="Samples musicais exclusivos"
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
+
+                            <div class="w-full text-left">
+                                <h3 id="card1-title" class="text-lg font-semibold mb-2 font-title" tabindex="0">Samples
+                                    Musicais</h3>
+                                <p class="text-sm" tabindex="0">Uma seleção de samples prontos para dar identidade
+                                    ao seu show.</p>
+                            </div>
+                        </article>
+                    </li>
+
+                    
+                    <li>
+                        <article
+                            class="bg-gray-900  border border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]          transition-all duration-500  rounded-2xl py-4 px-8 flex flex-col md:flex-row items-center gap-4">
+
+
+                            <img src="/assets/images/card-fx.webp" alt="Imagem ilustrando efeitos sonoros disponíveis"
+                                title="Efeitos sonoros impactantes"
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0 order-1 md:order-2"
+                                loading="lazy" decoding="async" fetchpriority="low" />
+
+
+                            <div class="w-full text-left order-2 md:order-1">
+                                <h3 id="card2-title" class="text-lg font-semibold mb-2 font-title" tabindex="0">Efeitos
+                                    Sonoros (FX)</h3>
+                                <p class="text-sm" tabindex="0">FX de impacto para criar momentos memoráveis no seu
+                                    set.</p>
+                            </div>
+                        </article>
+                    </li>
+
+                    
+                    <li>
+                        <article
+                            class="bg-gray-900 border border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)]          transition-all duration-500  rounded-2xl py-4 px-8 flex flex-col md:flex-row items-center gap-4">
+                            <img src="/assets/images/card-loops.webp"
+                                alt="Imagem representando loops incluídos no pack" title="Loops prontos para usar"
+                                class="w-[50%] md:w-[33%] object-cover rounded mx-auto md:mx-0" loading="lazy"
+                                decoding="async" fetchpriority="low" />
+
+                            <div class="w-full text-left">
+                                <h3 id="card3-title" class="text-lg font-semibold mb-2 font-title" tabindex="0">Loops
+                                    Exclusivos</h3>
+                                <p class="text-sm" tabindex="0">Crie atmosferas envolventes com loops de alta
+                                    qualidade.</p>
+                            </div>
+                        </article>
+                    </li>
+                </ul> -->
+
+                <ul class="flex flex-col gap-8" aria-label="Componentes incluídos no pack Shows Pro">
     
-                    <li class="group">
-                        <article
-                            class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
-                            <div class="flex-shrink-0 z-10">
-                                <img src="/assets/images/samples.png" alt="Samples"
-                                    class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700" />
-                            </div>
-                
-                            <div class="relative z-10 text-center md:text-right flex-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Samples Musicais</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Uma curadoria de elite pronta para dar a identidade profissional que seu show merece.</p>
-                            </div>
-                        </article>
-                    </li>
-                
-                    <li class="group">
-                        <article
-                            class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -right-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
-                            <div class="relative z-10 text-center md:text-left flex-1 order-2 md:order-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Efeitos Sonoros (FX)</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md mr-auto md:mr-0">Transições e impactos cinematográficos que prendem a atenção do público do início ao fim.</p>
-                            </div>
-                
-                            <div class="flex-shrink-0 z-10 order-1 md:order-2">
-                                <img src="/assets/images/efeitos.png" alt="Efeitos"
-                                    class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700" />
-                            </div>
-                        </article>
-                    </li>
-                
-                    <li class="group">
-                        <article
-                            class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
-                            <div class="flex-shrink-0 z-10">
-                                <img src="/assets/images/loops.png" alt="Loops"
-                                    class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700" />
-                            </div>
-                
-                            <div class="relative z-10 text-center md:text-right flex-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Loops Exclusivos</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Grooves envolventes e texturas rítmicas criadas para preencher o som com energia máxima.</p>
-                            </div>
-                        </article>
-                    </li>
-                
-                </ul>
+    <li class="group">
+        <article
+            class="relative overflow-hidden bg-zinc-900/50 border border-white/10 backdrop-blur-sm hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-500 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8">
+            
+            <div class="absolute -left-10 top-0 w-32 h-32 bg-red-600/10 blur-[80px] group-hover:bg-red-600/20 transition-colors"></div>
+
+            <img src="/assets/images/samples.png"
+                alt="Samples musicais exclusivos"
+                class="w-48 md:w-56 object-contain transform group-hover:scale-110 group-hover:rotate-2 transition-transform duration-500 z-10" 
+                loading="lazy" />
+
+            <div class="relative z-10 text-center md:text-left">
+                <span class="text-red-500 text-xs font-black uppercase tracking-[0.3em] mb-2 block">Premium Pack</span>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3 font-title text-white">Samples Musicais</h3>
+                <p class="text-zinc-400 text-base md:text-lg max-w-md">Uma curadoria de elite pronta para dar a identidade profissional que seu show merece.</p>
+            </div>
+        </article>
+    </li>
+
+    <li class="group">
+        <article
+            class="relative overflow-hidden bg-zinc-900/50 border border-white/10 backdrop-blur-sm hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-500 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8">
+            
+            <div class="absolute -right-10 top-0 w-32 h-32 bg-red-600/10 blur-[80px] group-hover:bg-red-600/20 transition-colors"></div>
+
+            <div class="relative z-10 text-center md:text-left order-2 md:order-1 flex-1">
+                <span class="text-red-500 text-xs font-black uppercase tracking-[0.3em] mb-2 block">Impacto Sonoro</span>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3 font-title text-white">Efeitos Sonoros (FX)</h3>
+                <p class="text-zinc-400 text-base md:text-lg max-w-md">Transições e impactos cinematográficos que prendem a atenção do público do início ao fim.</p>
+            </div>
+
+            <img src="/assets/images/efeitos.png"
+                alt="Efeitos sonoros impactantes"
+                class="w-48 md:w-56 object-contain order-1 md:order-2 transform group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-500 z-10" 
+                loading="lazy" />
+        </article>
+    </li>
+
+    <li class="group">
+        <article
+            class="relative overflow-hidden bg-zinc-900/50 border border-white/10 backdrop-blur-sm hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-500 rounded-3xl p-6 flex flex-col md:flex-row items-center gap-8">
+            
+            <div class="absolute -left-10 top-0 w-32 h-32 bg-red-600/10 blur-[80px] group-hover:bg-red-600/20 transition-colors"></div>
+
+            <img src="/assets/images/loops.png"
+                alt="Loops de alta fidelidade"
+                class="w-48 md:w-56 object-contain transform group-hover:scale-110 group-hover:rotate-2 transition-transform duration-500 z-10" 
+                loading="lazy" />
+
+            <div class="relative z-10 text-center md:text-left">
+                <span class="text-red-500 text-xs font-black uppercase tracking-[0.3em] mb-2 block">Construção Rítmica</span>
+                <h3 class="text-2xl md:text-3xl font-bold mb-3 font-title text-white">Loops Exclusivos</h3>
+                <p class="text-zinc-400 text-base md:text-lg max-w-md">Grooves envolventes e texturas rítmicas criadas para preencher o som com energia máxima.</p>
+            </div>
+        </article>
+    </li>
+
+</ul>
 
                 <h3 id="cards-pack" class="font-title text-2xl lg:text-4xl" tabindex="0">
                     Use o Shows Pro para impactar a todos em qualquer cenário abaixo:
