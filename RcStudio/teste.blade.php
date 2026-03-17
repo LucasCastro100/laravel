@@ -12,17 +12,19 @@
     <meta name="author" content="Seu Nome ou Marca">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Título para redes sociais" />
-    <meta property="og:description" content="Descrição para redes sociais" />
-    <meta property="og:image" content="URL_DA_IMAGEM" />
+    <meta property="og:title" content="RC Studio - Produção Musical Profissional" />
+    <meta property="og:description"
+        content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
+    <meta property="og:image" content="https://rcstudio.com.br/rc_og_image.jpg" />
     <meta property="og:url" content="https://rcstudio.com.br/" />
     <meta property="og:type" content="website" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Título para Twitter" />
-    <meta name="twitter:description" content="Descrição para Twitter" />
-    <meta name="twitter:image" content="URL_DA_IMAGEM" />
+    <meta name="twitter:title" content="RC Studio - Produção Musical Profissional" />
+    <meta name="twitter:description"
+        content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
+    <meta name="twitter:image" content="https://rcstudio.com.br/rc_og_image.jpg" />
     <meta name="twitter:url" content="https://rcstudio.com.br/" />
 
     <!-- Fonte -->
@@ -31,6 +33,25 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
+    <!-- Favicons padrão -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/icons/favicon-96x96.png">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons
+/images/icons
+/images/icons/apple-touch-icon.png">
+
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192"
+        href="/images/icons
+/images/icons
+/images/icons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512"
+        href="/images/icons
+/images/icons
+/images/icons/android-chrome-512x512.png">
 
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
@@ -184,7 +205,8 @@
                             O Fim da Frustração
                         </h4>
 
-                        <div class="space-y-4 text-white text-xl md:text-2xl font-semibold leading-snug tracking-tight">
+                        <div
+                            class="space-y-4 text-white text-xl md:text-2xl font-semibold leading-snug tracking-tight">
                             <p tabindex="0">
                                 Chega de não saber por onde começar.
                             </p>
@@ -284,61 +306,73 @@
                 </div>
 
                 <ul class="flex flex-col gap-10" aria-label="Componentes incluídos no pack Shows Pro">
-    
+
                     <li class="group">
                         <article
                             class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
+
+                            <div
+                                class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors">
+                            </div>
+
                             <div class="flex-shrink-0 z-10">
                                 <img src="/assets/images/samples.png" alt="Samples"
                                     class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700" />
                             </div>
-                
-                            <div class="relative z-10 text-center md:text-right flex-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Samples Musicais</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Uma curadoria de elite pronta para dar a identidade profissional que seu show merece.</p>
+
+                            <div class="relative z-10 text-center md:text-right flex-1">
+                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Samples Musicais
+                                </h3>
+                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Uma curadoria de elite
+                                    pronta para dar a identidade profissional que seu show merece.</p>
                             </div>
                         </article>
                     </li>
-                
+
                     <li class="group">
                         <article
                             class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -right-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
-                            <div class="relative z-10 text-center md:text-left flex-1 order-2 md:order-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Efeitos Sonoros (FX)</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md mr-auto md:mr-0">Transições e impactos cinematográficos que prendem a atenção do público do início ao fim.</p>
+
+                            <div
+                                class="absolute -right-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors">
                             </div>
-                
+
+                            <div class="relative z-10 text-center md:text-left flex-1 order-2 md:order-1">
+                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Efeitos Sonoros
+                                    (FX)</h3>
+                                <p class="text-zinc-400 text-lg md:text-xl max-w-md mr-auto md:mr-0">Transições e
+                                    impactos cinematográficos que prendem a atenção do público do início ao fim.</p>
+                            </div>
+
                             <div class="flex-shrink-0 z-10 order-1 md:order-2">
                                 <img src="/assets/images/efeitos.png" alt="Efeitos"
                                     class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-700" />
                             </div>
                         </article>
                     </li>
-                
+
                     <li class="group">
                         <article
                             class="relative overflow-hidden bg-zinc-900/40 border border-white/10 backdrop-blur-md hover:border-red-500/40 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] transition-all duration-500 rounded-[2rem] px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16">
-                            
-                            <div class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors"></div>
-                
+
+                            <div
+                                class="absolute -left-20 -top-20 w-64 h-64 bg-red-600/10 blur-[100px] group-hover:bg-red-600/20 transition-colors">
+                            </div>
+
                             <div class="flex-shrink-0 z-10">
                                 <img src="/assets/images/loops.png" alt="Loops"
                                     class="w-48 h-48 object-contain transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-700" />
                             </div>
-                
-                            <div class="relative z-10 text-center md:text-right flex-1">                                
-                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Loops Exclusivos</h3>
-                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Grooves envolventes e texturas rítmicas criadas para preencher o som com energia máxima.</p>
+
+                            <div class="relative z-10 text-center md:text-right flex-1">
+                                <h3 class="text-3xl md:text-4xl font-bold mb-4 font-title text-white">Loops Exclusivos
+                                </h3>
+                                <p class="text-zinc-400 text-lg md:text-xl max-w-md ml-auto">Grooves envolventes e
+                                    texturas rítmicas criadas para preencher o som com energia máxima.</p>
                             </div>
                         </article>
                     </li>
-                
+
                 </ul>
 
                 <h3 id="cards-pack" class="font-title text-2xl lg:text-4xl" tabindex="0">
