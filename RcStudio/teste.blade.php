@@ -5,27 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    
+
     <!-- Meta Tags -->
     <title>Título da Página</title>
     <meta name="description" content="Descrição da página aqui">
     <meta name="keywords" content="música, produção musical, intros, beats, artista, cantor">
     <meta name="author" content="Seu Nome ou Marca">
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="RC Studio - Produção Musical Profissional" />
-    <meta property="og:description"
-        content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
-    <meta property="og:image" content="https://rcstudio.com.br/rc_og_image.jpg" />
-    <meta property="og:url" content="https://rcstudio.com.br/" />
     <meta property="og:type" content="website" />
+<meta property="og:url" content="https://rcstudio.com.br/" />
+<meta property="og:title" content="RC Studio - Produção Musical Profissional" />
+<meta property="og:description" content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
+<meta property="og:image" content="https://rcstudio.com.br/images/og-share-rc.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="RC Studio - Produção Musical Profissional" />
-    <meta name="twitter:description"
-        content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
-    <meta name="twitter:image" content="https://rcstudio.com.br/rc_og_image.jpg" />
-    <meta name="twitter:url" content="https://rcstudio.com.br/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content="https://rcstudio.com.br/" />
+<meta name="twitter:title" content="RC Studio - Produção Musical Profissional" />
+<meta name="twitter:description" content="Arranjos, loops e produção musical profissional para elevar seu show a outro nível." />
+<meta name="twitter:image" content="https://rcstudio.com.br/images/og-share-rc.png" />
 
     <!-- Fonte -->
     <link rel="preconnect" href="https://fonts.bunny.net">
