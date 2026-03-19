@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
+   
 
     <!-- Meta Tags -->
     <title>Título da Página</title>
@@ -114,6 +113,12 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+<!-- Pixel X App - START -->
+<script type='text/javascript'>
+!function(){var e=window.location.href,t=document.title,n=Date.now(),o=document.createElement('script');o.src='https://pxa.rcstudio.com.br/remote?url='+encodeURIComponent(e)+'&title='+encodeURIComponent(t)+'&time='+n,o.async=!0,document.head.appendChild(o)}()
+</script>
+<!-- Pixel X App - END -->
 </head>
 
 <body class="font-sans antialiased">
@@ -483,7 +488,7 @@
             </div>
         </section>
 
-        <section class="relative" role="region" aria-labelledby="valores" id="preco">
+        <section class="relative viewcontent" role="region" aria-labelledby="valores" id="preco">
             <div class="max-w-6xl mx-auto p-4 text-center space-y-8">
 
                 <h2 id="valores"
@@ -531,7 +536,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                                     intro</li>
                                 <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
                                 <li class="font-title font-semibold text-md  line-through text-red-500">Bônus Pack de
-                                    Samplers</li>
+                                    Samples</li>
                                 <li class="font-title font-semibold text-md text-gray-400">Para quem: Primeira intro
                                     profissional</li>
                             </ul>
@@ -553,7 +558,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             shadow-[0_0_25px_rgba(255,0,0,0.6)]
             hover:shadow-[0_0_45px_rgba(255,0,0,1)]
             hover:scale-110
-            transition-all duration-300">
+            transition-all duration-300 IniciateCheckout">
                                     EU QUERO ESSENTIAL
                                 </a>
 
@@ -592,7 +597,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                                 <li class="font-title font-semibold text-md text-gray-400">Mais opções de intro</li>
                                 <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
                                 <li class="font-title font-semibold text-md line-through text-red-500">Bônus Pack de
-                                    Samplers</li>
+                                    Samples</li>
                                 <li class="font-title font-semibold text-md text-gray-400">Para quem: Quer mais punch
                                 </li>
                             </ul>
@@ -614,7 +619,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             shadow-[0_0_25px_rgba(255,0,0,0.6)]
             hover:shadow-[0_0_45px_rgba(255,0,0,1)]
             hover:scale-110
-            transition-all duration-300">
+            transition-all duration-300 IniciateCheckout">
                                     EU QUERO PLUS
                                 </a>
 
@@ -667,7 +672,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                                     <li class="font-title font-semibold text-md text-gray-400">Mais opções de intro
                                     </li>
                                     <li class="font-title font-semibold text-md text-gray-400">Stems individuais</li>
-                                    <li class="font-title font-semibold text-md text-gray-400">Bônus Pack de Samplers
+                                    <li class="font-title font-semibold text-md text-gray-400">Bônus Pack de Samples
                                     </li>
                                     <li class="font-title font-semibold text-md text-gray-400">Para quem: Busca
                                         experiência stadium</li>
@@ -690,7 +695,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
             shadow-[0_0_30px_rgba(255,0,0,0.8)]
             hover:shadow-[0_0_60px_rgba(255,0,0,1)]
             hover:scale-110
-            transition-all duration-300">
+            transition-all duration-300 IniciateCheckout">
                                         EU QUERO ULTIMATE
                                     </a>
 
@@ -772,7 +777,7 @@ drop-shadow-[0_0_20px_rgba(255,80,0,0.7)]">
                                     produção musical, instrumentos e arranjos.</p>
                                 <p class="mb-2"><strong>Intermediários:</strong> Ajuda na criação de novas ideias. Os
                                     Packs funcionam como assistência.</p>
-                                <p><strong>Profissionais:</strong> Modelos prontos de temas e samplers para agilizar
+                                <p><strong>Profissionais:</strong> Modelos prontos de temas e samples para agilizar
                                     processos.</p>
                             </div>
                         </div>

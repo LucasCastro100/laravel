@@ -31,15 +31,26 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div class="my-2">
-            <a href="/">
-                <x-application-logo class="w-full h-20 fill-current" />
-            </a>
-        </div>
+    <div class="min-h-screen w-full flex bg-cover bg-center bg-no-repeat"
+         style="background-image: url('http://127.0.0.1:8000/img/fundo_login.png');background-repeat: no-repeat;background-size: cover;background-position: top;">
 
-        <div class="w-full sm:max-w-md my-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-            {{ $slot }}
+        <div class="w-full flex justify-center md:justify-end items-center">
+
+            <div class="h-full w-full sm:max-w-md bg-gray-100/90 backdrop-blur-md shadow-2xl overflow-hidden border border-white/20 flex flex-col items-center justify-center">
+                
+                <div class="p-8 text-center">
+                    <a href="/">
+                        <x-application-logo class="md:w-1/2 fill-current mx-auto text-gray-800" />
+                    </a>
+                </div>
+
+                <div class="px-8 pb-10">
+                    <div class="text-gray-800">
+                        {{ $slot }}
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </body>
