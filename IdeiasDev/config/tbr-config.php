@@ -2,26 +2,24 @@
 
 return [
     'categories' => [
-        ['id' => 'A1B2C3D4E5F6', 'slug' => 'baby',       'label' => 'Baby',       'modalitie' => 'basic', 'question' => 'basic', 'dp' => 'baby'],
-        ['id' => 'G7H8I9J0K1L2', 'slug' => 'kids1',      'label' => 'Kids 1',     'modalitie' => 'intermediary', 'question' => 'basic', 'dp' => 'kids1'],
-        ['id' => 'M3N4O5P6Q7R8', 'slug' => 'kids2',      'label' => 'Kids 2',     'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'kids2'],
-        ['id' => 'S9T0U1V2W3X4', 'slug' => 'middle1',    'label' => 'Middle 1',   'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'middle'],
-        ['id' => 'Y5Z6A7B8C9D0', 'slug' => 'middle2',    'label' => 'Middle 2',   'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'middle'],
-        ['id' => 'E1F2G3H4I5J6', 'slug' => 'high',       'label' => 'High',       'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'high'],
-        ['id' => 'K7L8M9N0O1P2', 'slug' => 'technic',    'label' => 'Technic',    'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'technic'],
-        ['id' => 'Q3R4S5T6U7V8', 'slug' => 'university', 'label' => 'University', 'modalitie' => 'advanced', 'question' => 'advanced', 'dp' => 'university'],
+        ['id' => 'A1B2C3D4E5F6', 'slug' => 'baby',       'label' => 'Baby',       'modalitie' => 'basic', 'question' => 'basic'],
+        ['id' => 'G7H8I9J0K1L2', 'slug' => 'kids1',      'label' => 'Kids 1',     'modalitie' => 'intermediary', 'question' => 'basic'],
+        ['id' => 'M3N4O5P6Q7R8', 'slug' => 'kids2',      'label' => 'Kids 2',     'modalitie' => 'advanced', 'question' => 'advanced'],
+        ['id' => 'S9T0U1V2W3X4', 'slug' => 'middle1',    'label' => 'Middle 1',   'modalitie' => 'advanced', 'question' => 'advanced'],
+        ['id' => 'Y5Z6A7B8C9D0', 'slug' => 'middle2',    'label' => 'Middle 2',   'modalitie' => 'advanced', 'question' => 'advanced'],
+        ['id' => 'E1F2G3H4I5J6', 'slug' => 'high',       'label' => 'High',       'modalitie' => 'advanced', 'question' => 'advanced'],
+        ['id' => 'K7L8M9N0O1P2', 'slug' => 'technic',    'label' => 'Technic',    'modalitie' => 'advanced', 'question' => 'advanced'],
+        ['id' => 'Q3R4S5T6U7V8', 'slug' => 'university', 'label' => 'University', 'modalitie' => 'advanced', 'question' => 'advanced'],
     ],
 
     'modalities_by_level' => [
         'basic' => [
             ['id' => 'A3F9L2X8Q7M5', 'slug' => 'ap', 'label' => 'Apresentação'],
         ],
-
         'intermediary' => [
             ['id' => 'A3F9L2X8Q7M5', 'slug' => 'ap', 'label' => 'Apresentação'],
             ['id' => 'H1G2F3E4D5C6', 'slug' => 'dp', 'label' => 'Desafio Prático (DP)'],
         ],
-
         'advanced' => [
             ['id' => 'Z9Y8X7W6V5U4', 'slug' => 'mc', 'label' => 'Mérito Científico (MC)'],
             ['id' => 'T3S2R1Q0P9O8', 'slug' => 'om', 'label' => 'Organização e Método (OM)'],
@@ -38,8 +36,6 @@ return [
                 'assessment' => [
                     [
                         'object' => 'Projeto',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             '1. Criatividade - O projeto é inovador e demonstra uma solução criativa.',
                             '2. Qualidade da Solução - O projeto é bem pensado e tem uma boa solução para o problema abordado pela Equipe. A solução está de acordo com o tema TBR.',
@@ -49,8 +45,6 @@ return [
                     ],
                     [
                         'object' => 'Engenharia e Design',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             '1. Compreensão Técnica - A equipe explicou de forma clara e com conhecimento como é o funcionamento do seu projeto.',
                             '2. Conceitos de Engenharia - O projeto mostra evidências de que conceitos de engenharia foram usados.',
@@ -61,8 +55,6 @@ return [
                     ],
                     [
                         'object' => 'Apresentação',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             '1. Demonstração bem sucedida - O projeto funcionou como esperado, e é possivel executá-lo mais de uma vez, se necessário.',
                             '2. Habilidades de comunicação e raciocínio - Os alunos foram capazes de explicar a construção e o desenvolvimento do seu projeto, como ele funciona e por que eles decidiram construí-lo.',
@@ -72,8 +64,6 @@ return [
                     ],
                     [
                         'object' => 'Trabalho em Equipe',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             '1. Resultado de Aprendizagem Unificada - A equipe foi capaz de demonstrar que todos os membros compartilharam igualmente conhecimento durante o processo de aprendizagem.',
                             '2. Inclusão - A equipe foi capaz de demonstrar que todos os membros desempenharam um papel importante na construção e apresentação do seu projeto, como também na dinâmica realizada.',
@@ -92,8 +82,6 @@ return [
                 'assessment' => [
                     [
                         'object' => 'Problema Abordado',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'O problema abordado mostra consistência com o tema central do TBR',
                             'O problema abordado é facilmente verificável e explorável',
@@ -104,8 +92,6 @@ return [
                     ],
                     [
                         'object' => 'Pesquisa do Problema',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'O método de pesquisa é claro, bem definido e executável com facilidade',
                             'A pesquisa está sustentada por dados e informações confiáveis',
@@ -118,8 +104,6 @@ return [
                     ],
                     [
                         'object' => 'Solução Inovadora',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A solução apresentada pode ser entendida como inovadora',
                             'Mais de uma solução foram apresentadas, pesquisadas e analisadas antes da proposição da solução final',
@@ -130,8 +114,6 @@ return [
                     ],
                     [
                         'object' => 'Publicação',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A publicação do trabalho de pesquisa ocorreu de forma ampla',
                             'A publicação do trabalho de pesquisa ocorreu em meios e instrumentos confiáveis',
@@ -149,8 +131,6 @@ return [
                 'assessment' => [
                     [
                         'object' => 'Estratégia Geral',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstra ter entendido os desafios da temporada',
                             'A Equipe estabeleceu estratégia adequada para o enfrentamento dos desafios a que se submeteram',
@@ -161,8 +141,6 @@ return [
                     ],
                     [
                         'object' => 'Organização da Equipe',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A Equipe organizou seus membros para que cada um pudesse dar o seu melhor na realização do Plano de Ações',
                             'A Equipe demonstra união das pessoas em torno de um objetivo comum',
@@ -174,8 +152,6 @@ return [
                     ],
                     [
                         'object' => 'Capacidade Operacional',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'Os membros da Equipe demonstram conhecimento claro em seus domínios de atuação',
                             'Os membros da Equipe sabem o que fazem, pois agem com orientação de seus pares e mentor',
@@ -186,8 +162,6 @@ return [
                     ],
                     [
                         'object' => 'Capacidade de Gestão',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstrou uso racional dos Recursos Materiais empregados',
                             'A Equipe demonstrou Planejamento Financeiro coerente e racional',
@@ -205,8 +179,6 @@ return [
                 'assessment' => [
                     [
                         'object' => 'Abordagem dos Desafios Práticos',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'A Equipe demonstra conhecer os desafios práticos e saber como resolvê-los de forma eficaz',
                             'A Equipe não se mostra tensa frente aos desafios práticos',
@@ -220,8 +192,6 @@ return [
                     ],
                     [
                         'object' => 'Competência Técnica e Tecnológica',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'O robô tem um design bem definido e harmonioso',
                             'O robô é robusto em sua estrutura e flexível no manuseio',
@@ -237,8 +207,6 @@ return [
                     ],
                     [
                         'object' => 'Documentação Técnica',
-                        'image' => '',
-                        'mission' => 0,
                         'description' => [
                             'O caderno de projeto é completo e mostra as diferentes etapas do projeto',
                             'O caderno de projeto relata ossucessos e osinsucessos do projeto',
@@ -248,553 +216,6 @@ return [
                         ]
                     ]
                 ]
-            ]
-        ]
-    ],
-
-    'dp_by_level' => [
-        'baby' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => '',
-                'itens' => [
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ],
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-        ],
-
-        'kids1' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => '',
-                'itens' => [
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ],
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-        ],
-
-        'kids2' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => 'Reintegração Selvagem - Tamanduá',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '70'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '35'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 1,
-                'description' => 'Reintegração Selvagem - Macaco',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '50'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '25'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 2,
-                'description' => 'Reintegração Selvagem - Onça',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '30'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '15'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 3,
-                'description' => 'Renascimento azul',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Sobre Verde',
-                        'value' => '105'
-                    ],
-                    [
-                        'name' => 'Parcilamente Sobre Verde',
-                        'value' => '75'
-                    ],
-                    [
-                        'name' => 'Tocando Sobre Azul',
-                        'value' => '45'
-                    ],
-                    [
-                        'name' => 'Parcilamente Sobre Azul',
-                        'value' => '25'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 4,
-                'description' => 'Reflorestamento',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente Área 1',
-                        'value' => '10'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente Área 1',
-                        'value' => '5'
-                    ],
-                    [
-                        'name' => 'Tocando Somente Área 2',
-                        'value' => '14'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente Área 2',
-                        'value' => '7'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'number',
-                'rules' => true,
-                'bonus' => '40'
-            ],
-            [
-                'image' => '',
-                'mission' => 5,
-                'description' => 'Departamento ecológico',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente',
-                        'value' => '65'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '35'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ],
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ]
-        ],
-
-        'middle' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => 'Reintegração Selvagem - Onça',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '28'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '14'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 1,
-                'description' => 'Reintegração Selvagem - Macaco',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '24'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '12'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 2,
-                'description' => 'Reintegração Selvagem - Tamanduá',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Totalmente',
-                        'value' => '20'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '10'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 3,
-                'description' => 'Renascimento azul',
-                'itens' => [
-                    [
-                        'name' => 'Totalmente Sobre O Verde',
-                        'value' => '40'
-                    ],
-                    [
-                        'name' => 'Parcialmente Sobre O Verde',
-                        'value' => '25'
-                    ],
-                    [
-                        'name' => 'Totalmente Sobre O Azul',
-                        'value' => '15'
-                    ],
-                    [
-                        'name' => 'Parcialmente Sobre O Azul',
-                        'value' => '10'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 4,
-                'description' => 'Liberdade Selvagem',
-                'itens' => [
-                    [
-                        'name' => 'Jaula Aberta',
-                        'value' => '43'
-                    ],
-                    [
-                        'name' => 'Jaula Fechada',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 5,
-                'description' => 'Sistema de Monitoramento',
-                'itens' => [
-                    [
-                        'name' => 'Acionado',
-                        'value' => '45'
-                    ],
-                    [
-                        'name' => 'Não Acionado',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 6,
-                'description' => 'Reflorestamento',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente Área 1',
-                        'value' => '6'
-                    ],
-                    [
-                        'name' => 'Tocando Parcilamente Área 1',
-                        'value' => '3'
-                    ],
-                    [
-                        'name' => 'Tocando Somente Área 2',
-                        'value' => '13'
-                    ],
-                    [
-                        'name' => 'Tocando Parcilamente Área 2',
-                        'value' => '7'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'number',
-                'rules' => true,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 7,
-                'description' => 'Corredor Ecológico',
-                'itens' => [
-                    [
-                        'name' => 'Acionado',
-                        'value' => '40'
-                    ],
-                    [
-                        'name' => 'Não Acionado',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 8,
-                'description' => 'Departamento ecológico',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente',
-                        'value' => '40'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '20'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 9,
-                'description' => 'Missão Maker',
-                'itens' => [
-                    [
-                        'name' => 'Realizado',
-                        'value' => '70'
-                    ],
-                    [
-                        'name' => 'Não Realizado',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ]
-        ],
-
-        'high' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => 'Expresso Ecológico',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente',
-                        'value' => '55'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialemnte',
-                        'value' => '25'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'number',
-                'rules' => true,
-                'bonus' => '50'
-            ],
-            [
-                'image' => '',
-                'mission' => 1,
-                'description' => 'Reflorestamento Sementes',
-                'itens' => [
-                    [
-                        'name' => 'Tocando A Mesma Cor',
-                        'value' => '15'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'number',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 2,
-                'description' => 'Reflorestamento - Condição Caixa',
-                'itens' => [
-                    [
-                        'name' => 'Totalmente Dentro',
-                        'value' => '10'
-                    ],
-                    [
-                        'name' => 'Parcilamente Dentro',
-                        'value' => '5'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'number',
-                'rules' => false,
-                'bonus' => '0'
-            ],
-            [
-                'image' => '',
-                'mission' => 3,
-                'description' => 'Departamento ecológico',
-                'itens' => [
-                    [
-                        'name' => 'Tocando Somente',
-                        'value' => '80'
-                    ],
-                    [
-                        'name' => 'Tocando Parcialmente',
-                        'value' => '40'
-                    ],
-                    [
-                        'name' => 'Outro',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ]
-        ],
-
-        'technic' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => '',
-                'itens' => [
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ],
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
-            ]
-        ],
-
-        'university' => [
-            [
-                'image' => '',
-                'mission' => 0,
-                'description' => '',
-                'itens' => [
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ],
-                    [
-                        'name' => '',
-                        'value' => '0'
-                    ]
-                ],
-                'type' => 'radio',
-                'rules' => false,
-                'bonus' => '0'
             ]
         ]
     ]

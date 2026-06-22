@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'system.access' => \App\Http\Middleware\CheckSystemAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

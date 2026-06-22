@@ -16,7 +16,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Icones -->
-    <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
     @livewireStyles
@@ -49,6 +48,12 @@
     @stack('modals')
 
     @livewireScripts
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5534991535839" target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
 </body>
 
 </html>

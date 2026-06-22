@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="bg-gray-900 border-b border-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -16,9 +16,35 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.dashboard')">
-                        {{ __('Tbr') }}
-                    </x-nav-link>
+                    @php
+                        $userSystem = Auth::user()->system;
+                        $systemSlug = $userSystem?->slug;
+                        $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
+                    @endphp
+
+                    @if ($systemSlug === 'tbr' || $canViewAll)
+                        <x-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
+                            {{ __('TBR') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if ($systemSlug === 'financeiro' || $canViewAll)
+                        <x-nav-link href="{{ route('financeiro.dashboard') }}" :active="request()->routeIs('financeiro.*')">
+                            {{ __('Financeiro') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if ($systemSlug === 'clientes' || $canViewAll)
+                        <x-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
+                            {{ __('Clientes') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if ($canViewAll)
+                        <x-nav-link href="{{ route('admin.systems') }}" :active="request()->routeIs('admin.systems')">
+                            {{ __('Sistemas') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -29,8 +55,8 @@
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
-                                        {{ Auth::user()->currentTeam->name }}
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-400 bg-gray-900 hover:text-gray-200 focus:outline-none focus:bg-gray-800 active:bg-gray-800 transition ease-in-out duration-150">
+                                        {{ Auth::user()->currentTeam?->name ?? 'Sem time' }}
 
                                         <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
@@ -47,9 +73,11 @@
                                     </div>
 
                                     <!-- Team Settings -->
+                                    @if (Auth::user()->currentTeam)
                                     <x-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
                                         {{ __('Team Settings') }}
                                     </x-dropdown-link>
+                                    @endif
 
                                     @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                                         <x-dropdown-link href="{{ route('teams.create') }}">
@@ -85,7 +113,7 @@
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-400 bg-gray-900 hover:text-gray-200 focus:outline-none focus:bg-gray-800 active:bg-gray-800 transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
 
                                         <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -99,18 +127,14 @@
                         <x-slot name="content">
                             <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                                Gerenciar Conta
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                Perfil
                             </x-dropdown-link>
 
-                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                    {{ __('API Tokens') }}
-                                </x-dropdown-link>
-                            @endif
+                            {{-- API Tokens desabilitado --}}
 
                             <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
@@ -120,7 +144,7 @@
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+Sair
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -130,7 +154,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-gray-200 transition duration-150 ease-in-out">
                     <svg class="size-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -146,6 +170,36 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @php
+                $userSystem = Auth::user()->system;
+                $systemSlug = $userSystem?->slug;
+                $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
+            @endphp
+
+            @if ($systemSlug === 'tbr' || $canViewAll)
+                <x-responsive-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
+                    {{ __('TBR') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if ($systemSlug === 'financeiro' || $canViewAll)
+                <x-responsive-nav-link href="{{ route('financeiro.dashboard') }}" :active="request()->routeIs('financeiro.*')">
+                    {{ __('Financeiro') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if ($systemSlug === 'clientes' || $canViewAll)
+                <x-responsive-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
+                    {{ __('Clientes') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if ($canViewAll)
+                <x-responsive-nav-link href="{{ route('admin.systems') }}" :active="request()->routeIs('admin.systems')">
+                    {{ __('Sistemas') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -166,14 +220,10 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    Perfil
                 </x-responsive-nav-link>
 
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-responsive-nav-link>
-                @endif
+                {{-- API Tokens desabilitado --}}
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}" x-data>
@@ -194,9 +244,11 @@
                     </div>
 
                     <!-- Team Settings -->
+                    @if (Auth::user()->currentTeam)
                     <x-responsive-nav-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
                         {{ __('Team Settings') }}
                     </x-responsive-nav-link>
+                    @endif
 
                     @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                         <x-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">

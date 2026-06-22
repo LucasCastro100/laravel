@@ -1,0 +1,246 @@
+<?php
+
+// Web Controllers
+use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\TesteRepresentacionalController;
+
+// Dashboard Controllers
+use App\Http\Controllers\Dashboard\AdminController;
+use App\Http\Controllers\Dashboard\AssessmentController;
+use App\Http\Controllers\Dashboard\ClassroomController;
+use App\Http\Controllers\Dashboard\CommentController;
+use App\Http\Controllers\Dashboard\CommentReplyController;
+use App\Http\Controllers\Dashboard\CourseController;
+use App\Http\Controllers\Dashboard\MatriculationCourseController;
+use App\Http\Controllers\Dashboard\MatriculationTestController;
+use App\Http\Controllers\Dashboard\ModuleController;
+use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\StudentController;
+use App\Http\Controllers\Dashboard\TeacherController;
+use App\Http\Controllers\Dashboard\TestController;
+use App\Http\Controllers\Dashboard\CertificateController;
+use App\Http\Controllers\Eduz\CourseController as EduzCourseController;
+// Demais Controllers
+use App\Http\Controllers\StripeController;
+
+
+use Illuminate\Support\Facades\Route;
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::controller(HomeController::class)->group(function () {
+//     Route::get('/', 'index')->name('home.index');
+// });
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::controller(TesteRepresentacionalController::class)->group(function () {
+    Route::get('/teste-representacional', 'index')->name('teste.representacional.index');
+    Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
+
+    Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
+});
+
+Route::controller(StripeController::class)->group(function () {
+
+    // // Página do checkout
+    // Route::get('/checkout/{uuid}', 'checkoutForm')->name('checkout.form');
+
+    // // Criação do PaymentIntent (API)
+    // Route::post('/create-payment-intent', 'createPaymentIntent')->name('stripe.paymentIntent');
+
+    // // Redirecionamento após pagamento
+    // Route::get('/success', 'success')->name('payment.success');
+
+    // // Página de cancelamento
+    // Route::get('/cancel', 'cancel')->name('payment.cancel');
+
+    // // Webhook Stripe
+    // Route::post('/stripe/webhook', 'webhook')->name('stripe.webhook');
+
+    Route::get('/checkout/{uuid}', 'checkoutPage')->name('checkout.page');
+    Route::post('/checkout/{uuid}/create', 'createCheckoutSession')->name('checkout.create');
+    Route::get('/checkout/{uuid}/success', 'success')->name('checkout.success');
+    Route::get('/checkout/{uuid}/cancel', 'cancel')->name('checkout.cancel');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::controller(ClassroomController::class)->group(function () {
+        Route::post('/completar-aula/{uuid_classroom}', 'completeClassroom')->name('classroom.completeClassroom');
+    });
+
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/perfil', 'edit')->name('profile.edit');
+
+        Route::patch('/perfil', 'update')->name('profile.update');
+
+        Route::delete('/perfil', 'destroy')->name('profile.destroy');
+    });
+
+    Route::prefix('painel-aluno')->middleware(['role:1'])->group(function () {
+        Route::controller(StudentController::class)->group(function () {
+            Route::get('/', 'dashBoard')->name('student.dashBoard');
+            Route::get('/todos-cursos', 'allCourses')->name('student.allCourses');
+            Route::get('/meus-cursos', 'myCourses')->name('student.myCourses');
+            Route::get('/meus-testes', 'myTests')->name('student.myTests');
+            Route::get('/meus-testes/resultado', 'resultTest')->name('student.resultTest');
+            Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');
+            Route::get('/duvidas', 'duvidas')->name('student.duvidas');
+            Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
+
+            Route::post('/meu-teste/salvar', 'saveTest')->name('student.saveTest');
+        });
+
+        Route::controller(AssessmentController::class)->group(function () {
+            Route::post('/avaliacoes', 'store')->name('assessment.store');
+
+            Route::delete('/avaliacoes/{id}', 'destroy')->name('assessment.destroy');
+        });
+
+        Route::controller(MatriculationCourseController::class)->group(function () {
+            Route::post('/matricula-curso/{course_uuid}/{user_uuid}', 'store')->name('matriculation.course.store');
+
+            Route::delete('/matriculas-curso/{id}', 'destroy')->name('matriculation.course.destroy');
+        });
+
+        Route::controller(MatriculationTestController::class)->group(function () {
+            Route::post('/matricula-teste/{test_uuid}/{user_uuid}', 'store')->name('matriculation.test.store');
+
+            Route::delete('/matriculas-teste/{id}', 'destroy')->name('matriculation.test.destroy');
+        });
+
+        Route::controller(ClassroomController::class)->group(function () {
+            Route::get('/aula/{uuid_classroom}', 'show')->name('student.classroom.show');
+
+            Route::post('/aula', 'store')->name('classroom.store');
+
+            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
+
+            Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
+        });
+
+        Route::controller(CommentController::class)->group(function () {
+            Route::get('/comentarios', 'index')->name('comment.index');
+            Route::get('/comentarios/{uuid_classroom}/{id}', 'show')->name('comment.classroomShow');
+
+            Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
+
+            Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
+        });
+
+        Route::controller(CommentReplyController::class)->group(function () {
+            Route::post('/comments/{comment}/reply', 'store')->name('comments.reply');
+        });
+
+        Route::controller(CertificateController::class)->group(function () {
+            Route::get('/certificado/{courseUuid}', 'generate')->name('student.certificate');
+        });
+    });
+
+    // Rotas da área do professor
+    Route::prefix('painel-professor')->middleware(['role:2'])->group(function () {
+        Route::controller(TeacherController::class)->group(function () {
+            Route::get('/', 'dashBoard')->name('teacher.dashBoard');
+            Route::get('/meus-cursos', 'myCourses')->name('teacher.myCourses');
+            Route::get('/meus-testes', 'myTests')->name('teacher.myTests');
+            Route::get('/meus-testes/relatorio', 'report')->name('teacher.report');
+        });
+
+        Route::controller(CourseController::class)->group(function () {
+            Route::get('/cursos', 'index')->name('course.index');
+            Route::get('/curso/{uuid}', 'show')->name('course.show');
+
+            Route::post('/curso', 'store')->name('course.store');
+
+            Route::put('/curso/{uuid}', 'update')->name('course.update');
+
+            Route::delete('/curso/{uuid}', 'destroy')->name('course.destroy');
+        });
+
+        Route::controller(ModuleController::class)->group(function () {
+            Route::get('/modulo/{uuid_module}', 'index')->name('module.show');
+
+            Route::post('/modulo/{uuid_course}', 'store')->name('module.store');
+
+            Route::put('/modulo/{uuid_module}', 'update')->name('module.update');
+
+            Route::delete('/modulo/{uuid_module}', 'destroy')->name('module.destroy');
+        });
+
+        Route::controller(TestController::class)->group(function () {
+            Route::get('/testes', 'index')->name('test.index');
+            Route::get('/teste/{uuid}', 'show')->name('test.show');
+
+            Route::post('/testes', 'store')->name('test.store');
+
+            Route::put('/teste/{uuid}', 'update')->name('test.update');
+
+            Route::delete('/teste/{uuid}', 'destroy')->name('test.destroy');
+        });
+
+        Route::controller(ClassroomController::class)->group(function () {
+            Route::get('/aula/{uuid_classroom}', 'show')->name('tacher.classroom.show');
+
+            Route::post('/aula', 'store')->name('classroom.store');
+
+            Route::put('/aula/{uuid_classroom}/editar', 'update')->name('classroom.update');
+
+            Route::delete('/aula/{uuid_classroom}', 'destroy')->name('classroom.destroy');
+        });
+
+        Route::controller(CommentController::class)->group(function () {
+            Route::get('/comentarios', 'index')->name('comment.index');
+            Route::get('/comentarios/{uuid_classroom}/{id}', 'show')->name('comment.classroomShow');
+
+            Route::post('/comentarios/{uuid_classroom}', 'store')->name('comment.store');
+
+            Route::delete('/comentarios/{id}', 'destroy')->name('comment.destroy');
+        });
+
+        Route::controller(CommentReplyController::class)->group(function () {
+            Route::get('/comments/{comment}/reply', 'show')->name('comments.reply.show');
+            Route::post('/comments/{comment}/reply', 'store')->name('comments.reply.store');
+        });
+
+        Route::controller(EduzCourseController::class)->group(function () {
+            Route::get('/eduzz/account', 'account')->name('eduzz.courses.account');
+            Route::get('/eduzz/index', 'index')->name('eduzz.courses.index');
+        });
+
+        // Gerenciamento de alunos do professor
+        Route::controller(TeacherController::class)->group(function () {
+            Route::get('/alunos', 'students')->name('teacher.students');
+            Route::get('/alunos/criar', 'createStudent')->name('teacher.students.create');
+            Route::post('/alunos', 'storeStudent')->name('teacher.students.store');
+            Route::get('/curso/{uuid}/vincular-alunos', 'linkCourse')->name('teacher.linkCourse');
+            Route::post('/curso/{uuid}/vincular-alunos', 'storeLinkCourse')->name('teacher.storeLinkCourse');
+            Route::delete('/curso/{courseUuid}/vincular-alunos/{userUuid}', 'destroyLinkCourse')->name('teacher.destroyLinkCourse');
+        });
+    });
+
+    // Rotas da área do administrador
+    Route::prefix('painel-admin')->middleware(['role:3'])->group(function () {
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('/', 'dashBoard')->name('admin.dashBoard');
+            Route::get('/comentarios', 'comentarios')->name('admin.comentarios');
+            Route::get('/avaliacoes', 'avaliacoes')->name('admin.avaliacoes');
+
+            Route::post('/comentarios/{id}/responder', 'responderComentario')->name('admin.responderComentario');
+            Route::post('/avaliacoes/{id}/responder', 'responderAvaliacao')->name('admin.responderAvaliacao');
+
+            // Gerenciamento de usuários
+            Route::get('/usuarios', 'users')->name('admin.users');
+            Route::get('/usuarios/criar', 'createUser')->name('admin.users.create');
+            Route::post('/usuarios', 'storeUser')->name('admin.users.store');
+            Route::get('/usuarios/{uuid}/editar', 'editUser')->name('admin.users.edit');
+            Route::put('/usuarios/{uuid}', 'updateUser')->name('admin.users.update');
+            Route::delete('/usuarios/{uuid}', 'destroyUser')->name('admin.users.destroy');
+        });
+    });
+});
+
+require __DIR__ . '/auth.php';

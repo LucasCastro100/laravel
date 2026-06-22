@@ -31,7 +31,6 @@
   
 
     <!-- Ícones -->
-    <script src="https://kit.fontawesome.com/5ae086a3a0.js" crossorigin="anonymous"></script>
 
     <style>
         #site-header,

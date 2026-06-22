@@ -29,6 +29,19 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <div class="mt-4">
+                <x-label for="system_id" value="{{ __('Sistema') }}" />
+                <select id="system_id" name="system_id" required
+                    class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                    <option value="">Selecione um sistema</option>
+                    @foreach (\App\Models\System::where('active', true)->get() as $system)
+                        <option value="{{ $system->id }}" {{ old('system_id') == $system->id ? 'selected' : '' }}>
+                            {{ $system->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">

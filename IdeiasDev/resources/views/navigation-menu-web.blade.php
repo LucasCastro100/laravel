@@ -1,5 +1,5 @@
 <div>
-    <header class="max-w-7xl mx-auto px-4 text-sm p-4 not-has-[nav]:hidden">
+    <header class="max-w-7xl mx-auto px-4 text-sm p-4">
         @if (Route::has('login'))
             <nav class="flex items-center justify-end gap-4">
                 <x-nav-link :href="route('web.home')" :active="request()->routeIs('web.home')" wire:navigate>

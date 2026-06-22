@@ -1,0 +1,109 @@
+<div>
+    <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl mb-6">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-100">Gastos</h1>
+            <button wire:click="openModal" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                + Novo Gasto
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden w-full">
+        <table class="w-full text-sm text-left text-gray-400">
+            <thead class="text-xs uppercase bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-3 ">Descrição</th>
+                        <th class="px-6 py-3 ">Valor</th>
+                        <th class="px-6 py-3 ">Mês</th>
+                        <th class="px-6 py-3 text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800">
+                    @forelse ($accounts as $acc)
+                        <tr class="hover:bg-gray-800/50">
+                            <td class="px-6 py-4 text-white">{{ $acc->description }}</td>
+                        <td class="px-6 py-4 font-medium text-red-400">
+                            R$ {{ number_format($acc->value, 2, ',', '.') }}
+                        </td>
+                        <td class="px-6 py-4">{{ str_pad($acc->month, 2, '0', STR_PAD_LEFT) }}/{{ $acc->year }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <div class="flex items-center justify-end gap-1">
+                                <button wire:click="edit({{ $acc->id }})" class="p-1.5 text-blue-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button wire:click="delete({{ $acc->id }})" wire:confirm="Tem certeza?" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                            <td colspan="4" class="px-6 py-12  text-gray-500">Nenhum gasto encontrado.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    @if ($showModal)
+        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <h3 class="text-lg font-semibold text-white mb-4">{{ $accountId ? 'Editar' : 'Novo' }} Gasto</h3>
+                <form wire:submit="save">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Descrição</label>
+                            <input wire:model="description" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                            @error('description') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Valor (R$)</label>
+                            <input x-data="{ display: '' }"
+                                x-init="display = $wire.value ? parseFloat($wire.value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''"
+                                x-on:input="
+                                    let v = $event.target.value.replace(/\D/g, '');
+                                    if (v.length === 0) { display = ''; $wire.set('value', ''); return; }
+                                    let n = (parseInt(v) / 100).toFixed(2);
+                                    display = n.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                    $wire.set('value', parseFloat(n));
+                                "
+                                x-bind:value="display"
+                                inputmode="numeric" placeholder="0,00"
+                                class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                            @error('value') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-1">Mês</label>
+                                <select wire:model="month" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                                    @foreach (range(1, 12) as $m)
+                                        <option value="{{ $m }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</option>
+                                    @endforeach
+                                </select>
+                                @error('month') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-1">Ano</label>
+                                <select wire:model="year" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                                    @foreach (range(now()->year - 2, now()->year + 2) as $y)
+                                        <option value="{{ $y }}">{{ $y }}</option>
+                                    @endforeach
+                                </select>
+                                @error('year') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-1">Observações</label>
+                            <textarea wire:model="notes" rows="2" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" wire:click="$set('showModal', false)" class="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600">Cancelar</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+</div>

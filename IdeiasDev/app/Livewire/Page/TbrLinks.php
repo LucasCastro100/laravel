@@ -3,8 +3,9 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Jetstream\InteractsWithBanner;
+use App\Models\Category;
+use App\Models\Event;
 
 class TbrLinks extends Component
 {
@@ -16,12 +17,8 @@ class TbrLinks extends Component
     public $event_id;
     public $event;
 
-    // Guarda categorias filtradas junto com suas modalidades
     public array $categoriesWithModalities = [];
 
-    /**
-     * Inicializa o componente, carregando o evento e as categorias com modalidades.
-     */
     public function mount($event_id)
     {
         $this->event_id = $event_id;
@@ -29,80 +26,35 @@ class TbrLinks extends Component
         $this->categoriesWithModalities = $this->loadCategoriesAndModalities();
     }
 
-    /**
-     * Carrega os dados do evento a partir do JSON, buscando pelo ID informado.
-     * Se o arquivo não existir, exibe um banner de erro.
-     */
     private function loadEvent()
     {
-        $jsonPath = 'tbr/json/data.json';
+        $this->event = Event::with('teams')->find($this->event_id);
 
-        if (Storage::disk('public')->exists($jsonPath)) {
-            $events = json_decode(Storage::disk('public')->get($jsonPath), true) ?? [];
-            $this->event = collect($events)->firstWhere('id', $this->event_id);
-        } else {
-            $this->dangerBanner('Arquivo não encontrado');
+        if (!$this->event) {
+            $this->dangerBanner('Evento não encontrado');
         }
     }
 
-    /**
-     * Retorna um array com o nome do evento e as categorias com suas modalidades,
-     * filtrando somente as categorias das equipes presentes no evento.
-     */
     public function loadCategoriesAndModalities()
     {
-        $teams = $this->event['equipes'] ?? [];
+        if (!$this->event) return [];
 
-        // Obtém slugs únicos das categorias das equipes
-        $categorySlugs = $this->getUniqueCategorySlugs($teams);
+        $teams = $this->event->teams;
 
-        // Filtra as categorias configuradas que correspondem aos slugs do evento
-        $filteredCategories = $this->getFilteredCategories($categorySlugs);
+        $categorySlugs = $teams->pluck('category_slug')->unique()->values();
 
-        // Formata as categorias com as modalidades
-        $categoriesWithModalities = $this->formatCategoriesWithModalities($filteredCategories);
-
-        return [
-            'event_id' => $this->event['id'],            
-            'event' => $this->event['nome'],            
-            'links' => $categoriesWithModalities,
-        ];
-    }
-
-    /**
-     * Retorna os slugs únicos das categorias encontradas nas equipes do evento.
-     */
-    private function getUniqueCategorySlugs(array $teams)
-    {
-        return collect($teams)
-            ->pluck('category')
-            ->unique()
-            ->values();
-    }
-
-    /**
-     * Filtra as categorias da configuração para retornar somente as que possuem slug no array dado.
-     */
-    private function getFilteredCategories($categorySlugs)
-    {
-        $configCategories = collect(config('tbr-config.categories'));
-
-        return $configCategories->filter(function ($category) use ($categorySlugs) {
-            return $categorySlugs->contains($category['slug']);
-        })->values();
-    }
-
-    /**
-     * Formata as categorias filtradas adicionando as modalidades correspondentes
-     * baseadas no nível da categoria.
-     */
-    private function formatCategoriesWithModalities($filteredCategories)
-    {
+        $configCategories = Category::orderBy('sort_order')->get()->map(fn($c) => [
+            'id' => $c->id, 'slug' => $c->slug, 'label' => $c->label,
+            'modalitie' => $c->modality_level, 'question' => $c->question_level, 'dp' => $c->dp_level,
+        ]);
         $modalitiesByLevel = config('tbr-config.modalities_by_level');
 
-        return $filteredCategories->map(function ($category) use ($modalitiesByLevel) {
-            $level = $category['modalitie'] ?? null;
+        $filteredCategories = $configCategories->filter(function ($category) use ($categorySlugs) {
+            return $categorySlugs->contains($category['slug']);
+        })->values();
 
+        $links = $filteredCategories->map(function ($category) use ($modalitiesByLevel) {
+            $level = $category['modalitie'] ?? null;
             $modalities = $level && isset($modalitiesByLevel[$level])
                 ? $modalitiesByLevel[$level]
                 : [];
@@ -120,18 +72,20 @@ class TbrLinks extends Component
                 'modalities' => $modalitiesFormatted,
             ];
         })->values()->toArray();
+
+        return [
+            'event_id' => $this->event->id,
+            'event' => $this->event->name,
+            'links' => $links,
+        ];
     }
 
-    /**
-     * Renderiza a view com as categorias e modalidades já carregadas.
-     */
     public function render()
     {
         return view('livewire.page.tbr-links', [
             'categoriesWithModalities' => $this->categoriesWithModalities,
-            'status' => $this->event['status'],
-        ])->layout('layouts.app-sidebar', [
-            'showSidebar' => $this->showSidebar,
+            'status' => $this->event?->status,
+        ])->layout('layouts.app-tbr-public', [
             'title' => $this->title,
         ]);
     }

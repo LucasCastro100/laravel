@@ -26,11 +26,26 @@ class OptimizeAll extends Command
      */
     public function handle()
     {
-        $this->call('config:cache');
-        $this->call('route:cache');
-        $this->call('view:cache');
-        $this->call('event:cache');
-        
-        Log::info('Comando optimize:all executado — config, rotas, views e eventos recompilados.');
+        $this->info('🧹 Iniciando limpeza profunda do sistema...');
+    
+        $commands = [
+            'cache:clear' => 'Cache limpo',
+            'config:clear' => 'Configurações limpas',
+            'route:clear' => 'Rotas limpas',
+            'view:clear' => 'Views limpas',
+            'event:clear' => 'Eventos limpos',
+            'schedule:clear-cache' => 'Cache do scheduler limpo',
+            'optimize:clear' => 'Otimizações limpas'
+        ];
+    
+        foreach ($commands as $cmd => $message) {
+            $this->call($cmd);
+            $this->line("  <info>✔</info> {$message}");
+        }
+    
+        Log::info('Comando clear:all executado com sucesso.');
+        $this->info('✅ Limpeza concluída!');
     }
 }
+
+//php artisan optimize:all
