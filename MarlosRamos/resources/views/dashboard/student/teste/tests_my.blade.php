@@ -1,4 +1,4 @@
-@php
+﻿@php
     // Verifica se $test existe e tem o atributo 'answers'
     $answers = [];
 
@@ -15,7 +15,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="flex flex-col gap-8">
                     <div>
@@ -53,13 +53,13 @@
 
                                         <div class="flex flex-col md:flex-row gap-2 mt-2">
                                             <input type="number"
-                                                class="flex border-0 border-b-2 border-black focus:ring-0 focus:border-black focus:outline-none text-gray-200"
+                                                class="w-16 bg-white border-0 border-b-2 border-gray-400 focus:ring-0 focus:border-blue-500 focus:outline-none text-gray-900 placeholder-gray-400 rounded-t-md px-2 py-1"
                                                 name="{{ $option['id'] }}" id="{{ $option['id'] }}"
                                                 data-channel="{{ $option['channel'] }}" min="1" max="4"
                                                 value="{{ $value }}"
                                                 @if (!empty($answers)) disabled @endif>
                                             <label for="{{ $option['id'] }}"
-                                                class="flex flex-1 text-white items-end">
+                                                class="flex flex-1 text-gray-200 items-end">
                                                 {{ $option['text'] }}
                                             </label>
                                         </div>
@@ -119,3 +119,5 @@
     </script>
 
 </x-app-layout>
+
+

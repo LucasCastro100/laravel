@@ -23,6 +23,7 @@ class FinanceiroDashboard extends Component
     public $despesaChangePercent = 0;
     public $monthlyTrend = [];
     public $topCategories = [];
+    public $topAccountTypes = [];
     public $recentTransactions;
 
     public function mount()
@@ -113,6 +114,22 @@ class FinanceiroDashboard extends Component
             ])
             ->toArray();
 
+        // Top account types by total value (expenses)
+        $this->topAccountTypes = FinancialTransaction::where('user_id', $userId)
+            ->where('paid', true)->where('value', '<', 0)
+            ->whereNotNull('account_type_id')
+            ->select('account_type_id', DB::raw('SUM(ABS(value)) as total'))
+            ->with('accountType')
+            ->groupBy('account_type_id')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get()
+            ->map(fn($t) => [
+                'name' => $t->accountType?->name ?? 'Sem tipo',
+                'value' => (float) $t->total,
+            ])
+            ->toArray();
+
         $this->recentTransactions = FinancialTransaction::where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->limit(10)
@@ -121,9 +138,10 @@ class FinanceiroDashboard extends Component
 
     public function render()
     {
-        return view('livewire.page.financeiro-dashboard', [
+        return view('livewire.page.financeiro.dashboard', [
             'monthlyTrendJson' => json_encode($this->monthlyTrend),
             'topCategoriesJson' => json_encode($this->topCategories),
+            'topAccountTypesJson' => json_encode($this->topAccountTypes),
         ])->layout('layouts.app-sidebar', [
                 'showSidebar' => true,
                 'title' => 'Dashboard Financeiro',

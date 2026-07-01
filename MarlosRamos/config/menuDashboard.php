@@ -10,20 +10,26 @@ return [
         ],
         [
             'icon' => 'fa-solid fa-users-cog',
-            'name' => 'Gerenciar Usuários',
+            'name' => 'Usuários',
             'route' => 'admin.users',
             'role' => 3
         ],
         [
             'icon' => 'fa-solid fa-chalkboard-teacher',
-            'name' => 'Gerenciar Cursos',
+            'name' => 'Cursos',
             'route' => 'course.index',
             'role' => 3
         ],
         [
             'icon' => 'fa-solid fa-list-check',
-            'name' => 'Gerenciar Testes',
+            'name' => 'Testes',
             'route' => 'test.index',
+            'role' => 3
+        ],
+        [
+            'icon' => 'fa-solid fa-circle-question',
+            'name' => 'Dúvidas',
+            'route' => 'admin.contacts',
             'role' => 3
         ],
     ],
@@ -36,26 +42,32 @@ return [
         ],
         [
             'icon' => 'fa-solid fa-list-check',
-            'name' => 'Gerenciar Testes',
+            'name' => 'Testes',
             'route' => 'teacher.myTests',
             'role' => 2
         ],
         [
             'icon' => 'fa-solid fa-chalkboard-teacher',
-            'name' => 'Gerenciar Cursos',
+            'name' => 'Cursos',
             'route' => 'teacher.myCourses',
             'role' => 2
         ],
         [
             'icon' => 'fa-solid fa-comments',
-            'name' => 'Gerenciar Comentários',
+            'name' => 'Comentários',
             'route' => 'comment.index',
             'role' => 2
         ],
         [
             'icon' => 'fa-solid fa-user-plus',
-            'name' => 'Gerenciar Alunos',
+            'name' => 'Alunos',
             'route' => 'teacher.students',
+            'role' => 2
+        ],
+        [
+            'icon' => 'fa-solid fa-circle-question',
+            'name' => 'Dúvidas',
+            'route' => 'teacher.contacts',
             'role' => 2
         ],
     ],
@@ -76,6 +88,12 @@ return [
             'icon' => 'fa-solid fa-pencil',
             'name' => 'Meus Testes',
             'route' => 'student.myTests',
+            'role' => 1
+        ],
+        [
+            'icon' => 'fa-solid fa-circle-question',
+            'name' => 'Dúvidas',
+            'route' => 'student.duvidas',
             'role' => 1
         ],
     ]

@@ -12,11 +12,21 @@ class TbrDashboard extends Component
     public $title = 'TBR - Dashboard';
     public $events = [];
     public $totalTeams = 0;
+    public $completedEvents = 0;
     public $teamsByCategory = [];
 
-    protected $listeners = ['eventCreated' => 'loadEvents'];
+    protected $listeners = [
+        'eventCreated' => 'loadEvents',
+        'teams-updated' => 'refreshTeamsData',
+    ];
 
     public function mount()
+    {
+        $this->loadStats();
+        $this->loadEvents();
+    }
+
+    public function refreshTeamsData(): void
     {
         $this->loadStats();
         $this->loadEvents();
@@ -25,6 +35,7 @@ class TbrDashboard extends Component
     public function loadStats(): void
     {
         $this->totalTeams = Team::count();
+        $this->completedEvents = Event::where('status', true)->count();
 
         $this->teamsByCategory = Category::orderBy('sort_order')
             ->get()
@@ -42,14 +53,18 @@ class TbrDashboard extends Component
 
     public function loadEvents(): void
     {
-        $this->events = Event::orderBy('date', 'desc')->get()->toArray();
+        $this->events = Event::withCount('teams')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->toArray();
     }
 
     public function render()
     {
-        return view('livewire.page.tbr-dashboard', [
-            'events' => $this->events ?? [],
+        return view('livewire.page.tbr.dashboard', [
+            'events' => array_slice($this->events ?? [], 0, 4),
             'teamsByCategoryJson' => json_encode($this->teamsByCategory),
+            'totalEvents' => count($this->events ?? []),
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => true,
             'title' => $this->title,

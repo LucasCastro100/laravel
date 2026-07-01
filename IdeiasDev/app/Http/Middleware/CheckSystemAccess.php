@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,7 +13,11 @@ class CheckSystemAccess
     {
         $user = $request->user();
 
-        if (!$user || $user->isSuperAdmin()) {
+        if (!$user) {
+            throw new AuthenticationException('Unauthenticated.');
+        }
+
+        if ($user->isSuperAdmin()) {
             return $next($request);
         }
 

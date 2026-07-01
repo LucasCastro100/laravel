@@ -17,6 +17,7 @@
                         <th class="px-6 py-3 ">Email</th>
                         <th class="px-6 py-3 ">Telefone</th>
                         <th class="px-6 py-3 ">Documento</th>
+                        <th class="px-6 py-3 ">Aniversário</th>
                         <th class="px-6 py-3 ">Total Arrecadado</th>
                         <th class="px-6 py-3 text-right">Ações</th>
                     </tr>
@@ -35,10 +36,11 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-white">{{ $client->name }}</td>
+                            <td class="px-6 py-4 text-white">{{ $client->name ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $client->email ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $client->phone ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $client->document ?? '-' }}</td>
+                            <td class="px-6 py-4">{{ $client->birth_date ? $client->birth_date->format('d/m/Y') : '-' }}</td>
                             <td class="px-6 py-4 text-green-400 font-medium">
                                 R$ {{ number_format($client->total_revenue ?? 0, 2, ',', '.') }}
                             </td>
@@ -48,7 +50,7 @@
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     @if ($client->active)
-                                        <button wire:click="deactivate({{ $client->id }})" wire:confirm="Desativar {{ $client->name }}? As contas pendentes serão baixadas automaticamente." class="p-1.5 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition" title="Desativar">
+                                        <button wire:click="confirmAction({{ $client->id }}, 'deactivate')" class="p-1.5 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-lg transition" title="Desativar">
                                             <i class="fas fa-pause"></i>
                                         </button>
                                     @else
@@ -56,7 +58,7 @@
                                             <i class="fas fa-play"></i>
                                         </button>
                                     @endif
-                                    <button wire:click="delete({{ $client->id }})" wire:confirm="Tem certeza?" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
+                                    <button wire:click="confirmAction({{ $client->id }}, 'delete')" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -64,12 +66,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-12  text-gray-500">Nenhum cliente cadastrado.</td>
+                            <td colspan="8" class="px-6 py-12  text-gray-500">Nenhum cliente cadastrado.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
+
+        <x-confirm-dialog :id="$confirmingId" :message="$confirmingMessage" />
 
         @if ($showModal)
             <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -110,6 +114,11 @@
                                         $event.target.value = val"
                                     class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500">
                                 @error('document') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-300 mb-1">Data de Aniversário</label>
+                                <input type="date" wire:model="birthDate" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500">
+                                @error('birthDate') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div>

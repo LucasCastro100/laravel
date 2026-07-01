@@ -1,20 +1,57 @@
 <div>
     <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl mb-6 flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-gray-100">
-                @if ($selectedTeam)
-                    {{ $selectedTeam->name }}
-                @else
-                    Equipes - {{ $eventName ?? 'Evento não encontrado' }}
-                @endif
-            </h1>
+        <div class="flex items-center gap-4">
             @if ($selectedTeam)
-                <span class="text-sm text-gray-400 mt-1 block">Detalhes da equipe</span>
+                <button wire:click="backToList"
+                    class="w-9 h-9 flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            @else
+                <a href="{{ route('tbr.event-detail', ['event_id' => $eventId]) }}"
+                    class="w-9 h-9 flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            @endif
+            <div>
+                <h1 class="text-2xl font-semibold text-gray-100">
+                    @if ($selectedTeam)
+                        {{ $selectedTeam->name }}
+                    @else
+                        Equipes - {{ $eventName ?? 'Evento não encontrado' }}
+                    @endif
+                </h1>
+                @if ($selectedTeam)
+                    <span class="text-sm text-gray-400 mt-1 block">Detalhes da equipe</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            @if ($selectedTeam)
+                <a href="{{ route('tbr.ranking.teamPdf', ['event_id' => $eventId, 'team_id' => $selectedTeam->id]) }}"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg transition text-sm">
+                    <i class="fas fa-file-pdf mr-1"></i> Gerar PDF
+                </a>
+                @can('create-event')
+                    <a href="{{ route('tbr.edit-scores', ['event_id' => $eventId, 'equipe' => $selectedTeam->id]) }}"
+                        class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition text-sm">
+                        <i class="fas fa-pen-to-square mr-1"></i> Editar Notas
+                    </a>
+                @endcan
+                @can('edit')
+                    <button wire:click="openEditModal('{{ $selectedTeam->id }}')"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition text-sm">
+                        <i class="fas fa-pen mr-1"></i> Editar
+                    </button>
+                @endcan
+                @can('delete')
+                    <button wire:click="openDeleteModal('{{ $selectedTeam->id }}')"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition text-sm">
+                        <i class="fas fa-trash mr-1"></i> Excluir
+                    </button>
+                @endcan
             @endif
         </div>
-        <button onclick="history.back()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition text-sm">
-            <i class="fas fa-arrow-left mr-1"></i> Voltar
-        </button>
     </div>
 
     @if ($selectedTeam && $selectedTeamId)
@@ -82,10 +119,16 @@
                                     $bestRound = $modScores->sortByDesc('total')->first();
                                     $totalGeral = $selectedTeam->total_score;
                                 @endphp
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="font-semibold text-gray-200 uppercase">DP — Desafio Prático</span>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="font-semibold text-gray-200 uppercase">DP — Desafio Prático</span>
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('tbr.ranking.teamModalityPdf', ['event_id' => $eventId, 'team_id' => $selectedTeam->id, 'modality' => $modSlug]) }}"
+                                        class="text-green-400 hover:text-green-300 transition text-sm" title="Baixar PDF da modalidade">
+                                        <i class="fas fa-file-pdf text-lg"></i>
+                                    </a>
                                     <span class="text-yellow-400 font-bold">Melhor: {{ round($bestRound?->total ?? 0) }}</span>
                                 </div>
+                            </div>
                                 <div class="space-y-2">
                                     @foreach (['r1', 'r2', 'r3'] as $round)
                                         @php
@@ -111,10 +154,16 @@
                                 @php
                                     $firstScore = $modScores->first();
                                 @endphp
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="font-semibold text-gray-200 uppercase">{{ $modSlug }}</span>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-semibold text-gray-200 uppercase">{{ $modSlug }}</span>
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('tbr.ranking.teamModalityPdf', ['event_id' => $eventId, 'team_id' => $selectedTeam->id, 'modality' => $modSlug]) }}"
+                                        class="text-green-400 hover:text-green-300 transition text-sm" title="Baixar PDF da modalidade">
+                                        <i class="fas fa-file-pdf text-lg"></i>
+                                    </a>
                                     <span class="text-yellow-400 font-bold">Total: {{ round($firstScore?->total ?? 0) }}</span>
                                 </div>
+                            </div>
                                 @if ($firstScore && !empty($firstScore->scores))
                                     <div class="flex flex-wrap gap-1">
                                         @foreach ($firstScore->scores as $s)

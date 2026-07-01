@@ -1,4 +1,4 @@
-<section>
+﻿<section>
     <header>
         <h2 class="text-lg font-medium text-gray-100">
             {{ __('Informações do perfil') }}
@@ -73,16 +73,15 @@
             <div class="relative mb-4">
                 <label class="block text-gray-200 font-medium">Imagem de capa</label>
                 <label for="dropzone-file"
-                    class="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 h-[calc(100%-1rem)]">
+                    class="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition h-[calc(100%-1rem)]">
                     <div class="flex flex-col items-center justify-center p-4">
-                        <svg class="w-8 h-8 mb-4 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 20 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p class="mb-2 text-sm text-gray-200"><span class="font-semibold">Clique para o
-                                upload</span></p>
-                        <p class="text-xs text-gray-200">SVG, PNG, JPG or GIF</p>
+                        <p class="mb-2 text-sm text-gray-300"><span class="font-semibold">Clique para o upload</span></p>
+                        <p class="text-xs text-gray-500">SVG, PNG, JPG ou GIF</p>
                     </div>
                     <input id="dropzone-file" type="file" class="hidden" name="image" accept="image/*"
                         onchange="window.previewImage(event, { previewImageId: 'image-preview', previewContainerId: 'image-preview-container', imageFromDbId: 'image-from-db' })" />
@@ -165,3 +164,4 @@
         }
     });
 </script>
+

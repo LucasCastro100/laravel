@@ -74,6 +74,12 @@
 
                     <div class="px-5 pt-5 pb-3">
                         <h2 class="text-lg font-bold text-gray-100 truncate">{{ $event['name'] }}</h2>
+                        @php
+                            $tipo = $event['tipo_evento'] ?? 'interno';
+                            $badgeColors = ['interno' => 'bg-gray-600', 'regional' => 'bg-blue-600', 'nacional' => 'bg-green-600'];
+                            $color = $badgeColors[$tipo] ?? 'bg-gray-600';
+                        @endphp
+                        <span class="inline-block mt-1 text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded {{ $color }} text-white">{{ ucfirst($tipo) }}</span>
                     </div>
 
                     <div class="border-t border-gray-800"></div>

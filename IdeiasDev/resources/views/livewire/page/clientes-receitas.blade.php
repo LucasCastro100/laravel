@@ -8,6 +8,27 @@
         </div>
     </div>
 
+    <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-6">
+        <div class="flex items-center gap-4">
+            <div>
+                <label class="block text-xs text-gray-500 mb-1">Mês</label>
+                <select wire:model.live="filterMonth" class="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2 text-sm">
+                    @foreach (range(1, 12) as $m)
+                        <option value="{{ $m }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs text-gray-500 mb-1">Ano</label>
+                <select wire:model.live="filterYear" class="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2 text-sm">
+                    @foreach (range(now()->year - 5, now()->year + 1) as $y)
+                        <option value="{{ $y }}">{{ $y }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+
     <div class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden w-full">
         <table class="w-full text-sm text-left text-gray-400">
             <thead class="text-xs uppercase bg-gray-800">
@@ -21,17 +42,17 @@
                 <tbody class="divide-y divide-gray-800">
                     @forelse ($receitas as $r)
                         <tr class="hover:bg-gray-800/50">
-                            <td class="px-6 py-4 text-white">{{ $r->client->name }}</td>
+                            <td class="px-6 py-4 text-white">{{ $r->client?->name ?? '-' }}</td>
                         <td class="px-6 py-4 font-medium text-green-400">
-                            R$ {{ number_format($r->value, 2, ',', '.') }}
+                            R$ {{ $r->value ? number_format($r->value, 2, ',', '.') : '-' }}
                         </td>
-                        <td class="px-6 py-4">{{ str_pad($r->month, 2, '0', STR_PAD_LEFT) }}/{{ $r->year }}</td>
+                        <td class="px-6 py-4">{{ str_pad($r->month ?? 0, 2, '0', STR_PAD_LEFT) }}/{{ $r->year ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <div class="flex items-center justify-end gap-1">
                                 <button wire:click="edit({{ $r->id }})" class="p-1.5 text-blue-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button wire:click="delete({{ $r->id }})" wire:confirm="Tem certeza?" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
+                                <button wire:click="confirmDelete({{ $r->id }})" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -45,6 +66,8 @@
             </tbody>
         </table>
     </div>
+
+    <x-confirm-dialog :id="$confirmingId" :message="$confirmingMessage" />
 
     @if ($showModal)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -100,6 +123,32 @@
                                 @error('year') <span class="text-red-400 text-xs">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                        <div class="border-t border-gray-700 pt-4">
+                            <label class="flex items-center gap-2 text-gray-300 cursor-pointer">
+                                <input type="checkbox" wire:model.live="recurring" class="rounded bg-gray-800 border-gray-700 text-blue-500 focus:ring-blue-500">
+                                Recorrente (gerar até o fim do período)
+                            </label>
+                        </div>
+                        @if ($recurring)
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm text-gray-400 mb-1">Até o mês</label>
+                                    <select wire:model="recurring_until_month" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                                        @foreach (range(1, 12) as $m)
+                                            <option value="{{ $m }}">{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm text-gray-400 mb-1">Até o ano</label>
+                                    <select wire:model="recurring_until_year" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">
+                                        @foreach (range(now()->year, now()->year + 5) as $y)
+                                            <option value="{{ $y }}">{{ $y }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                         <div>
                             <label class="block text-sm text-gray-400 mb-1">Data de Vencimento</label>
                             <input wire:model="due_date" type="date" class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2">

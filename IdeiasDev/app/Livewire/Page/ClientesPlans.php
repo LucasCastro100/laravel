@@ -3,12 +3,13 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Plan;
 use Laravel\Jetstream\InteractsWithBanner;
 
 class ClientesPlans extends Component
 {
-    use InteractsWithBanner;
+    use InteractsWithBanner, WithPagination;
 
     public $showModal = false;
     public $planId = null;
@@ -16,8 +17,10 @@ class ClientesPlans extends Component
     public $description = '';
     public $value = '';
     public $active = true;
+    public $perPage = 10;
 
-    public $plans;
+    public $confirmingId = null;
+    public $confirmingMessage = '';
 
     protected function rules()
     {
@@ -27,16 +30,6 @@ class ClientesPlans extends Component
             'value' => ['required', 'numeric', 'min:0'],
             'active' => ['boolean'],
         ];
-    }
-
-    public function mount()
-    {
-        $this->loadPlans();
-    }
-
-    public function loadPlans()
-    {
-        $this->plans = Plan::orderBy('active', 'desc')->orderBy('name')->get();
     }
 
     public function openModal()
@@ -74,14 +67,26 @@ class ClientesPlans extends Component
         $this->banner($this->planId ? 'Plano atualizado!' : 'Plano cadastrado!');
         $this->showModal = false;
         $this->resetForm();
-        $this->loadPlans();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        Plan::findOrFail($id)->delete();
+        $this->confirmingId = $id;
+        $this->confirmingMessage = 'Excluir este plano? Esta ação não pode ser desfeita.';
+    }
+
+    public function executeAction()
+    {
+        Plan::findOrFail($this->confirmingId)->delete();
         $this->banner('Plano excluído!');
-        $this->loadPlans();
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
     }
 
     public function resetForm()
@@ -93,9 +98,16 @@ class ClientesPlans extends Component
         $this->active = true;
     }
 
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        return view('livewire.page.clientes-plans')
+        return view('livewire.page.clientes.plans', [
+            'plans' => Plan::orderBy('active', 'desc')->orderBy('name')->paginate($this->perPage),
+        ])
             ->layout('layouts.app-sidebar', [
                 'showSidebar' => true,
                 'title' => 'Planos',

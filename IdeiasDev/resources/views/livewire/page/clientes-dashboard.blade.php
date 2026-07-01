@@ -3,28 +3,22 @@
         <h1 class="text-2xl font-semibold text-gray-100">Dashboard</h1>
     </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
-                <p class="text-xs text-gray-500 uppercase tracking-wide">Clientes</p>
-                <p class="text-xl font-bold text-white mt-1">{{ $totalClients }}</p>
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Receita do Mês</p>
+                <p class="text-xl font-bold text-blue-400 mt-1">R$ {{ number_format($monthlyRevenue, 2, ',', '.') }}</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Gastos do Mês</p>
+                <p class="text-xl font-bold text-red-400 mt-1">R$ {{ number_format($monthlyExpenses, 2, ',', '.') }}</p>
             </div>
             <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
                 <p class="text-xs text-gray-500 uppercase tracking-wide">Planos</p>
                 <p class="text-xl font-bold text-purple-400 mt-1">{{ $totalPlans }}</p>
             </div>
             <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
-                <p class="text-xs text-gray-500 uppercase tracking-wide">Receita</p>
-                <p class="text-xl font-bold text-blue-400 mt-1">R$ {{ number_format($totalRevenue, 2, ',', '.') }}</p>
-            </div>
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
-                <p class="text-xs text-gray-500 uppercase tracking-wide">Gastos</p>
-                <p class="text-xl font-bold text-red-400 mt-1">R$ {{ number_format($totalExpenses, 2, ',', '.') }}</p>
-            </div>
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-5">
-                <p class="text-xs text-gray-500 uppercase tracking-wide">Total</p>
-                <p class="text-xl font-bold mt-1 {{ ($totalRevenue - $totalExpenses) >= 0 ? 'text-emerald-400' : 'text-red-400' }}">
-                    R$ {{ number_format($totalRevenue - $totalExpenses, 2, ',', '.') }}
-                </p>
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Clientes no Mês</p>
+                <p class="text-xl font-bold text-white mt-1">{{ $monthlyClients }}</p>
             </div>
         </div>
 

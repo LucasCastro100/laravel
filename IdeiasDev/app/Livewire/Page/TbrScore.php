@@ -499,9 +499,7 @@ class TbrScore extends Component
     public function closeSuccessModal()
     {
         $this->showSuccessModal = false;
-        $this->selectedTeamId = null;
-        $this->filterTeams();
-        $this->loadQuestion();
+        $this->dispatch('reload-page');
     }
 
     public function render()
@@ -513,7 +511,7 @@ class TbrScore extends Component
             }
         }
 
-        return view('livewire.page.tbr-score', [
+        return view('livewire.page.tbr.score', [
             'event' => $this->event,
             'filteredTeams' => $this->filteredTeams,
             'category' => $this->category,

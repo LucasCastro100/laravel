@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Course;
 use App\Models\Test;
-use Elementor\Core\Utils\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
-    public function dashBoard()
+    public function dashBoard(Request $request)
     {
         $user = Auth::user();
-        $courses = Course::paginate(10);
+        $search = $request->input('search');
+        $courses = Course::when($search, fn($q) => $q->where('title', 'ilike', "%{$search}%"))
+            ->paginate(10)
+            ->withQueryString();
         $test = Test::where('user_id', Auth::user()->id)
             ->latest()
             ->first();
@@ -28,8 +31,8 @@ class StudentController extends Controller
             'courses' => $courses,
             'userCourseIds' => $userCourseIds,
             'test' => $test,
-            'percentual' => $test ? $test->percentual : null            
-            // 'userTestIds' => $userTestIds,
+            'percentual' => $test ? $test->percentual : null,
+            'search' => $search,
         ];
 
         // dd($dados['test'], $dados['percentual']);
@@ -41,7 +44,7 @@ class StudentController extends Controller
     {
         $courses = Course::whereHas('matriculationsCourses', function ($query) {
             $query->where('user_id', Auth::id());
-        })->paginate(10);
+        })->paginate(10)->withQueryString();
 
         $dados = [
             'title' => 'Meus cursos',
@@ -203,5 +206,43 @@ class StudentController extends Controller
         ];
 
         return view('dashboard.student.teste.result', $dados);
+    }
+
+    public function duvidas()
+    {
+        $user = Auth::user();
+        $myCourses = $user->enrolledCourses()->get();
+        $contacts = Contact::with(['course', 'replies.user'])
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        return view('dashboard.student.duvidas', [
+            'title' => 'Fale Conosco',
+            'myCourses' => $myCourses,
+            'contacts' => $contacts,
+        ]);
+    }
+
+    public function storeDuvida(Request $request)
+    {
+        $request->validate([
+            'type' => ['required', 'in:platform,course'],
+            'course_id' => ['required_if:type,course', 'nullable', 'exists:courses,id'],
+            'message' => ['required', 'string', 'min:10', 'max:2000'],
+        ], [
+            'message.required' => 'A mensagem é obrigatória.',
+            'message.min' => 'A mensagem deve ter pelo menos 10 caracteres.',
+            'course_id.required_if' => 'Selecione o curso relacionado.',
+        ]);
+
+        Contact::create([
+            'user_id' => Auth::id(),
+            'course_id' => $request->type === 'course' ? $request->course_id : null,
+            'type' => $request->type,
+            'message' => $request->message,
+        ]);
+
+        return redirect()->route('student.duvidas')->with('success', 'Mensagem enviada com sucesso!');
     }
 }

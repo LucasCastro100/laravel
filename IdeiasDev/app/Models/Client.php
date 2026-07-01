@@ -11,25 +11,42 @@ class Client extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
+        'team_id',
         'name',
         'email',
         'phone',
         'document',
-        'address',
+        'cep',
+        'sexo',
+        'birth_date',
+        'endereco',
+        'numero',
+        'complemento',
+        'bairro',
+        'cidade',
+        'uf',
         'notes',
         'active',
+        'deactivated_at',
     ];
 
     protected function casts(): array
     {
         return [
             'active' => 'boolean',
+            'birth_date' => 'date',
+            'deactivated_at' => 'datetime',
         ];
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Company::class, 'team_id');
     }
 
     public function plans()

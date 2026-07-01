@@ -1,10 +1,10 @@
-<x-app-layout title="Comentários">
+﻿<x-app-layout title="Comentários">
     <x-slot name="header">
         <x-page-title title="Comentários" />
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="space-y-6">
                 @foreach ($courses as $course)
                     <div x-data="{ openCourse: false }" class="bg-gray-900 rounded-xl shadow p-6 hover:shadow-lg transition">
@@ -37,7 +37,7 @@
 
                                                 <div x-show="openClass" x-transition class="mt-3 space-y-3 pl-6">
                                                     @foreach ($classroom->comments as $comment)
-                                                        <div class="bg-gray-50 p-3 rounded border-l-2 border-gray-300">
+                                                        <div class="bg-gray-800/50 p-3 rounded border-l-2 border-gray-600">
                                                             <p class="text-gray-200">{{ $comment->comment }}</p>
                                                             <small class="text-gray-200">
                                                                 {{ $comment->user->name }} -
@@ -87,3 +87,5 @@
         </div>
     </div>
 </x-app-layout>
+
+

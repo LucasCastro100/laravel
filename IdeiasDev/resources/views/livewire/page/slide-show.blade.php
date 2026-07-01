@@ -9,7 +9,7 @@
     if (e.key === 'ArrowRight') next();
     if (e.key === 'ArrowLeft') prev();
 });"
-    class="relative w-full h-full bg-gray-950 flex items-center justify-center overflow-hidden">
+    class="fixed inset-0 bg-gray-950 flex items-center justify-center overflow-hidden">
     
     <template x-for="(slide, index) in slides" :key="index">
         <div x-show="slideIndex === index" x-transition

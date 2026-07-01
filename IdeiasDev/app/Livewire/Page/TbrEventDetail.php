@@ -4,6 +4,7 @@ namespace App\Livewire\Page;
 
 use Livewire\Component;
 use Laravel\Jetstream\InteractsWithBanner;
+use App\Models\Category;
 use App\Models\Event;
 use App\Services\IbgeService;
 
@@ -19,9 +20,19 @@ class TbrEventDetail extends Component
     public bool $showEditModal = false;
     public bool $showDeleteModal = false;
 
+    public bool $showExportModal = false;
+    public array $exportSelectedModalities = [];
+    public array $exportAvailableModalities = [];
+    public bool $exportPdfShowPosition = true;
+    public bool $exportPdfShowTotal = true;
+    public bool $exportPdfShowModalities = true;
+
     public ?string $editEventName = null;
     public ?string $editEventDate = null;
     public $editEventStatus;
+    public ?string $editTipoEvento = null;
+
+    public ?string $editDpMissions = null;
 
     public $editSelectedRegion = null;
     public $editSelectedRegionId = null;
@@ -110,6 +121,11 @@ class TbrEventDetail extends Component
         $this->editEventName = $this->event->name;
         $this->editEventDate = $this->event->date?->format('Y-m-d');
         $this->editEventStatus = (string) ($this->event->status ? 1 : 0);
+        $this->editTipoEvento = $this->event->tipo_evento ?? 'interno';
+        $this->editDpMissions = $this->event->ranking_config['dp_missions'] ?? null;
+        if (is_array($this->editDpMissions)) {
+            $this->editDpMissions = implode(', ', $this->editDpMissions);
+        }
 
         $localizacao = $this->event->location ?? [];
 
@@ -165,10 +181,14 @@ class TbrEventDetail extends Component
             'name' => $this->editEventName,
             'date' => $this->editEventDate,
             'status' => (bool) $this->editEventStatus,
+            'tipo_evento' => $this->editTipoEvento ?? 'interno',
             'location' => [
                 'regiao' => $region ? ['id' => $region['id'], 'sigla' => $region['sigla'] ?? null, 'nome' => $region['nome']] : null,
                 'estado' => $state ? ['id' => $state['id'], 'sigla' => $state['sigla'] ?? null, 'nome' => $state['nome']] : null,
                 'municipio' => $city ? ['id' => $city['id'], 'nome' => $city['nome']] : null,
+            ],
+            'ranking_config' => [
+                'dp_missions' => $this->editDpMissions ? array_map('trim', explode(',', $this->editDpMissions)) : null,
             ],
         ]);
 
@@ -201,9 +221,56 @@ class TbrEventDetail extends Component
         return redirect()->route('tbr.dashboard');
     }
 
+    public function openExportModal(): void
+    {
+        $modalitiesByLevel = config('tbr-config.modalities_by_level');
+        $allModalities = [];
+        $seen = [];
+        foreach ($modalitiesByLevel as $level => $mods) {
+            foreach ($mods as $mod) {
+                if (!in_array($mod['slug'], $seen)) {
+                    $allModalities[] = $mod;
+                    $seen[] = $mod['slug'];
+                }
+            }
+        }
+        $this->exportAvailableModalities = $allModalities;
+        $this->exportSelectedModalities = array_column($allModalities, 'slug');
+
+        $pdfConfig = $this->event->ranking_config['pdf'] ?? [];
+        $this->exportPdfShowPosition = $pdfConfig['show_position'] ?? true;
+        $this->exportPdfShowTotal = $pdfConfig['show_total'] ?? true;
+        $this->exportPdfShowModalities = $pdfConfig['show_modalities'] ?? true;
+
+        $this->showExportModal = true;
+    }
+
+    public function closeExportModal(): void
+    {
+        $this->showExportModal = false;
+        $this->exportSelectedModalities = [];
+        $this->exportAvailableModalities = [];
+    }
+
+    public function exportScores(): void
+    {
+        if (empty($this->exportSelectedModalities)) {
+            $this->dangerBanner('Selecione pelo menos uma modalidade.');
+            return;
+        }
+        $this->showExportModal = false;
+        $this->redirect(route('tbr.ranking.scoresPdfFiltered', [
+            'event_id' => $this->eventId,
+            'modalities' => $this->exportSelectedModalities,
+            'show_position' => $this->exportPdfShowPosition ? '1' : '0',
+            'show_total' => $this->exportPdfShowTotal ? '1' : '0',
+            'show_modalities' => $this->exportPdfShowModalities ? '1' : '0',
+        ]));
+    }
+
     public function render()
     {
-        return view('livewire.page.tbr-event-detail', [
+        return view('livewire.page.tbr.event-detail', [
             'event' => $this->event,
             'regions' => $this->regions,
             'filteredEditStates' => $this->filteredEditStates,

@@ -1,26 +1,34 @@
 <nav x-data="{ open: false }" class="bg-gray-900 border-b border-gray-800">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
-                    </a>
-                </div>
+            <div class="flex items-center gap-3">
+                <!-- Sidebar Toggle + IdeiasDev Logo -->
+                <button @click="window.dispatchEvent(new CustomEvent('toggle-sidebar'))"
+                        class="p-2 rounded-lg hover:bg-gray-800 text-gray-400 hover:text-gray-200 transition sidebar-toggle-btn">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <a href="{{ route('dashboard') }}" class="flex items-center">
+                    <span class="text-xl font-bold" style="font-family: 'Fredoka', sans-serif; background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        IdeiasDev
+                    </span>
+                </a>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
                     @php
                         $userSystem = Auth::user()->system;
                         $systemSlug = $userSystem?->slug;
                         $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
                     @endphp
+
+                    @if ($canViewAll)
+                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @endif
 
                     @if ($systemSlug === 'tbr' || $canViewAll)
                         <x-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
@@ -37,6 +45,12 @@
                     @if ($systemSlug === 'clientes' || $canViewAll)
                         <x-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
                             {{ __('Clientes') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if (Auth::user()->isSuperAdmin())
+                        <x-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
+                            {{ __('Usuários') }}
                         </x-nav-link>
                     @endif
 
@@ -167,15 +181,17 @@ Sair
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-
             @php
                 $userSystem = Auth::user()->system;
                 $systemSlug = $userSystem?->slug;
                 $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
             @endphp
+
+            @if ($canViewAll)
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+            @endif
 
             @if ($systemSlug === 'tbr' || $canViewAll)
                 <x-responsive-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
@@ -192,6 +208,12 @@ Sair
             @if ($systemSlug === 'clientes' || $canViewAll)
                 <x-responsive-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
                     {{ __('Clientes') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()->isSuperAdmin())
+                <x-responsive-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
+                    {{ __('Usuários') }}
                 </x-responsive-nav-link>
             @endif
 
@@ -273,3 +295,9 @@ Sair
         </div>
     </div>
 </nav>
+
+<style>
+    @media (min-width: 800px) {
+        .sidebar-toggle-btn { display: none !important; }
+    }
+</style>

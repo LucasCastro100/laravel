@@ -77,12 +77,15 @@ class SlideShow extends Component
             $generalPodiumIds = $teamsSortedTotal->take($generalTopPositions)->pluck('id')->toArray();
 
             $modalitiesToAward = [];
-            if ($totalTeamCount >= 10) {
-                $modalitiesToAward = $modalities;
-            } elseif ($totalTeamCount === 9) {
-                $modalitiesToAward = collect($modalities)->filter(fn($m) => in_array($m['slug'], ['mc', 'om']))->values()->toArray();
-            } elseif ($totalTeamCount === 8) {
-                $modalitiesToAward = collect($modalities)->filter(fn($m) => $m['slug'] === 'mc')->values()->toArray();
+            $isInterno = ($event->tipo_evento ?? 'interno') === 'interno';
+            if (!$isInterno) {
+                if ($totalTeamCount >= 10) {
+                    $modalitiesToAward = $modalities;
+                } elseif ($totalTeamCount === 9) {
+                    $modalitiesToAward = collect($modalities)->filter(fn($m) => in_array($m['slug'], ['mc', 'om']))->values()->toArray();
+                } elseif ($totalTeamCount === 8) {
+                    $modalitiesToAward = collect($modalities)->filter(fn($m) => $m['slug'] === 'mc')->values()->toArray();
+                }
             }
 
             if ($topPositions > 0 && !empty($modalitiesToAward)) {

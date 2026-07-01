@@ -3,6 +3,7 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\Attributes\Url;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Team;
@@ -13,7 +14,10 @@ class TbrEventTeams extends Component
 
     public ?string $eventId = null;
     public ?string $eventName = null;
+
+    #[Url(as: 'equipe', history: true)]
     public ?string $selectedTeamId = null;
+
     public ?string $filterCategory = null;
 
     public bool $showEditModal = false;
@@ -147,7 +151,7 @@ class TbrEventTeams extends Component
                 ->toArray();
         }
 
-        return view('livewire.page.tbr-event-teams', [
+        return view('livewire.page.tbr.event-teams', [
             'teams' => $teams,
             'selectedTeam' => $selectedTeam,
             'categories' => $categories,

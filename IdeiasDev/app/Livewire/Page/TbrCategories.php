@@ -24,11 +24,12 @@ class TbrCategories extends Component
     public $editQuestionLevel;
     public $editDpLevel;
 
-    public $deleteTarget;
+    public $confirmingId = null;
+    public $confirmingMessage = '';
 
     public function render()
     {
-        return view('livewire.page.tbr-categories', [
+        return view('livewire.page.tbr.categories', [
             'categories' => Category::orderBy('sort_order')->get(),
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => true,
@@ -116,25 +117,27 @@ class TbrCategories extends Component
         $this->closeEditModal();
     }
 
-    public function openDeleteModal($id)
+    public function confirmDelete($id)
     {
         $this->authorize('delete');
-        $this->deleteTarget = Category::findOrFail($id);
-        $this->showDeleteModal = true;
+        $cat = Category::findOrFail($id);
+        $this->confirmingId = $id;
+        $this->confirmingMessage = "Remover a categoria {$cat->label}?";
     }
 
-    public function closeDeleteModal()
-    {
-        $this->showDeleteModal = false;
-        $this->deleteTarget = null;
-    }
-
-    public function delete()
+    public function executeAction()
     {
         $this->authorize('delete');
-        $this->deleteTarget->delete();
+        Category::findOrFail($this->confirmingId)->delete();
         $this->banner('Categoria removida com sucesso!');
-        $this->closeDeleteModal();
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
     }
 
     public function moveUp($id)

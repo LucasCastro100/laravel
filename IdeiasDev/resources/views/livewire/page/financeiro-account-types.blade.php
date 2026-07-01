@@ -19,7 +19,7 @@
                 <tbody class="divide-y divide-gray-800">
                     @forelse ($types as $type)
                         <tr class="hover:bg-gray-800/50">
-                            <td class="px-6 py-4 text-white">{{ $type->name }}</td>
+                            <td class="px-6 py-4 text-white">{{ $type->name ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $type->description ?? '-' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-1">

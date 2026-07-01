@@ -17,6 +17,7 @@ use App\Http\Controllers\Dashboard\ModuleController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\StudentController;
 use App\Http\Controllers\Dashboard\TeacherController;
+use App\Http\Controllers\Dashboard\ContactController;
 use App\Http\Controllers\Dashboard\TestController;
 use App\Http\Controllers\Dashboard\CertificateController;
 use App\Http\Controllers\Eduz\CourseController as EduzCourseController;
@@ -90,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/meus-testes/resultado', 'resultTest')->name('student.resultTest');
             Route::get('/meu-curso/{uuid}', 'courseShow')->name('student.courseShow');
             Route::get('/duvidas', 'duvidas')->name('student.duvidas');
+            Route::post('/duvidas', 'storeDuvida')->name('student.duvidas.store');
             Route::get('/comentarios-respostas', 'comentariosRespostas')->name('student.comentariosRespostas');
 
             Route::post('/meu-teste/salvar', 'saveTest')->name('student.saveTest');
@@ -143,6 +145,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rotas da área do professor
     Route::prefix('painel-professor')->middleware(['role:2'])->group(function () {
+        Route::get('/duvidas', [ContactController::class, 'index'])->name('teacher.contacts');
+        Route::post('/duvidas/{uuid}/responder', [ContactController::class, 'reply'])->name('teacher.contacts.reply');
+
         Route::controller(TeacherController::class)->group(function () {
             Route::get('/', 'dashBoard')->name('teacher.dashBoard');
             Route::get('/meus-cursos', 'myCourses')->name('teacher.myCourses');
@@ -152,7 +157,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::controller(CourseController::class)->group(function () {
             Route::get('/cursos', 'index')->name('course.index');
+            Route::get('/cursos/criar', 'create')->name('course.create');
             Route::get('/curso/{uuid}', 'show')->name('course.show');
+            Route::get('/curso/{uuid}/editar', 'edit')->name('course.edit');
 
             Route::post('/curso', 'store')->name('course.store');
 
@@ -163,6 +170,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::controller(ModuleController::class)->group(function () {
             Route::get('/modulo/{uuid_module}', 'index')->name('module.show');
+            Route::get('/modulo/{uuid_module}/editar', 'edit')->name('module.edit');
+            Route::get('/curso/{uuid_course}/modulo/criar', 'create')->name('module.create');
 
             Route::post('/modulo/{uuid_course}', 'store')->name('module.store');
 
@@ -184,6 +193,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::controller(ClassroomController::class)->group(function () {
             Route::get('/aula/{uuid_classroom}', 'show')->name('tacher.classroom.show');
+            Route::get('/aula/{uuid_classroom}/editar', 'edit')->name('classroom.edit');
+            Route::get('/curso/{uuid_course}/aula/criar', 'create')->name('classroom.create');
 
             Route::post('/aula', 'store')->name('classroom.store');
 
@@ -224,6 +235,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rotas da área do administrador
     Route::prefix('painel-admin')->middleware(['role:3'])->group(function () {
+        Route::get('/aula/{uuid_classroom}', [ClassroomController::class, 'show'])->name('admin.classroom.show');
+        Route::get('/duvidas', [ContactController::class, 'index'])->name('admin.contacts');
+        Route::post('/duvidas/{uuid}/responder', [ContactController::class, 'reply'])->name('admin.contacts.reply');
+
         Route::controller(AdminController::class)->group(function () {
             Route::get('/', 'dashBoard')->name('admin.dashBoard');
             Route::get('/comentarios', 'comentarios')->name('admin.comentarios');

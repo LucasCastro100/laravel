@@ -15,7 +15,7 @@ class Event extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id', 'name', 'date', 'status', 'location', 'ranking_config',
+        'id', 'name', 'date', 'status', 'tipo_evento', 'location', 'ranking_config',
     ];
 
     protected function casts(): array

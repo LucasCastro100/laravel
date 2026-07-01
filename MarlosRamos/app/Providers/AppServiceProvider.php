@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,15 @@ class AppServiceProvider extends ServiceProvider
         if (str_starts_with(config('app.url'), 'https://') || ($this->app->request->isSecure() ?? false)) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
+
+        RedirectIfAuthenticated::redirectUsing(function ($request) {
+            $user = Auth::user();
+            if ($user) {
+                $routes = [3 => 'admin.dashBoard', 2 => 'teacher.dashBoard', 1 => 'student.dashBoard'];
+                return route($routes[$user->role_id] ?? 'login');
+            }
+            return route('login');
+        });
 
         View::composer('*', function ($view) {
             $menu = [];

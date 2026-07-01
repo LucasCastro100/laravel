@@ -96,12 +96,15 @@ class TbrRanking extends Component
             $generalPodiumIds = collect($totalTeams)->take($generalTopPositions)->pluck('id')->toArray();
 
             $modalitiesToShow = [];
-            if ($totalTeamCount >= 10) {
-                $modalitiesToShow = $modalitiesAllowed;
-            } elseif ($totalTeamCount === 9) {
-                $modalitiesToShow = array_values(array_intersect($modalitiesAllowed, ['mc', 'om']));
-            } elseif ($totalTeamCount === 8) {
-                $modalitiesToShow = array_values(array_intersect($modalitiesAllowed, ['mc']));
+            $isInterno = ($this->event->tipo_evento ?? 'interno') === 'interno';
+            if (!$isInterno) {
+                if ($totalTeamCount >= 10) {
+                    $modalitiesToShow = $modalitiesAllowed;
+                } elseif ($totalTeamCount === 9) {
+                    $modalitiesToShow = array_values(array_intersect($modalitiesAllowed, ['mc', 'om']));
+                } elseif ($totalTeamCount === 8) {
+                    $modalitiesToShow = array_values(array_intersect($modalitiesAllowed, ['mc']));
+                }
             }
 
             $modalitiesData = [];
@@ -163,7 +166,7 @@ class TbrRanking extends Component
 
     public function render()
     {
-        return view('livewire.page.tbr-ranking', [
+        return view('livewire.page.tbr.ranking', [
             'event' => $this->event,
             'teamsByCategory' => $this->teamsByCategory,
         ])->layout('layouts.app-tbr-public', [

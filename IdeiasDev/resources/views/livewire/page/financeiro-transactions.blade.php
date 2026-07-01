@@ -45,7 +45,7 @@
                 <tbody class="divide-y divide-gray-800">
                     @forelse ($transactions as $t)
                         <tr class="hover:bg-gray-800/50">
-                            <td class="px-6 py-4 text-white">{{ $t->description }}</td>
+                            <td class="px-6 py-4 text-white">{{ $t->description ?? '-' }}</td>
                             <td class="px-6 py-4">{{ $t->accountType?->name ?? '-' }}</td>
                             <td class="px-6 py-4">
                                 @if ($t->category)
@@ -57,8 +57,8 @@
                                     -
                                 @endif
                             </td>
-                            <td class="px-6 py-4 font-medium {{ $t->value >= 0 ? 'text-green-400' : 'text-red-400' }}">
-                                R$ {{ number_format($t->value, 2, ',', '.') }}
+                            <td class="px-6 py-4 font-medium {{ isset($t->value) && $t->value >= 0 ? 'text-green-400' : 'text-red-400' }}">
+                                R$ {{ isset($t->value) ? number_format($t->value, 2, ',', '.') : '-' }}
                             </td>
                             <td class="px-6 py-4">{{ $t->due_date?->format('d/m/Y') ?? '-' }}</td>
                             <td class="px-6 py-4">

@@ -38,31 +38,41 @@ class TeacherController extends Controller
         return view('dashboard.teacher.dashboard', $dados);
     }
 
-    public function myCourses()
+    public function myCourses(Request $request)
     {
-        $courses = Course::withCount('users')->where('user_id', Auth::user()->id)->get();
+        $courses = Course::withCount('users')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        $dados = [
-            'title' => 'Meus Cursos',
+        return view('dashboard.teacher.course.courses', [
+            'title'   => 'Meus Cursos',
             'courses' => $courses,
-        ];
-
-        return view('dashboard.teacher.course.courses', $dados);
+        ]);
     }
 
-    public function myTests()
+    public function myTests(Request $request)
     {
-        // $tests = Test::withCount('users')->where('user_id', Auth::user()->id)->get();
-        $testWithLogin = Test::with('user')->orderBy('created_at', 'desc')->get();
-        $testNotLogin = TesteRepresentacional::orderBy('created_at', 'desc')->get();
+        $perPage = in_array((int) $request->input('per_page', 10), [10, 20, 50, 100])
+            ? (int) $request->input('per_page', 10)
+            : 10;
 
-        $dados = [
-            'title' => 'Meus testes',
+        $testWithLogin = Test::with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page_alunos')
+            ->withQueryString();
+
+        $testNotLogin = TesteRepresentacional::orderBy('created_at', 'desc')
+            ->paginate($perPage, ['*'], 'page_eventos')
+            ->withQueryString();
+
+        return view('dashboard.teacher.test.tests', [
+            'title'          => 'Meus testes',
             'testsWithLogin' => $testWithLogin,
-            'testsNotLogin' => $testNotLogin,
-        ];
-
-        return view('dashboard.teacher.test.tests', $dados);
+            'testsNotLogin'  => $testNotLogin,
+            'perPage'        => $perPage,
+        ]);
     }
 
     public function report(Request $request)

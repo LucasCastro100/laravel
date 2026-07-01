@@ -5,12 +5,26 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\ClassroomUser;
+use App\Models\Course;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use App\Services\YoutubeService;
 use Illuminate\Support\Facades\Auth;
 
 class ClassroomController extends Controller
 {
+    public function create(Request $request, $uuid_course)
+    {
+        $course = Course::with('modules')->where('uuid', $uuid_course)->firstOrFail();
+        return view('dashboard.teacher.classroom.create', ['title' => 'Nova Aula', 'course' => $course]);
+    }
+
+    public function edit(Request $request, $uuid_classroom)
+    {
+        $classroom = Classroom::with('module.course')->where('uuid', $uuid_classroom)->firstOrFail();
+        return view('dashboard.teacher.classroom.edit', ['title' => 'Editar Aula', 'classroom' => $classroom, 'course' => $classroom->module->course]);
+    }
+
     public function show(Request $request)
     {
         $user = Auth::user();
@@ -111,7 +125,8 @@ class ClassroomController extends Controller
             // Criando a aula no banco de dados
             Classroom::create($validated);
 
-            return redirect()->back()->with('success', 'Aula criada com sucesso!');
+            $module = Module::with('course')->find($validated['module_id']);
+            return redirect()->route('course.show', ['uuid' => $module->course->uuid])->with('success', 'Aula criada com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Ocorreu um erro!' . $e->getMessage());
         }
@@ -120,7 +135,7 @@ class ClassroomController extends Controller
     public function update(Request $request, string $uuid_classroom, YoutubeService $youtube)
     {
         try {
-            $classroom = Classroom::where('uuid', $uuid_classroom)->firstOrFail();
+            $classroom = Classroom::with('module.course')->where('uuid', $uuid_classroom)->firstOrFail();
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
@@ -153,11 +168,11 @@ class ClassroomController extends Controller
             // Adicionando a duração ao array de dados validados
             $validated['duration'] = $isoDuration;
 
+            $courseUuid = $classroom->module->course->uuid;
             $classroom->update($validated);
-            return redirect()->back()->with('success', 'Aula atualizada com sucesso!');
+            return redirect()->route('course.show', ['uuid' => $courseUuid])->with('success', 'Aula atualizada com sucesso!');
         } catch (\Exception $e) {
-            // return redirect()->back()->with('error', 'Aula não encontrada!');
-            return redirect()->back()->with('error', 'Erro ao atualziar a aula!');
+            return redirect()->back()->with('error', 'Erro ao atualizar a aula!');
         }
     }
 

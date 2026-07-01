@@ -1,18 +1,11 @@
-<x-app-layout title="Teste Representacional">
+﻿<x-app-layout title="Teste Representacional">
     <x-slot name="header">
         <x-page-title title="Respondendo comentário" />
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-200 space-y-4">
-                @if (session('success'))
-                    <x-alert-component type="success" :message="session('success')" />
-                @endif
-
-                @if (session('error'))
-                    <x-alert-component type="error" :message="session('error')" />
-                @endif
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
                     <div
@@ -67,3 +60,5 @@
         </div>
     </div>
 </x-app-layout>
+
+

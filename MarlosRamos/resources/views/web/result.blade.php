@@ -1,4 +1,4 @@
-<x-web-layout :title="$title">
+﻿<x-web-layout :title="$title">
     <x-slot name="header">
         <x-page-title title="Relatório de Perfil Representacional" />
     </x-slot>
@@ -6,13 +6,6 @@
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-800 text-gray-200">
-                @if (session('success'))
-                    <x-alert-component type="success" :message="session('success')" />
-                @endif
-
-                @if (session('error'))
-                    <x-alert-component type="error" :message="session('error')" />
-                @endif
 
                 <div class="space-y-2">
                     <x-application-logo class="w-1/2 md:w-44 fill-current mx-auto text-white" />
@@ -200,3 +193,4 @@
         });
     </script>
 </x-web-layout>
+

@@ -1,18 +1,11 @@
-<x-app-layout :title="$title">
+﻿<x-app-layout :title="$title">
     <x-slot name="header">
         <x-page-title title="Gerencimanto dos testes" />
     </x-slot>
 
     <div class="py-12" x-data="{ openShow: false, openCreate: false, openEdit: false, openDelete: false, selectedCourse: null }">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                @if (session('success'))
-                    <x-alert-component type="success" :message="session('success')" />
-                @endif
-
-                @if (session('error'))
-                    <x-alert-component type="error" :message="session('error')" />
-                @endif
 
                 {{-- <div class="text-right">
                     <button @click="openCreate = true" class="bg-blue-500 text-white px-4 py-2 rounded mb-4">Novo
@@ -74,7 +67,7 @@
                             <div class="mb-4 relative">
                                 <label class="block text-gray-200 font-medium">Imagem de capa</label>
                                 <label for="dropzone-file"
-                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition">
                                     <div class="flex flex-col items-center justify-center p-4">
                                         <svg class="w-8 h-8 mb-4 text-gray-200" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -110,3 +103,7 @@
         </template>
     </div>
 </x-app-layout>
+
+
+
+

@@ -3,18 +3,22 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\AccountType;
 use Laravel\Jetstream\InteractsWithBanner;
 
 class FinanceiroAccountTypes extends Component
 {
-    use InteractsWithBanner;
+    use InteractsWithBanner, WithPagination;
 
     public $showModal = false;
     public $typeId = null;
     public $name = '';
     public $description = '';
-    public $types;
+    public $perPage = 10;
+
+    public $confirmingId = null;
+    public $confirmingMessage = '';
 
     protected function rules()
     {
@@ -22,16 +26,6 @@ class FinanceiroAccountTypes extends Component
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function mount()
-    {
-        $this->loadTypes();
-    }
-
-    public function loadTypes()
-    {
-        $this->types = AccountType::orderBy('name')->get();
     }
 
     public function openModal()
@@ -61,14 +55,31 @@ class FinanceiroAccountTypes extends Component
         $this->banner($this->typeId ? 'Tipo de conta atualizado!' : 'Tipo de conta cadastrado!');
         $this->showModal = false;
         $this->resetForm();
-        $this->loadTypes();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        AccountType::findOrFail($id)->delete();
+        $this->confirmingId = $id;
+        $this->confirmingMessage = 'Excluir este tipo de conta? Esta ação não pode ser desfeita.';
+    }
+
+    public function executeAction()
+    {
+        AccountType::findOrFail($this->confirmingId)->delete();
         $this->banner('Tipo de conta excluído!');
-        $this->loadTypes();
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
     }
 
     public function resetForm()
@@ -80,7 +91,9 @@ class FinanceiroAccountTypes extends Component
 
     public function render()
     {
-        return view('livewire.page.financeiro-account-types')
+        return view('livewire.page.financeiro.account-types', [
+            'types' => AccountType::orderBy('name')->paginate($this->perPage),
+        ])
             ->layout('layouts.app-sidebar', [
                 'showSidebar' => true,
                 'title' => 'Tipos de Conta',

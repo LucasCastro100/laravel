@@ -3,10 +3,12 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Team;
+use App\Models\User;
 use App\Services\IbgeService;
 
 class Sidebar extends Component
@@ -17,6 +19,7 @@ class Sidebar extends Component
 
     public $eventName = '';
     public $eventDate = '';
+    public $tipoEvento = 'interno';
 
     public $selectedEventId = null;
     public $numTeams = 1;
@@ -24,6 +27,7 @@ class Sidebar extends Component
         [
             'name' => '',
             'category' => 'baby',
+            'representative_user_id' => '',
             'representative_name' => '',
             'representative_email' => '',
             'representative_phone' => '',
@@ -31,6 +35,7 @@ class Sidebar extends Component
     ];
 
     public $events = [];
+    public $allUsers = [];
 
     public $selectedRegion = null;
     public $selectedRegionId = null;
@@ -100,6 +105,7 @@ class Sidebar extends Component
         $this->selectedCityId = $city['id'] ?? null;
     }
 
+    #[On('openEventModal')]
     public function openEventModal()
     {
         $this->authorize('create');
@@ -117,6 +123,7 @@ class Sidebar extends Component
     {
         $this->eventName = '';
         $this->eventDate = '';
+        $this->tipoEvento = 'interno';
         $this->selectedRegion = null;
         $this->selectedState = null;
         $this->selectedCity = null;
@@ -135,6 +142,11 @@ class Sidebar extends Component
         $this->validate([
             'eventName' => 'required|string|min:2',
             'eventDate' => 'required|date',
+        ], [
+            'eventName.required' => 'O nome do evento é obrigatório.',
+            'eventName.min' => 'O nome deve ter pelo menos 2 caracteres.',
+            'eventDate.required' => 'A data do evento é obrigatória.',
+            'eventDate.date' => 'Informe uma data válida.',
         ]);
 
         $exists = Event::where('name', $this->eventName)
@@ -151,6 +163,7 @@ class Sidebar extends Component
             'name' => $this->eventName,
             'date' => $this->eventDate,
             'status' => false,
+            'tipo_evento' => $this->tipoEvento,
             'location' => [
                 'regiao' => $this->selectedRegion
                     ? [
@@ -181,10 +194,19 @@ class Sidebar extends Component
         $this->dispatch('toast-message', message: 'Evento cadastrado com sucesso!', style: 'success');
     }
 
+    #[On('openTeamModal')]
     public function openTeamModal()
     {
         $this->authorize('create');
-        $this->loadEvents();
+        $rawEvents = Event::where('status', false)->orderBy('date', 'desc')->get();
+        $this->events = $rawEvents->map(fn($e) => [
+            'id' => $e->id,
+            'name' => $e->name,
+            'date' => $e->date,
+            'date_formatted' => \Carbon\Carbon::parse($e->date)->format('d/m/y'),
+            'display' => $e->name . ' (' . \Carbon\Carbon::parse($e->date)->format('d/m/y') . ')',
+        ])->toArray();
+        $this->allUsers = User::where('id', '!=', 1)->orderBy('name')->get(['id', 'name', 'email']);
         if (empty($this->events)) {
             $this->dispatch('toast-message', message: 'Você precisa cadastrar pelo menos um evento antes de adicionar equipes.', style: 'warning');
             return;
@@ -229,6 +251,7 @@ class Sidebar extends Component
                 $this->teams[] = [
                     'name' => '',
                     'category' => $defaultCategorySlug,
+                    'representative_user_id' => '',
                     'representative_name' => '',
                     'representative_email' => '',
                     'representative_phone' => '',
@@ -236,6 +259,17 @@ class Sidebar extends Component
             }
         } elseif ($value < $count) {
             $this->teams = array_slice($this->teams, 0, $value);
+        }
+    }
+
+    public function fillTeamRepresentative(int $index, string $userId): void
+    {
+        if (!$userId || !isset($this->teams[$index])) return;
+
+        $user = User::find($userId);
+        if ($user) {
+            $this->teams[$index]['representative_name'] = $user->name;
+            $this->teams[$index]['representative_email'] = $user->email;
         }
     }
 
@@ -253,7 +287,10 @@ class Sidebar extends Component
             'teams.*.name' => 'required|min:2',
             'teams.*.category' => 'required|in:' . implode(',', $categorySlugs),
         ], [
-            'selectedEventId.required' => 'Você deve selecionar um evento.',
+            'selectedEventId.required' => 'Selecione um evento.',
+            'teams.*.name.required' => 'O nome da equipe é obrigatório.',
+            'teams.*.name.min' => 'O nome da equipe deve ter pelo menos 2 caracteres.',
+            'teams.*.category.required' => 'Selecione uma categoria.',
         ]);
 
         $event = Event::find($this->selectedEventId);
@@ -306,6 +343,7 @@ class Sidebar extends Component
 
         $this->dispatch('toast-message', message: 'Equipes cadastradas com sucesso!', style: 'success');
         $this->closeTeamModal();
+        $this->dispatch('teams-updated');
     }
 
     public function askToClearStorage()

@@ -1,10 +1,10 @@
-<x-app-layout :title="$title">
+﻿<x-app-layout :title="$title">
     <x-slot name="header">
         <x-page-title title="Cadastrar Aluno" />
     </x-slot>
 
     <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if ($errors->any())
                     <x-alert-component type="error">
@@ -23,37 +23,37 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-200">Nome</label>
                             <input type="text" name="name" value="{{ old('name') }}" required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-200">E-mail</label>
                             <input type="email" name="email" value="{{ old('email') }}" required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-200">CPF</label>
                             <input type="text" name="cpf" value="{{ old('cpf') }}" required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-200">Telefone</label>
                             <input type="text" name="phone" value="{{ old('phone') }}"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-200">Senha</label>
                             <input type="password" name="password" required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-200">Confirmar Senha</label>
                             <input type="password" name="password_confirmation" required
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="mt-1 block w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
                     </div>
 
@@ -96,3 +96,5 @@
         }
     </script>
 </x-app-layout>
+
+

@@ -5,13 +5,10 @@ namespace App\Livewire\Page;
 use Livewire\Component;
 use App\Models\Event;
 use App\Models\FinancialTransaction;
-use App\Models\FinancialCategory;
 use App\Models\Client;
-use App\Models\Plan;
 use App\Models\Team;
 use App\Models\Category;
 use App\Models\ClientAccount;
-use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Component
 {
@@ -29,16 +26,31 @@ class Dashboard extends Component
     public $paidLastMonth = 0;
     public $monthlyTrend = [];
 
+    public $clientesTrend = [];
     public $totalClients = 0;
-    public $totalPlans = 0;
-    public $totalClientRevenue = 0;
-    public $potentialRevenue = 0;
-    public $currentMonthRevenue = 0;
-    public $projectedExpense = 0;
-    public $projectedBalance = 0;
+    public $expectedRevenue = 0;
+    public $arrecadado = 0;
+    public $monthlyExpenses = 0;
+    public $netTotal = 0;
 
     public function mount()
     {
+        $user = auth()->user();
+
+        if (!$user->isSuperAdmin() && $user->system_id) {
+            $redirects = [
+                'tbr' => 'tbr.dashboard',
+                'financeiro' => 'financeiro.dashboard',
+                'clientes' => 'clientes.dashboard',
+            ];
+
+            $slug = $user->system?->slug;
+            if ($route = $redirects[$slug] ?? null) {
+                $this->redirectRoute($route);
+                return;
+            }
+        }
+
         $this->loadStats();
     }
 
@@ -84,22 +96,25 @@ class Dashboard extends Component
     public function loadFinanceiroStats()
     {
         $userId = auth()->id();
+        $isSuper = auth()->user()->isSuperAdmin();
 
-        $this->totalIncome = FinancialTransaction::where('user_id', $userId)
+        $baseQuery = fn($query) => $isSuper ? $query : $query->where('user_id', $userId);
+
+        $this->totalIncome = (float) $baseQuery(FinancialTransaction::query())
             ->where('paid', true)->where('value', '>', 0)->sum('value');
 
-        $this->totalExpense = FinancialTransaction::where('user_id', $userId)
+        $this->totalExpense = (float) $baseQuery(FinancialTransaction::query())
             ->where('paid', true)->where('value', '<', 0)->sum('value');
 
-        $this->pendingBills = FinancialTransaction::where('user_id', $userId)
+        $this->pendingBills = $baseQuery(FinancialTransaction::query())
             ->where('paid', false)->count();
 
-        $this->paidThisMonth = FinancialTransaction::where('user_id', $userId)
+        $this->paidThisMonth = (float) $baseQuery(FinancialTransaction::query())
             ->where('paid', true)
             ->where('month', now()->month)->where('year', now()->year)
             ->sum('value');
 
-        $this->paidLastMonth = FinancialTransaction::where('user_id', $userId)
+        $this->paidLastMonth = (float) $baseQuery(FinancialTransaction::query())
             ->where('paid', true)
             ->where('month', now()->subMonth()->month)->where('year', now()->subMonth()->year)
             ->sum('value');
@@ -108,16 +123,16 @@ class Dashboard extends Component
         $trend = [];
         for ($i = 5; $i >= 0; $i--) {
             $date = $now->copy()->subMonths($i);
-            $rec = FinancialTransaction::where('user_id', $userId)
+            $rec = (float) $baseQuery(FinancialTransaction::query())
                 ->where('paid', true)->where('value', '>', 0)
                 ->where('month', $date->month)->where('year', $date->year)->sum('value');
-            $desp = FinancialTransaction::where('user_id', $userId)
+            $desp = (float) $baseQuery(FinancialTransaction::query())
                 ->where('paid', true)->where('value', '<', 0)
                 ->where('month', $date->month)->where('year', $date->year)->sum('value');
             $trend[] = [
                 'month' => $date->format('M/Y'),
-                'receitas' => (float) $rec,
-                'despesas' => (float) abs($desp),
+                'receitas' => $rec,
+                'despesas' => abs($desp),
             ];
         }
         $this->monthlyTrend = $trend;
@@ -125,29 +140,65 @@ class Dashboard extends Component
 
     public function loadClientesStats()
     {
-        $userId = auth()->id();
+        $user = auth()->user();
+        $isSuper = $user->isSuperAdmin();
 
-        $this->totalClients = Client::where('user_id', $userId)->where('active', true)->count();
-        $this->totalPlans = Plan::where('user_id', $userId)->count();
+        $teamId = null;
+        if (!$isSuper) {
+            $team = $user->teams()->first();
+            $teamId = $team ? (int) $team->id : null;
+        }
 
-        $this->totalClientRevenue = ClientAccount::whereHas('client', fn($q) => $q->where('user_id', $userId))
-            ->where('paid', true)->sum('value');
+        $clientBase = $isSuper
+            ? Client::query()
+            : Client::where('team_id', $teamId);
 
-        $this->potentialRevenue = Plan::where('user_id', $userId)->where('active', true)->sum('value');
+        $this->totalClients = (clone $clientBase)->count();
 
-        $this->currentMonthRevenue = ClientAccount::whereHas('client', fn($q) => $q->where('user_id', $userId))
+        $accountBase = $isSuper
+            ? ClientAccount::whereNotNull('client_id')
+            : ClientAccount::whereHas('client', fn($q) => $q->where('team_id', $teamId));
+
+        $expenseBase = $isSuper
+            ? ClientAccount::whereNull('client_id')
+            : ClientAccount::whereNull('client_id')->where('team_id', $teamId);
+
+        $now = now();
+        $month = $now->month;
+        $year = $now->year;
+
+        $this->expectedRevenue = (float) (clone $accountBase)
+            ->where('month', $month)->where('year', $year)
+            ->sum('value');
+
+        $this->arrecadado = (float) (clone $accountBase)
             ->where('paid', true)
-            ->where('month', now()->month)->where('year', now()->year)
+            ->where('month', $month)->where('year', $year)
             ->sum('value');
 
-        // Average monthly gastos (last 3 months)
-        $expensesLast3 = ClientAccount::where('user_id', $userId)
-            ->whereNull('client_id')
-            ->where('created_at', '>=', now()->subMonths(3)->startOfMonth())
+        $this->monthlyExpenses = (float) (clone $expenseBase)
+            ->where('paid', true)
+            ->where('month', $month)->where('year', $year)
             ->sum('value');
 
-        $this->projectedExpense = $expensesLast3 > 0 ? round($expensesLast3 / 3, 2) : 0;
-        $this->projectedBalance = $this->potentialRevenue - $this->projectedExpense;
+        $this->netTotal = $this->arrecadado - $this->monthlyExpenses;
+
+        $trend = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $date = $now->copy()->subMonths($i);
+            $m = $date->month;
+            $y = $date->year;
+            $rec = (float) (clone $accountBase)
+                ->where('paid', true)->where('month', $m)->where('year', $y)->sum('value');
+            $desp = (float) (clone $expenseBase)
+                ->where('paid', true)->where('month', $m)->where('year', $y)->sum('value');
+            $trend[] = [
+                'month' => $date->format('M/Y'),
+                'receitas' => $rec,
+                'despesas' => $desp,
+            ];
+        }
+        $this->clientesTrend = $trend;
     }
 
     public function render()
@@ -155,6 +206,7 @@ class Dashboard extends Component
         return view('livewire.page.dashboard', [
             'teamsByCategoryJson' => json_encode($this->teamsByCategory),
             'monthlyTrendJson' => json_encode($this->monthlyTrend),
+            'clientesTrendJson' => json_encode($this->clientesTrend),
         ])->layout('layouts.app');
     }
 }

@@ -72,11 +72,13 @@
 
     @livewireScripts
 
+    @if (str_contains(request()->getHost(), 'ideias.dev.br'))
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/5534991535839" target="_blank" rel="noopener noreferrer"
        class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110">
         <i class="fab fa-whatsapp text-3xl"></i>
     </a>
+    @endif
 </body>
 
 </html>

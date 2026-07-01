@@ -27,19 +27,27 @@
 <body class="font-sans text-gray-100 antialiased">
     <div class="min-h-screen w-full relative flex">
 
+        {{-- Background --}}
         <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
             style="background-image: url('{{ asset('img/fundo_login.png') }}');">
         </div>
+        <div class="absolute inset-0 bg-black/40"></div>
 
-        <div class="w-full flex items-center justify-center relative z-10 md:justify-end">
-            <div class="w-full max-w-xs md:w-[30%] md:h-full p-4 bg-black shadow-2xl flex flex-col justify-center">
-                <div class="text-center">
-                    <a href="/">
-                        <x-application-logo class="w-1/2 md:w-44 fill-current mx-auto text-white" />
-                    </a>
-                </div>
+        {{-- Panel --}}
+        <div class="w-full flex items-stretch justify-center relative z-10 md:justify-end">
+            <div class="w-full max-w-sm md:w-[32%] md:max-w-none md:h-full relative flex flex-col justify-center bg-black/85 backdrop-blur-md shadow-2xl border-l border-white/5">
 
-                <div class="text-gray-200 mt-4">
+                {{-- Accent line top --}}
+                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent"></div>
+
+                <div class="px-8 py-10 md:px-10">
+                    {{-- Logo --}}
+                    <div class="text-center mb-8">
+                        <a href="/">
+                            <img src="{{ asset('img/logo.png') }}" alt="Logo" class="w-40 mx-auto">
+                        </a>
+                    </div>
+
                     {{ $slot }}
                 </div>
             </div>

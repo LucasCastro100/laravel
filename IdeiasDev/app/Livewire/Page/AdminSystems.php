@@ -90,7 +90,7 @@ class AdminSystems extends Component
 
     public function render()
     {
-        return view('livewire.page.admin-systems')
+        return view('livewire.page.admin.systems')
             ->layout('layouts.app');
     }
 }

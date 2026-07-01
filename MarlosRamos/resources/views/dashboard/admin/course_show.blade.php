@@ -1,18 +1,11 @@
-<x-app-layout :title="$title">
+﻿<x-app-layout :title="$title">
     <x-slot name="header">
         <x-page-title title="Curso" />
     </x-slot>
 
     <div class="py-12" x-data="{ openModule: false, openClassroom: false, openEdit: false, openDelete: false, editModule: false, editClassroom: false, selectedCourse: {}, selectModule: {}, selectClassroom: {}, selectedParentUuid: '', selectedModuleId: null }">
-        <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                @if (session('success'))
-                    <x-alert-component type="success" :message="session('success')" />
-                @endif
-
-                @if (session('error'))
-                    <x-alert-component type="error" :message="session('error')" />
-                @endif
 
                 <div class="flex flex-col items-center justify-center gap-6">
                     <!-- Primeira Div (Título e Menu) -->
@@ -134,18 +127,22 @@
                                                     <div class="flex items-center gap-2">
                                                         <button
                                                             @click="dropClassroom.includes({{ $module->id }}) ? dropClassroom = dropClassroom.filter(id => id !== {{ $module->id }}) : dropClassroom.push({{ $module->id }})"
-                                                            class="rounded-full bg-blue-600/10 px-3 py-1 text-sm text-blue-200 hover:bg-blue-600/20">
-                                                            <span x-show="!dropClassroom.includes({{ $module->id }})">Expandir</span>
-                                                            <span x-show="dropClassroom.includes({{ $module->id }})">Recolher</span>
+                                                            class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-800 border border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-gray-200 transition">
+                                                            <svg :class="dropClassroom.includes({{ $module->id }}) ? 'rotate-180' : ''"
+                                                                 class="w-3.5 h-3.5 transition-transform duration-200"
+                                                                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                                            </svg>
                                                         </button>
 
-                                                        <div class="relative" x-data="{ openMenuModule: false }">
-                                                            <button @click="openMenuModule = !openMenuModule"
+                                                        <div class="relative" x-data="{ openMenuModule: false, dtop: 0, dright: 0 }">
+                                                            <button @click.stop="const r=$el.getBoundingClientRect(); dtop=r.bottom+4; dright=window.innerWidth-r.right; openMenuModule=!openMenuModule"
                                                                 class="rounded-full bg-gray-800 p-2 text-gray-200 hover:bg-gray-700">
                                                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                                                             </button>
                                                             <div x-show="openMenuModule" @click.away="openMenuModule = false"
-                                                                class="absolute right-0 mt-2 w-40 rounded-lg border border-gray-700 bg-gray-800 p-2 shadow-lg z-10" x-transition>
+                                                                :style="{ top: dtop+'px', right: dright+'px' }"
+                                                                class="fixed w-40 rounded-lg border border-gray-700 bg-gray-800 p-2 shadow-lg z-[9999]" x-transition>
                                                                 <ul class="space-y-1">
                                                                     <li>
                                                                         <button
@@ -175,18 +172,20 @@
                                                     @else
                                                         @foreach ($module->classrooms as $classroom)
                                                             <div class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-gray-800 bg-gray-800/80 p-3">
-                                                                <button type="button" @click="window.location.href = '/aula/' + {{ json_encode($classroom->uuid) }}"
-                                                                    class="text-left text-gray-100 hover:text-blue-200">
-                                                                    {{ $classroom->title }}
-                                                                </button>
+                                                                <a href="{{ route('admin.classroom.show', $classroom->uuid) }}"
+                                                                   class="flex items-center gap-2 flex-1 min-w-0 group">
+                                                                    <i class="fa-solid fa-play-circle text-xs text-gray-500 group-hover:text-blue-400 shrink-0 transition"></i>
+                                                                    <span class="text-sm text-gray-100 truncate group-hover:text-blue-300 transition">{{ $classroom->title }}</span>
+                                                                </a>
 
-                                                                <div class="relative" x-data="{ open: false }">
-                                                                    <button @click="open = !open"
+                                                                <div class="relative shrink-0" x-data="{ open: false, dtop: 0, dright: 0 }">
+                                                                    <button @click.stop="const r=$el.getBoundingClientRect(); dtop=r.bottom+4; dright=window.innerWidth-r.right; open=!open"
                                                                         class="rounded-full bg-gray-800 p-2 text-gray-200 hover:bg-gray-700">
                                                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                                                     </button>
                                                                     <div x-show="open" @click.away="open = false"
-                                                                        class="absolute right-0 mt-2 w-40 rounded-lg border border-gray-700 bg-gray-800 p-2 shadow-lg z-10" x-transition>
+                                                                        :style="{ top: dtop+'px', right: dright+'px' }"
+                                                                        class="fixed w-40 rounded-lg border border-gray-700 bg-gray-800 p-2 shadow-lg z-[9999]" x-transition>
                                                                         <ul class="space-y-1">
                                                                             <li>
                                                                                 <button
@@ -237,33 +236,33 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-200">Título</label>
                             <input type="text" name="title" x-model="selectedCourse.title"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-[1fr_2fr] gap-4 mt-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-200">Preço (R$)</label>
                                 <input type="number" name="price" step="0.01" min="0" x-model="selectedCourse.price"
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-200">Link pagamento</label>
                                 <input type="text" name="payment_link" x-model="selectedCourse.payment_link"
-                                    class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
                         </div>
 
                         <div class="mt-4">
                             <label class="block text-sm font-medium text-gray-200">Descrição</label>
-                            <textarea name="description" x-model="selectedCourse.description" rows="8" class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                            <textarea name="description" x-model="selectedCourse.description" rows="8" class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
                         </div>
 
                         <div class="flex flex-col sm:flex-row gap-4 mt-4">
                             <div class="relative flex-1 min-w-0">
                                 <label class="block text-sm font-medium text-gray-200 mb-1">Imagem de capa</label>
                                 <label for="dropzone-cover-edit"
-                                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-950 hover:bg-gray-900">
+                                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition">
                                     <div class="flex flex-col items-center justify-center p-3">
                                         <svg class="w-6 h-6 mb-2 text-gray-200" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -292,7 +291,7 @@
                             <div class="relative flex-1 min-w-0">
                                 <label class="block text-sm font-medium text-gray-200 mb-1">Imagem banner</label>
                                 <label for="dropzone-banner-edit"
-                                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-950 hover:bg-gray-900">
+                                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition">
                                     <div class="flex flex-col items-center justify-center p-3">
                                         <svg class="w-6 h-6 mb-2 text-gray-200" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -350,14 +349,14 @@
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-200">Título</label>
                             <input type="text" id="title" name="title"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required>
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-200">Descrição</label>
                             <textarea id="description" name="description" rows="6"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required></textarea>
                         </div>
 
@@ -392,14 +391,14 @@
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-200">Título</label>
                             <input type="text" id="title" name="title" x-model="selectedModule.title"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required>
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-200">Descrição</label>
                             <textarea id="description" name="description" x-model="selectedModule.description" rows="6"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required></textarea>
                         </div>
 
@@ -433,14 +432,14 @@
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-200">Nome da Aula</label>
                             <input type="text" id="title" name="title"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required>
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-200">Descrição</label>
                             <textarea id="description" name="description" rows="6"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required></textarea>
                         </div>
 
@@ -448,22 +447,26 @@
                             <label for="video" class="block text-sm font-medium text-gray-200">URL do
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required>
                         </div>
 
                         <div class="mb-4">
                             <label for="module_id" class="block text-sm font-medium text-gray-200">Selecionar
                                 Módulo</label>
-                            <select id="module_id" name="module_id"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
-
-                                <option disabled selected>Selecione o Módulo</option>
-                                @foreach ($course->modules as $module)
-                                    <option value="{{ $module->id }}"> {{ $module->title }}</option>
-                                @endforeach
-                            </select>
+                            <div class="relative mt-1">
+                                <select id="module_id" name="module_id"
+                                    class="appearance-none block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required>
+                                    <option disabled selected>Selecione o Módulo</option>
+                                    @foreach ($course->modules as $module)
+                                        <option value="{{ $module->id }}"> {{ $module->title }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-between">
@@ -496,14 +499,14 @@
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-200">Nome da Aula</label>
                             <input type="text" id="title" name="title"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required  x-model="selectClassroom.title">
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-200">Descrição</label>
                             <textarea id="description" name="description" rows="6"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required x-model="selectClassroom.description"></textarea>
                         </div>
 
@@ -511,23 +514,28 @@
                             <label for="video" class="block text-sm font-medium text-gray-200">URL do
                                 Vídeo</label>
                             <input type="url" id="video" name="video"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                class="appearance-none mt-1 block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 required  x-model="selectClassroom.video">
                         </div>
 
                         <div class="mb-4">
                             <label for="module_id" class="block text-sm font-medium text-gray-200">Selecionar
                                 Módulo</label>
-                            <select id="module_id" name="module_id" x-model="selectedModuleId"
-                                class="mt-1 block w-full px-3 py-2 bg-gray-950 text-gray-200 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                required>
-                                <option value="" disabled selected>Selecione o Módulo</option>
-                                @foreach ($course->modules as $module)
-                                    <option value="{{ $module->id }}"
-                                        :selected="selectedModuleId === {{ $module->id }}">{{ $module->title }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="relative mt-1">
+                                <select id="module_id" name="module_id" x-model="selectedModuleId"
+                                    class="appearance-none block w-full pl-3 pr-10 py-2 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    required>
+                                    <option value="" disabled selected>Selecione o Módulo</option>
+                                    @foreach ($course->modules as $module)
+                                        <option value="{{ $module->id }}"
+                                            :selected="selectedModuleId === {{ $module->id }}">{{ $module->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-between">
@@ -586,3 +594,9 @@
         }));
     });
 </script>
+
+
+
+
+
+

@@ -33,7 +33,7 @@ class TbrModalities extends Component
             $query->where('level', $this->filterLevel);
         }
 
-        return view('livewire.page.tbr-modalities', [
+        return view('livewire.page.tbr.modalities', [
             'modalities' => $query->get(),
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => true,

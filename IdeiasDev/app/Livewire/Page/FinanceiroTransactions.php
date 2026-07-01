@@ -3,6 +3,7 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\AccountType;
 use App\Models\FinancialCategory;
 use App\Models\FinancialTransaction;
@@ -10,7 +11,7 @@ use Laravel\Jetstream\InteractsWithBanner;
 
 class FinanceiroTransactions extends Component
 {
-    use InteractsWithBanner;
+    use InteractsWithBanner, WithPagination;
 
     public $showModal = false;
     public $transactionId = null;
@@ -25,12 +26,15 @@ class FinanceiroTransactions extends Component
     public $month = '';
     public $year = '';
     public $notes = '';
+    public $perPage = 10;
 
-    public $transactions;
     public $accountTypes;
     public $categories;
     public $filterMonth = '';
     public $filterYear = '';
+
+    public $confirmingId = null;
+    public $confirmingMessage = '';
 
     public function mount()
     {
@@ -40,31 +44,21 @@ class FinanceiroTransactions extends Component
         $this->year = now()->year;
         $this->filterMonth = now()->month;
         $this->filterYear = now()->year;
-        $this->loadTransactions();
-    }
-
-    public function loadTransactions()
-    {
-        $query = FinancialTransaction::where('user_id', auth()->id());
-
-        if ($this->filterMonth) {
-            $query->where('month', $this->filterMonth);
-        }
-        if ($this->filterYear) {
-            $query->where('year', $this->filterYear);
-        }
-
-        $this->transactions = $query->orderBy('due_date', 'desc')->get();
     }
 
     public function updatedFilterMonth()
     {
-        $this->loadTransactions();
+        $this->resetPage();
     }
 
     public function updatedFilterYear()
     {
-        $this->loadTransactions();
+        $this->resetPage();
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
     }
 
     public function openModal()
@@ -114,7 +108,7 @@ class FinanceiroTransactions extends Component
         FinancialTransaction::updateOrCreate(
             ['id' => $this->transactionId],
             [
-                'user_id' => auth()->id(),
+                'user_id' => $this->transactionId ? FinancialTransaction::find($this->transactionId)->user_id : auth()->id(),
                 'account_type_id' => $this->account_type_id ?: null,
                 'category_id' => $this->category_id ?: null,
                 'description' => $autoDescription,
@@ -131,7 +125,6 @@ class FinanceiroTransactions extends Component
         $this->banner($this->transactionId ? 'Conta atualizada com sucesso!' : 'Conta cadastrada com sucesso!');
         $this->showModal = false;
         $this->resetForm();
-        $this->loadTransactions();
     }
 
     public function togglePaid($id)
@@ -141,14 +134,26 @@ class FinanceiroTransactions extends Component
             'paid' => !$transaction->paid,
             'paid_date' => !$transaction->paid ? now() : null,
         ]);
-        $this->loadTransactions();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        FinancialTransaction::where('user_id', auth()->id())->findOrFail($id)->delete();
+        $this->confirmingId = $id;
+        $this->confirmingMessage = 'Excluir esta conta? Esta ação não pode ser desfeita.';
+    }
+
+    public function executeAction()
+    {
+        FinancialTransaction::where('user_id', auth()->id())->findOrFail($this->confirmingId)->delete();
         $this->banner('Conta excluída com sucesso!');
-        $this->loadTransactions();
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
     }
 
     public function resetForm()
@@ -169,12 +174,22 @@ class FinanceiroTransactions extends Component
 
     public function render()
     {
-        return view('livewire.page.financeiro-transactions', [
+        $query = FinancialTransaction::where('user_id', auth()->id());
+
+        if ($this->filterMonth) {
+            $query->where('month', $this->filterMonth);
+        }
+        if ($this->filterYear) {
+            $query->where('year', $this->filterYear);
+        }
+
+        return view('livewire.page.financeiro.transactions', [
+            'transactions' => $query->orderBy('due_date', 'desc')->paginate($this->perPage),
             'types' => $this->accountTypes,
             'cats' => $this->categories,
-        ])            ->layout('layouts.app-sidebar', [
-                'showSidebar' => true,
-                'title' => 'Contas',
-            ]);
+        ])->layout('layouts.app-sidebar', [
+            'showSidebar' => true,
+            'title' => 'Contas',
+        ]);
     }
 }

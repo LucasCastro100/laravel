@@ -20,6 +20,19 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public function teams()
+    {
+        return $this->belongsToMany(Company::class, 'team_user', 'user_id', 'team_id')
+            ->withPivot('role')
+            ->withTimestamps()
+            ->as('membership');
+    }
+
+    public function ownedTeams()
+    {
+        return $this->hasMany(Company::class, 'user_id');
+    }
+
     protected $fillable = [
         'name',
         'email',
@@ -39,6 +52,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    public function system()
+    {
+        return $this->belongsTo(System::class, 'system_id');
+    }
+
+    public function resolveSystem(): ?System
+    {
+        if ($this->system_id) {
+            return $this->system()->first();
+        }
+
+        $team = $this->teams()->with('system')->first();
+        return $team?->system;
+    }
+
     protected function casts(): array
     {
         return [
@@ -52,9 +80,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Role::class);
     }
 
-    public function system()
+    public function sendEmailVerificationNotification(): void
     {
-        return $this->belongsTo(System::class);
+        $this->notify(new \App\Notifications\VerifyEmail);
+    }
+
+    public function sendPasswordResetNotification(#[\SensitiveParameter] $token): void
+    {
+        $this->notify(new \App\Notifications\ResetPassword($token));
     }
 
     public function isSuperAdmin(): bool
@@ -76,7 +109,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if ($this->isSuperAdmin()) return true;
 
-        if ($this->system?->slug === 'tbr') return false;
+        if ($this->system?->slug === 'tbr') return $this->isAdmin();
 
         if (in_array($this->system?->slug, ['financeiro', 'clientes'])) return true;
 
@@ -87,7 +120,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if ($this->isSuperAdmin()) return true;
 
-        if ($this->system?->slug === 'tbr') return false;
+        if ($this->system?->slug === 'tbr') return $this->isAdmin();
 
         if (in_array($this->system?->slug, ['financeiro', 'clientes'])) return true;
 

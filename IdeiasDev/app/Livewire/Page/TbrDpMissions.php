@@ -108,7 +108,7 @@ class TbrDpMissions extends Component
             ->orderBy('sort_order')
             ->get();
 
-        return view('livewire.page.tbr-dp-missions', [
+        return view('livewire.page.tbr.dp-missions', [
             'missions' => $query->get(),
             'years' => $years,
             'availableMissions' => $availableMissions,

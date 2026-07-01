@@ -3,12 +3,13 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\FinancialCategory;
 use Laravel\Jetstream\InteractsWithBanner;
 
 class FinanceiroCategories extends Component
 {
-    use InteractsWithBanner;
+    use InteractsWithBanner, WithPagination;
 
     public $showModal = false;
     public $catId = null;
@@ -16,7 +17,10 @@ class FinanceiroCategories extends Component
     public $type = 'expense';
     public $description = '';
     public $color = '#6b7280';
-    public $categories;
+    public $perPage = 10;
+
+    public $confirmingId = null;
+    public $confirmingMessage = '';
 
     protected function rules()
     {
@@ -26,16 +30,6 @@ class FinanceiroCategories extends Component
             'description' => ['nullable', 'string'],
             'color' => ['nullable', 'string', 'max:9'],
         ];
-    }
-
-    public function mount()
-    {
-        $this->loadCategories();
-    }
-
-    public function loadCategories()
-    {
-        $this->categories = FinancialCategory::orderBy('name')->get();
     }
 
     public function openModal()
@@ -67,14 +61,31 @@ class FinanceiroCategories extends Component
         $this->banner($this->catId ? 'Categoria atualizada!' : 'Categoria cadastrada!');
         $this->showModal = false;
         $this->resetForm();
-        $this->loadCategories();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        FinancialCategory::findOrFail($id)->delete();
+        $this->confirmingId = $id;
+        $this->confirmingMessage = 'Excluir esta categoria? Esta ação não pode ser desfeita.';
+    }
+
+    public function executeAction()
+    {
+        FinancialCategory::findOrFail($this->confirmingId)->delete();
         $this->banner('Categoria excluída!');
-        $this->loadCategories();
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
     }
 
     public function resetForm()
@@ -88,7 +99,9 @@ class FinanceiroCategories extends Component
 
     public function render()
     {
-        return view('livewire.page.financeiro-categories')
+        return view('livewire.page.financeiro.categories', [
+            'categories' => FinancialCategory::orderBy('name')->paginate($this->perPage),
+        ])
             ->layout('layouts.app-sidebar', [
                 'showSidebar' => true,
                 'title' => 'Categorias Financeiras',

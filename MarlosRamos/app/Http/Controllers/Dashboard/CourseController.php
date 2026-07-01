@@ -15,16 +15,28 @@ use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::withCount('users')->get();
+        $courses = Course::withCount('users')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        $dados = [
-            'title' => 'Gerencimanto dos cursos',
+        return view('dashboard.teacher.course.courses', [
+            'title'   => 'Gerenciamento dos Cursos',
             'courses' => $courses,
-        ];
+        ]);
+    }
 
-        return view('dashboard.teacher.course.courses', $dados);
+    public function create()
+    {
+        return view('dashboard.teacher.course.create', ['title' => 'Novo Curso']);
+    }
+
+    public function edit(Request $request)
+    {
+        $course = Course::where('uuid', $request->uuid)->firstOrFail();
+        return view('dashboard.teacher.course.edit', ['title' => 'Editar Curso', 'course' => $course]);
     }
 
     public function store(CourseRequest $request)
@@ -105,7 +117,7 @@ class CourseController extends Controller
             }
 
             $course->update($data);
-            return redirect()->back()->with('success', 'Curso atualizado com sucesso!');
+            return redirect()->route('course.show', ['uuid' => $course->uuid])->with('success', 'Curso atualizado com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erro ao atualizar o curso.');
         }

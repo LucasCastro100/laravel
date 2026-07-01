@@ -7,87 +7,23 @@
     @endif
 
     <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl mb-6 flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-gray-100">{{ $event?->name ?? 'Evento não encontrado' }}</h1>
-            @if ($event)
-                <span class="text-sm text-gray-400 mt-1 block">
-                    {{ $event->teams_count }} equipe(s) cadastrada(s)
-                </span>
-            @endif
-        </div>
-        <a href="{{ route('tbr.dashboard') }}"
-            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition text-sm">
-            <i class="fas fa-arrow-left mr-1"></i> Voltar
-        </a>
-    </div>
-
-    @if (!$event)
-        <div class="bg-gray-900 border border-red-900/50 text-red-400 px-4 py-3 rounded-xl" role="alert">
-            <span class="block font-bold">Evento não encontrado.</span>
-        </div>
-    @else
-        <div class="grid gap-6 grid-cols-1 lg:grid-cols-3 mb-6">
-            <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4">Informações</h3>
-                <div class="space-y-3 text-sm">
-                    <div>
-                        <span class="text-gray-500 block">Data</span>
-                        <span class="text-gray-200">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</span>
-                    </div>
-                    <div>
-                        <span class="text-gray-500 block">Local</span>
-                        @if ($event->location && ($event->location['municipio'] ?? null))
-                            <span class="text-gray-200">{{ $event->location['municipio']['nome'] }} - {{ $event->location['estado']['sigla'] ?? '' }}</span>
-                        @else
-                            <span class="text-gray-500">Não informado</span>
-                        @endif
-                    </div>
-                    <div>
-                        <span class="text-gray-500 block">Status</span>
-                        @if ($event->status)
-                            <span class="text-green-400 font-semibold">Concluído</span>
-                        @else
-                            <span class="text-blue-400 font-semibold">Em andamento</span>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-xl p-5">
-                <h3 class="text-lg font-semibold text-gray-100 mb-4">Ações</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-                    <a href="{{ route('tbr.ranking', ['event_id' => $event->id]) }}" target="_blank"
-                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
-                        <i class="fas fa-trophy text-2xl text-yellow-500"></i>
-                        <span class="text-sm text-gray-200 font-medium">Ranking</span>
-                    </a>
-                    <a href="{{ route('tbr.event-teams', ['event_id' => $event->id]) }}" target="_blank"
-                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
-                        <i class="fas fa-users text-2xl text-blue-400"></i>
-                        <span class="text-sm text-gray-200 font-medium">Equipes</span>
-                    </a>
-
-                    <a href="{{ route('tbr.link', ['event_id' => $event->id]) }}" target="_blank"
-                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
-                        <i class="fas fa-link text-2xl text-green-400"></i>
-                        <span class="text-sm text-gray-200 font-medium">Links</span>
-                    </a>
-                    <a href="{{ route('tbr.slide', ['event_id' => $event->id]) }}" target="_blank"
-                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
-                        <i class="fas fa-display text-2xl text-cyan-400"></i>
-                        <span class="text-sm text-gray-200 font-medium">Slide</span>
-                    </a>
-                    <a href="{{ route('tbr.ranking.scoresPdf', ['event_id' => $event->id]) }}"
-                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
-                        <i class="fas fa-file-lines text-2xl text-orange-400"></i>
-                        <span class="text-sm text-gray-200 font-medium">Exportar Notas</span>
-                    </a>
-                </div>
+        <div class="flex items-center gap-4">
+            <a href="{{ route('tbr.dashboard') }}"
+                class="w-9 h-9 flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div>
+                <h1 class="text-2xl font-semibold text-gray-100">{{ $event?->name ?? 'Evento não encontrado' }}</h1>
+                @if ($event)
+                    <span class="text-sm text-gray-400 mt-1 block">
+                        {{ $event->teams_count }} equipe(s) cadastrada(s)
+                    </span>
+                @endif
             </div>
         </div>
 
-        <div class="flex gap-3">
-            @can('edit')
+        <div class="flex items-center gap-2">
+            @can('create-event')
                 <button wire:click="openEditModal"
                     class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition text-sm">
                     <i class="fas fa-pen mr-1"></i> Editar Evento
@@ -99,6 +35,96 @@
                     <i class="fas fa-trash mr-1"></i> Excluir Evento
                 </button>
             @endcan
+        </div>
+    </div>
+
+    @if (!$event)
+        <div class="bg-gray-900 border border-red-900/50 text-red-400 px-4 py-3 rounded-xl" role="alert">
+            <span class="block font-bold">Evento não encontrado.</span>
+        </div>
+    @else
+        <div class="grid gap-6 grid-cols-1 lg:grid-cols-3 mb-6">
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
+                <h3 class="text-lg font-semibold text-gray-100 mb-4">Informações</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 text-sm">
+                    <div>
+                        <span class="text-gray-500 block">Data</span>
+                        <span class="text-gray-200">{{ \Carbon\Carbon::parse($event->date)->format('d/m/Y') }}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Local</span>
+                        @if ($event->location && ($event->location['municipio'] ?? null))
+                            <span class="text-gray-200">{{ $event->location['municipio']['nome'] }} -
+                                {{ $event->location['estado']['sigla'] ?? '' }}</span>
+                        @else
+                            <span class="text-gray-500">Não informado</span>
+                        @endif
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Tipo</span>
+                        @php
+                            $tipo = $event->tipo_evento ?? 'interno';
+                            $badgeColors = [
+                                'interno' => 'bg-gray-600',
+                                'regional' => 'bg-blue-600',
+                                'nacional' => 'bg-green-600',
+                            ];
+                        @endphp
+                        <span
+                            class="inline-block text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded {{ $badgeColors[$tipo] ?? 'bg-gray-600' }} text-white">{{ ucfirst($tipo) }}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Status</span>
+                        @if ($event->status)
+                            <span class="text-green-400 font-semibold">Concluído</span>
+                        @else
+                            <span class="text-blue-400 font-semibold">Em andamento</span>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-xl p-5">
+                <h3 class="text-lg font-semibold text-gray-100 mb-4">Ações</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                    <a href="{{ route('tbr.ranking', ['event_id' => $event->id]) }}" target="_blank"
+                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                        <i class="fas fa-trophy text-2xl text-yellow-500"></i>
+                        <span class="text-sm text-gray-200 font-medium">Ranking</span>
+                    </a>
+                    <a href="{{ route('tbr.event-teams', ['event_id' => $event->id]) }}" target="_blank"
+                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                        <i class="fas fa-users text-2xl text-blue-400"></i>
+                        <span class="text-sm text-gray-200 font-medium">Equipes</span>
+                    </a>
+                    @can('create-event')
+                        <a href="{{ route('tbr.edit-scores', ['event_id' => $event->id]) }}"
+                            class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                            <i class="fas fa-pen-to-square text-2xl text-purple-400"></i>
+                            <span class="text-sm text-gray-200 font-medium">Editar Notas</span>
+                        </a>
+                    @endcan
+
+                    <a href="{{ route('tbr.link', ['event_id' => $event->id]) }}" target="_blank"
+                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                        <i class="fas fa-link text-2xl text-green-400"></i>
+                        <span class="text-sm text-gray-200 font-medium">Links</span>
+                    </a>
+                    <a href="{{ route('tbr.slide', ['event_id' => $event->id]) }}" target="_blank"
+                        class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                        <i class="fas fa-display text-2xl text-cyan-400"></i>
+                        <span class="text-sm text-gray-200 font-medium">Slide</span>
+                    </a>
+                    @can('create-event')
+                        <button wire:click="openExportModal"
+                            class="flex flex-col items-center justify-center gap-2 p-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition text-center">
+                            <i class="fas fa-file-lines text-2xl text-orange-400"></i>
+                            <span class="text-sm text-gray-200 font-medium">Exportar Notas</span>
+                        </button>
+                    @endcan
+                </div>
+            </div>
         </div>
 
         {{-- Edit Modal --}}
@@ -131,6 +157,16 @@
                             </div>
 
                             <div>
+                                <label class="block font-semibold text-gray-300 text-sm mb-1">Tipo do Evento</label>
+                                <select wire:model="editTipoEvento"
+                                    class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                                    <option value="interno">Interno</option>
+                                    <option value="regional">Regional</option>
+                                    <option value="nacional">Nacional</option>
+                                </select>
+                            </div>
+
+                            <div class="mt-4">
                                 <label class="block font-semibold text-gray-300 text-sm mb-2">Status do Evento</label>
                                 <div class="flex gap-6">
                                     <label class="inline-flex items-center cursor-pointer">
@@ -193,6 +229,19 @@
                                 </div>
                             @endif
                         </fieldset>
+
+                        <fieldset class="border border-gray-700 rounded-xl p-4">
+                            <legend class="font-semibold text-gray-300 mb-2 px-2">Desafio Prático</legend>
+                            <div class="mb-4">
+                                <label class="block font-semibold text-gray-300 text-sm mb-1">Nomes das Missões (separados por vírgula)</label>
+                                <input type="text" wire:model="editDpMissions"
+                                    class="w-full bg-gray-800 border border-gray-700 text-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Ex: Resgate, Labirinto, Escalada">
+                                @error('editDpMissions')
+                                    <span class="text-red-400 text-sm mt-1 block">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </fieldset>
                     </div>
 
                     <div class="flex justify-end gap-3 mt-6">
@@ -206,6 +255,63 @@
                         <span class="text-blue-400 font-semibold">Atualizando evento...</span>
                     </div>
                 </form>
+            </div>
+        @endif
+
+        {{-- Export Modal --}}
+        @if ($showExportModal)
+            <div class="fixed p-6 inset-0 bg-black/70 flex items-center justify-center z-50">
+                <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 w-full max-w-md">
+                    <h2 class="text-xl font-bold text-gray-100 mb-4">Exportar Notas</h2>
+                    <p class="text-sm text-gray-400 mb-4">Selecione as modalidades que deseja incluir no PDF:</p>
+
+                    <div class="space-y-3 mb-6">
+                        @foreach ($exportAvailableModalities as $mod)
+                            <label class="flex items-center gap-3 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                                <input type="checkbox" value="{{ $mod['slug'] }}"
+                                    wire:model.live="exportSelectedModalities"
+                                    class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded">
+                                <span class="text-gray-200 text-sm font-medium">{{ $mod['label'] }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+
+                    @if (empty($exportSelectedModalities))
+                        <p class="text-red-400 text-sm mb-4">Selecione pelo menos uma modalidade.</p>
+                    @endif
+
+                    <div class="border-t border-gray-700 pt-4 mb-4 space-y-2">
+                        <p class="text-sm text-gray-400 font-medium mb-2">Informações na capa do PDF:</p>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" wire:model="exportPdfShowPosition"
+                                class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded">
+                            <span class="text-gray-300 text-sm">Mostrar posição no ranking</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" wire:model="exportPdfShowTotal"
+                                class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded">
+                            <span class="text-gray-300 text-sm">Mostrar nota total</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" wire:model="exportPdfShowModalities"
+                                class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded">
+                            <span class="text-gray-300 text-sm">Mostrar páginas de modalidades</span>
+                        </label>
+                    </div>
+
+                    <div class="flex justify-end gap-3">
+                        <button type="button" wire:click="closeExportModal"
+                            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition">Cancelar</button>
+                        <button type="button" wire:click="exportScores"
+                            class="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition">
+                            <i class="fas fa-file-export mr-1"></i> Exportar
+                        </button>
+                    </div>
+
+                    <div wire:loading wire:target="exportScores" class="w-full p-2 text-center">
+                        <span class="text-orange-400 font-semibold">Preparando exportação...</span>
+                    </div>
+                </div>
             </div>
         @endif
 

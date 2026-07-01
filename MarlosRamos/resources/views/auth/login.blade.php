@@ -1,41 +1,67 @@
 <x-guest-layout>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth-session-status class="mb-5" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <div class="mb-6">
+        <h1 class="text-xl font-semibold text-white">Bem-vindo de volta</h1>
+        <p class="text-sm text-gray-400 mt-1">Acesse sua conta para continuar</p>
+    </div>
+
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
+        {{-- E-mail --}}
         <div>
-            <x-input-label for="email" :value="__('E-mail')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Senha')" />
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <div class="mt-8 flex flex-col gap-4">
-
-            <x-primary-button class="w-full justify-center">
-                {{ __('Acessar') }}
-            </x-primary-button>
-
-            @if (Route::has('password.request'))
-                <div class="flex flex-col items-center gap-2 mt-2">
-                    <a class="underline text-sm text-gray-200 hover:text-gray-400 rounded-md" href="{{ route('password.request') }}">
-                        {{ __('Esqueceu a senha?') }}
-                    </a>
-
-                    <a class="underline text-sm text-gray-200 hover:text-gray-400 rounded-md" href="{{ route('register') }}">
-                        {{ __('Não possui conta?') }}
-                    </a>
+            <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5">E-mail</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+                    <i class="fa-regular fa-envelope text-gray-500 text-sm"></i>
                 </div>
-            @endif
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                    placeholder="seu@email.com"
+                    class="block w-full bg-white/5 border border-white/10 text-white placeholder-gray-600 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition">
+            </div>
+            <x-input-error :messages="$errors->get('email')" class="mt-1.5" />
         </div>
+
+        {{-- Senha --}}
+        <div>
+            <label class="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5">Senha</label>
+            <div class="relative" x-data="{ show: false }">
+                <div class="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-lock text-gray-500 text-sm"></i>
+                </div>
+                <input id="password" :type="show ? 'text' : 'password'" name="password" required
+                    placeholder="••••••••"
+                    class="block w-full bg-white/5 border border-white/10 text-white placeholder-gray-600 rounded-xl pl-10 pr-11 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition">
+                <button type="button" @click="show = !show"
+                    class="absolute inset-y-0 right-3.5 flex items-center text-gray-500 hover:text-gray-300 transition">
+                    <i x-show="!show" class="fa-regular fa-eye text-sm"></i>
+                    <i x-show="show" class="fa-regular fa-eye-slash text-sm" x-cloak></i>
+                </button>
+            </div>
+            <x-input-error :messages="$errors->get('password')" class="mt-1.5" />
+        </div>
+
+        {{-- Submit --}}
+        <div class="pt-2">
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-900/30 transition text-sm tracking-wide">
+                Entrar
+            </button>
+        </div>
+
+        {{-- Links --}}
+        @if (Route::has('password.request'))
+            <div class="flex flex-col items-center gap-2 pt-2">
+                <a href="{{ route('password.request') }}"
+                    class="text-sm text-gray-400 hover:text-gray-200 transition">
+                    Esqueceu a senha?
+                </a>
+                <a href="{{ route('register') }}"
+                    class="text-sm text-blue-400 hover:text-blue-300 transition font-medium">
+                    Não tem conta? Cadastre-se
+                </a>
+            </div>
+        @endif
     </form>
 </x-guest-layout>

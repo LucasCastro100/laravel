@@ -27,17 +27,17 @@
                                     {{ $link->active ? 'Sim' : 'Não' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-white">{{ $link->client_name }}</td>
-                            <td class="px-6 py-4">{{ $link->plan_name }}</td>
+                            <td class="px-6 py-4 text-white">{{ $link->client_name ?? '-' }}</td>
+                            <td class="px-6 py-4">{{ $link->plan_name ?? '-' }}</td>
                             <td class="px-6 py-4 text-green-400 font-medium">
-                                R$ {{ number_format($link->adjusted_value ?? $link->plan_value, 2, ',', '.') }}
+                                R$ {{ ($link->adjusted_value ?? $link->plan_value) ? number_format($link->adjusted_value ?? $link->plan_value, 2, ',', '.') : '-' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 <div class="flex items-center justify-end gap-1">
                                     <button wire:click="edit({{ $link->id }})" class="p-1.5 text-blue-500 hover:text-blue-400 hover:bg-blue-500/10 rounded-lg transition" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button wire:click="delete({{ $link->id }})" wire:confirm="Tem certeza?" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
+                                    <button wire:click="confirmDelete({{ $link->id }})" class="p-1.5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition" title="Excluir">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -51,6 +51,8 @@
                 </tbody>
             </table>
         </div>
+
+        <x-confirm-dialog :id="$confirmingId" :message="$confirmingMessage" />
 
         @if ($showModal)
             <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

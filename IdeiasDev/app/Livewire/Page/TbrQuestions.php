@@ -40,7 +40,7 @@ class TbrQuestions extends Component
             $query->where('modality_slug', $this->filterModality);
         }
 
-        return view('livewire.page.tbr-questions', [
+        return view('livewire.page.tbr.questions', [
             'questions' => $query->get(),
         ])->layout('layouts.app-sidebar', [
             'showSidebar' => true,

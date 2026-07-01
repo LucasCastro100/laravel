@@ -82,7 +82,7 @@ class TbrLinks extends Component
 
     public function render()
     {
-        return view('livewire.page.tbr-links', [
+        return view('livewire.page.tbr.links', [
             'categoriesWithModalities' => $this->categoriesWithModalities,
             'status' => $this->event?->status,
         ])->layout('layouts.app-tbr-public', [

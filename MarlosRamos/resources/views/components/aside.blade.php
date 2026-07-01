@@ -1,28 +1,42 @@
-<aside class="bg-gray-900 text-gray-200 fixed h-full border-r border-gray-800 md:block p-4 transition-all text-center"
-    :class="openAside ? 'w-[250px]' : 'w-[85px]'">
+<aside class="bg-gray-900 text-gray-200 fixed h-full border-r border-gray-800 p-4 z-50 transition-all duration-300 w-[250px] -translate-x-full md:translate-x-0 overflow-y-auto flex flex-col text-center"
+    :class="{
+        'md:!w-[85px]': !openAside,
+        'translate-x-0': mobileMenu
+    }">
 
-    <button @click="openAside = !openAside" class="p-2 bg-gray-800 hover:bg-gray-700 rounded-md mb-4 transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-200" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    {{-- Toggle desktop --}}
+    <button @click="openAside = !openAside"
+            class="hidden md:flex justify-center p-2 bg-gray-800 hover:bg-gray-700 rounded-md mb-4 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-200" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
     </button>
 
-    <nav class="space-y-2">
+    {{-- Fechar mobile --}}
+    <div class="md:hidden flex items-center justify-between mb-4 px-1">
+        <span class="text-sm font-semibold text-gray-200">Menu</span>
+        <button @click="mobileMenu = false"
+                class="p-1.5 rounded-md text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+    </div>
+
+    <nav class="space-y-2 flex-1">
         @foreach ($adminMenu as $item)
             <x-responsive-nav-link :href="route($item['route'])" :active="request()->routeIs($item['route'])" title="{{ $item['name'] }}">
                 <i class="{{ $item['icon'] }} pr-2"></i>
                 <span class="ml-3 text-sm font-medium transition-all duration-300"
-                    x-show="openAside">{{ __($item['name']) }}</span>
+                    x-show="openAside || mobileMenu">{{ __($item['name']) }}</span>
             </x-responsive-nav-link>
         @endforeach
 
         <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" title="{{ __('Perfil') }}">
             <i class="fa-solid fa-user-circle pr-2"></i>
             <span class="ml-3 text-sm font-medium transition-all duration-300"
-                x-show="openAside">{{ __('Perfil') }}</span>
+                x-show="openAside || mobileMenu">{{ __('Perfil') }}</span>
         </x-responsive-nav-link>
 
         <form method="POST" action="{{ route('logout') }}">
@@ -31,7 +45,7 @@
                 onclick="event.preventDefault(); this.closest('form').submit();" title="{{ __('Sair') }}">
                 <i class="fa-solid fa-sign-out-alt pr-2"></i>
                 <span class="ml-3 text-sm font-medium transition-all duration-300"
-                    x-show="openAside">{{ __('Sair') }}</span>
+                    x-show="openAside || mobileMenu">{{ __('Sair') }}</span>
             </x-responsive-nav-link>
         </form>
     </nav>

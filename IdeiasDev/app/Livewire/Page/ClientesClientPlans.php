@@ -3,6 +3,7 @@
 namespace App\Livewire\Page;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Client;
 use App\Models\ClientPlan;
 use App\Models\Plan;
@@ -10,7 +11,7 @@ use Laravel\Jetstream\InteractsWithBanner;
 
 class ClientesClientPlans extends Component
 {
-    use InteractsWithBanner;
+    use InteractsWithBanner, WithPagination;
 
     public $showModal = false;
     public $linkId = null;
@@ -20,8 +21,11 @@ class ClientesClientPlans extends Component
     public $end_date = '';
     public $adjusted_value = '';
     public $active = true;
+    public $perPage = 10;
 
-    public $links;
+    public $confirmingId = null;
+    public $confirmingMessage = '';
+
     public $clients;
     public $plans;
 
@@ -39,20 +43,17 @@ class ClientesClientPlans extends Component
 
     public function mount()
     {
-        $this->clients = Client::where('user_id', auth()->id())->where('active', true)->orderBy('name')->get();
+        $clientsQuery = Client::where('active', true)->orderBy('name');
+        if (!auth()->user()->isSuperAdmin()) {
+            $clientsQuery->where('user_id', auth()->id());
+        }
+        $this->clients = $clientsQuery->get();
         $this->plans = Plan::where('active', true)->orderBy('name')->get();
-        $this->loadLinks();
     }
 
-    public function loadLinks()
+    public function updatedPerPage()
     {
-        $this->links = ClientPlan::where('clients.user_id', auth()->id())
-            ->join('clients', 'client_plan.client_id', '=', 'clients.id')
-            ->join('plans', 'client_plan.plan_id', '=', 'plans.id')
-            ->select('client_plan.*', 'clients.name as client_name', 'plans.name as plan_name', 'plans.value as plan_value')
-            ->orderBy('client_plan.active', 'desc')
-            ->orderBy('client_plan.created_at', 'desc')
-            ->get();
+        $this->resetPage();
     }
 
     public function openModal()
@@ -64,7 +65,11 @@ class ClientesClientPlans extends Component
     public function edit($id)
     {
         $link = ClientPlan::findOrFail($id);
-        $client = Client::where('user_id', auth()->id())->find($link->client_id);
+        $clientQuery = Client::query();
+        if (!auth()->user()->isSuperAdmin()) {
+            $clientQuery->where('user_id', auth()->id());
+        }
+        $client = $clientQuery->find($link->client_id);
         if (!$client) abort(403);
 
         $this->linkId = $link->id;
@@ -81,7 +86,11 @@ class ClientesClientPlans extends Component
     {
         $this->validate();
 
-        $client = Client::where('user_id', auth()->id())->find($this->client_id);
+        $clientQuery = Client::query();
+        if (!auth()->user()->isSuperAdmin()) {
+            $clientQuery->where('user_id', auth()->id());
+        }
+        $client = $clientQuery->find($this->client_id);
         if (!$client) abort(403);
 
         $data = [
@@ -103,18 +112,42 @@ class ClientesClientPlans extends Component
         $this->banner($this->linkId ? 'Vinculo atualizado!' : 'Plano vinculado ao cliente!');
         $this->showModal = false;
         $this->resetForm();
-        $this->loadLinks();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
         $link = ClientPlan::findOrFail($id);
-        $client = Client::where('user_id', auth()->id())->find($link->client_id);
+        $clientQuery = Client::query();
+        if (!auth()->user()->isSuperAdmin()) {
+            $clientQuery->where('user_id', auth()->id());
+        }
+        $client = $clientQuery->find($link->client_id);
+        if (!$client) abort(403);
+
+        $this->confirmingId = $id;
+        $this->confirmingMessage = 'Remover este vínculo? Esta ação não pode ser desfeita.';
+    }
+
+    public function executeAction()
+    {
+        $link = ClientPlan::findOrFail($this->confirmingId);
+        $clientQuery = Client::query();
+        if (!auth()->user()->isSuperAdmin()) {
+            $clientQuery->where('user_id', auth()->id());
+        }
+        $client = $clientQuery->find($link->client_id);
         if (!$client) abort(403);
 
         $link->delete();
-        $this->banner('Vinculo removido!');
-        $this->loadLinks();
+        $this->banner('Vínculo removido!');
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
+    }
+
+    public function cancelConfirmation()
+    {
+        $this->confirmingId = null;
+        $this->confirmingMessage = '';
     }
 
     public function resetForm()
@@ -130,7 +163,20 @@ class ClientesClientPlans extends Component
 
     public function render()
     {
-        return view('livewire.page.clientes-client-plans')
+        $query = ClientPlan::join('clients', 'client_plan.client_id', '=', 'clients.id')
+            ->join('plans', 'client_plan.plan_id', '=', 'plans.id')
+            ->join('users', 'client_plan.user_id', '=', 'users.id')
+            ->select('client_plan.*', 'clients.name as client_name', 'plans.name as plan_name', 'plans.value as plan_value', 'users.name as user_name')
+            ->orderBy('client_plan.active', 'desc')
+            ->orderBy('client_plan.created_at', 'desc');
+
+        if (!auth()->user()->isSuperAdmin()) {
+            $query->where('clients.user_id', auth()->id());
+        }
+
+        return view('livewire.page.clientes.client-plans', [
+            'links' => $query->paginate($this->perPage),
+        ])
             ->layout('layouts.app-sidebar', [
                 'showSidebar' => true,
                 'title' => 'Vincular Planos',

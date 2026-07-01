@@ -29,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('delete', function ($user) {
             return $user->canDelete();
         });
+
+        Gate::define('manage-users', function ($user) {
+            return $user->isSuperAdmin();
+        });
     }
 }

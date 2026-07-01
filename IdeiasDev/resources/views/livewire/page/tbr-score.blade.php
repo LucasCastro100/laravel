@@ -1,8 +1,18 @@
 <div>
     @if ($event && $category && $modality)
-        <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl mb-6">
-            <h1 class="text-2xl font-semibold text-gray-400">Evento</h1>
-            <p class="text-lg font-bold text-gray-100">{{ $event->name ?? '—' }}</p>
+        <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('tbr.link', ['event_id' => $event_id]) }}"
+                        class="w-9 h-9 flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg transition">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                @endauth
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-100">{{ $event->name ?? '—' }}</h1>
+                    <p class="text-sm text-gray-400 mt-1">Painel de Notas</p>
+                </div>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
