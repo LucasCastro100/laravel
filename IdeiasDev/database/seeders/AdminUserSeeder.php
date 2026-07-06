@@ -5,22 +5,33 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\System;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $systems = System::pluck('id', 'slug');
-
         $users = [
-            ['email' => 'lucascastro121295@gmail.com', 'name' => 'Lucas Castro',     'role_id' => 1, 'system_id' => null],
-            ['email' => 'admin_tbr@gmail.com',          'name' => 'Admin TBR',       'role_id' => 2, 'system_id' => $systems['tbr'] ?? null],
-            ['email' => 'admin_financeiro@gmail.com',    'name' => 'Admin Financeiro','role_id' => 2, 'system_id' => $systems['financeiro'] ?? null],
-            ['email' => 'admin_cliente@gmail.com',       'name' => 'Admin Cliente',  'role_id' => 2, 'system_id' => $systems['clientes'] ?? null],
-            ['email' => 'user_tbr@gmail.com',                'name' => 'Usuário TBR',      'role_id' => 3, 'system_id' => $systems['tbr'] ?? null],
-            ['email' => 'user_financeiro@gmail.com',          'name' => 'Usuário Financeiro','role_id' => 3, 'system_id' => $systems['financeiro'] ?? null],
-            ['email' => 'user_cliente@gmail.com',            'name' => 'Usuário Cliente', 'role_id' => 3, 'system_id' => $systems['clientes'] ?? null],
+            ['email' => 'lucascastro121295@gmail.com', 'name' => 'Lucas Castro', 'role_id' => 1, 'system_id' => null],
         ];
+
+        foreach (System::orderBy('slug')->get() as $system) {
+            $emailSlug = Str::slug($system->slug, '_');
+
+            $users[] = [
+                'email' => "admin_{$emailSlug}@gmail.com",
+                'name' => "Admin {$system->name}",
+                'role_id' => 2,
+                'system_id' => $system->id,
+            ];
+
+            $users[] = [
+                'email' => "user_{$emailSlug}@gmail.com",
+                'name' => "Usuário {$system->name}",
+                'role_id' => 3,
+                'system_id' => $system->id,
+            ];
+        }
 
         foreach ($users as $data) {
             $user = User::updateOrCreate(

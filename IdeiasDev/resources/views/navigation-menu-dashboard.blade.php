@@ -22,6 +22,8 @@
                         $userSystem = Auth::user()->system;
                         $systemSlug = $userSystem?->slug;
                         $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
+                        $allSystemsNav = \App\Support\NewModulesNav::allSystems();
+                        $systemsRoutePatterns = array_map(fn($s) => $s['slug'] . '.*', $allSystemsNav);
                     @endphp
 
                     @if ($canViewAll)
@@ -30,33 +32,49 @@
                         </x-nav-link>
                     @endif
 
-                    @if ($systemSlug === 'tbr' || $canViewAll)
-                        <x-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
-                            {{ __('TBR') }}
-                        </x-nav-link>
+                    @if (!$canViewAll && $systemSlug)
+                        @php $mySystem = collect($allSystemsNav)->firstWhere('slug', $systemSlug); @endphp
+                        @if ($mySystem)
+                            <x-nav-link href="{{ route($mySystem['route']) }}" :active="request()->routeIs($systemSlug . '.*')">
+                                {{ __($mySystem['label']) }}
+                            </x-nav-link>
+                        @endif
                     @endif
 
-                    @if ($systemSlug === 'financeiro' || $canViewAll)
-                        <x-nav-link href="{{ route('financeiro.dashboard') }}" :active="request()->routeIs('financeiro.*')">
-                            {{ __('Financeiro') }}
-                        </x-nav-link>
-                    @endif
+                    @if ($canViewAll)
+                        <div class="relative flex items-center" x-data="{ systemsOpen: false }" @click.outside="systemsOpen = false">
+                            <button @click="systemsOpen = !systemsOpen"
+                                class="inline-flex items-center gap-1.5 px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none
+                                    {{ request()->routeIs($systemsRoutePatterns) ? 'border-blue-500 text-gray-100' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-600' }}">
+                                {{ __('Sistemas') }}
+                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                </svg>
+                            </button>
 
-                    @if ($systemSlug === 'clientes' || $canViewAll)
-                        <x-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
-                            {{ __('Clientes') }}
-                        </x-nav-link>
+                            <div x-show="systemsOpen" x-cloak
+                                class="absolute z-50 top-full left-0 mt-2 w-72 max-h-96 overflow-y-auto rounded-lg bg-gray-900 border border-gray-800 shadow-lg py-2">
+                                @foreach ($allSystemsNav as $sys)
+                                    <a href="{{ route($sys['route']) }}" wire:navigate
+                                        class="flex items-center gap-3 px-4 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-gray-100 transition">
+                                        <i class="fas {{ $sys['icon'] }} text-blue-400 w-4 text-center"></i>
+                                        {{ $sys['label'] }}
+                                    </a>
+                                @endforeach
+                                <div class="border-t border-gray-800 mt-1 pt-1">
+                                    <a href="{{ route('admin.systems') }}" wire:navigate
+                                        class="flex items-center gap-3 px-4 py-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-gray-100 transition">
+                                        <i class="fas fa-gear w-4 text-center"></i>
+                                        Gerenciar sistemas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     @endif
 
                     @if (Auth::user()->isSuperAdmin())
                         <x-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
                             {{ __('Usuários') }}
-                        </x-nav-link>
-                    @endif
-
-                    @if ($canViewAll)
-                        <x-nav-link href="{{ route('admin.systems') }}" :active="request()->routeIs('admin.systems')">
-                            {{ __('Sistemas') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -185,29 +203,12 @@ Sair
                 $userSystem = Auth::user()->system;
                 $systemSlug = $userSystem?->slug;
                 $canViewAll = !$userSystem || Auth::user()->isSuperAdmin();
+                $allSystemsNav = \App\Support\NewModulesNav::allSystems();
             @endphp
 
             @if ($canViewAll)
                 <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
-                </x-responsive-nav-link>
-            @endif
-
-            @if ($systemSlug === 'tbr' || $canViewAll)
-                <x-responsive-nav-link href="{{ route('tbr.dashboard') }}" :active="request()->routeIs('tbr.*')">
-                    {{ __('TBR') }}
-                </x-responsive-nav-link>
-            @endif
-
-            @if ($systemSlug === 'financeiro' || $canViewAll)
-                <x-responsive-nav-link href="{{ route('financeiro.dashboard') }}" :active="request()->routeIs('financeiro.*')">
-                    {{ __('Financeiro') }}
-                </x-responsive-nav-link>
-            @endif
-
-            @if ($systemSlug === 'clientes' || $canViewAll)
-                <x-responsive-nav-link href="{{ route('clientes.dashboard') }}" :active="request()->routeIs('clientes.*')">
-                    {{ __('Clientes') }}
                 </x-responsive-nav-link>
             @endif
 
@@ -218,9 +219,22 @@ Sair
             @endif
 
             @if ($canViewAll)
+                <div class="block px-4 pt-2 pb-1 text-xs text-gray-400 uppercase tracking-wide">Sistemas</div>
+                @foreach ($allSystemsNav as $sys)
+                    <x-responsive-nav-link href="{{ route($sys['route']) }}" :active="request()->routeIs($sys['slug'] . '.*')">
+                        <i class="fas {{ $sys['icon'] }} w-4 text-center mr-2 text-blue-400"></i>{{ $sys['label'] }}
+                    </x-responsive-nav-link>
+                @endforeach
                 <x-responsive-nav-link href="{{ route('admin.systems') }}" :active="request()->routeIs('admin.systems')">
-                    {{ __('Sistemas') }}
+                    <i class="fas fa-gear w-4 text-center mr-2 text-gray-500"></i>Gerenciar sistemas
                 </x-responsive-nav-link>
+            @else
+                @php $mySystem = collect($allSystemsNav)->firstWhere('slug', $systemSlug); @endphp
+                @if ($mySystem)
+                    <x-responsive-nav-link href="{{ route($mySystem['route']) }}" :active="request()->routeIs($systemSlug . '.*')">
+                        {{ __($mySystem['label']) }}
+                    </x-responsive-nav-link>
+                @endif
             @endif
         </div>
 

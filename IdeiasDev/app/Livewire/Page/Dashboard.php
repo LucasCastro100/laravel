@@ -6,32 +6,29 @@ use Livewire\Component;
 use App\Models\Event;
 use App\Models\FinancialTransaction;
 use App\Models\Client;
-use App\Models\Team;
-use App\Models\Category;
-use App\Models\ClientAccount;
+use App\Support\NewModulesNav;
+use App\Models\EmpregoJob;
+use App\Models\EscolaAluno;
+use App\Models\OrdemServicoOrdem;
+use App\Models\MmnMembro;
+use App\Models\AdvocaciaProcesso;
+use App\Models\MobilidadeCorrida;
+use App\Models\SocialPublicacao;
+use App\Models\NuvemArquivo;
+use App\Models\PdvVenda;
+use App\Models\RestaurantePedido;
+use App\Models\PizzariaPedido;
+use App\Models\SuporteTicket;
+use App\Models\CmsLead;
+use App\Models\ClinicaConsulta;
+use App\Models\ErpVenda;
+use App\Models\MarketplaceLance;
+use App\Models\LojaPedido;
 
 class Dashboard extends Component
 {
-    public $activeTab = 'tbr';
-
-    public $events;
-    public $totalEvents = 0;
-    public $totalTeams = 0;
-    public $teamsByCategory = [];
-
-    public $totalIncome = 0;
-    public $totalExpense = 0;
-    public $pendingBills = 0;
-    public $paidThisMonth = 0;
-    public $paidLastMonth = 0;
-    public $monthlyTrend = [];
-
-    public $clientesTrend = [];
-    public $totalClients = 0;
-    public $expectedRevenue = 0;
-    public $arrecadado = 0;
-    public $monthlyExpenses = 0;
-    public $netTotal = 0;
+    public $systemsSearch = '';
+    public $systemsOverview = [];
 
     public function mount()
     {
@@ -42,6 +39,23 @@ class Dashboard extends Component
                 'tbr' => 'tbr.dashboard',
                 'financeiro' => 'financeiro.dashboard',
                 'clientes' => 'clientes.dashboard',
+                'vagas-emprego' => 'vagas-emprego.dashboard',
+                'gestao-escolar' => 'gestao-escolar.dashboard',
+                'ordem-servico' => 'ordem-servico.dashboard',
+                'marketing-multinivel' => 'marketing-multinivel.dashboard',
+                'gestao-advocacia' => 'gestao-advocacia.dashboard',
+                'corridas-mobilidade' => 'corridas-mobilidade.dashboard',
+                'rede-social' => 'rede-social.dashboard',
+                'armazenamento-nuvem' => 'armazenamento-nuvem.dashboard',
+                'pdv-vendas' => 'pdv-vendas.dashboard',
+                'restaurante-mesas' => 'restaurante-mesas.dashboard',
+                'pizzaria-delivery' => 'pizzaria-delivery.dashboard',
+                'central-suporte' => 'central-suporte.dashboard',
+                'site-institucional-cms' => 'site-institucional-cms.dashboard',
+                'sistema-clinica' => 'sistema-clinica.dashboard',
+                'controle-empresarial-nfe' => 'controle-empresarial-nfe.dashboard',
+                'marketplace-leiloes' => 'marketplace-leiloes.dashboard',
+                'loja-virtual' => 'loja-virtual.dashboard',
             ];
 
             $slug = $user->system?->slug;
@@ -51,162 +65,56 @@ class Dashboard extends Component
             }
         }
 
-        $this->loadStats();
+        $this->loadSystemsOverview();
     }
 
-    public function loadStats()
+    public function loadSystemsOverview()
     {
-        $user = auth()->user();
+        $counters = [
+            'tbr' => ['count' => Event::count(), 'countLabel' => 'eventos'],
+            'financeiro' => ['count' => FinancialTransaction::count(), 'countLabel' => 'lançamentos'],
+            'clientes' => ['count' => Client::count(), 'countLabel' => 'clientes'],
+            'vagas-emprego' => ['count' => EmpregoJob::count(), 'countLabel' => 'vagas'],
+            'gestao-escolar' => ['count' => EscolaAluno::count(), 'countLabel' => 'alunos'],
+            'ordem-servico' => ['count' => OrdemServicoOrdem::count(), 'countLabel' => 'ordens'],
+            'marketing-multinivel' => ['count' => MmnMembro::count(), 'countLabel' => 'membros'],
+            'gestao-advocacia' => ['count' => AdvocaciaProcesso::count(), 'countLabel' => 'processos'],
+            'corridas-mobilidade' => ['count' => MobilidadeCorrida::count(), 'countLabel' => 'corridas'],
+            'rede-social' => ['count' => SocialPublicacao::count(), 'countLabel' => 'publicações'],
+            'armazenamento-nuvem' => ['count' => NuvemArquivo::count(), 'countLabel' => 'arquivos'],
+            'pdv-vendas' => ['count' => PdvVenda::count(), 'countLabel' => 'vendas'],
+            'restaurante-mesas' => ['count' => RestaurantePedido::count(), 'countLabel' => 'pedidos'],
+            'pizzaria-delivery' => ['count' => PizzariaPedido::count(), 'countLabel' => 'pedidos'],
+            'central-suporte' => ['count' => SuporteTicket::count(), 'countLabel' => 'tickets'],
+            'site-institucional-cms' => ['count' => CmsLead::count(), 'countLabel' => 'leads'],
+            'sistema-clinica' => ['count' => ClinicaConsulta::count(), 'countLabel' => 'consultas'],
+            'controle-empresarial-nfe' => ['count' => ErpVenda::count(), 'countLabel' => 'vendas'],
+            'marketplace-leiloes' => ['count' => MarketplaceLance::count(), 'countLabel' => 'lances'],
+            'loja-virtual' => ['count' => LojaPedido::count(), 'countLabel' => 'pedidos'],
+        ];
 
-        if ($user->isSuperAdmin() || !$user->system_id) {
-            $this->loadTbrStats();
-            $this->loadFinanceiroStats();
-            $this->loadClientesStats();
-            return;
-        }
-
-        match ($user->system->slug) {
-            'tbr' => $this->loadTbrStats(),
-            'financeiro' => $this->loadFinanceiroStats(),
-            'clientes' => $this->loadClientesStats(),
-            default => null,
-        };
-    }
-
-    public function loadTbrStats()
-    {
-        $this->events = Event::withCount('teams')
-            ->orderBy('date', 'desc')
-            ->get();
-
-        $this->totalEvents = $this->events->count();
-        $this->totalTeams = $this->events->sum('teams_count');
-
-        $this->teamsByCategory = Category::orderBy('sort_order')
-            ->get()
-            ->map(fn($cat) => [
-                'label' => $cat->label,
-                'count' => Team::where('category_slug', $cat->slug)->count(),
-            ])
-            ->filter(fn($i) => $i['count'] > 0)
-            ->values()
-            ->toArray();
-    }
-
-    public function loadFinanceiroStats()
-    {
-        $userId = auth()->id();
-        $isSuper = auth()->user()->isSuperAdmin();
-
-        $baseQuery = fn($query) => $isSuper ? $query : $query->where('user_id', $userId);
-
-        $this->totalIncome = (float) $baseQuery(FinancialTransaction::query())
-            ->where('paid', true)->where('value', '>', 0)->sum('value');
-
-        $this->totalExpense = (float) $baseQuery(FinancialTransaction::query())
-            ->where('paid', true)->where('value', '<', 0)->sum('value');
-
-        $this->pendingBills = $baseQuery(FinancialTransaction::query())
-            ->where('paid', false)->count();
-
-        $this->paidThisMonth = (float) $baseQuery(FinancialTransaction::query())
-            ->where('paid', true)
-            ->where('month', now()->month)->where('year', now()->year)
-            ->sum('value');
-
-        $this->paidLastMonth = (float) $baseQuery(FinancialTransaction::query())
-            ->where('paid', true)
-            ->where('month', now()->subMonth()->month)->where('year', now()->subMonth()->year)
-            ->sum('value');
-
-        $now = now();
-        $trend = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $date = $now->copy()->subMonths($i);
-            $rec = (float) $baseQuery(FinancialTransaction::query())
-                ->where('paid', true)->where('value', '>', 0)
-                ->where('month', $date->month)->where('year', $date->year)->sum('value');
-            $desp = (float) $baseQuery(FinancialTransaction::query())
-                ->where('paid', true)->where('value', '<', 0)
-                ->where('month', $date->month)->where('year', $date->year)->sum('value');
-            $trend[] = [
-                'month' => $date->format('M/Y'),
-                'receitas' => $rec,
-                'despesas' => abs($desp),
-            ];
-        }
-        $this->monthlyTrend = $trend;
-    }
-
-    public function loadClientesStats()
-    {
-        $user = auth()->user();
-        $isSuper = $user->isSuperAdmin();
-
-        $teamId = null;
-        if (!$isSuper) {
-            $team = $user->teams()->first();
-            $teamId = $team ? (int) $team->id : null;
-        }
-
-        $clientBase = $isSuper
-            ? Client::query()
-            : Client::where('team_id', $teamId);
-
-        $this->totalClients = (clone $clientBase)->count();
-
-        $accountBase = $isSuper
-            ? ClientAccount::whereNotNull('client_id')
-            : ClientAccount::whereHas('client', fn($q) => $q->where('team_id', $teamId));
-
-        $expenseBase = $isSuper
-            ? ClientAccount::whereNull('client_id')
-            : ClientAccount::whereNull('client_id')->where('team_id', $teamId);
-
-        $now = now();
-        $month = $now->month;
-        $year = $now->year;
-
-        $this->expectedRevenue = (float) (clone $accountBase)
-            ->where('month', $month)->where('year', $year)
-            ->sum('value');
-
-        $this->arrecadado = (float) (clone $accountBase)
-            ->where('paid', true)
-            ->where('month', $month)->where('year', $year)
-            ->sum('value');
-
-        $this->monthlyExpenses = (float) (clone $expenseBase)
-            ->where('paid', true)
-            ->where('month', $month)->where('year', $year)
-            ->sum('value');
-
-        $this->netTotal = $this->arrecadado - $this->monthlyExpenses;
-
-        $trend = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $date = $now->copy()->subMonths($i);
-            $m = $date->month;
-            $y = $date->year;
-            $rec = (float) (clone $accountBase)
-                ->where('paid', true)->where('month', $m)->where('year', $y)->sum('value');
-            $desp = (float) (clone $expenseBase)
-                ->where('paid', true)->where('month', $m)->where('year', $y)->sum('value');
-            $trend[] = [
-                'month' => $date->format('M/Y'),
-                'receitas' => $rec,
-                'despesas' => $desp,
-            ];
-        }
-        $this->clientesTrend = $trend;
+        $this->systemsOverview = array_map(
+            fn($system) => [
+                ...$system,
+                'count' => $counters[$system['slug']]['count'] ?? 0,
+                'countLabel' => $counters[$system['slug']]['countLabel'] ?? 'registros',
+            ],
+            NewModulesNav::allSystems()
+        );
     }
 
     public function render()
     {
+        $systemsOverview = collect($this->systemsOverview);
+
+        if ($this->systemsSearch !== '') {
+            $systemsOverview = $systemsOverview->filter(
+                fn($s) => str_contains(mb_strtolower($s['label']), mb_strtolower($this->systemsSearch))
+            );
+        }
+
         return view('livewire.page.dashboard', [
-            'teamsByCategoryJson' => json_encode($this->teamsByCategory),
-            'monthlyTrendJson' => json_encode($this->monthlyTrend),
-            'clientesTrendJson' => json_encode($this->clientesTrend),
+            'systemsOverviewList' => $systemsOverview->values(),
         ])->layout('layouts.app');
     }
 }

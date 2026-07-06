@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Laravel\Jetstream\InteractsWithBanner;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Project;
 
 class Home extends Component
 {
@@ -100,7 +101,14 @@ class Home extends Component
 
     public function render()
     {
-        return view('livewire.home')
+        $projects = Project::where('active', true)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('livewire.home', [
+            'projects' => $projects,
+        ])
             ->layout('layouts.app-navigate', [
                 'nav' => 'false',
                 'titlePage' => $this->titlePage,

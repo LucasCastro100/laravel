@@ -1,8 +1,24 @@
-<div class="py-6" wire:poll.30s="loadUsers">
+<div class="py-6" wire:poll.30s>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-xl font-semibold text-gray-200">Usuários</h2>
-            <span class="text-xs text-gray-500">{{ $users->where('online', true)->count() }} online agora</span>
+            <span class="text-xs text-gray-500">{{ $onlineCount }} online agora</span>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-4">
+            <div class="flex items-center gap-4 flex-wrap">
+                <input type="text" wire:model.live.debounce.300ms="search" placeholder="Buscar por nome ou e-mail..."
+                    class="flex-1 min-w-[200px] bg-gray-800 border border-gray-700 text-gray-200 rounded-lg px-3 py-2 text-sm placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <div class="flex items-center gap-1.5 ml-auto">
+                    <span class="text-xs text-gray-500">Qtd</span>
+                    <select wire:model.live="perPage" class="bg-gray-800 border border-gray-700 text-gray-200 rounded px-2 py-1.5 text-sm w-16">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="bg-gray-900 border border-gray-800 overflow-hidden shadow-xl rounded-lg">
@@ -18,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-800">
-                        @foreach ($users as $user)
+                        @forelse ($users as $user)
                             <tr class="hover:bg-gray-800/50">
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center gap-2">
@@ -33,10 +49,26 @@
                                 <td class="px-6 py-4">{{ $user['role'] }}</td>
                                 <td class="px-6 py-4">{{ $user['last_seen'] ?? 'Nunca' }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">Nenhum usuário encontrado.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <div class="text-xs text-gray-500">
+                Mostrando {{ $users->firstItem() ?? 0 }} a {{ $users->lastItem() ?? 0 }} de {{ $users->total() }} usuários
+            </div>
+        </div>
+
+        @if ($users->hasPages())
+            <div class="mt-4">
+                {{ $users->links() }}
+            </div>
+        @endif
     </div>
 </div>

@@ -81,6 +81,42 @@
         </div>
     </section>
 
+    {{-- PROJETOS --}}
+    @if ($projects->isNotEmpty())
+        <section id="projetos" class="py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">Projetos</h2>
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                        Sistemas desenvolvidos e disponíveis dentro da plataforma Ideias Dev.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach ($projects as $project)
+                        <a href="{{ route('projetos.show', $project->slug) }}"
+                            class="group bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-blue-600 transition-all duration-300 flex flex-col">
+                            <div class="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas {{ $project->icon }} text-blue-400"></i>
+                            </div>
+                            <span class="text-xs uppercase tracking-wide text-gray-500 mb-1">{{ $project->category }}</span>
+                            <h3 class="text-lg font-bold text-gray-100 group-hover:text-blue-400 transition">{{ $project->name }}</h3>
+                            <p class="text-sm text-gray-400 mt-2 leading-relaxed flex-1">{{ $project->short_description }}</p>
+                        </a>
+                    @endforeach
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="{{ route('projetos.index') }}"
+                        class="inline-flex items-center justify-center px-8 py-3.5 bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold rounded-xl border border-gray-700 transition-all duration-200">
+                        Ver mais projetos
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- SOBRE --}}
     <section class="py-16 sm:py-24 bg-gray-900/50">
         <div class="max-w-7xl mx-auto px-4">

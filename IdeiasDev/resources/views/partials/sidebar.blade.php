@@ -4,6 +4,8 @@
     $isFinanceiro = request()->routeIs('financeiro.*');
     $isSuperAdmin = auth()->check() && auth()->user()->isSuperAdmin();
     $hasCompany = auth()->check() && auth()->user()->teams()->exists();
+    $newModules = \App\Support\NewModulesNav::all();
+    $activeModuleSlug = collect($newModules)->keys()->first(fn($slug) => request()->routeIs($slug . '.*'));
 @endphp
 
 <div class="sidebar h-full flex flex-col"
@@ -15,6 +17,7 @@
             @if ($isTbr) TBR
             @elseif ($isClientes) Clientes
             @elseif ($isFinanceiro) Financeiro
+            @elseif ($activeModuleSlug) {{ $newModules[$activeModuleSlug]['label'] }}
             @else Menu @endif
         </span>
         <button x-show="isMobile" @click="window.dispatchEvent(new CustomEvent('toggle-sidebar'))"

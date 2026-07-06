@@ -4,6 +4,8 @@
     $isFinanceiro = request()->routeIs('financeiro.*');
     $isSuperAdmin = auth()->check() && auth()->user()->isSuperAdmin();
     $hasCompany = auth()->check() && auth()->user()->teams()->exists();
+    $newModules = \App\Support\NewModulesNav::all();
+    $activeModuleSlug = collect($newModules)->keys()->first(fn($slug) => request()->routeIs($slug . '.*'));
 @endphp
 <div class="px-3 mt-3">
     <div class="flex items-center justify-between px-2 py-1.5 cursor-pointer text-gray-500 text-xs uppercase font-bold tracking-wider"
@@ -159,6 +161,36 @@
                 <span x-show="!sidebarCollapsed" class="sidebar-text text-xs font-semibold text-gray-400">Categorias</span>
             </a>
         </li>
+        <li class="border-t border-gray-800 my-1 pt-1">
+            <a href="{{ route('faturamento-hospedagem.clientes') }}"
+                class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition {{ request()->routeIs('faturamento-hospedagem.clientes') ? 'active' : '' }}"
+                :class="{ 'justify-center': sidebarCollapsed }" title="Clientes de Hospedagem">
+                <i class="sidebar-icon fas fa-server text-gray-500"></i>
+                <span x-show="!sidebarCollapsed" class="sidebar-text text-xs font-semibold text-gray-400">Clientes Hospedagem</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('faturamento-hospedagem.faturas') }}"
+                class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition {{ request()->routeIs('faturamento-hospedagem.faturas') ? 'active' : '' }}"
+                :class="{ 'justify-center': sidebarCollapsed }" title="Faturas de Hospedagem">
+                <i class="sidebar-icon fas fa-file-invoice text-gray-500"></i>
+                <span x-show="!sidebarCollapsed" class="sidebar-text text-xs font-semibold text-gray-400">Faturas Hospedagem</span>
+            </a>
+        </li>
+        @endif
+
+        {{-- Módulos novos (vitrine de projetos) --}}
+        @if ($activeModuleSlug)
+            @foreach ($newModules[$activeModuleSlug]['pages'] as $page)
+                <li>
+                    <a href="{{ route($page['route']) }}"
+                        class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition {{ request()->routeIs($page['route']) ? 'active' : '' }}"
+                        :class="{ 'justify-center': sidebarCollapsed }" title="{{ $page['label'] }}">
+                        <i class="sidebar-icon fas {{ $page['icon'] }} text-gray-500"></i>
+                        <span x-show="!sidebarCollapsed" class="sidebar-text text-xs font-semibold text-gray-400">{{ $page['label'] }}</span>
+                    </a>
+                </li>
+            @endforeach
         @endif
     </ul>
 </div>
