@@ -18,6 +18,8 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'state_id' => ['nullable', Rule::exists(\App\Models\State::class, 'id')],
+            'municipality_id' => ['nullable', Rule::exists(\App\Models\Municipality::class, 'id')],
         ];
     }
 

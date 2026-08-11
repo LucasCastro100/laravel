@@ -9,3 +9,7 @@ Schedule::call(function () {
         ->where('expires_at', '<', now())
         ->delete();
 })->daily()->description('Delete expired team invitations');
+
+Schedule::command('subscriptions:check-overdue')
+    ->daily()
+    ->description('Block accounts with payments overdue beyond the grace period');

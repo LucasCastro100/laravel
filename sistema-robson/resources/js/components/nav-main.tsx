@@ -7,18 +7,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/hooks/use-current-url';
+import { navLabels } from '@/hooks/use-main-nav';
 import type { NavItem } from '@/types';
-
-const navLabels: Record<string, string> = {
-    'sidebar.dashboard': 'Painel',
-    'sidebar.repository': 'Repositório',
-    'sidebar.documentation': 'Documentação',
-    'sidebar.selectTeam': 'Selecionar equipe',
-    'sidebar.teams': 'Equipes',
-    'sidebar.newTeam': 'Nova equipe',
-    'sidebar.settings': 'Configurações',
-    'sidebar.logOut': 'Sair',
-};
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const { isCurrentUrl } = useCurrentUrl();
