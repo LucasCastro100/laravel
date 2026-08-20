@@ -10,23 +10,19 @@ trait RedirectsToCurrentTeam
 {
     protected function redirectPathForCurrentTeam(Request $request, string $redirect): string
     {
-        $team = $this->currentTeam($request);
+        if ($team = $this->currentTeam($request)) {
+            URL::defaults(['current_team' => $team->slug]);
+        }
 
-        URL::defaults(['current_team' => $team->slug]);
-
-        return "/{$team->slug}{$redirect}";
+        return $redirect;
     }
 
-    protected function currentTeam(Request $request): Team
+    protected function currentTeam(Request $request): ?Team
     {
         $user = $request->user();
 
         abort_if(! $user, 403);
 
-        $team = $user->currentTeam ?? $user->personalTeam();
-
-        abort_if(! $team, 403);
-
-        return $team;
+        return $user->currentTeam ?? $user->personalTeam();
     }
 }

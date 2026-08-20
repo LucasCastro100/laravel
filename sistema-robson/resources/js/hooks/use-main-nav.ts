@@ -1,4 +1,3 @@
-import { usePage } from '@inertiajs/react';
 import { CreditCard, LayoutGrid } from 'lucide-react';
 import { dashboard } from '@/routes';
 import { index as assinaturaIndex } from '@/routes/assinatura';
@@ -17,10 +16,7 @@ export const navLabels: Record<string, string> = {
 };
 
 export function useMainNav() {
-    const page = usePage();
-    const dashboardUrl = page.props.currentTeam
-        ? dashboard(page.props.currentTeam.slug)
-        : '/';
+    const dashboardUrl = dashboard();
 
     const items: NavItem[] = [
         {

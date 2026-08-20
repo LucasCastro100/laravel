@@ -49,7 +49,39 @@ test('users can authenticate using the login screen', function () {
     $response->assertRedirect(route('dashboard'));
 });
 
-test('passkey login response redirects to the current team dashboard', function () {
+test('users without a team can authenticate and are redirected to the dashboard', function () {
+    $user = User::factory()->create();
+    $user->teams()->detach();
+    $user->update(['current_team_id' => null]);
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect(route('dashboard'));
+});
+
+test('authenticated users are redirected to the dashboard when visiting the login screen', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->get(route('login'));
+
+    $response->assertRedirect(route('dashboard'));
+});
+
+test('authenticated users without a team are redirected to the dashboard when visiting the login screen', function () {
+    $user = User::factory()->create();
+    $user->teams()->detach();
+    $user->update(['current_team_id' => null]);
+
+    $response = $this->actingAs($user->fresh())->get(route('login'));
+
+    $response->assertRedirect(route('dashboard'));
+});
+
+test('passkey login response redirects to the dashboard', function () {
     $user = User::factory()->create();
 
     $request = Request::create(route('login', absolute: false), 'GET', server: [
@@ -60,7 +92,7 @@ test('passkey login response redirects to the current team dashboard', function 
 
     $jsonResponse = app(PasskeyLoginResponse::class)->toResponse($request);
 
-    expect($jsonResponse->getData()->redirect)->toBe(route('dashboard', ['current_team' => $user->personalTeam()->slug]));
+    expect($jsonResponse->getData()->redirect)->toBe(route('dashboard'));
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {

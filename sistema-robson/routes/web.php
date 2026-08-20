@@ -1,12 +1,29 @@
 <?php
 
+use App\Enums\ListingStatus;
+use App\Enums\MatchStatus;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Middleware\EnsureAccountNotBlocked;
-use App\Http\Middleware\EnsureTeamMembership;
+use App\Models\Listing;
+use App\Models\TradeMatch;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::get('/', function () {
+    return inertia('welcome', [
+        'stats' => [
+            'listings' => Schema::hasTable('listings')
+                ? Listing::where('status', ListingStatus::Active)->count()
+                : 0,
+            'users' => User::count(),
+            'matches' => Schema::hasTable('matches')
+                ? TradeMatch::where('status', MatchStatus::Completed)->count()
+                : 0,
+        ],
+    ]);
+})->name('home');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('assinatura')
@@ -18,13 +35,11 @@ Route::middleware(['auth', 'verified'])
         Route::post('/resume', [SubscriptionController::class, 'resume'])->name('resume');
     });
 
-Route::prefix('{current_team}')
-    ->middleware([
-        'auth',
-        'verified',
-        EnsureTeamMembership::class,
-        EnsureAccountNotBlocked::class,
-    ])
+Route::middleware([
+    'auth',
+    'verified',
+    EnsureAccountNotBlocked::class,
+])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
     });

@@ -226,7 +226,7 @@
         <div class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
             <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 w-80 text-center">
                 <h2 class="text-lg font-semibold mb-4 text-gray-100">Nota salva com sucesso!</h2>
-                <button wire:click="closeSuccessModal"
+                <button wire:click="closeSuccessModal" onclick="window.location.reload()"
                         class="px-5 py-2 bg-green-600 hover:bg-green-500 text-white font-bold rounded-lg transition-colors">
                     OK
                 </button>
