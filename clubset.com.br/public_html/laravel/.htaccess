@@ -1,0 +1,18 @@
+# Block access to sensitive Laravel files
+<FilesMatch "^(\.env|\.env\.\w+|composer\.(json|lock)|package\.json|package-lock\.json|vite\.config\.\w+|artisan)$">
+    Require all denied
+</FilesMatch>
+
+# Deny all requests to the storage, vendor, app, config, bootstrap, database and tests folders
+RedirectMatch 403 ^/?laravel/(storage|vendor|app|config|bootstrap|database|tests|resources|routes)/.*
+
+# Disable directory listing
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block everything except the public folder inside laravel (if any)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ - [R=403,L]
+</IfModule>
