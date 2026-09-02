@@ -59,9 +59,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
+            'options' => extension_loaded('pdo_mysql') ? array_filter(array_merge([
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            ], env('DB_PERSISTENT', false) ? [
+                PDO::ATTR_PERSISTENT => true,
+            ] : [])) : [],
         ],
 
         'mariadb' => [
@@ -79,9 +81,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
+            'options' => extension_loaded('pdo_mysql') ? array_filter(array_merge([
                 Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            ], env('DB_PERSISTENT', false) ? [
+                PDO::ATTR_PERSISTENT => true,
+            ] : [])) : [],
         ],
 
         'pgsql' => [
