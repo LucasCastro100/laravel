@@ -2,6 +2,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
+import { translatePasskeyError } from '@/lib/passkey-errors';
 import type { UrlMethodPair } from '@inertiajs/core';
 import { router } from '@inertiajs/react';
 import { usePasskeyVerify } from '@laravel/passkeys/react';
@@ -55,7 +56,10 @@ export default function PasskeyVerify({
                         : (label ?? 'Entrar com chave de acesso')}
                 </Button>
                 {error && (
-                    <InputError message={error} className="text-center" />
+                    <InputError
+                        message={translatePasskeyError(error)}
+                        className="text-center"
+                    />
                 )}
             </div>
 

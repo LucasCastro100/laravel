@@ -2,6 +2,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { translatePasskeyError } from '@/lib/passkey-errors';
 import { usePasskeyRegister } from '@laravel/passkeys/react';
 import { useState } from 'react';
 
@@ -94,7 +95,7 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
                 </p>
             </div>
 
-            {error && <InputError message={error} />}
+            {error && <InputError message={translatePasskeyError(error)} />}
 
             <div className="flex gap-2">
                 <Button type="submit" disabled={isLoading || !name.trim()}>
