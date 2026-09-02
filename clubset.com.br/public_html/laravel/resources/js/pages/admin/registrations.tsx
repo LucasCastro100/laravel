@@ -1,9 +1,16 @@
-import { Head, Form } from '@inertiajs/react';
-import { CheckCircle2, Clock, Mail, MapPin, ShieldCheck, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { registrations as registrationsRoute, verify } from '@/routes/admin';
+import { Form, Head } from '@inertiajs/react';
+import {
+    CheckCircle2,
+    Clock,
+    Mail,
+    MapPin,
+    ShieldCheck,
+    User,
+} from 'lucide-react';
 
 interface RegistrationUser {
     id: number;
@@ -54,12 +61,17 @@ export default function Registrations({ users }: RegistrationsProps) {
                                         {user.name}
                                     </CardTitle>
                                     {user.verifiedAt ? (
-                                        <Badge variant="default" className="bg-green-600 hover:bg-green-700">
-                                            <CheckCircle2 className="size-3" /> Verificado
+                                        <Badge
+                                            variant="default"
+                                            className="bg-green-600 hover:bg-green-700"
+                                        >
+                                            <CheckCircle2 className="size-3" />{' '}
+                                            Verificado
                                         </Badge>
                                     ) : (
                                         <Badge variant="secondary">
-                                            <Clock className="size-3" /> Pendente
+                                            <Clock className="size-3" />{' '}
+                                            Pendente
                                         </Badge>
                                     )}
                                 </CardHeader>
@@ -71,7 +83,9 @@ export default function Registrations({ users }: RegistrationsProps) {
 
                                     <div className="flex items-center gap-2 text-muted-foreground">
                                         <MapPin className="size-4" />
-                                        <span>{user.city}, {user.region}</span>
+                                        <span>
+                                            {user.city}, {user.region}
+                                        </span>
                                     </div>
 
                                     <div className="flex items-center gap-2 text-muted-foreground">
@@ -82,7 +96,12 @@ export default function Registrations({ users }: RegistrationsProps) {
                                     {user.verifiedAt && (
                                         <div className="flex items-center gap-2 text-muted-foreground">
                                             <ShieldCheck className="size-4" />
-                                            <span>Verificado em {new Date(user.verifiedAt).toLocaleDateString('pt-BR')}</span>
+                                            <span>
+                                                Verificado em{' '}
+                                                {new Date(
+                                                    user.verifiedAt,
+                                                ).toLocaleDateString('pt-BR')}
+                                            </span>
                                         </div>
                                     )}
 

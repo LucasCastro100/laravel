@@ -1,14 +1,19 @@
-import { Head, Link, router } from '@inertiajs/react';
-import { Camera, MapPin, Plus, Search, SlidersHorizontal, X } from 'lucide-react';
-import { useState, useCallback, useRef } from 'react';
+import { EmptyState } from '@/components/empty-state';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { SearchSelect } from '@/components/ui/search-select';
-import { EmptyState } from '@/components/empty-state';
-import { index as servicesIndex, show as serviceShow, create as servicesCreate } from '@/routes/services';
+import {
+    show as serviceShow,
+    create as servicesCreate,
+    index as servicesIndex,
+} from '@/routes/services';
+import { Head, Link, router } from '@inertiajs/react';
+import { Camera, MapPin, Plus, Search } from 'lucide-react';
+import { useCallback, useRef, useState } from 'react';
 
 type ServiceItem = {
     id: number;
@@ -45,7 +50,6 @@ export default function ServicesIndex({
     states,
 }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
-    const [showFilters, setShowFilters] = useState(false);
     const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
     const applyFilter = useCallback(
@@ -55,7 +59,10 @@ export default function ServicesIndex({
                 [key]: value || undefined,
                 page: undefined,
             };
-            router.get(servicesIndex().url, params, { preserveState: true, replace: true });
+            router.get(servicesIndex().url, params, {
+                preserveState: true,
+                replace: true,
+            });
         },
         [filters],
     );
@@ -71,7 +78,9 @@ export default function ServicesIndex({
         [applyFilter],
     );
 
-    const activeFiltersCount = [filters.specialty, filters.state_id].filter(Boolean).length;
+    const activeFiltersCount = [filters.specialty, filters.state_id].filter(
+        Boolean,
+    ).length;
 
     return (
         <>
@@ -93,71 +102,67 @@ export default function ServicesIndex({
                 </div>
 
                 <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                placeholder="Buscar por título do serviço..."
-                                value={search}
-                                onChange={(e) => handleSearch(e.target.value)}
-                                className="h-10 pl-9"
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            placeholder="Buscar por título do serviço..."
+                            value={search}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            className="h-10 pl-9"
+                        />
+                    </div>
+
+                    <div className="flex flex-col gap-3 rounded-xl border bg-card p-4 sm:flex-row sm:flex-wrap sm:items-end sm:gap-4">
+                        <div className="flex flex-1 flex-col gap-1.5 sm:max-w-64">
+                            <Label className="text-xs text-muted-foreground">
+                                Especialidade
+                            </Label>
+                            <SearchSelect
+                                options={specialties.map((s) => ({
+                                    value: s,
+                                    label: s,
+                                }))}
+                                value={filters.specialty ?? ''}
+                                onValueChange={(v) =>
+                                    applyFilter('specialty', v)
+                                }
+                                placeholder="Todas"
+                                clearable
                             />
                         </div>
-                        <Button
-                            variant={showFilters ? 'default' : 'outline'}
-                            size="default"
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="h-10 gap-2"
-                        >
-                            <SlidersHorizontal className="size-4" />
-                            Filtros
-                            {activeFiltersCount > 0 && (
-                                <Badge variant="secondary" className="ml-1 px-1.5 py-0 text-[10px]">
-                                    {activeFiltersCount}
-                                </Badge>
-                            )}
-                        </Button>
+                        <div className="flex flex-1 flex-col gap-1.5 sm:max-w-64">
+                            <Label className="text-xs text-muted-foreground">
+                                Estado
+                            </Label>
+                            <SearchSelect
+                                options={states.map((s) => ({
+                                    value: s.id.toString(),
+                                    label: `${s.uf} - ${s.name}`,
+                                }))}
+                                value={filters.state_id ?? ''}
+                                onValueChange={(v) =>
+                                    applyFilter('state_id', v)
+                                }
+                                placeholder="Todos"
+                                clearable
+                            />
+                        </div>
                         {activeFiltersCount > 0 && (
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => router.get(servicesIndex().url, {}, { preserveState: true, replace: true })}
-                                className="h-10 gap-1 text-xs"
+                                onClick={() =>
+                                    router.get(
+                                        servicesIndex().url,
+                                        {},
+                                        { preserveState: true, replace: true },
+                                    )
+                                }
                             >
-                                <X className="size-3" />
-                                Limpar
+                                Limpar filtros
                             </Button>
                         )}
                     </div>
-
-                    {showFilters && (
-                        <Card>
-                            <CardContent className="p-4">
-                                <div className="grid gap-3 sm:grid-cols-2">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground">Especialidade</label>
-                                        <SearchSelect
-                                            options={specialties.map((s) => ({ value: s, label: s }))}
-                                            value={filters.specialty ?? ''}
-                                            onValueChange={(v) => applyFilter('specialty', v)}
-                                            placeholder="Todas"
-                                            clearable
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-muted-foreground">Estado</label>
-                                        <SearchSelect
-                                            options={states.map((s) => ({ value: s.id.toString(), label: `${s.uf} - ${s.name}` }))}
-                                            value={filters.state_id ?? ''}
-                                            onValueChange={(v) => applyFilter('state_id', v)}
-                                            placeholder="Todos"
-                                            clearable
-                                        />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )}
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -166,9 +171,14 @@ export default function ServicesIndex({
                             <CardContent className="flex flex-1 flex-col p-4">
                                 <div className="mb-3 flex items-start justify-between">
                                     <div className="flex-1">
-                                        <h3 className="line-clamp-1 text-sm font-semibold">{service.title}</h3>
+                                        <h3 className="line-clamp-1 text-sm font-semibold">
+                                            {service.title}
+                                        </h3>
                                         {service.specialty && (
-                                            <Badge variant="secondary" className="mt-1 text-xs">
+                                            <Badge
+                                                variant="secondary"
+                                                className="mt-1 text-xs"
+                                            >
                                                 {service.specialty}
                                             </Badge>
                                         )}
@@ -177,25 +187,41 @@ export default function ServicesIndex({
 
                                 <div className="mb-3 space-y-1.5 text-sm">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-muted-foreground">Valor</span>
-                                        <span className="font-medium">{service.rate}</span>
+                                        <span className="text-muted-foreground">
+                                            Valor
+                                        </span>
+                                        <span className="font-medium">
+                                            {service.rate}
+                                        </span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-muted-foreground">Profissional</span>
-                                        <span className="font-medium">{service.providerName}</span>
+                                        <span className="text-muted-foreground">
+                                            Profissional
+                                        </span>
+                                        <span className="font-medium">
+                                            {service.providerName}
+                                        </span>
                                     </div>
                                     <div className="flex items-center gap-1 text-muted-foreground">
                                         <MapPin className="size-3.5" />
-                                        <span>{service.city}, {service.region}</span>
+                                        <span>
+                                            {service.city}, {service.region}
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div className="mt-auto flex items-center justify-between border-t pt-3">
                                     <span className="text-xs text-muted-foreground">
-                                        {new Date(service.createdAt).toLocaleDateString('pt-BR')}
+                                        {new Date(
+                                            service.createdAt,
+                                        ).toLocaleDateString('pt-BR')}
                                     </span>
                                     <Button variant="ghost" size="sm" asChild>
-                                        <Link href={serviceShow({ service: service.id })}>
+                                        <Link
+                                            href={serviceShow({
+                                                service: service.id,
+                                            })}
+                                        >
                                             Ver detalhes
                                         </Link>
                                     </Button>
@@ -212,7 +238,9 @@ export default function ServicesIndex({
                         description="Cadastre seu serviço ou ajuste os filtros de busca."
                         action={
                             <Button asChild size="sm">
-                                <Link href={servicesCreate().url}>Cadastrar serviço</Link>
+                                <Link href={servicesCreate().url}>
+                                    Cadastrar serviço
+                                </Link>
                             </Button>
                         }
                     />
@@ -220,14 +248,23 @@ export default function ServicesIndex({
 
                 {services.last_page > 1 && (
                     <div className="flex items-center justify-center gap-2">
-                        {Array.from({ length: services.last_page }, (_, i) => i + 1).map((page) => (
+                        {Array.from(
+                            { length: services.last_page },
+                            (_, i) => i + 1,
+                        ).map((page) => (
                             <Button
                                 key={page}
-                                variant={page === services.current_page ? 'default' : 'outline'}
+                                variant={
+                                    page === services.current_page
+                                        ? 'default'
+                                        : 'outline'
+                                }
                                 size="sm"
                                 asChild
                             >
-                                <Link href={servicesIndex({ query: { page } })}>{page}</Link>
+                                <Link href={servicesIndex({ query: { page } })}>
+                                    {page}
+                                </Link>
                             </Button>
                         ))}
                     </div>

@@ -1,15 +1,27 @@
-import { usePage } from '@inertiajs/react';
-import { BarChart3, Camera, CreditCard, FileCheck, Handshake, LayoutGrid, Settings, Shield, Store } from 'lucide-react';
 import { dashboard } from '@/routes';
-import { index as assinaturaIndex } from '@/routes/assinatura';
-import { index as listingsIndex } from '@/routes/listings';
-import { index as servicesIndex } from '@/routes/services';
-import { index as matchesIndex } from '@/routes/matches';
 import { index as adminIndex } from '@/routes/admin';
 import { moderation as adminModeration } from '@/routes/admin';
 import { registrations as adminRegistrations } from '@/routes/admin';
 import { settings as adminSettings } from '@/routes/admin';
+import { index as assinaturaIndex } from '@/routes/assinatura';
+import { index as listingsIndex } from '@/routes/listings';
+import { index as matchesIndex } from '@/routes/matches';
+import { index as permutasIndex } from '@/routes/permutas';
+import { index as servicesIndex } from '@/routes/services';
 import type { NavItem } from '@/types';
+import { usePage } from '@inertiajs/react';
+import {
+    BarChart3,
+    Camera,
+    CreditCard,
+    FileCheck,
+    Handshake,
+    LayoutGrid,
+    Repeat,
+    Settings,
+    Shield,
+    Store,
+} from 'lucide-react';
 
 export const navLabels: Record<string, string> = {
     'sidebar.dashboard': 'Painel',
@@ -17,6 +29,7 @@ export const navLabels: Record<string, string> = {
     'sidebar.listings': 'Anúncios',
     'sidebar.services': 'Serviços',
     'sidebar.matches': 'Matches',
+    'sidebar.permutas': 'Permutas',
     'sidebar.admin': 'Painel Admin',
     'sidebar.moderation': 'Moderação',
     'sidebar.registrations': 'Cadastros',
@@ -26,8 +39,10 @@ export const navLabels: Record<string, string> = {
 };
 
 export function useMainNav() {
-    const { auth } = usePage().props as { auth: { user?: { is_admin?: boolean } } };
-    const dashboardUrl = dashboard();
+    const { auth } = usePage().props as {
+        auth: { user?: { is_admin?: boolean } };
+    };
+    const dashboardUrl = dashboard().url;
     const isAdmin = auth.user?.is_admin === true;
 
     const items: NavItem[] = [
@@ -52,35 +67,40 @@ export function useMainNav() {
             icon: Handshake,
         },
         {
+            title: 'sidebar.permutas',
+            href: permutasIndex().url,
+            icon: Repeat,
+        },
+        {
             title: 'sidebar.assinatura',
-            href: assinaturaIndex(),
+            href: assinaturaIndex().url,
             icon: CreditCard,
         },
     ];
 
     const adminItems: NavItem[] = isAdmin
         ? [
-            {
-                title: 'sidebar.admin',
-                href: adminIndex().url,
-                icon: Shield,
-            },
-            {
-                title: 'sidebar.moderation',
-                href: adminModeration().url,
-                icon: FileCheck,
-            },
-            {
-                title: 'sidebar.registrations',
-                href: adminRegistrations().url,
-                icon: BarChart3,
-            },
-            {
-                title: 'sidebar.adminSettings',
-                href: adminSettings().url,
-                icon: Settings,
-            },
-        ]
+              {
+                  title: 'sidebar.admin',
+                  href: adminIndex().url,
+                  icon: Shield,
+              },
+              {
+                  title: 'sidebar.moderation',
+                  href: adminModeration().url,
+                  icon: FileCheck,
+              },
+              {
+                  title: 'sidebar.registrations',
+                  href: adminRegistrations().url,
+                  icon: BarChart3,
+              },
+              {
+                  title: 'sidebar.adminSettings',
+                  href: adminSettings().url,
+                  icon: Settings,
+              },
+          ]
         : [];
 
     return { items, adminItems, dashboardUrl };

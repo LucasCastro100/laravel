@@ -1,5 +1,3 @@
-import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, MapPin, Pencil, Star, User } from 'lucide-react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,10 +9,9 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import {
-    edit as serviceEdit,
-    index as servicesIndex,
-} from '@/routes/services';
+import { edit as serviceEdit, index as servicesIndex } from '@/routes/services';
+import { Head, Link } from '@inertiajs/react';
+import { ArrowLeft, MapPin, Pencil, Star, User } from 'lucide-react';
 
 type TradeType = {
     id: number;
@@ -56,7 +53,7 @@ export default function ServiceShow({
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <Button variant="ghost" size="sm" asChild>
-                            <Link href={servicesIndex()}>
+                            <Link href={servicesIndex().url}>
                                 <ArrowLeft className="size-4" />
                             </Link>
                         </Button>
@@ -69,9 +66,7 @@ export default function ServiceShow({
 
                     {isOwner && (
                         <Button variant="outline" size="sm" asChild>
-                            <Link
-                                href={serviceEdit({ service: service.id })}
-                            >
+                            <Link href={serviceEdit({ service: service.id })}>
                                 <Pencil className="size-4" />
                                 Editar
                             </Link>
@@ -85,9 +80,7 @@ export default function ServiceShow({
                             <CardHeader>
                                 <div className="flex items-start justify-between">
                                     <div>
-                                        <CardTitle>
-                                            {service.title}
-                                        </CardTitle>
+                                        <CardTitle>{service.title}</CardTitle>
                                         <CardDescription className="mt-1">
                                             Publicado em{' '}
                                             {new Date(
@@ -139,7 +132,10 @@ export default function ServiceShow({
                                 <CardContent>
                                     <div className="flex flex-wrap gap-2">
                                         {tradeTypes.map((type) => (
-                                            <Badge key={type.id} variant="outline">
+                                            <Badge
+                                                key={type.id}
+                                                variant="outline"
+                                            >
                                                 {type.name}
                                             </Badge>
                                         ))}

@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasskeyVerify from '@/components/passkey-verify';
 import PasswordInput from '@/components/password-input';
@@ -13,6 +12,7 @@ import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 import type { TeamInvitationContext } from '@/types';
+import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
@@ -30,10 +30,7 @@ export default function Login({
             <Head title="Entrar" />
 
             {teamInvitation && (
-                <TeamInvitationAlert
-                    invitation={teamInvitation}
-                    mode="login"
-                />
+                <TeamInvitationAlert invitation={teamInvitation} mode="login" />
             )}
 
             <PasskeyVerify />

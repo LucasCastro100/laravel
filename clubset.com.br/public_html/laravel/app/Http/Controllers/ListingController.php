@@ -221,6 +221,8 @@ class ListingController extends Controller
      */
     public function update(UpdateListingRequest $request, Listing $listing): RedirectResponse
     {
+        abort_unless($listing->user_id === $request->user()->id, 403);
+
         $requireModeration = Setting::get('require_moderation', 'true', 'listings') === 'true';
 
         $listing->fill($request->validated());

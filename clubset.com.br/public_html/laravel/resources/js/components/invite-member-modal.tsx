@@ -1,5 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +20,8 @@ import {
 } from '@/components/ui/select';
 // import { store as storeInvitation } from '@/routes/teams/invitations';
 import type { RoleOption, Team } from '@/types';
+import { Form } from '@inertiajs/react';
+import { useState } from 'react';
 
 const roleLabels: Record<string, string> = {
     owner: 'Proprietário',
@@ -64,15 +64,20 @@ export default function InviteMemberModal({
                     {({ errors, processing }) => (
                         <>
                             <DialogHeader>
-                                <DialogTitle>Convidar um membro da equipe</DialogTitle>
+                                <DialogTitle>
+                                    Convidar um membro da equipe
+                                </DialogTitle>
                                 <DialogDescription>
-                                    Envie um convite para participar desta equipe.
+                                    Envie um convite para participar desta
+                                    equipe.
                                 </DialogDescription>
                             </DialogHeader>
 
                             <div className="grid gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Endereço de email</Label>
+                                    <Label htmlFor="email">
+                                        Endereço de email
+                                    </Label>
                                     <Input
                                         id="email"
                                         name="email"

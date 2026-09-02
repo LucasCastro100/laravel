@@ -1,6 +1,3 @@
-import { Form } from '@inertiajs/react';
-import type { PropsWithChildren } from 'react';
-import { useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,6 +12,9 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Form } from '@inertiajs/react';
+import type { PropsWithChildren } from 'react';
+import { useState } from 'react';
 // import { store } from '@/routes/teams';
 
 export default function CreateTeamModal({ children }: PropsWithChildren) {
@@ -36,7 +36,8 @@ export default function CreateTeamModal({ children }: PropsWithChildren) {
                             <DialogHeader>
                                 <DialogTitle>Criar uma nova equipe</DialogTitle>
                                 <DialogDescription>
-                                    Crie uma nova equipe para colaborar com outras pessoas.
+                                    Crie uma nova equipe para colaborar com
+                                    outras pessoas.
                                 </DialogDescription>
                             </DialogHeader>
 

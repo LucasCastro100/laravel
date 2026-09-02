@@ -75,8 +75,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
     'trial_ends_at',
     'blocked_at',
     'payment_due_at',
+    'must_change_password',
 ])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
+#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'stripe_id', 'pm_type', 'pm_last_four', 'trial_ends_at', 'must_change_password'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -110,6 +111,7 @@ class User extends Authenticatable implements PasskeyUser
             'blocked_at' => 'datetime',
             'payment_due_at' => 'datetime',
             'admin_verified_at' => 'datetime',
+            'must_change_password' => 'boolean',
         ];
     }
 
@@ -151,6 +153,26 @@ class User extends Authenticatable implements PasskeyUser
     public function services(): HasMany
     {
         return $this->hasMany(Service::class);
+    }
+
+    /**
+     * Get the permutas created by the user (recorded as profit/income).
+     *
+     * @return HasMany<Permuta, $this>
+     */
+    public function permutas(): HasMany
+    {
+        return $this->hasMany(Permuta::class);
+    }
+
+    /**
+     * Get the permutas where the user is the linked contact (expense side).
+     *
+     * @return HasMany<Permuta, $this>
+     */
+    public function permutasComoContato(): HasMany
+    {
+        return $this->hasMany(Permuta::class, 'contato_id');
     }
 
     /**
@@ -266,6 +288,21 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
+     * Replace the user's roles with the given one. Administrators are never
+     * stripped of their role.
+     */
+    public function syncRole(UserRole $role): void
+    {
+        if ($this->isAdmin()) {
+            return;
+        }
+
+        $role = Role::query()->firstOrCreate(['slug' => $role->value], ['name' => $role->label()]);
+
+        $this->roles()->sync([$role->id]);
+    }
+
+    /**
      * Determine if the user has the given role.
      */
     public function hasRole(UserRole $role): bool
@@ -338,6 +375,31 @@ class User extends Authenticatable implements PasskeyUser
     public function accountIsBlocked(): bool
     {
         return $this->blocked_at !== null;
+    }
+
+    /**
+     * Determine if the user still needs to complete the first-access flow
+     * (choose a user type and set a personal password).
+     */
+    public function mustChangePassword(): bool
+    {
+        return (bool) $this->must_change_password;
+    }
+
+    /**
+     * Mark the account as pending its first-access setup.
+     */
+    public function markFirstAccessPending(): void
+    {
+        $this->forceFill(['must_change_password' => true])->save();
+    }
+
+    /**
+     * Clear the first-access pending flag once the user completes setup.
+     */
+    public function completeFirstAccess(): void
+    {
+        $this->forceFill(['must_change_password' => false])->save();
     }
 
     /**

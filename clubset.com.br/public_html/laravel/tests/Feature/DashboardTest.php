@@ -32,6 +32,7 @@ test('dashboard renders the correct inertia component', function () {
         ->has('metrics.listings')
         ->has('metrics.services')
         ->has('metrics.matches')
+        ->has('metrics.permutas')
         ->has('metrics.credits')
         ->has('recentListings')
         ->has('recentMatches'),
@@ -52,6 +53,7 @@ test('dashboard shows user metrics with zero counts for new user', function () {
         ->where('metrics.listings.pending', 0)
         ->where('metrics.services.total', 0)
         ->where('metrics.matches.total', 0)
+        ->where('metrics.permutas.total', 0)
         ->where('metrics.credits.balance', 0),
     );
 });

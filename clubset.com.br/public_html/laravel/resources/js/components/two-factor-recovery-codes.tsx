@@ -1,6 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import AlertError from '@/components/alert-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +8,9 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { regenerateRecoveryCodes } from '@/routes/two-factor';
+import { Form } from '@inertiajs/react';
+import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Props = {
     recoveryCodesList: string[];
@@ -60,7 +60,9 @@ export default function TwoFactorRecoveryCodes({
                     Códigos de recuperação do 2FA
                 </CardTitle>
                 <CardDescription>
-                    Os códigos de recuperação permitem recuperar o acesso se você perder seu dispositivo de 2FA. Guarde-os em um gerenciador de senhas seguro.
+                    Os códigos de recuperação permitem recuperar o acesso se
+                    você perder seu dispositivo de 2FA. Guarde-os em um
+                    gerenciador de senhas seguro.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -94,8 +96,7 @@ export default function TwoFactorRecoveryCodes({
                                     disabled={processing}
                                     aria-describedby="regenerate-warning"
                                 >
-                                    <RefreshCw />{' '}
-                                    Gerar novos códigos
+                                    <RefreshCw /> Gerar novos códigos
                                 </Button>
                             )}
                         </Form>
@@ -148,7 +149,14 @@ export default function TwoFactorRecoveryCodes({
 
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
-                                        Cada código de recuperação pode ser usado uma vez para acessar sua conta e será removido após o uso. Se precisar de mais, clique em <span className="font-bold">Gerar novos códigos</span> acima.
+                                        Cada código de recuperação pode ser
+                                        usado uma vez para acessar sua conta e
+                                        será removido após o uso. Se precisar de
+                                        mais, clique em{' '}
+                                        <span className="font-bold">
+                                            Gerar novos códigos
+                                        </span>{' '}
+                                        acima.
                                     </p>
                                 </div>
                             </>

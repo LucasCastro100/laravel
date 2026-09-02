@@ -1,12 +1,12 @@
-import { Form } from '@inertiajs/react';
-import { ShieldCheck } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
 import Heading from '@/components/heading';
 import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
 import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
 import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import { disable, enable } from '@/routes/two-factor';
+import { Form } from '@inertiajs/react';
+import { ShieldCheck } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 export type Props = {
     canManageTwoFactor?: boolean;
@@ -54,7 +54,9 @@ export default function ManageTwoFactor(props: Props) {
             {twoFactorEnabled ? (
                 <div className="flex flex-col items-start justify-start space-y-4">
                     <p className="text-sm text-muted-foreground">
-                        Você será solicitado a informar um código seguro e aleatório durante o login, que pode ser obtido no aplicativo com suporte a TOTP no seu telefone.
+                        Você será solicitado a informar um código seguro e
+                        aleatório durante o login, que pode ser obtido no
+                        aplicativo com suporte a TOTP no seu telefone.
                     </p>
 
                     <div className="relative inline">
@@ -80,7 +82,10 @@ export default function ManageTwoFactor(props: Props) {
             ) : (
                 <div className="flex flex-col items-start justify-start space-y-4">
                     <p className="text-sm text-muted-foreground">
-                        Quando você ativar a autenticação de dois fatores, será solicitado a informar um código seguro durante o login. Esse código pode ser obtido de um aplicativo com suporte a TOTP no seu telefone.
+                        Quando você ativar a autenticação de dois fatores, será
+                        solicitado a informar um código seguro durante o login.
+                        Esse código pode ser obtido de um aplicativo com suporte
+                        a TOTP no seu telefone.
                     </p>
 
                     <div>

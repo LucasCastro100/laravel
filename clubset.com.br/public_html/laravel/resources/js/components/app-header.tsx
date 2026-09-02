@@ -1,5 +1,3 @@
-import { Link, usePage } from '@inertiajs/react';
-import { Menu, Search } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -30,6 +28,8 @@ import { useInitials } from '@/hooks/use-initials';
 import { navLabels, useMainNav } from '@/hooks/use-main-nav';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { Menu, Search } from 'lucide-react';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -84,8 +84,9 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                         <item.icon className="h-5 w-5" />
                                                     )}
                                                     <span>
-                                                        {navLabels[item.title] ??
-                                                            item.title}
+                                                        {navLabels[
+                                                            item.title
+                                                        ] ?? item.title}
                                                     </span>
                                                 </Link>
                                             ))}

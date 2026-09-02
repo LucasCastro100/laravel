@@ -1,5 +1,3 @@
-import { KeyRound, Trash2 } from 'lucide-react';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -11,6 +9,8 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import type { Passkey } from '@/types/auth';
+import { KeyRound, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 type Props = {
     passkey: Passkey;
@@ -74,9 +74,7 @@ export default function PasskeyItem({ passkey, onDelete }: Props) {
                     </DialogDescription>
                     <DialogFooter className="gap-2">
                         <DialogClose asChild>
-                            <Button variant="secondary">
-                                Cancelar
-                            </Button>
+                            <Button variant="secondary">Cancelar</Button>
                         </DialogClose>
                         <Button
                             variant="destructive"

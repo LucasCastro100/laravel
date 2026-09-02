@@ -1,5 +1,3 @@
-// import { router } from '@inertiajs/react';
-import { useState } from 'react';
 // import TeamInvitationController from '@/actions/App/Http/Controllers/Teams/TeamInvitationController';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +8,8 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import type { DashboardInvitation } from '@/types';
+// import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 type Props = {
     invitations: DashboardInvitation[];
@@ -51,7 +51,8 @@ export default function PendingInvitationsModal({
                 <DialogHeader>
                     <DialogTitle>Convites de equipe pendentes</DialogTitle>
                     <DialogDescription>
-                        Aceite ou recuse as equipes para as quais você foi convidado.
+                        Aceite ou recuse as equipes para as quais você foi
+                        convidado.
                     </DialogDescription>
                 </DialogHeader>
 

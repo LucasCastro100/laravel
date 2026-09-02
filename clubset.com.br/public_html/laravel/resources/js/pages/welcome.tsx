@@ -1,423 +1,337 @@
-import { Head, Link, usePage } from '@inertiajs/react';
-import { dashboard, login, register } from '@/routes';
-import { CountUp } from '@/components/count-up';
+import { login, register } from '@/routes';
+import { Head, Link } from '@inertiajs/react';
 
-const steps = [
-    {
-        number: '01',
-        title: 'Cadastre seu anuncio',
-        description: 'Publique equipamentos ou servicos de producao audiovisual que deseja permutar.',
-        icon: (
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        ),
-    },
-    {
-        number: '02',
-        title: 'Encontre seu match',
-        description: 'Explore anuncios e crie matches com outros profissionais do mercado audiovisual.',
-        icon: (
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
-        ),
-    },
-    {
-        number: '03',
-        title: 'Feche a permuta',
-        description: 'Realize a troca direta, venda ou permuta por creditos de forma segura e transparente.',
-        icon: (
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-            </svg>
-        ),
-    },
-];
-
-const categories = [
-    { name: 'Cameras', emoji: '🎬' },
-    { name: 'Lentes', emoji: '📷' },
-    { name: 'Audio', emoji: '🎙️' },
-    { name: 'Iluminacao', emoji: '💡' },
-    { name: 'Drones', emoji: '🛸' },
-    { name: 'Filmagem', emoji: '🎥' },
-    { name: 'Edicao', emoji: '✂️' },
-    { name: 'Fotografia', emoji: '📸' },
-    { name: 'Streaming', emoji: '📡' },
-];
-
-const features = [
-    {
-        title: 'Permuta direta',
-        description: 'Troque equipamentos e servicos diretamente com outros profissionais sem intermediarios.',
-    },
-    {
-        title: 'Creditos',
-        description: 'Nao tem o que outro quer? Use creditos no livro-razao para fechar permutas equilibradas.',
-    },
-    {
-        title: 'Seguranca',
-        description: 'Disputas resolvidas pelo administrador. Pagamentos registrados de forma transparente.',
-    },
-    {
-        title: 'Comunidade',
-        description: 'Conecte-se com profissionais do mercado audiovisual de todo o Brasil.',
-    },
-];
-
-type Listing = {
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    categoryLabel: string;
-    condition: string | null;
-    conditionLabel: string | null;
-    intent: string;
-    intentLabel: string;
-    type: string;
-    typeLabel: string;
-    price: string | null;
-    formattedPrice: string | null;
-    region: string | null;
-    city: string | null;
-    owner: { id: number; name: string };
-    createdAt: string;
-};
-
-type WelcomeProps = {
-    auth: { user: unknown };
-    stats: {
-        listings: number;
-        users: number;
-        matches: number;
-    };
-    recentListings: Listing[];
-};
-
-const intentStyles: Record<string, string> = {
-    ofereco: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
-    procuro: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-};
-
-const categoryEmojis: Record<string, string> = {
-    camera: '🎬',
-    lente: '📷',
-    audio: '🎙️',
-    iluminacao: '💡',
-    estabilizacao: '🦯',
-    drone: '🛸',
-    edicao: '✂️',
-    streaming: '📡',
-    outro: '📦',
-};
-
-export default function Welcome({ stats, recentListings }: WelcomeProps) {
-    const { auth } = usePage().props;
+export default function Welcome() {
+    // Plans are hidden for now; set to true to show the plans section again.
+    const showPlans = false;
 
     return (
         <>
-            <Head title="Permuta Audiovisual - Marketplace de Equipamentos e Servicos" />
+            <Head title="Clubset — Portal do Audiovisual" />
 
-            <div className="flex min-h-screen flex-col bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
-                <header className="flex-none border-b border-gray-100 dark:border-gray-800">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-                        <div className="flex items-center gap-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900 text-white dark:bg-white dark:text-gray-900">
-                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-2.625 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 016 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125-.504-1.125-1.125v-1.5c0-.621.504-1.125 1.125-1.125m1.5 3.75c-.621 0-1.125-.504-1.125-1.125" />
-                                </svg>
+            <div className="flex min-h-screen flex-col overflow-x-hidden bg-[#060b10] text-[#f4f1ea] antialiased [font-family:'Inter',sans-serif] [background:radial-gradient(ellipse_900px_520px_at_50%_-10%,#0e2a2e_0%,transparent_60%),linear-gradient(180deg,#060b10_0%,#0a1a1c_55%,#060b10_100%)]">
+                <header className="flex-none">
+                    <div className="mx-auto w-full max-w-[920px] px-6">
+                        <div className="flex items-center justify-center gap-2.5 pt-16">
+                            <div className="flex items-center gap-3">
+                                <span className="font-['Space_Grotesk'] text-[26px] font-bold tracking-tight text-[#f4f1ea]">
+                                    Clubset
+                                </span>
+                                <span className="-skew-x-6 rounded-[3px] bg-[#f2a63d] px-[11px] py-[5px] font-['Space_Grotesk'] text-[12px] font-semibold tracking-[.06em] text-[#060b10]">
+                                    <span className="inline-block skew-x-6">
+                                        PORTAL AUDIOVISUAL
+                                    </span>
+                                </span>
                             </div>
-                            <span className="text-lg font-semibold tracking-tight">Permuta AV</span>
-                        </div>
-
-                        <nav className="hidden items-center gap-8 text-sm font-medium text-gray-600 dark:text-gray-400 md:flex">
-                            <a href="#como-funciona" className="transition-colors hover:text-gray-900 dark:hover:text-white">Como funciona</a>
-                            <a href="#categorias" className="transition-colors hover:text-gray-900 dark:hover:text-white">Categorias</a>
-                            {recentListings.length > 0 && (
-                                <a href="#anuncios" className="transition-colors hover:text-gray-900 dark:hover:text-white">Anuncios</a>
-                            )}
-                            <a href="#vantagens" className="transition-colors hover:text-gray-900 dark:hover:text-white">Vantagens</a>
-                        </nav>
-
-                        <div className="flex items-center gap-3">
-                            {auth.user ? (
-                                <Link
-                                    href={dashboard()}
-                                    className="rounded-full bg-gray-900 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
-                                >
-                                    Painel
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={login()}
-                                        className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                                    >
-                                        Entrar
-                                    </Link>
-                                    <Link
-                                        href={register()}
-                                        className="rounded-full bg-gray-900 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
-                                    >
-                                        Comecar agora
-                                    </Link>
-                                </>
-                            )}
                         </div>
                     </div>
                 </header>
 
-                <main className="flex-1">
-                    <section className="relative overflow-hidden px-6 py-24 lg:px-8">
-                        <div className="absolute inset-0 -z-10">
-                            <div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-b from-gray-200 to-transparent opacity-40 blur-3xl dark:from-gray-800"></div>
-                        </div>
-                        <div className="mx-auto max-w-4xl text-center">
-                            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-1.5 text-xs font-medium text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                Marketplace audiovisual
-                            </div>
-                            <h1 className="text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-                                Troque equipamentos.
-                                <br />
-                                <span className="bg-gradient-to-r from-gray-900 to-gray-500 bg-clip-text text-transparent dark:from-white dark:to-gray-400">
-                                    Conecte producoes.
-                                </span>
-                            </h1>
-                            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                                O marketplace de permuta para o mercado audiovisual. Cadastre equipamentos e servicos,
-                                encontre matches e feche trocas diretas, vendas ou permutas por creditos.
-                            </p>
-                            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                <Link
-                                    href={register()}
-                                    className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] dark:bg-white dark:text-gray-900"
-                                >
-                                    Comecar a permutar
-                                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                    </svg>
-                                </Link>
-                                <a
-                                    href="#como-funciona"
-                                    className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-8 py-3.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-900"
-                                >
-                                    Como funciona
-                                </a>
-                            </div>
-                        </div>
-                        <div className="mt-20 mx-auto grid max-w-5xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-gray-200 bg-gray-200 dark:border-gray-800 dark:bg-gray-800">
-                            <div className="bg-white px-6 py-8 text-center dark:bg-gray-950">
-                                <div className="text-3xl font-bold tracking-tight">
-                                    <CountUp target={stats.listings} suffix="+" />
-                                </div>
-                                <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">Anuncios ativos</div>
-                            </div>
-                            <div className="bg-white px-6 py-8 text-center dark:bg-gray-950">
-                                <div className="text-3xl font-bold tracking-tight">
-                                    <CountUp target={stats.users} suffix="+" />
-                                </div>
-                                <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">Profissionais</div>
-                            </div>
-                            <div className="bg-white px-6 py-8 text-center dark:bg-gray-950">
-                                <div className="text-3xl font-bold tracking-tight">
-                                    <CountUp target={stats.matches} suffix="+" />
-                                </div>
-                                <div className="mt-1 text-sm text-gray-500 dark:text-gray-400">Permutas fechadas</div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="como-funciona" className="border-t border-gray-100 bg-gray-50/50 px-6 py-24 dark:border-gray-800 dark:bg-gray-900/30 lg:px-8">
-                        <div className="mx-auto max-w-7xl">
-                            <div className="mx-auto max-w-2xl text-center">
-                                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Como funciona</h2>
-                                <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                                    Tres passos simples para comecar a permutar
+                <main className="flex-none">
+                    <section className="px-6">
+                        <div className="mx-auto max-w-[920px]">
+                            <div className="pt-11 pb-2 text-center">
+                                <h1 className="mx-auto max-w-[880px] font-['Space_Grotesk'] text-[clamp(34px,5.2vw,58px)] font-semibold leading-[1.12] tracking-[-.01em]">
+                                    Prospecção, permuta e vitrine de equipamento
+                                    em{' '}
+                                    <em className="bg-[linear-gradient(180deg,transparent_62%,#c8863020_62%)] font-normal not-italic text-[#f2a63d]">
+                                        um único portal.
+                                    </em>
+                                </h1>
+                                <p className="mx-auto mt-[26px] max-w-[620px] text-[18px] leading-[1.6] text-[#93a6a8]">
+                                    Mesmo que você{' '}
+                                    <strong className="font-semibold text-[#f4f1ea]">
+                                        trabalhe sozinho
+                                    </strong>
+                                    , não tenha equipe comercial e esteja cansado
+                                    de fazer permuta{' '}
+                                    <strong className="font-semibold text-[#f4f1ea]">
+                                        sem controle
+                                    </strong>{' '}
+                                    ou fiado. O Clubset foi feito para quem vive
+                                    do audiovisual de eventos e indústria.
                                 </p>
-                            </div>
-                            <div className="mx-auto mt-16 grid max-w-3xl gap-8">
-                                {steps.map((step) => (
-                                    <div key={step.number} className="relative flex gap-6">
-                                        <div className="flex h-12 w-12 flex-none items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white">
-                                            {step.icon}
-                                        </div>
-                                        <div>
-                                            <div className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                                                Passo {step.number}
-                                            </div>
-                                            <h3 className="mt-1 text-lg font-semibold">{step.title}</h3>
-                                            <p className="mt-2 text-gray-600 dark:text-gray-400">{step.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="categorias" className="px-6 py-24 lg:px-8">
-                        <div className="mx-auto max-w-7xl">
-                            <div className="mx-auto max-w-2xl text-center">
-                                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Categorias</h2>
-                                <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                                    Equipamentos e servicos do mercado audiovisual
-                                </p>
-                            </div>
-                            <div className="mx-auto mt-12 grid max-w-4xl grid-cols-3 gap-3 sm:grid-cols-5 sm:gap-4">
-                                {categories.map((category) => (
-                                    <div
-                                        key={category.name}
-                                        className="group flex flex-col items-center gap-2 rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-gray-400 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-600"
+                                <div className="mt-[34px] flex flex-col items-center justify-center gap-[14px] sm:flex-row">
+                                    <Link
+                                        href={login()}
+                                        className="rounded-md bg-[#f2a63d] px-[26px] py-[14px] font-['Space_Grotesk'] text-[15px] font-semibold text-[#060b10] transition-opacity hover:opacity-90"
                                     >
-                                        <span className="text-2xl">{category.emoji}</span>
-                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{category.name}</span>
+                                        Entrar no Clubset
+                                    </Link>
+                                    <Link
+                                        href="#planos"
+                                        className="rounded-md border border-[#1c2e30] bg-transparent px-[26px] py-[14px] font-['Space_Grotesk'] text-[15px] font-semibold text-[#f4f1ea] transition-colors hover:border-[#3fd6c9]/50"
+                                    >
+                                        Ver como funciona
+                                    </Link>
+                                </div>
+                            </div>
+
+                            <div className="relative mt-16 border-y border-[#1c2e30]">
+                                <div className="absolute inset-x-0 top-[-1px] h-[2px] bg-[repeating-linear-gradient(90deg,#3fd6c9_0_3px,transparent_3px_9px)] opacity-55"></div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                                    <Capability
+                                        number="Região"
+                                        title="Prospecção local"
+                                        description="Encontre clientes e freelancers de audiovisual perto de você."
+                                    />
+                                    <Capability
+                                        number="Permuta"
+                                        title="Troca bilateral"
+                                        description="Registre e controle permutas de serviço sem depender de acordo verbal."
+                                    />
+                                    <Capability
+                                        number="Equipamento"
+                                        title="Vitrine do setor"
+                                        description="Compre, venda e alugue equipamento direto com outros membros."
+                                    />
+                                    <Capability
+                                        number="Formação"
+                                        title="Escola de negócios"
+                                        description="Aprenda a precificar e vender audiovisual para eventos e indústria."
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center py-14 sm:pb-24">
+                                <div className="w-full min-[640px]:w-[640px] overflow-hidden rounded-t-[14px] rounded-b-[4px] border border-[#1c2e30] bg-[#0a1517] shadow-[0_40px_100px_-30px_rgba(0,0,0,.7)]">
+                                    <div className="flex items-center gap-1.5 border-b border-[#1c2e30] bg-[#0d1c1f] px-[14px] py-[11px]">
+                                        <span className="h-[9px] w-[9px] rounded-full bg-[#2a3d40]"></span>
+                                        <span className="h-[9px] w-[9px] rounded-full bg-[#2a3d40]"></span>
+                                        <span className="h-[9px] w-[9px] rounded-full bg-[#2a3d40]"></span>
                                     </div>
-                                ))}
+                                    <div className="relative flex aspect-[16/10] items-center justify-center bg-[radial-gradient(circle_at_30%_20%,#123a3d_0%,transparent_45%),radial-gradient(circle_at_75%_80%,#1a1010_0%,transparent_50%),#0b171a]">
+                                        <div className="flex h-[62px] w-[62px] items-center justify-center rounded-full bg-[#f2a63d] shadow-[0_0_0_12px_rgba(242,166,61,.08)]">
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                fill="#060b10"
+                                                className="ml-[3px] h-5 w-5"
+                                            >
+                                                <path d="M6 4l14 8-14 8V4z" />
+                                            </svg>
+                                        </div>
+                                        <div className="absolute inset-x-[18px] bottom-4 flex justify-between font-['Space_Grotesk'] text-[11px] tracking-[.04em] text-[#93a6a8]">
+                                            <span>Clubset · Painel do membro</span>
+                                            <span>02:14</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    {recentListings.length > 0 && (
-                        <section id="anuncios" className="border-t border-gray-100 bg-gray-50/50 px-6 py-24 dark:border-gray-800 dark:bg-gray-900/30 lg:px-8">
-                            <div className="mx-auto max-w-7xl">
+                    {showPlans && (
+                        <section
+                            id="planos"
+                            className="relative overflow-hidden px-6 py-24 lg:px-8"
+                        >
+                            <div className="pointer-events-none absolute inset-0 -z-10 bg-[#060b10]">
+                                <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_520px_at_50%_-10%,#0e2a2e_0%,transparent_60%),linear-gradient(180deg,#060b10_0%,#0a1a1c_55%,#060b10_100%)]"></div>
+                            </div>
+                            <div className="mx-auto max-w-6xl">
                                 <div className="mx-auto max-w-2xl text-center">
-                                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Anuncios recentes</h2>
-                                    <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                                        Confira os equipamentos e servicos mais recentes disponiveis para permuta
+                                    <h2 className="font-['Space_Grotesk'] text-4xl font-semibold tracking-tight text-[#f4f1ea]">
+                                        Planos
+                                    </h2>
+                                    <p className="mt-4 text-lg text-[#93a6a8]">
+                                        Escolha o plano ideal e comece a
+                                        permutar agora.
                                     </p>
                                 </div>
-                                <div className="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                    {recentListings.map((listing) => (
-                                        <div
-                                            key={listing.id}
-                                            className="group flex flex-col rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-gray-400 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-600"
-                                        >
-                                            <div className="flex items-start justify-between gap-2">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xl">{categoryEmojis[listing.category] ?? '📦'}</span>
-                                                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{listing.categoryLabel}</span>
-                                                </div>
-                                                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${intentStyles[listing.intent] ?? ''}`}>
-                                                    {listing.intentLabel}
-                                                </span>
-                                            </div>
-                                            <h3 className="mt-3 text-base font-semibold leading-snug text-gray-900 dark:text-white">
-                                                {listing.title}
-                                            </h3>
-                                            <p className="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
-                                                {listing.description}
-                                            </p>
-                                            <div className="mt-auto flex items-end justify-between gap-2 pt-4">
-                                                <div className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {listing.city && listing.region
-                                                        ? `${listing.city}, ${listing.region}`
-                                                        : listing.region ?? 'Brasil'}
-                                                </div>
-                                                <div className="text-right">
-                                                    {listing.formattedPrice ? (
-                                                        <span className="text-sm font-semibold text-gray-900 dark:text-white">{listing.formattedPrice}</span>
-                                                    ) : (
-                                                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{listing.typeLabel}</span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="mt-10 text-center">
-                                    <Link
-                                        href={register()}
-                                        className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-900"
-                                    >
-                                        Ver todos os anuncios
-                                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                        </svg>
-                                    </Link>
+
+                                <div className="mx-auto mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
+                                    <PlanCardFree />
+                                    <PlanCardYearly />
                                 </div>
                             </div>
                         </section>
                     )}
-
-                    <section id="vantagens" className="border-t border-gray-100 bg-gray-50/50 px-6 py-24 dark:border-gray-800 dark:bg-gray-900/30 lg:px-8">
-                        <div className="mx-auto max-w-7xl">
-                            <div className="mx-auto max-w-2xl text-center">
-                                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Vantagens</h2>
-                                <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                                    Por que permutar na Permuta AV
-                                </p>
-                            </div>
-                            <div className="mx-auto mt-16 grid max-w-4xl gap-6 sm:grid-cols-2">
-                                {features.map((feature) => (
-                                    <div
-                                        key={feature.title}
-                                        className="rounded-2xl border border-gray-200 bg-white p-8 transition-all hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
-                                    >
-                                        <h3 className="text-lg font-semibold">{feature.title}</h3>
-                                        <p className="mt-3 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                                            {feature.description}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="px-6 py-24 lg:px-8">
-                        <div className="mx-auto max-w-4xl">
-                            <div className="relative overflow-hidden rounded-3xl bg-gray-900 px-8 py-16 text-center sm:px-16 dark:bg-white">
-                                <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/5 dark:bg-gray-900/5"></div>
-                                <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-white/5 dark:bg-gray-900/5"></div>
-                                <div className="relative">
-                                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl dark:text-gray-900">
-                                        Pronto para permutar?
-                                    </h2>
-                                    <p className="mx-auto mt-4 max-w-xl text-gray-400 dark:text-gray-600">
-                                        Junte-se a centenas de profissionais do audiovisual e comece a trocar equipamentos e servicos hoje.
-                                    </p>
-                                    <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                        <Link
-                                            href={register()}
-                                            className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] dark:bg-gray-900 dark:text-white"
-                                        >
-                                            Criar conta gratuita
-                                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                            </svg>
-                                        </Link>
-                                        <Link
-                                            href={login()}
-                                            className="inline-flex items-center gap-2 rounded-full border border-gray-700 px-8 py-3.5 text-sm font-semibold text-gray-300 transition-colors hover:bg-gray-800 dark:border-gray-300 dark:text-gray-700 dark:hover:bg-gray-100"
-                                        >
-                                            Ja tenho conta
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </main>
 
-                <footer className="flex-none border-t border-gray-100 dark:border-gray-800">
-                    <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+                <footer className="flex-none border-t border-[#1c2e30]">
+                    <div className="mx-auto max-w-[920px] px-6 py-12">
                         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
                             <div className="flex items-center gap-2">
-                                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-900 text-white dark:bg-white dark:text-gray-900">
-                                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-2.625 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 016 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125-.504-1.125-1.125v-1.5c0-.621.504-1.125 1.125-1.125m1.5 3.75c-.621 0-1.125-.504-1.125-1.125" />
-                                    </svg>
-                                </div>
-                                <span className="text-sm font-semibold">Permuta AV</span>
+                                <span className="font-['Space_Grotesk'] text-sm font-bold text-[#f4f1ea]">
+                                    Clubset
+                                </span>
                             </div>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                                Marketplace de permuta para o mercado audiovisual
+                            <p className="text-sm text-[#93a6a8]">
+                                Portal do audiovisual · prospecção, permuta e
+                                vitrine de equipamento
                             </p>
                         </div>
                     </div>
                 </footer>
             </div>
         </>
+    );
+}
+
+function Capability({
+    number,
+    title,
+    description,
+}: {
+    number: string;
+    title: string;
+    description: string;
+}) {
+    return (
+        <div className="border-[#1c2e30] p-[26px_18px] max-sm:first:border-l-0 max-sm:[&:nth-child(3)]:border-l-0 sm:border-l sm:first:border-l-0 max-sm:border-b max-sm:last:border-b-0 lg:py-[26px]">
+            <div className="font-['Space_Grotesk'] text-[12px] tracking-[.04em] text-[#3fd6c9]">
+                {number}
+            </div>
+            <h3 className="mt-2.5 mb-1.5 font-['Space_Grotesk'] text-[16px] font-semibold">
+                {title}
+            </h3>
+            <p className="text-[13.5px] leading-[1.5] text-[#93a6a8]">
+                {description}
+            </p>
+        </div>
+    );
+}
+
+const bevel = {
+    topRight: 'polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%)',
+    topLeft: 'polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px)',
+};
+
+function BevelCard({
+    plan,
+    clip,
+    featured,
+}: {
+    plan: {
+        name: string;
+        tag: string;
+        price: string;
+        period: string;
+        features: string[];
+    };
+    clip: 'topRight' | 'topLeft';
+    featured?: boolean;
+}) {
+    return (
+        <div
+            className={
+                featured
+                    ? 'rounded-md bg-[#f2a63d] p-[1.5px]'
+                    : 'rounded-md bg-[#1c2e30] p-[1.5px]'
+            }
+            style={{ clipPath: bevel[clip] }}
+        >
+            <div
+                className="flex h-full flex-col rounded-md bg-[#0a1517] p-8"
+                style={{ clipPath: bevel[clip] }}
+            >
+                <div className="flex items-center justify-between">
+                    <span className="font-['Space_Grotesk'] text-sm text-[#f4f1ea]">
+                        {plan.name}
+                    </span>
+                    <span
+                        className={`rounded px-2 py-0.5 font-['Space_Grotesk'] text-[10px] font-semibold tracking-widest ${
+                            featured
+                                ? 'bg-[#f2a63d] text-[#060b10]'
+                                : 'bg-[#3fd6c9]/15 text-[#3fd6c9]'
+                        }`}
+                    >
+                        {plan.tag}
+                    </span>
+                </div>
+
+                <div className="mt-6 flex items-baseline gap-1">
+                    <span className="font-['Space_Grotesk'] text-4xl font-semibold text-[#f4f1ea]">
+                        {plan.price}
+                    </span>
+                    <span className="text-sm text-[#93a6a8]">{plan.period}</span>
+                </div>
+
+                <ul className="mt-8 flex-1 space-y-3">
+                    {plan.features.map((feature) => (
+                        <li
+                            key={feature}
+                            className="flex items-start gap-2 text-sm text-[#93a6a8]"
+                        >
+                            <span
+                                className={
+                                    featured
+                                        ? 'mt-0.5 text-[#f2a63d]'
+                                        : 'mt-0.5 text-[#3fd6c9]'
+                                }
+                            >
+                                <svg
+                                    className="h-4 w-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M5 13l4 4L19 7"
+                                    />
+                                </svg>
+                            </span>
+                            <span>{feature}</span>
+                        </li>
+                    ))}
+                </ul>
+
+                <Link
+                    href={register()}
+                    className={`mt-8 inline-flex items-center justify-center rounded-[3px] px-6 py-3 font-['Space_Grotesk'] text-sm font-semibold transition-opacity hover:opacity-90 ${
+                        featured
+                            ? 'bg-[#f2a63d] text-[#060b10]'
+                            : 'border border-[#1c2e30] text-[#f4f1ea]'
+                    }`}
+                >
+                    Começar grátis
+                </Link>
+            </div>
+        </div>
+    );
+}
+
+function PlanCardFree() {
+    return (
+        <BevelCard
+            clip="topLeft"
+            plan={{
+                name: 'Gratuito',
+                tag: 'FREE',
+                price: 'R$ 0',
+                period: '/mes',
+                features: [
+                    'Prospecção local de clientes',
+                    'Permutas bilaterais',
+                    'Vitrine de equipamento',
+                    'Acesso à escola de negócios',
+                ],
+            }}
+        />
+    );
+}
+
+function PlanCardYearly() {
+    return (
+        <BevelCard
+            clip="topRight"
+            featured
+            plan={{
+                name: 'Anual',
+                tag: 'POPULAR',
+                price: 'R$ 299',
+                period: '/ano',
+                features: [
+                    'Tudo do plano Gratuito',
+                    'Permutas por créditos',
+                    'Matches ilimitados',
+                    'Suporte prioritário',
+                    'Estatísticas de mercado',
+                ],
+            }}
+        />
     );
 }

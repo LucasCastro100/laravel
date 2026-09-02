@@ -1,5 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { Check, CreditCard } from 'lucide-react';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,9 +10,9 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import {
+    index as assinaturaIndex,
     cancel as cancelSubscription,
     checkout,
-    index as assinaturaIndex,
     resume as resumeSubscription,
 } from '@/routes/assinatura';
 import { payment as confirmPayment } from '@/routes/cashier';
@@ -23,6 +21,8 @@ import type {
     Plan,
     SubscriptionInfo,
 } from '@/types/billing';
+import { Form, Head } from '@inertiajs/react';
+import { Check, CreditCard } from 'lucide-react';
 
 function statusLabel(subscription: SubscriptionInfo | null): string {
     if (!subscription) {
@@ -37,7 +37,10 @@ function statusLabel(subscription: SubscriptionInfo | null): string {
         return 'Cancelada';
     }
 
-    if (subscription.status === 'past_due' || subscription.status === 'unpaid') {
+    if (
+        subscription.status === 'past_due' ||
+        subscription.status === 'unpaid'
+    ) {
         return 'Pagamento pendente';
     }
 
@@ -91,7 +94,11 @@ export default function Assinatura({
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 Plano atual: {currentPlan?.name ?? 'Trial'}
-                                <Badge variant={blockedAt ? 'destructive' : 'secondary'}>
+                                <Badge
+                                    variant={
+                                        blockedAt ? 'destructive' : 'secondary'
+                                    }
+                                >
                                     {status}
                                 </Badge>
                             </CardTitle>
@@ -105,23 +112,23 @@ export default function Assinatura({
                                     Valor mensal
                                 </span>
                                 <span className="font-medium">
-                                    {currentPlan?.formattedPrice ??
-                                        'R$ 0,00'}
+                                    {currentPlan?.formattedPrice ?? 'R$ 0,00'}
                                 </span>
                             </div>
 
-                            {subscription.onTrial && subscription.trialEndsAt && (
-                                <div className="flex items-center justify-between">
-                                    <span className="text-neutral-500">
-                                        Fim do período de teste
-                                    </span>
-                                    <span className="font-medium">
-                                        {new Date(
-                                            subscription.trialEndsAt,
-                                        ).toLocaleDateString('pt-BR')}
-                                    </span>
-                                </div>
-                            )}
+                            {subscription.onTrial &&
+                                subscription.trialEndsAt && (
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-neutral-500">
+                                            Fim do período de teste
+                                        </span>
+                                        <span className="font-medium">
+                                            {new Date(
+                                                subscription.trialEndsAt,
+                                            ).toLocaleDateString('pt-BR')}
+                                        </span>
+                                    </div>
+                                )}
 
                             {subscription.onGracePeriod &&
                                 subscription.endsAt && (
@@ -156,7 +163,11 @@ export default function Assinatura({
                                         <span className="text-neutral-500">
                                             Cobrança pendente de confirmação
                                         </span>
-                                        <Button asChild variant="outline" size="sm">
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            size="sm"
+                                        >
                                             <a
                                                 href={confirmPayment.url(
                                                     subscription.latestPaymentId,
@@ -173,9 +184,7 @@ export default function Assinatura({
                             <CardFooter className="justify-end gap-2">
                                 {subscription.canceled ? (
                                     subscription.onGracePeriod && (
-                                        <Form
-                                            {...resumeSubscription.form()}
-                                        >
+                                        <Form {...resumeSubscription.form()}>
                                             <Button
                                                 type="submit"
                                                 variant="secondary"
@@ -185,13 +194,8 @@ export default function Assinatura({
                                         </Form>
                                     )
                                 ) : (
-                                    <Form
-                                        {...cancelSubscription.form()}
-                                    >
-                                        <Button
-                                            type="submit"
-                                            variant="outline"
-                                        >
+                                    <Form {...cancelSubscription.form()}>
+                                        <Button type="submit" variant="outline">
                                             Cancelar assinatura
                                         </Button>
                                     </Form>

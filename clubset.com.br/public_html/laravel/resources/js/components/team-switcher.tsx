@@ -1,5 +1,3 @@
-import { usePage } from '@inertiajs/react';
-import { ChevronsUpDown, Users } from 'lucide-react';
 // import CreateTeamModal from '@/components/create-team-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,6 +7,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { usePage } from '@inertiajs/react';
+import { ChevronsUpDown, Users } from 'lucide-react';
 // import { switchMethod } from '@/routes/teams';
 // import type { Team } from '@/types';
 

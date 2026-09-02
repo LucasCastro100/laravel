@@ -146,6 +146,8 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service): RedirectResponse
     {
+        abort_unless($service->user_id === $request->user()->id, 403);
+
         $service->update($request->validated());
 
         Inertia::flash('toast', [

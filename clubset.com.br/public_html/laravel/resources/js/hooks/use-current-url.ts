@@ -1,6 +1,6 @@
+import { toUrl } from '@/lib/utils';
 import type { InertiaLinkProps } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
-import { toUrl } from '@/lib/utils';
 
 export type IsCurrentUrlFn = (
     urlToCheck: NonNullable<InertiaLinkProps['href']>,
@@ -38,7 +38,7 @@ export function useCurrentUrl(): UseCurrentUrlReturn {
     const isCurrentUrl: IsCurrentUrlFn = (
         urlToCheck: NonNullable<InertiaLinkProps['href']>,
         currentUrl?: string,
-        startsWith: boolean = false,
+        startsWith = false,
     ) => {
         const urlToCompare = currentUrl ?? currentUrlPath;
         const urlString = toUrl(urlToCheck);

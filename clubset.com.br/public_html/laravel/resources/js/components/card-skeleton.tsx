@@ -7,7 +7,9 @@ interface CardSkeletonProps {
 }
 
 function SkeletonPulse({ className }: { className?: string }) {
-    return <div className={cn('animate-pulse rounded-md bg-muted', className)} />;
+    return (
+        <div className={cn('animate-pulse rounded-md bg-muted', className)} />
+    );
 }
 
 function ListingCardSkeleton() {
@@ -93,11 +95,20 @@ const variants = {
     user: UserCardSkeleton,
 };
 
-export function CardSkeleton({ count = 6, variant = 'listing', className }: CardSkeletonProps) {
+export function CardSkeleton({
+    count = 6,
+    variant = 'listing',
+    className,
+}: CardSkeletonProps) {
     const Component = variants[variant];
 
     return (
-        <div className={cn('grid gap-4 md:grid-cols-2 lg:grid-cols-3', className)}>
+        <div
+            className={cn(
+                'grid gap-4 md:grid-cols-2 lg:grid-cols-3',
+                className,
+            )}
+        >
             {Array.from({ length: count }).map((_, i) => (
                 <Component key={i} />
             ))}

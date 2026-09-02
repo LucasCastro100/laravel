@@ -1,9 +1,9 @@
-import { usePasskeyRegister } from '@laravel/passkeys/react';
-import { useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { usePasskeyRegister } from '@laravel/passkeys/react';
+import { useState } from 'react';
 
 type Props = {
     onSuccess: () => void;
@@ -89,7 +89,8 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
                     autoFocus
                 />
                 <p className="text-xs text-muted-foreground">
-                    Um nome ajuda você a identificar esta chave de acesso depois.
+                    Um nome ajuda você a identificar esta chave de acesso
+                    depois.
                 </p>
             </div>
 
@@ -97,9 +98,7 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
 
             <div className="flex gap-2">
                 <Button type="submit" disabled={isLoading || !name.trim()}>
-                    {isLoading
-                        ? 'Registrando...'
-                        : 'Registrar chave de acesso'}
+                    {isLoading ? 'Registrando...' : 'Registrar chave de acesso'}
                 </Button>
                 <Button type="button" variant="ghost" onClick={handleCancel}>
                     Cancelar

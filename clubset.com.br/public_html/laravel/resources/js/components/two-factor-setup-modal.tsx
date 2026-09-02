@@ -1,7 +1,3 @@
-import { Form } from '@inertiajs/react';
-import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { Check, Copy, ScanLine } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import AlertError from '@/components/alert-error';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -22,6 +18,10 @@ import { useAppearance } from '@/hooks/use-appearance';
 import { useClipboard } from '@/hooks/use-clipboard';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import { confirm } from '@/routes/two-factor';
+import { Form } from '@inertiajs/react';
+import { REGEXP_ONLY_DIGITS } from 'input-otp';
+import { Check, Copy, ScanLine } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 function GridScanIcon() {
     return (
@@ -263,7 +263,8 @@ export default function TwoFactorSetupModal({
         if (twoFactorEnabled) {
             return {
                 title: 'Autenticação de dois fatores ativada',
-                description: 'A autenticação de dois fatores agora está ativada. Escaneie o código QR ou digite a chave de configuração no seu aplicativo autenticador.',
+                description:
+                    'A autenticação de dois fatores agora está ativada. Escaneie o código QR ou digite a chave de configuração no seu aplicativo autenticador.',
                 buttonText: 'Fechar',
             };
         }
@@ -271,14 +272,16 @@ export default function TwoFactorSetupModal({
         if (showVerificationStep) {
             return {
                 title: 'Verificar código de autenticação',
-                description: 'Digite o código de 6 dígitos do seu aplicativo autenticador',
+                description:
+                    'Digite o código de 6 dígitos do seu aplicativo autenticador',
                 buttonText: 'Continuar',
             };
         }
 
         return {
             title: 'Ativar autenticação de dois fatores',
-            description: 'Para concluir a ativação da autenticação de dois fatores, escaneie o código QR ou digite a chave de configuração no seu aplicativo autenticador',
+            description:
+                'Para concluir a ativação da autenticação de dois fatores, escaneie o código QR ou digite a chave de configuração no seu aplicativo autenticador',
             buttonText: 'Continuar',
         };
     }, [twoFactorEnabled, showVerificationStep]);

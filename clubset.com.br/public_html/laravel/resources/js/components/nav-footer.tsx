@@ -1,4 +1,3 @@
-import type { ComponentPropsWithoutRef } from 'react';
 import {
     SidebarGroup,
     SidebarGroupContent,
@@ -8,6 +7,7 @@ import {
 } from '@/components/ui/sidebar';
 import { toUrl } from '@/lib/utils';
 import type { NavItem } from '@/types';
+import type { ComponentPropsWithoutRef } from 'react';
 
 const navLabels: Record<string, string> = {
     'sidebar.dashboard': 'Painel',
@@ -48,7 +48,9 @@ export function NavFooter({
                                     {item.icon && (
                                         <item.icon className="h-5 w-5" />
                                     )}
-                                    <span>{navLabels[item.title] ?? item.title}</span>
+                                    <span>
+                                        {navLabels[item.title] ?? item.title}
+                                    </span>
                                 </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

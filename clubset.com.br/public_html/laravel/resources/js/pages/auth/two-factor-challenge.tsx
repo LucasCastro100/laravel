@@ -1,6 +1,3 @@
-import { Form, Head, setLayoutProps } from '@inertiajs/react';
-import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { useMemo, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +8,9 @@ import {
 } from '@/components/ui/input-otp';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
 import { store } from '@/routes/two-factor/login';
+import { Form, Head, setLayoutProps } from '@inertiajs/react';
+import { REGEXP_ONLY_DIGITS } from 'input-otp';
+import { useMemo, useState } from 'react';
 
 export default function TwoFactorChallenge() {
     const [showRecoveryInput, setShowRecoveryInput] = useState<boolean>(false);
@@ -24,14 +24,16 @@ export default function TwoFactorChallenge() {
         if (showRecoveryInput) {
             return {
                 title: 'Código de recuperação',
-                description: 'Confirme o acesso à sua conta digitando um de seus códigos de recuperação de emergência.',
+                description:
+                    'Confirme o acesso à sua conta digitando um de seus códigos de recuperação de emergência.',
                 toggleText: 'entrar usando um código de autenticação',
             };
         }
 
         return {
             title: 'Código de autenticação',
-            description: 'Digite o código de autenticação fornecido pelo seu aplicativo autenticador.',
+            description:
+                'Digite o código de autenticação fornecido pelo seu aplicativo autenticador.',
             toggleText: 'entrar usando um código de recuperação',
         };
     }, [showRecoveryInput]);
@@ -132,5 +134,6 @@ export default function TwoFactorChallenge() {
 
 TwoFactorChallenge.layout = {
     title: 'Autenticação de dois fatores',
-    description: 'Digite o código de autenticação fornecido pelo seu aplicativo autenticador.',
+    description:
+        'Digite o código de autenticação fornecido pelo seu aplicativo autenticador.',
 };

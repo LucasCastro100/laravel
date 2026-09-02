@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/react';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -9,8 +8,12 @@ import {
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { navLabels } from '@/hooks/use-main-nav';
 import type { NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
 
-export function NavMain({ items = [], label = 'Plataforma' }: { items: NavItem[]; label?: string }) {
+export function NavMain({
+    items = [],
+    label = 'Plataforma',
+}: { items: NavItem[]; label?: string }) {
     const { isCurrentUrl } = useCurrentUrl();
 
     if (items.length === 0) {
@@ -26,11 +29,15 @@ export function NavMain({ items = [], label = 'Plataforma' }: { items: NavItem[]
                         <SidebarMenuButton
                             asChild
                             isActive={isCurrentUrl(item.href)}
-                            tooltip={{ children: navLabels[item.title] ?? item.title }}
+                            tooltip={{
+                                children: navLabels[item.title] ?? item.title,
+                            }}
                         >
                             <Link href={item.href} prefetch>
                                 {item.icon && <item.icon />}
-                                <span>{navLabels[item.title] ?? item.title}</span>
+                                <span>
+                                    {navLabels[item.title] ?? item.title}
+                                </span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

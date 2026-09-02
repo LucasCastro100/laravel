@@ -7,7 +7,12 @@ type Props = {
     decimals?: number;
 };
 
-export function CountUp({ target, duration = 2000, suffix = '', decimals = 0 }: Props) {
+export function CountUp({
+    target,
+    duration = 2000,
+    suffix = '',
+    decimals = 0,
+}: Props) {
     const [count, setCount] = useState(0);
     const ref = useRef<HTMLSpanElement>(null);
     const hasAnimated = useRef(false);
@@ -49,11 +54,13 @@ export function CountUp({ target, duration = 2000, suffix = '', decimals = 0 }: 
         return () => observer.disconnect();
     }, [target, duration]);
 
-    const formatted = decimals > 0 ? count.toFixed(decimals) : count.toLocaleString('pt-BR');
+    const formatted =
+        decimals > 0 ? count.toFixed(decimals) : count.toLocaleString('pt-BR');
 
     return (
         <span ref={ref}>
-            {formatted}{suffix}
+            {formatted}
+            {suffix}
         </span>
     );
 }

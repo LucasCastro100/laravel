@@ -9,9 +9,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\MunicipalityController;
+use App\Http\Controllers\PermutaController;
+use App\Http\Controllers\PrimeiroAcessoController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Middleware\EnsureAccountNotBlocked;
+use App\Http\Middleware\EnsureFirstAccessCompleted;
 use App\Models\Listing;
 use App\Models\TradeMatch;
 use App\Models\User;
@@ -63,6 +66,9 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::get('permutas/compartilhada/{uuid}', [PermutaController::class, 'share'])
+    ->name('permutas.share');
+
 Route::middleware(['auth', 'verified'])
     ->prefix('assinatura')
     ->name('assinatura.')
@@ -73,10 +79,19 @@ Route::middleware(['auth', 'verified'])
         Route::post('/resume', [SubscriptionController::class, 'resume'])->name('resume');
     });
 
+Route::middleware(['auth', 'verified'])
+    ->prefix('primeiro-acesso')
+    ->name('primeiro-acesso.')
+    ->group(function () {
+        Route::get('/', [PrimeiroAcessoController::class, 'index'])->name('index');
+        Route::post('/', [PrimeiroAcessoController::class, 'store'])->name('store');
+    });
+
 Route::middleware([
     'auth',
     'verified',
     EnsureAccountNotBlocked::class,
+    EnsureFirstAccessCompleted::class,
 ])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -84,16 +99,19 @@ Route::middleware([
         Route::get('municipalities', [MunicipalityController::class, 'index'])->name('municipalities.index');
 
         Route::resource('listings', ListingController::class)
-            ->except(['show']);
+            ->except(['show'])->middleware('throttle:mutations');
         Route::get('listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
         Route::resource('services', ServiceController::class)
-            ->except(['show']);
+            ->except(['show'])->middleware('throttle:mutations');
         Route::get('services/{service}', [ServiceController::class, 'show'])->name('services.show');
 
-        Route::post('matches', [MatchController::class, 'store'])->name('matches.store');
-        Route::patch('matches/{match}', [MatchController::class, 'update'])->name('matches.update');
+        Route::post('matches', [MatchController::class, 'store'])->name('matches.store')->middleware('throttle:mutations');
+        Route::patch('matches/{match}', [MatchController::class, 'update'])->name('matches.update')->middleware('throttle:mutations');
         Route::get('matches', [MatchController::class, 'index'])->name('matches.index');
+
+        Route::resource('permutas', PermutaController::class)
+            ->except(['show'])->middleware('throttle:mutations');
     });
 
 Route::middleware(['auth', 'verified', 'admin'])

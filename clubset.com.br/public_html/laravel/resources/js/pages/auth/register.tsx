@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -8,26 +7,30 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { Camera, Building2, Clapperboard } from 'lucide-react';
+import { Form, Head } from '@inertiajs/react';
+import { Building2, Camera, Clapperboard } from 'lucide-react';
 import { useState } from 'react';
 
 const roles = [
     {
         value: 'videomaker',
         label: 'Videomaker',
-        description: 'Ofereca servicos, participe de matches e publique equipamentos para troca ou venda.',
+        description:
+            'Ofereça serviços, participe de matches e publique equipamentos para troca ou venda.',
         icon: Clapperboard,
     },
     {
         value: 'cliente',
         label: 'Cliente',
-        description: 'Busque freelancers na sua regiao para contratacao de servicos audiovisuais.',
+        description:
+            'Busque freelancers na sua região para contratação de serviços audiovisuais.',
         icon: Camera,
     },
     {
         value: 'empresa',
         label: 'Empresa',
-        description: 'Participe de permutas diretas ou por creditos com outros profissionais.',
+        description:
+            'Participe de permutas diretas ou por creditos com outros profissionais.',
         icon: Building2,
     },
 ];
@@ -49,11 +52,12 @@ export default function Register() {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label>Voce e</Label>
+                                <Label>Você é</Label>
                                 <div className="grid gap-3 sm:grid-cols-3">
                                     {roles.map((role) => {
                                         const Icon = role.icon;
-                                        const isSelected = selectedRole === role.value;
+                                        const isSelected =
+                                            selectedRole === role.value;
                                         return (
                                             <label
                                                 key={role.value}
@@ -69,18 +73,24 @@ export default function Register() {
                                                     value={role.value}
                                                     checked={isSelected}
                                                     onChange={() => {
-                                                        setSelectedRole(role.value);
+                                                        setSelectedRole(
+                                                            role.value,
+                                                        );
                                                     }}
                                                     className="sr-only"
                                                 />
-                                                <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${
-                                                    isSelected
-                                                        ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
-                                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
-                                                }`}>
+                                                <div
+                                                    className={`flex h-10 w-10 items-center justify-center rounded-lg ${
+                                                        isSelected
+                                                            ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
+                                                            : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400'
+                                                    }`}
+                                                >
                                                     <Icon className="h-5 w-5" />
                                                 </div>
-                                                <span className="text-sm font-semibold">{role.label}</span>
+                                                <span className="text-sm font-semibold">
+                                                    {role.label}
+                                                </span>
                                                 <span className="text-xs leading-relaxed text-gray-500 dark:text-gray-400">
                                                     {role.description}
                                                 </span>
@@ -88,7 +98,10 @@ export default function Register() {
                                         );
                                     })}
                                 </div>
-                                <InputError message={errors.role} className="mt-1" />
+                                <InputError
+                                    message={errors.role}
+                                    className="mt-1"
+                                />
                             </div>
 
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -108,7 +121,9 @@ export default function Register() {
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Endereco de email</Label>
+                                    <Label htmlFor="email">
+                                        Endereço de email
+                                    </Label>
                                     <Input
                                         id="email"
                                         type="email"
@@ -166,11 +181,8 @@ export default function Register() {
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Ja tem uma conta?{' '}
-                            <TextLink
-                                href={login()}
-                                tabIndex={6}
-                            >
+                            Já tem uma conta?{' '}
+                            <TextLink href={login()} tabIndex={6}>
                                 Entrar
                             </TextLink>
                         </div>

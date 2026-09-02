@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
 import {
     index as confirmOptions,
     store as confirmStore,
@@ -10,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
+import { Form, Head } from '@inertiajs/react';
 
 export default function ConfirmPassword() {
     return (
@@ -61,5 +61,6 @@ export default function ConfirmPassword() {
 
 ConfirmPassword.layout = {
     title: 'Confirmar senha',
-    description: 'Esta é uma área segura do aplicativo. Confirme sua senha antes de continuar.',
+    description:
+        'Esta é uma área segura do aplicativo. Confirme sua senha antes de continuar.',
 };

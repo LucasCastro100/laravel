@@ -1,6 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -9,12 +6,23 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MoneyInput } from '@/components/ui/money-input';
 import { SearchSelect } from '@/components/ui/search-select';
+import { Stepper } from '@/components/ui/stepper';
 import {
     create as serviceCreate,
     edit as serviceEdit,
-    index as servicesIndex,
     update as serviceUpdate,
+    index as servicesIndex,
 } from '@/routes/services';
+import { Form, Head } from '@inertiajs/react';
+import {
+    ArrowLeft,
+    ChevronLeft,
+    ChevronRight,
+    Coins,
+    FileText,
+    MapPin,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 type Service = {
     id: number;
@@ -53,9 +61,21 @@ export default function ServiceForm({
     defaultMunicipalityId,
 }: Props) {
     const isEditing = Boolean(service);
-    const defaultState = states.find((s) => s.id.toString() === String(defaultStateId));
-    const [selectedRegion, setSelectedRegion] = useState(defaultState?.region ?? '');
-    const [municipalities, setMunicipalities] = useState<MunicipalityOption[]>(initialMunicipalities);
+    const [step, setStep] = useState(0);
+    const steps = [
+        { label: 'Informações', icon: FileText },
+        { label: 'Valor', icon: Coins },
+        { label: 'Localização', icon: MapPin },
+    ];
+    const defaultState = states.find(
+        (s) => s.id.toString() === String(defaultStateId),
+    );
+    const [selectedRegion, setSelectedRegion] = useState(
+        defaultState?.region ?? '',
+    );
+    const [municipalities, setMunicipalities] = useState<MunicipalityOption[]>(
+        initialMunicipalities,
+    );
     const [loadingMunicipalities, setLoadingMunicipalities] = useState(false);
 
     const filteredStates = selectedRegion
@@ -116,12 +136,18 @@ export default function ServiceForm({
                             <ArrowLeft className="size-4" />
                         </a>
                     </Button>
-                            <Heading
-                                variant="small"
-                                title={isEditing ? 'Editar serviço' : 'Novo serviço'}
-                                description={isEditing ? 'Atualize as informações do serviço' : 'Preencha os dados para criar um novo serviço'}
+                    <Heading
+                        variant="small"
+                        title={isEditing ? 'Editar serviço' : 'Novo serviço'}
+                        description={
+                            isEditing
+                                ? 'Atualize as informações do serviço'
+                                : 'Preencha os dados para criar um novo serviço'
+                        }
                     />
                 </div>
+
+                <Stepper steps={steps} current={step} onStepChange={setStep} />
 
                 <Form
                     method={isEditing ? 'put' : 'post'}
@@ -134,64 +160,88 @@ export default function ServiceForm({
                 >
                     {({ errors, processing }) => (
                         <>
-                            <Card>
+                            <Card className={step === 0 ? '' : 'hidden'}>
                                 <CardHeader className="py-3">
-                                    <CardTitle className="text-base">Informações básicas</CardTitle>
+                                    <CardTitle className="text-base">
+                                        Informações básicas
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-3">
                                     <div className="grid gap-3 sm:grid-cols-2">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="title">Título</Label>
+                                            <Label htmlFor="title">
+                                                Título
+                                            </Label>
                                             <Input
                                                 id="title"
                                                 name="title"
-                                                defaultValue={service?.title ?? ''}
+                                                defaultValue={
+                                                    service?.title ?? ''
+                                                }
                                                 placeholder="Ex: Aula de violão"
                                                 required
                                             />
-                                            <InputError message={errors.title} />
+                                            <InputError
+                                                message={errors.title}
+                                            />
                                         </div>
 
                                         <div className="grid gap-2">
                                             <Label>Especialidade</Label>
                                             <SearchSelect
                                                 options={specialtyOptions}
-                                                defaultValue={service?.specialty ?? ''}
+                                                defaultValue={
+                                                    service?.specialty ?? ''
+                                                }
                                                 name="specialty"
                                                 placeholder="Selecione a especialidade"
                                                 title="Especialidade"
                                             />
-                                            <InputError message={errors.specialty} />
+                                            <InputError
+                                                message={errors.specialty}
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="description">Descrição</Label>
+                                        <Label htmlFor="description">
+                                            Descrição
+                                        </Label>
                                         <textarea
                                             id="description"
                                             name="description"
                                             rows={3}
-                                            defaultValue={service?.description ?? ''}
+                                            defaultValue={
+                                                service?.description ?? ''
+                                            }
                                             placeholder="Descreva o serviço oferecido..."
                                             className="flex w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] md:text-sm"
                                         />
-                                        <InputError message={errors.description} />
+                                        <InputError
+                                            message={errors.description}
+                                        />
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <Card>
+                            <Card className={step === 1 ? '' : 'hidden'}>
                                 <CardHeader className="py-3">
-                                    <CardTitle className="text-base">Valor</CardTitle>
+                                    <CardTitle className="text-base">
+                                        Valor
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid gap-3 sm:grid-cols-2">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="rate">Valor (R$)</Label>
+                                            <Label htmlFor="rate">
+                                                Valor (R$)
+                                            </Label>
                                             <MoneyInput
                                                 id="rate"
                                                 name="rate"
-                                                defaultValue={service?.rate ?? ''}
+                                                defaultValue={
+                                                    service?.rate ?? ''
+                                                }
                                             />
                                             <InputError message={errors.rate} />
                                         </div>
@@ -200,27 +250,36 @@ export default function ServiceForm({
                                             <Label>Tipo de valor</Label>
                                             <SearchSelect
                                                 options={rateTypes}
-                                                defaultValue={service?.rateType ?? ''}
+                                                defaultValue={
+                                                    service?.rateType ?? ''
+                                                }
                                                 name="rateType"
                                                 placeholder="Selecione o tipo"
                                                 title="Tipo de valor"
                                             />
-                                            <InputError message={errors.rateType} />
+                                            <InputError
+                                                message={errors.rateType}
+                                            />
                                         </div>
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <Card>
+                            <Card className={step === 2 ? '' : 'hidden'}>
                                 <CardHeader className="py-3">
-                                    <CardTitle className="text-base">Localização</CardTitle>
+                                    <CardTitle className="text-base">
+                                        Localização
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid gap-3 sm:grid-cols-3">
                                         <div className="grid gap-2">
                                             <Label>Região</Label>
                                             <SearchSelect
-                                                options={regions.map((r) => ({ value: r, label: r }))}
+                                                options={regions.map((r) => ({
+                                                    value: r,
+                                                    label: r,
+                                                }))}
                                                 value={selectedRegion}
                                                 onValueChange={(v) => {
                                                     setSelectedRegion(v);
@@ -235,40 +294,110 @@ export default function ServiceForm({
                                             <Label>Estado</Label>
                                             <SearchSelect
                                                 options={stateOptions}
-                                                defaultValue={String(service?.stateId ?? defaultStateId ?? '')}
+                                                defaultValue={String(
+                                                    service?.stateId ??
+                                                        defaultStateId ??
+                                                        '',
+                                                )}
                                                 name="stateId"
-                                                onValueChange={(v) => fetchMunicipalities(v)}
-                                                placeholder={selectedRegion ? 'Selecione o estado' : 'Selecione a região primeiro'}
+                                                onValueChange={(v) =>
+                                                    fetchMunicipalities(v)
+                                                }
+                                                placeholder={
+                                                    selectedRegion
+                                                        ? 'Selecione o estado'
+                                                        : 'Selecione a região primeiro'
+                                                }
                                                 disabled={!selectedRegion}
                                                 title="Estado"
                                             />
-                                            <InputError message={errors.stateId} />
+                                            <InputError
+                                                message={errors.stateId}
+                                            />
                                         </div>
 
                                         <div className="grid gap-2">
                                             <Label>Município</Label>
                                             <SearchSelect
                                                 options={municipalityOptions}
-                                                defaultValue={String(service?.municipalityId ?? defaultMunicipalityId ?? '')}
+                                                defaultValue={String(
+                                                    service?.municipalityId ??
+                                                        defaultMunicipalityId ??
+                                                        '',
+                                                )}
                                                 name="municipalityId"
-                                                placeholder={!String(service?.stateId ?? defaultStateId ?? '') ? 'Selecione o estado primeiro' : loadingMunicipalities ? 'Carregando...' : 'Selecione o município'}
-                                                disabled={!String(service?.stateId ?? defaultStateId ?? '') || loadingMunicipalities}
+                                                placeholder={
+                                                    !String(
+                                                        service?.stateId ??
+                                                            defaultStateId ??
+                                                            '',
+                                                    )
+                                                        ? 'Selecione o estado primeiro'
+                                                        : loadingMunicipalities
+                                                          ? 'Carregando...'
+                                                          : 'Selecione o município'
+                                                }
+                                                disabled={
+                                                    !String(
+                                                        service?.stateId ??
+                                                            defaultStateId ??
+                                                            '',
+                                                    ) || loadingMunicipalities
+                                                }
                                                 title="Município"
                                                 clearable
                                             />
-                                            <InputError message={errors.municipalityId} />
+                                            <InputError
+                                                message={errors.municipalityId}
+                                            />
                                         </div>
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <div className="flex items-center justify-end gap-3">
-                                <Button variant="outline" type="button" asChild>
-                                    <a href={servicesIndex().url}>Cancelar</a>
+                            <div className="flex items-center justify-between gap-3">
+                                <Button
+                                    variant="outline"
+                                    type="button"
+                                    onClick={() =>
+                                        setStep((s) => Math.max(0, s - 1))
+                                    }
+                                    disabled={step === 0}
+                                >
+                                    <ChevronLeft className="size-4" />
+                                    Voltar
                                 </Button>
-                                <Button type="submit" disabled={processing}>
-                                    {isEditing ? 'Salvar' : 'Criar serviço'}
-                                </Button>
+                                {step < steps.length - 1 ? (
+                                    <div className="flex items-center gap-3">
+                                        <Button
+                                            variant="outline"
+                                            type="button"
+                                            asChild
+                                        >
+                                            <a href={servicesIndex().url}>
+                                                Cancelar
+                                            </a>
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            onClick={() =>
+                                                setStep((s) =>
+                                                    Math.min(
+                                                        steps.length - 1,
+                                                        s + 1,
+                                                    ),
+                                                )
+                                            }
+                                        >
+                                            Avançar
+                                            <ChevronRight className="size-4" />
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <Button type="submit" disabled={processing}>
+                                        {isEditing ? 'Salvar' : 'Criar serviço'}
+                                    </Button>
+                                )}
                             </div>
                         </>
                     )}

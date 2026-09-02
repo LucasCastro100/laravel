@@ -1,9 +1,17 @@
-import { Head, router } from '@inertiajs/react';
-import { Users, List, ArrowRightLeft, AlertTriangle, Coins, ShieldCheck, Clock, CheckCircle2, Eye } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { index as adminIndex, moderation } from '@/routes/admin';
+import { Head } from '@inertiajs/react';
+import {
+    AlertTriangle,
+    ArrowRightLeft,
+    Clock,
+    Coins,
+    List,
+    ShieldCheck,
+    Users,
+} from 'lucide-react';
 
 interface Metrics {
     users: {
@@ -51,14 +59,51 @@ interface AdminIndexProps {
     openDisputes: OpenDispute[];
 }
 
-export default function AdminIndex({ metrics, pendingListings, openDisputes }: AdminIndexProps) {
+export default function AdminIndex({
+    metrics,
+    pendingListings,
+    openDisputes,
+}: AdminIndexProps) {
     const metricCards = [
-        { label: 'Usuarios', value: metrics.users.total, icon: Users, detail: `${metrics.users.videomakers} videomakers, ${metrics.users.clients} clientes, ${metrics.users.companies} empresas` },
-        { label: 'Nao verificados', value: metrics.users.unverified, icon: ShieldCheck, detail: 'Aguardando validacao', variant: metrics.users.unverified > 0 ? 'text-amber-500' : undefined },
-        { label: 'Anuncios', value: metrics.listings.total, icon: List, detail: `${metrics.listings.pending} pendentes, ${metrics.listings.active} ativos` },
-        { label: 'Matches', value: metrics.matches.total, icon: ArrowRightLeft, detail: `${metrics.matches.pending} pendentes, ${metrics.matches.completed} concluidos` },
-        { label: 'Disputas abertas', value: metrics.disputes.open, icon: AlertTriangle, detail: 'Em andamento', variant: metrics.disputes.open > 0 ? 'text-destructive' : undefined },
-        { label: 'Creditos em circulacao', value: `R$ ${metrics.credits.in_circulation.toFixed(2)}`, icon: Coins, detail: 'Total emitido' },
+        {
+            label: 'Usuarios',
+            value: metrics.users.total,
+            icon: Users,
+            detail: `${metrics.users.videomakers} videomakers, ${metrics.users.clients} clientes, ${metrics.users.companies} empresas`,
+        },
+        {
+            label: 'Nao verificados',
+            value: metrics.users.unverified,
+            icon: ShieldCheck,
+            detail: 'Aguardando validacao',
+            variant:
+                metrics.users.unverified > 0 ? 'text-amber-500' : undefined,
+        },
+        {
+            label: 'Anuncios',
+            value: metrics.listings.total,
+            icon: List,
+            detail: `${metrics.listings.pending} pendentes, ${metrics.listings.active} ativos`,
+        },
+        {
+            label: 'Matches',
+            value: metrics.matches.total,
+            icon: ArrowRightLeft,
+            detail: `${metrics.matches.pending} pendentes, ${metrics.matches.completed} concluidos`,
+        },
+        {
+            label: 'Disputas abertas',
+            value: metrics.disputes.open,
+            icon: AlertTriangle,
+            detail: 'Em andamento',
+            variant: metrics.disputes.open > 0 ? 'text-destructive' : undefined,
+        },
+        {
+            label: 'Creditos em circulacao',
+            value: `R$ ${metrics.credits.in_circulation.toFixed(2)}`,
+            icon: Coins,
+            detail: 'Total emitido',
+        },
     ];
 
     return (
@@ -75,11 +120,17 @@ export default function AdminIndex({ metrics, pendingListings, openDisputes }: A
                                 <CardTitle className="text-sm font-medium text-muted-foreground">
                                     {metric.label}
                                 </CardTitle>
-                                <metric.icon className={`size-4 text-muted-foreground ${metric.variant ?? ''}`} />
+                                <metric.icon
+                                    className={`size-4 text-muted-foreground ${metric.variant ?? ''}`}
+                                />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{metric.value}</div>
-                                <p className="text-xs text-muted-foreground">{metric.detail}</p>
+                                <div className="text-2xl font-bold">
+                                    {metric.value}
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                    {metric.detail}
+                                </p>
                             </CardContent>
                         </Card>
                     ))}
@@ -88,7 +139,9 @@ export default function AdminIndex({ metrics, pendingListings, openDisputes }: A
                 <div className="grid gap-6 md:grid-cols-2">
                     <Card className="gap-4">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                            <CardTitle className="text-sm font-semibold">Anúncios pendentes</CardTitle>
+                            <CardTitle className="text-sm font-semibold">
+                                Anúncios pendentes
+                            </CardTitle>
                             <Button variant="outline" size="sm" asChild>
                                 <a href={moderation.url()}>Ver todos</a>
                             </Button>
@@ -106,16 +159,22 @@ export default function AdminIndex({ metrics, pendingListings, openDisputes }: A
                                             className="flex items-center justify-between rounded-xl border border-sidebar-border/70 px-4 py-3 dark:border-sidebar-border"
                                         >
                                             <div>
-                                                <p className="text-sm font-medium">{listing.title}</p>
+                                                <p className="text-sm font-medium">
+                                                    {listing.title}
+                                                </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    {listing.ownerName} - {listing.region}
+                                                    {listing.ownerName} -{' '}
+                                                    {listing.region}
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <Badge variant="secondary">
-                                                    <Clock className="size-3" /> Pendente
+                                                    <Clock className="size-3" />{' '}
+                                                    Pendente
                                                 </Badge>
-                                                <span className="text-xs text-muted-foreground">{listing.createdAt}</span>
+                                                <span className="text-xs text-muted-foreground">
+                                                    {listing.createdAt}
+                                                </span>
                                             </div>
                                         </div>
                                     ))}
@@ -126,7 +185,9 @@ export default function AdminIndex({ metrics, pendingListings, openDisputes }: A
 
                     <Card className="gap-4">
                         <CardHeader>
-                            <CardTitle className="text-sm font-semibold">Disputas abertas</CardTitle>
+                            <CardTitle className="text-sm font-semibold">
+                                Disputas abertas
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
                             {openDisputes.length === 0 ? (
@@ -141,10 +202,16 @@ export default function AdminIndex({ metrics, pendingListings, openDisputes }: A
                                             className="flex items-center justify-between rounded-xl border border-sidebar-border/70 px-4 py-3 dark:border-sidebar-border"
                                         >
                                             <div>
-                                                <p className="text-sm font-medium">Disputa #{dispute.id}</p>
-                                                <p className="text-xs text-muted-foreground">{dispute.reason}</p>
+                                                <p className="text-sm font-medium">
+                                                    Disputa #{dispute.id}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {dispute.reason}
+                                                </p>
                                             </div>
-                                            <span className="text-xs text-muted-foreground">{dispute.createdAt}</span>
+                                            <span className="text-xs text-muted-foreground">
+                                                {dispute.createdAt}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>

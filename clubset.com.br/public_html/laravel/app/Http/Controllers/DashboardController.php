@@ -19,6 +19,8 @@ class DashboardController extends Controller
             'services',
             'matchesAsSeeker',
             'matchesAsProvider',
+            'permutas',
+            'permutasComoContato',
         ]);
 
         $listingsByStatus = $user->listings()
@@ -45,6 +47,9 @@ class DashboardController extends Controller
                     'total' => $user->matchesAsSeeker_count + $user->matchesAsProvider_count,
                     'pending' => (int) $matchesByStatus->get(MatchStatus::Pending->value, 0),
                     'completed' => (int) $matchesByStatus->get(MatchStatus::Completed->value, 0),
+                ],
+                'permutas' => [
+                    'total' => $user->permutas_count + $user->permutas_como_contato_count,
                 ],
                 'credits' => [
                     'balance' => $user->availableBalance(),

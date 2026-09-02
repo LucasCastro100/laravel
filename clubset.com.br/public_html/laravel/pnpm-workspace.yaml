@@ -1,5 +1,8 @@
 packages:
   - '.'
 
+allowBuilds:
+  '@biomejs/biome': true
+
 publicHoistPattern:
   - '@inertiajs/core'
