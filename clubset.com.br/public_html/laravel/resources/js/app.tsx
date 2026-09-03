@@ -15,6 +15,8 @@ createInertiaApp({
         switch (true) {
             case name === 'welcome':
             case name === 'permutas/share':
+            case name === 'diagnostico/index':
+            case name === 'diagnostico/resultado':
                 return null;
             case name === 'auth/register':
                 return AuthWideLayout;

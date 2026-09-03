@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ListingModerationController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\MunicipalityController;
@@ -68,6 +69,10 @@ Route::get('/', function () {
 
 Route::get('permutas/compartilhada/{uuid}', [PermutaController::class, 'share'])
     ->name('permutas.share');
+
+Route::get('diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
+Route::post('diagnostico', [DiagnosticoController::class, 'store'])->name('diagnostico.store');
+Route::get('diagnostico/resultado/{uuid}', [DiagnosticoController::class, 'resultado'])->name('diagnostico.resultado');
 
 Route::middleware(['auth', 'verified'])
     ->prefix('assinatura')

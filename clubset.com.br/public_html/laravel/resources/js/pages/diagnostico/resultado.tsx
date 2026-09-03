@@ -1,0 +1,461 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Head } from "@inertiajs/react";
+import jsPDF from "jspdf";
+import { AlertTriangle, Download, TrendingDown, Trophy } from "lucide-react";
+
+type Alternativa = {
+    letra: string;
+    text: string;
+    pontos: number;
+};
+
+type Pergunta = {
+    id: string;
+    text: string;
+    alternativas: Alternativa[];
+};
+
+type Area = {
+    area: string;
+    area_key: string;
+    perguntas: Pergunta[];
+};
+
+type Resposta = {
+    letra: string;
+    pontos: number;
+};
+
+type AreaResultado = {
+    area: string;
+    area_key: string;
+    pontos: number;
+    normalizado: number;
+    faixa: "critico" | "construcao" | "solido";
+    faixa_label: string;
+};
+
+type Resultado = {
+    geral: number;
+    faixa_geral: string;
+    faixa_geral_label: string;
+    areas: AreaResultado[];
+    criticos: AreaResultado[];
+};
+
+interface DiagnosticoResultadoProps {
+    areas: Area[];
+    respostas: Record<string, Resposta>;
+    resultado: Resultado;
+}
+
+const corHexFaixa: Record<string, [number, number, number]> = {
+    critico: [220, 38, 38],
+    construcao: [234, 179, 8],
+    solido: [34, 197, 94],
+};
+
+function gerarPdf(
+    areas: Area[],
+    respostas: Record<string, Resposta>,
+    resultado: Resultado,
+    modo: "resumo" | "completo",
+) {
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 40;
+    let y = 0;
+
+    const checkPage = (needed: number = 60) => {
+        if (y + needed > pageHeight - margin) {
+            doc.addPage();
+            y = margin;
+        }
+    };
+
+    const cor = (faixa: string): [number, number, number] =>
+        faixa === "critico"
+            ? corHexFaixa.critico
+            : faixa === "construcao"
+              ? corHexFaixa.construcao
+              : corHexFaixa.solido;
+    // Cabeçalho do relatório
+    doc.setFillColor(11, 48, 92);
+    doc.rect(0, 0, pageWidth, 120, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("Diagnóstico do Negócio", margin, 55);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Data: ${new Date().toLocaleDateString("pt-BR")}`, margin, 85);
+    y = 150;
+
+    // Pontuação geral
+    doc.setTextColor(20, 20, 20);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Pontuação geral", margin, y);
+    y += 32;
+
+    const [gr, gg, gb] = cor(resultado.faixa_geral);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(48);
+    doc.setTextColor(gr, gg, gb);
+    doc.text(String(resultado.geral), margin, y + 12);
+    doc.setTextColor(120, 120, 120);
+    doc.setFontSize(12);
+    doc.text("de 100", margin + 60, y + 12);
+    doc.setFont("helvetica", "normal");
+    y += 28;
+
+    doc.setFillColor(gr, gg, gb);
+    doc.roundedRect(margin, y, 90, 24, 6, 6, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(resultado.faixa_geral_label, margin + 45, y + 16, {
+        align: "center",
+    });
+    y += 50;
+
+    // Áreas mais críticas
+    checkPage(140);
+    doc.setTextColor(220, 38, 38);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("Pontos mais críticos", margin, y);
+    y += 26;
+
+    resultado.criticos.forEach((area) => {
+        checkPage(26);
+        doc.setFillColor(245, 245, 245);
+        doc.roundedRect(margin, y, pageWidth - margin * 2, 24, 4, 4, "F");
+        doc.setTextColor(40, 40, 40);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.text(area.area, margin + 10, y + 16);
+        doc.setFont("helvetica", "bold");
+        doc.text(String(area.normalizado), pageWidth - margin - 10, y + 16, {
+            align: "right",
+        });
+        y += 34;
+    });
+
+    // Score por área
+    checkPage(160);
+    y += 24;
+    doc.setTextColor(20, 20, 20);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Pontuação por área", margin, y);
+    y += 32;
+
+    resultado.areas.forEach((area) => {
+        checkPage(60);
+        const [ar, ag, ab] = cor(area.faixa);
+        doc.setTextColor(20, 20, 20);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(12);
+        doc.text(area.area, margin, y);
+        doc.setTextColor(ar, ag, ab);
+        doc.setFontSize(12);
+        doc.text(String(area.normalizado), pageWidth - margin, y, {
+            align: "right",
+        });
+
+        y += 16;
+        doc.setFillColor(230, 230, 230);
+        doc.roundedRect(margin, y, pageWidth - margin * 2, 10, 5, 5, "F");
+        doc.setFillColor(ar, ag, ab);
+        const barW = (pageWidth - margin * 2) * (area.normalizado / 100);
+        if (barW > 0) {
+            doc.roundedRect(margin, y, barW, 10, 5, 5, "F");
+        }
+        y += 30;
+    });
+
+    // Respostas selecionadas (apenas no modo completo)
+    if (modo === "completo") {
+        doc.addPage();
+        y = margin;
+        doc.setFillColor(11, 48, 92);
+        doc.rect(0, 0, pageWidth, 80, "F");
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("Suas respostas", margin, 45);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.text(
+            "Cada alternativa marcada corresponde à resposta escolhida.",
+            margin,
+            65,
+        );
+        y = 110;
+
+        const alturaPergunta = (pergunta: Pergunta, index: number): number => {
+            const textoPergunta = `${index + 1}. ${pergunta.text}`;
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            const perguntaLines = doc.splitTextToSize(
+                textoPergunta,
+                pageWidth - margin * 2,
+            );
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+
+            let altura = perguntaLines.length * 15 + 12;
+            pergunta.alternativas.forEach((alt) => {
+                const altLines = doc.splitTextToSize(
+                    `${alt.letra}) ${alt.text}`,
+                    pageWidth - margin * 2 - 30,
+                );
+                altura += altLines.length * 14 + 6;
+            });
+            return altura + 16 + 20;
+        };
+
+        areas.forEach((area) => {
+            // altura total da área = cabeçalho + todas as perguntas
+            const alturaArea =
+                24 +
+                area.perguntas.reduce(
+                    (total, pergunta, index) =>
+                        total + alturaPergunta(pergunta, index + 1),
+                    0,
+                );
+
+            // quebra página antes se a área inteira não couber junta
+            checkPage(alturaArea);
+
+            doc.setTextColor(11, 48, 92);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text(area.area, margin, y);
+            y += 24;
+
+            area.perguntas.forEach((pergunta, index) => {
+                const resposta = respostas[pergunta.id];
+                const textoPergunta = `${index + 1}. ${pergunta.text}`;
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                const perguntaLines = doc.splitTextToSize(
+                    textoPergunta,
+                    pageWidth - margin * 2,
+                );
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(11);
+
+                doc.setTextColor(40, 40, 40);
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                doc.text(perguntaLines, margin, y);
+                y += perguntaLines.length * 15 + 10;
+
+                pergunta.alternativas.forEach((alt) => {
+                    const isSelected = resposta?.letra === alt.letra;
+
+                    if (isSelected) {
+                        doc.setFillColor(11, 48, 92);
+                        doc.circle(margin + 5, y - 4, 6, "F");
+                        doc.setTextColor(11, 48, 92);
+                        doc.setFont("helvetica", "bold");
+                    } else {
+                        doc.setDrawColor(180, 180, 180);
+                        doc.circle(margin + 5, y - 4, 6, "S");
+                        doc.setTextColor(120, 120, 120);
+                        doc.setFont("helvetica", "normal");
+                    }
+
+                    const altLines = doc.splitTextToSize(
+                        `${alt.letra}) ${alt.text}`,
+                        pageWidth - margin * 2 - 30,
+                    );
+                    doc.text(altLines, margin + 25, y);
+                    y += altLines.length * 14 + 6;
+                });
+
+                y += 20;
+            });
+        });
+    }
+
+    doc.save(
+        modo === "completo"
+            ? "diagnostico-do-negocio-detalhado.pdf"
+            : "diagnostico-do-negocio-resumo.pdf",
+    );
+}
+
+export default function DiagnosticoResultado({
+    areas,
+    respostas,
+    resultado,
+}: DiagnosticoResultadoProps) {
+    const handleDownload = () =>
+        gerarPdf(areas, respostas, resultado, "completo");
+    const handleDownloadResumo = () =>
+        gerarPdf(areas, respostas, resultado, "resumo");
+
+    return (
+        <>
+            <Head title="Resultado do Diagnóstico" />
+
+            <div className="mx-auto w-full max-w-6xl space-y-8 p-6">
+                <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+                    <div className="flex items-center gap-3">
+                        <div className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                            <Trophy className="size-6" />
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold">
+                                Resultado do Diagnóstico
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
+                                Veja a pontuação de cada área do seu negócio.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                        <Button onClick={handleDownloadResumo}>
+                            <Download className="size-4" />
+                            Gerar PDF
+                        </Button>
+                        <Button variant="outline" onClick={handleDownload}>
+                            <Download className="size-4" />
+                            PDF detalhado
+                        </Button>
+                    </div>
+                </header>
+
+                {!resultado || resultado.areas.length === 0 ? (
+                    <Card>
+                        <CardContent className="flex flex-col items-center gap-4 py-10 text-center">
+                            <AlertTriangle className="size-10 text-muted-foreground" />
+                            <p className="text-muted-foreground">
+                                Nenhum resultado encontrado.
+                            </p>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Pontuação geral</CardTitle>
+                                <CardDescription>
+                                    Média das 7 áreas do negócio.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex items-end justify-between gap-4">
+                                <div>
+                                    <p className="text-5xl font-bold">
+                                        {resultado.geral}
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        de 100
+                                    </p>
+                                </div>
+                                <Badge
+                                    className={
+                                        resultado.geral <= 40
+                                            ? "bg-red-500 text-white"
+                                            : resultado.geral <= 70
+                                              ? "bg-yellow-500 text-black"
+                                              : "bg-green-500 text-white"
+                                    }
+                                >
+                                    {resultado.faixa_geral_label}
+                                </Badge>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <TrendingDown className="size-5 text-red-500" />
+                                    Pontos mais críticos
+                                </CardTitle>
+                                <CardDescription>
+                                    As 2 áreas com menor pontuação para
+                                    priorizar agora.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                                {resultado.criticos.map((r) => (
+                                    <div
+                                        key={r.area_key}
+                                        className="flex items-center justify-between rounded-md bg-muted px-3 py-2 text-sm"
+                                    >
+                                        <span className="font-medium">
+                                            {r.area}
+                                        </span>
+                                        <span className="font-semibold">
+                                            {r.normalizado}
+                                        </span>
+                                    </div>
+                                ))}
+                            </CardContent>
+                        </Card>
+
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {resultado.areas.map((r) => (
+                                <Card key={r.area_key}>
+                                    <CardHeader>
+                                        <CardTitle className="text-base">
+                                            {r.area}
+                                        </CardTitle>
+                                        <div className="flex items-center gap-2">
+                                            <Badge
+                                                className={`${
+                                                    r.faixa === "critico"
+                                                        ? "bg-red-500 text-white"
+                                                        : r.faixa ===
+                                                            "construcao"
+                                                          ? "bg-yellow-500 text-black"
+                                                          : "bg-green-500 text-white"
+                                                }`}
+                                            >
+                                                {r.faixa_label}
+                                            </Badge>
+                                            <span className="text-sm font-semibold">
+                                                {r.normalizado}
+                                            </span>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                                            <div
+                                                className={`${
+                                                    r.faixa === "critico"
+                                                        ? "bg-red-500"
+                                                        : r.faixa ===
+                                                            "construcao"
+                                                          ? "bg-yellow-500"
+                                                          : "bg-green-500"
+                                                } h-full`}
+                                                style={{
+                                                    width: `${r.normalizado}%`,
+                                                }}
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+        </>
+    );
+}
