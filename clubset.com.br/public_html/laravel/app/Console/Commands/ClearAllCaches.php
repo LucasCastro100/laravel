@@ -21,7 +21,7 @@ class ClearAllCaches extends Command
             'route:clear' => 'Routes',
             'view:clear' => 'Compiled views',
             'event:clear' => 'Events and listeners',
-            'cache:clear' => 'Application cache',      
+            'cache:clear' => 'Application cache',
         ];
 
         $failed = false;

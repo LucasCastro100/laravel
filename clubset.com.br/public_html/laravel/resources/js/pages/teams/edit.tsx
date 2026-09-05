@@ -1,5 +1,6 @@
 import CancelInvitationModal from '@/components/cancel-invitation-modal';
 import DeleteTeamModal from '@/components/delete-team-modal';
+import { ActionIconButton } from '@/components/action-icon-button';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import InviteMemberModal from '@/components/invite-member-modal';
@@ -15,12 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useInitials } from '@/hooks/use-initials';
 // import { edit, index, update } from '@/routes/teams';
 // import { update as updateMember } from '@/routes/teams/members';
@@ -243,27 +238,16 @@ export default function TeamEdit({
 
                                     {member.role !== 'owner' &&
                                     permissions.canRemoveMember ? (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        data-test="member-remove-button"
-                                                        onClick={() =>
-                                                            confirmRemoveMember(
-                                                                member,
-                                                            )
-                                                        }
-                                                    >
-                                                        <X className="h-4 w-4" />
-                                                    </Button>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Remover membro</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                        <ActionIconButton
+                                            icon={X}
+                                            label="Remover membro"
+                                            variant="ghost"
+                                            size="sm"
+                                            data-test="member-remove-button"
+                                            onClick={() =>
+                                                confirmRemoveMember(member)
+                                            }
+                                        />
                                     ) : null}
                                 </div>
                             </div>
@@ -301,27 +285,18 @@ export default function TeamEdit({
                                     </div>
 
                                     {permissions.canCancelInvitation ? (
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        data-test="invitation-cancel-button"
-                                                        onClick={() =>
-                                                            confirmCancelInvitation(
-                                                                invitation,
-                                                            )
-                                                        }
-                                                    >
-                                                        <X className="h-4 w-4" />
-                                                    </Button>
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Cancelar convite</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                        <ActionIconButton
+                                            icon={X}
+                                            label="Cancelar convite"
+                                            variant="ghost"
+                                            size="sm"
+                                            data-test="invitation-cancel-button"
+                                            onClick={() =>
+                                                confirmCancelInvitation(
+                                                    invitation,
+                                                )
+                                            }
+                                        />
                                     ) : null}
                                 </div>
                             ))}

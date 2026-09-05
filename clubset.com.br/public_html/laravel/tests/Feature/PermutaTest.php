@@ -13,8 +13,8 @@ test('guests are redirected to the login page on the permutas index', function (
 });
 
 test('the index page renders the financial summary and the list', function () {
-    $user = User::factory()->create();
-    $contact = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
 
     Permuta::factory()->create(['user_id' => $user->id, 'valor' => 1500]);
     Permuta::factory()->withContact($user)->create(['user_id' => $contact->id, 'valor' => 500]);
@@ -36,8 +36,8 @@ test('the index page renders the financial summary and the list', function () {
 });
 
 test('a user can create a permuta linking a registered user', function () {
-    $creator = User::factory()->create();
-    $contact = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
 
     $response = $this->actingAs($creator)->post(route('permutas.store'), [
         'contato_id' => $contact->id,
@@ -60,7 +60,7 @@ test('a user can create a permuta linking a registered user', function () {
 });
 
 test('a user can create a permuta with a free-form person, registering them as a client', function () {
-    $creator = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
 
     $this->actingAs($creator)->post(route('permutas.store'), [
         'contato_nome' => 'Cliente João',
@@ -84,7 +84,7 @@ test('a user can create a permuta with a free-form person, registering them as a
 });
 
 test('a free-form person requires a name, an email and cannot reuse the creators email', function () {
-    $creator = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
 
     // Missing email -> error
     $this->actingAs($creator)
@@ -107,7 +107,7 @@ test('a free-form person requires a name, an email and cannot reuse the creators
 });
 
 test('validation requires a value and exactly one linked party', function () {
-    $creator = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
 
     $this->actingAs($creator)
         ->post(route('permutas.store'), [
@@ -117,7 +117,7 @@ test('validation requires a value and exactly one linked party', function () {
         ->assertSessionHasErrors(['valor', 'contato_id']);
 
     // Both linked parties provided -> error
-    $contact = User::factory()->create();
+    $contact = User::factory()->adminVerified()->create();
     $this->actingAs($creator)
         ->post(route('permutas.store'), [
             'contato_id' => $contact->id,
@@ -138,9 +138,9 @@ test('validation requires a value and exactly one linked party', function () {
 });
 
 test('only the creator can update a permuta', function () {
-    $creator = User::factory()->create();
-    $other = User::factory()->create();
-    $contact = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
+    $other = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
 
     $permuta = Permuta::factory()->withContact($contact)->create([
         'user_id' => $creator->id,
@@ -169,9 +169,9 @@ test('only the creator can update a permuta', function () {
 });
 
 test('only the creator can delete a permuta', function () {
-    $creator = User::factory()->create();
-    $other = User::factory()->create();
-    $contact = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
+    $other = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
 
     $permuta = Permuta::factory()->withContact($contact)->create(['user_id' => $creator->id]);
 
@@ -187,8 +187,8 @@ test('only the creator can delete a permuta', function () {
 });
 
 test('a linked contact cannot edit a permuta created by someone else', function () {
-    $creator = User::factory()->create();
-    $contact = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
 
     $permuta = Permuta::factory()->withContact($contact)->create([
         'user_id' => $creator->id,
@@ -205,7 +205,7 @@ test('a linked contact cannot edit a permuta created by someone else', function 
 });
 
 test('the share link is publicly accessible without authentication', function () {
-    $creator = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
     $permuta = Permuta::factory()->create([
         'user_id' => $creator->id,
         'contato_nome' => 'Pessoa Avulsa',
@@ -225,9 +225,9 @@ test('the share link returns 404 for an unknown uuid', function () {
 });
 
 test('permalink uses the creator policy for viewing', function () {
-    $creator = User::factory()->create();
-    $contact = User::factory()->create();
-    $stranger = User::factory()->create();
+    $creator = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
+    $stranger = User::factory()->adminVerified()->create();
 
     $permuta = Permuta::factory()->withContact($contact)->create(['user_id' => $creator->id]);
 

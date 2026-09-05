@@ -15,7 +15,7 @@ test('guests are redirected to the login page when visiting the billing page', f
 });
 
 test('authenticated users can visit the billing page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $this->actingAs($user)
         ->get(route('assinatura.index'))
@@ -30,7 +30,7 @@ test('authenticated users can visit the billing page', function () {
 });
 
 test('the billing page lists trial, pro and max plans', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $this->actingAs($user)
         ->get(route('assinatura.index'))
@@ -45,7 +45,7 @@ test('the billing page lists trial, pro and max plans', function () {
 });
 
 test('a free plan cannot be checked out', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
     $trial = Plan::query()->where('slug', 'trial')->firstOrFail();
 
     $this->actingAs($user)
@@ -54,7 +54,7 @@ test('a free plan cannot be checked out', function () {
 });
 
 test('an inactive plan cannot be checked out', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
     $plan = Plan::factory()->create([
         'slug' => 'archived',
         'stripe_price_id' => 'price_archived',
@@ -67,7 +67,7 @@ test('an inactive plan cannot be checked out', function () {
 });
 
 test('canceling without a subscription returns an error flash', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $this->actingAs($user)
         ->post(route('assinatura.cancel'))
@@ -75,7 +75,7 @@ test('canceling without a subscription returns an error flash', function () {
 });
 
 test('resuming without a grace period returns an error flash', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $this->actingAs($user)
         ->post(route('assinatura.resume'))

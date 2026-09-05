@@ -1,0 +1,1 @@
+/Users/lucashenriquedecastrooliveira/Desktop/Projetos/Laravel/clubset.com.br/public_html/laravel/public/robots.txt

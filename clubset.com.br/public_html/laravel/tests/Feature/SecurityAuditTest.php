@@ -20,8 +20,8 @@ test('security headers are applied to responses', function () {
 });
 
 test('a user cannot update another user listing', function () {
-    $owner = User::factory()->create();
-    $attacker = User::factory()->create();
+    $owner = User::factory()->adminVerified()->create();
+    $attacker = User::factory()->adminVerified()->create();
 
     $listing = Listing::factory()->create(['user_id' => $owner->id]);
 
@@ -40,8 +40,8 @@ test('a user cannot update another user listing', function () {
 });
 
 test('a user cannot update another user service', function () {
-    $owner = User::factory()->create();
-    $attacker = User::factory()->create();
+    $owner = User::factory()->adminVerified()->create();
+    $attacker = User::factory()->adminVerified()->create();
 
     $service = Service::factory()->create(['user_id' => $owner->id]);
 
@@ -54,8 +54,8 @@ test('a user cannot update another user service', function () {
 });
 
 test('a user cannot update another user permuta', function () {
-    $owner = User::factory()->create();
-    $attacker = User::factory()->create();
+    $owner = User::factory()->adminVerified()->create();
+    $attacker = User::factory()->adminVerified()->create();
 
     $permuta = Permuta::factory()->create(['user_id' => $owner->id]);
 
@@ -69,7 +69,7 @@ test('a user cannot update another user permuta', function () {
 });
 
 test('sensitive user attributes are hidden from serialization', function () {
-    $owner = User::factory()->create();
+    $owner = User::factory()->adminVerified()->create();
 
     $owner->forceFill([
         'stripe_id' => 'cus_test123',

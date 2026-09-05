@@ -14,7 +14,7 @@ function makeSubscription(User $user, string $status, ?string $price = null): vo
 }
 
 test('unblocked users can visit the dashboard', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $this->actingAs($user)
         ->get(route('dashboard'))
@@ -31,7 +31,7 @@ test('blocked users are redirected to the billing page', function () {
 });
 
 test('blocked users can still access the billing page', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
     $user->blockAccount();
 
     $this->actingAs($user)

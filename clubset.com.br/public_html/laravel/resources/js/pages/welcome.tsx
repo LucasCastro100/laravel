@@ -13,16 +13,11 @@ export default function Welcome() {
                 <header className="flex-none">
                     <div className="mx-auto w-full max-w-[920px] px-6">
                         <div className="flex items-center justify-center gap-2.5 pt-16">
-                            <div className="flex items-center gap-3">
-                                <span className="font-['Space_Grotesk'] text-[26px] font-bold tracking-tight text-[#f4f1ea]">
-                                    Clubset
-                                </span>
-                                <span className="-skew-x-6 rounded-[3px] bg-[#f2a63d] px-[11px] py-[5px] font-['Space_Grotesk'] text-[12px] font-semibold tracking-[.06em] text-[#060b10]">
-                                    <span className="inline-block skew-x-6">
-                                        PORTAL AUDIOVISUAL
-                                    </span>
-                                </span>
-                            </div>
+                            <img
+                                src="/img/logos/clubSET_logo1.png"
+                                alt="Clubset — Portal Audiovisual"
+                                className="w-full min-[480px]:w-3/4 sm:w-3/5 md:w-1/2 lg:w-2/5"
+                            />
                         </div>
                     </div>
                 </header>
@@ -64,6 +59,20 @@ export default function Welcome() {
                                     >
                                         Ver como funciona
                                     </Link>
+                                </div>
+                                <div className="mt-[26px] flex justify-center">
+                                    <span className="inline-flex items-center gap-3 rounded-full border border-[#1c2e30] bg-[#0a1517]/80 px-6 py-3 backdrop-blur-sm">
+                                        <span className="relative flex h-2.5 w-2.5">
+                                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f2a63d] opacity-75"></span>
+                                            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#f2a63d]"></span>
+                                        </span>
+                                        <span className="font-['Space_Grotesk'] text-[18px] font-medium tracking-[.16em] text-[#93a6a8]">
+                                            em construção
+                                        </span>
+                                        <span className="animate-pulse font-['Space_Grotesk'] text-[18px] text-[#93a6a8]">
+                                            ...
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
 

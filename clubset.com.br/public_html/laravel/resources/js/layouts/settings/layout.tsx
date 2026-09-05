@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUrl } from '@/hooks/use-current-url';
@@ -8,13 +9,27 @@ import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 // import { index as teams } from '@/routes/teams';
 import type { NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { Clock } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
+    const { auth } = usePage().props as {
+        auth: {
+            user?: {
+                is_admin?: boolean;
+                admin_verified_at?: string | null;
+            };
+        };
+    };
+    const user = auth.user;
+    const isPending =
+        user !== undefined &&
+        user.is_admin !== true &&
+        user.admin_verified_at == null;
 
-    const sidebarNavItems: NavItem[] = [
+    const allNavItems: NavItem[] = [
         {
             title: 'Perfil',
             href: edit(),
@@ -32,6 +47,10 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
         },
     ];
 
+    const sidebarNavItems = isPending
+        ? allNavItems.filter((item) => item.title === 'Perfil')
+        : allNavItems;
+
     return (
         <div className="px-4 py-6">
             <div className="flex items-start justify-between gap-4">
@@ -40,6 +59,18 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                     description="Gerencie seu perfil e as configurações da conta"
                 />
             </div>
+
+            {isPending && (
+                <Alert className="mt-4">
+                    <Clock />
+                    <AlertTitle>Aguardando aprovação</AlertTitle>
+                    <AlertDescription>
+                        Sua conta ainda não foi verificada por um
+                        administrador. Enquanto isso, você só pode editar seu
+                        perfil.
+                    </AlertDescription>
+                </Alert>
+            )}
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">

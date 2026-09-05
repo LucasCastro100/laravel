@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiagnosticoResposta;
+use App\Models\State;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -15,8 +17,14 @@ class DiagnosticoController extends Controller
      */
     public function index(): Response
     {
+        $states = State::query()->orderBy('name')->get(['id', 'name', 'uf', 'region']);
+        $regions = $states->pluck('region')->unique()->sort()->values()->all();
+
         return Inertia::render('diagnostico/index', [
             'areas' => config('diagnosticoQuestions'),
+            'listaRendas' => DiagnosticoResposta::RENDAS,
+            'states' => $states,
+            'regions' => $regions,
         ]);
     }
 
@@ -27,23 +35,55 @@ class DiagnosticoController extends Controller
     {
         $areas = config('diagnosticoQuestions');
 
-        $respostas = $request->input('respostas');
-
-        $perguntaIds = collect($areas)
+        $perguntas = collect($areas)
             ->flatMap(fn (array $area) => $area['perguntas'])
-            ->pluck('id')
-            ->all();
+            ->keyBy('id');
 
         $dados = $request->validate([
-            'respostas' => ['required', 'array', 'size:'.count($perguntaIds)],
-            'respostas.*.letra' => ['required', 'string', 'max:1'],
-            'respostas.*.pontos' => ['required', 'integer', 'between:0,3'],
+            'renda' => ['required', 'string', Rule::in(DiagnosticoResposta::RENDAS)],
+            'nome' => ['required', 'string', 'max:255'],
+            'instagram' => ['required', 'string', 'max:255'],
+            'celular' => ['required', 'string', 'max:30'],
+            'state_id' => ['required', 'integer', 'exists:states,id'],
+            'municipality_id' => ['required', 'integer', 'exists:municipalities,id'],
+            'participa_grupo_whatsapp' => ['required', 'boolean'],
+            'grupo_whatsapp_qual' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'respostas' => ['required', 'array', 'size:'.count($perguntas)],
+            'respostas.*.letra' => ['required', 'string', 'size:1'],
         ]);
 
-        $resultado = $this->calcularResultado($areas, $dados['respostas']);
+        $respostas = [];
+        foreach ($dados['respostas'] as $perguntaId => $resposta) {
+            $letra = $resposta['letra'];
+            $alterativa = collect($perguntas[$perguntaId]['alternativas'])
+                ->firstWhere('letra', $letra);
+
+            if ($alterativa === null) {
+                return back()->withErrors(['respostas.'.$perguntaId => 'Alternativa inválida.']);
+            }
+
+            $respostas[$perguntaId] = [
+                'letra' => $letra,
+                'pontos' => $alterativa['pontos'],
+            ];
+        }
+
+        $grupoQual = filter_var($dados['participa_grupo_whatsapp'], FILTER_VALIDATE_BOOL)
+            ? $request->validate(['grupo_whatsapp_qual' => ['required', 'string', 'max:255']])['grupo_whatsapp_qual']
+            : null;
+
+        $resultado = $this->calcularResultado($areas, $respostas);
 
         $registro = DiagnosticoResposta::create([
-            'respostas' => $dados['respostas'],
+            'renda' => $dados['renda'],
+            'nome' => $dados['nome'],
+            'instagram' => $dados['instagram'],
+            'celular' => $dados['celular'],
+            'state_id' => $dados['state_id'],
+            'municipality_id' => $dados['municipality_id'],
+            'participa_grupo_whatsapp' => $dados['participa_grupo_whatsapp'],
+            'grupo_whatsapp_qual' => $grupoQual,
+            'respostas' => $respostas,
             'resultado' => $resultado,
         ]);
 
@@ -57,13 +97,15 @@ class DiagnosticoController extends Controller
     {
         $registro = DiagnosticoResposta::where('uuid', $uuid)->firstOrFail();
 
-        $resultado = $registro->resultado;
+        $resultado = $registro->resultadoComTextos($registro->resultado);
         $resultado['criticos'] = array_slice($resultado['criticos'] ?? [], 0, 2);
 
         return Inertia::render('diagnostico/resultado', [
             'areas' => config('diagnosticoQuestions'),
             'respostas' => $registro->respostas,
             'resultado' => $resultado,
+            'liberado' => $registro->resultado_liberado_em !== null,
+            'pix' => config('diagnosticoPix'),
         ]);
     }
 

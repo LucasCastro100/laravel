@@ -16,6 +16,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Middleware\EnsureAccountNotBlocked;
 use App\Http\Middleware\EnsureFirstAccessCompleted;
+use App\Http\Middleware\EnsureUserIsVerified;
 use App\Models\Listing;
 use App\Models\TradeMatch;
 use App\Models\User;
@@ -73,8 +74,9 @@ Route::get('permutas/compartilhada/{uuid}', [PermutaController::class, 'share'])
 Route::get('diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
 Route::post('diagnostico', [DiagnosticoController::class, 'store'])->name('diagnostico.store');
 Route::get('diagnostico/resultado/{uuid}', [DiagnosticoController::class, 'resultado'])->name('diagnostico.resultado');
+Route::get('diagnostico/municipalities', [MunicipalityController::class, 'index'])->name('diagnostico.municipalities');
 
-Route::middleware(['auth', 'verified'])
+Route::middleware(['auth', 'verified', EnsureUserIsVerified::class])
     ->prefix('assinatura')
     ->name('assinatura.')
     ->group(function () {
@@ -84,7 +86,7 @@ Route::middleware(['auth', 'verified'])
         Route::post('/resume', [SubscriptionController::class, 'resume'])->name('resume');
     });
 
-Route::middleware(['auth', 'verified'])
+Route::middleware(['auth', 'verified', EnsureUserIsVerified::class])
     ->prefix('primeiro-acesso')
     ->name('primeiro-acesso.')
     ->group(function () {
@@ -97,6 +99,7 @@ Route::middleware([
     'verified',
     EnsureAccountNotBlocked::class,
     EnsureFirstAccessCompleted::class,
+    EnsureUserIsVerified::class,
 ])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
@@ -125,7 +128,13 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::get('/cadastros', [AdminController::class, 'registrations'])->name('registrations');
+        Route::get('/diagnosticos', [AdminController::class, 'diagnosticos'])->name('diagnosticos');
+        Route::get('/diagnosticos/{uuid}', [AdminController::class, 'diagnosticoShow'])->name('diagnosticos.show');
+        Route::post('/diagnosticos/{uuid}/liberar', [AdminController::class, 'liberarResultado'])->name('diagnosticos.release');
+        Route::delete('/diagnosticos/{uuid}', [AdminController::class, 'destroyDiagnostico'])->name('diagnosticos.destroy');
         Route::post('/cadastros/{user}/verificar', [AdminController::class, 'verify'])->name('verify');
+        Route::post('/cadastros/{user}/desativar', [AdminController::class, 'deactivate'])->name('deactivate');
+        Route::delete('/cadastros/{user}', [AdminController::class, 'destroy'])->name('destroy');
         Route::get('/moderacao', [ListingModerationController::class, 'index'])->name('moderation');
         Route::post('/moderacao/{listing}', [ListingModerationController::class, 'moderate'])->name('moderation.moderate');
         Route::get('/configuracoes', [SettingsController::class, 'index'])->name('settings');

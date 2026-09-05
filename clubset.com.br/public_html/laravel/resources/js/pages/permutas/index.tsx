@@ -1,8 +1,17 @@
+import { ActionIconButton } from '@/components/action-icon-button';
 import { EmptyState } from '@/components/empty-state';
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -12,7 +21,7 @@ import {
     edit as permutaEdit,
     index as permutasIndex,
 } from '@/routes/permutas';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import {
     ArrowDownRight,
     ArrowUpRight,
@@ -79,6 +88,51 @@ function statusBadge(status: string, label: string) {
     return <Badge variant="secondary">{label}</Badge>;
 }
 
+function DeletePermutaDialog({ permuta }: { permuta: PermutaItem }) {
+    const [open, setOpen] = useState(false);
+    const form = useForm({});
+
+    const submit = () => {
+        form.delete(permutaDestroy({ permuta: permuta.id }).url, {
+            onSuccess: () => setOpen(false),
+        });
+    };
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <ActionIconButton
+                icon={Trash2}
+                label="Excluir"
+                variant="ghost"
+                className="text-destructive hover:text-destructive"
+                onClick={() => setOpen(true)}
+            />
+            <DialogContent>
+                <DialogTitle>Excluir permuta?</DialogTitle>
+                <DialogDescription>
+                    A permuta "{permuta.titulo ?? `#${permuta.id}`}" será excluída
+                    permanentemente. Esta ação não pode ser desfeita.
+                </DialogDescription>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="button" variant="outline">
+                            Cancelar
+                        </Button>
+                    </DialogClose>
+                    <Button
+                        type="submit"
+                        variant="destructive"
+                        disabled={form.processing}
+                        onClick={submit}
+                    >
+                        Excluir
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export default function PermutasIndex({
     permutas,
     summary,
@@ -128,16 +182,6 @@ export default function PermutasIndex({
     const copyLink = (url: string) => {
         navigator.clipboard.writeText(url);
         toast.success('Link de compartilhamento copiado!');
-    };
-
-    const confirmDelete = (permuta: PermutaItem) => {
-        if (
-            window.confirm(
-                `Excluir a permuta "${permuta.titulo ?? `#${permuta.id}`}"?`,
-            )
-        ) {
-            router.delete(permutaDestroy({ permuta: permuta.id }), {});
-        }
     };
 
     return (
@@ -354,42 +398,28 @@ export default function PermutasIndex({
 
                                     <div className="col-span-1 flex justify-end gap-1">
                                         {!permuta.contato.ehUsuario && (
-                                            <Button
+                                            <ActionIconButton
+                                                icon={Copy}
+                                                label="Compartilhar"
                                                 variant="ghost"
-                                                size="sm"
                                                 onClick={() =>
                                                     copyLink(permuta.shareUrl)
                                                 }
-                                            >
-                                                <Copy className="size-3.5" />
-                                                Compartilhar
-                                            </Button>
+                                            />
                                         )}
                                         {permuta.isCreator && (
                                             <>
-                                                <Button
+                                                <ActionIconButton
+                                                    icon={Pencil}
+                                                    label="Editar"
                                                     variant="ghost"
-                                                    size="sm"
-                                                    asChild
-                                                >
-                                                    <Link
-                                                        href={permutaEdit({
-                                                            permuta: permuta.id,
-                                                        })}
-                                                    >
-                                                        <Pencil className="size-3.5" />
-                                                    </Link>
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="text-destructive"
-                                                    onClick={() =>
-                                                        confirmDelete(permuta)
-                                                    }
-                                                >
-                                                    <Trash2 className="size-3.5" />
-                                                </Button>
+                                                    href={permutaEdit({
+                                                        permuta: permuta.id,
+                                                    }).url}
+                                                />
+                                                <DeletePermutaDialog
+                                                    permuta={permuta}
+                                                />
                                             </>
                                         )}
                                     </div>

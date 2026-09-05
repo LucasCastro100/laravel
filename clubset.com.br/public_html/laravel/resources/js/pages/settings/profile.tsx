@@ -23,6 +23,9 @@ export default function Profile({
     status?: string;
 }) {
     const { auth } = usePage<PageProps>().props;
+    const isPending =
+        auth.user.admin_verified_at == null &&
+        auth.user.is_admin !== true;
 
     return (
         <>
@@ -126,7 +129,7 @@ export default function Profile({
                 </Form>
             </div>
 
-            <DeleteUser />
+            {!isPending && <DeleteUser />}
         </>
     );
 }

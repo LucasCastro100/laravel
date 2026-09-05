@@ -69,7 +69,7 @@ export default function ServicesIndex({
 
     const handleSearch = useCallback(
         (value: string) => {
-            setSearch(value);
+    
             clearTimeout(debounceRef.current);
             debounceRef.current = setTimeout(() => {
                 applyFilter('search', value || undefined);

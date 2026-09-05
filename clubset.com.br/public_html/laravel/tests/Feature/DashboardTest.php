@@ -9,7 +9,7 @@ test('guests are redirected to the login page', function () {
 });
 
 test('authenticated users can visit the dashboard', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $response = $this
         ->actingAs($user)
@@ -19,7 +19,7 @@ test('authenticated users can visit the dashboard', function () {
 });
 
 test('dashboard renders the correct inertia component', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $response = $this
         ->actingAs($user)
@@ -40,7 +40,7 @@ test('dashboard renders the correct inertia component', function () {
 });
 
 test('dashboard shows user metrics with zero counts for new user', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->adminVerified()->create();
 
     $response = $this
         ->actingAs($user)

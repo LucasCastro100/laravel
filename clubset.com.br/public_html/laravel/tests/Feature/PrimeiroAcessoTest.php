@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('a user pending first access is redirected from the panel to the first-access page', function () {
-    $user = User::factory()->create(['must_change_password' => true]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => true]);
 
     $this->actingAs($user)
         ->get(route('dashboard'))
@@ -14,7 +14,7 @@ test('a user pending first access is redirected from the panel to the first-acce
 });
 
 test('the first-access page renders the selectable user types', function () {
-    $user = User::factory()->create(['must_change_password' => true]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => true]);
 
     $this->actingAs($user)
         ->get(route('primeiro-acesso.index'))
@@ -25,7 +25,7 @@ test('the first-access page renders the selectable user types', function () {
 });
 
 test('a user who already completed first access is redirected to the dashboard', function () {
-    $user = User::factory()->create(['must_change_password' => false]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => false]);
 
     $this->actingAs($user)
         ->get(route('primeiro-acesso.index'))
@@ -33,7 +33,7 @@ test('a user who already completed first access is redirected to the dashboard',
 });
 
 test('completing first access stores the chosen type, sets a password and clears the flag', function () {
-    $user = User::factory()->create(['must_change_password' => true]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => true]);
     $user->assignRole(UserRole::Cliente);
 
     $this->actingAs($user)
@@ -53,7 +53,7 @@ test('completing first access stores the chosen type, sets a password and clears
 });
 
 test('first access requires a valid role and password confirmation', function () {
-    $user = User::factory()->create(['must_change_password' => true]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => true]);
 
     $this->actingAs($user)
         ->post(route('primeiro-acesso.store'), [
@@ -65,7 +65,7 @@ test('first access requires a valid role and password confirmation', function ()
 });
 
 test('a user who already completed first access cannot post to first access', function () {
-    $user = User::factory()->create(['must_change_password' => false]);
+    $user = User::factory()->adminVerified()->create(['must_change_password' => false]);
 
     $this->actingAs($user)
         ->post(route('primeiro-acesso.store'), [

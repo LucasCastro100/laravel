@@ -120,7 +120,7 @@
                             <aside class="space-y-4 rounded-2xl border border-gray-800 bg-gray-950/70 p-4 shadow-lg">
                                 <div class="overflow-hidden rounded-xl border border-gray-800 bg-gray-900">
                                     <img src="{{ asset('storage/' . $course->image_cover) }}" alt="Imagem do Curso"
-                                        class="aspect-video w-full object-cover">
+                                        class="aspect-video w-full">
                                 </div>
                                 <div class="rounded-xl border border-gray-800 bg-gray-900 p-4">
                                     <p class="text-xs uppercase tracking-widest text-blue-300 font-medium">Resumo</p>

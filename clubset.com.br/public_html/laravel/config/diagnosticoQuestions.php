@@ -4,6 +4,11 @@ return [
     [
         'area' => 'Posicionamento',
         'area_key' => 'posicionamento',
+        'textos' => [
+            'critico' => 'Você ainda não tem um nicho e diferencial claros na comunicação. Isso faz o cliente comparar seu trabalho só pelo preço, e não pelo valor do que você entrega.',
+            'construcao' => 'Seu posicionamento já existe, mas ainda não aparece com força na comunicação. Você sabe mais ou menos qual é seu diferencial, mas ele não é usado de forma consistente para atrair o cliente certo.',
+            'solido' => 'Seu posicionamento é claro, com nicho, público e diferencial definidos, e isso aparece de forma consistente na sua comunicação. Isso reduz a comparação por preço e atrai o cliente ideal.',
+        ],
         'perguntas' => [
             [
                 'id' => 'posicionamento_1',
@@ -50,6 +55,11 @@ return [
     [
         'area' => 'Presença Digital',
         'area_key' => 'presenca_digital',
+        'textos' => [
+            'critico' => 'Suas redes não seguem uma estratégia constante de conteúdo. Sem isso, o alcance orgânico cai e menos leads qualificados chegam até você todo mês.',
+            'construcao' => 'Você já posta com alguma regularidade e já tem canais que geram cliente, mas ainda sem uma estratégia clara de conteúdo e sem saber ao certo qual canal realmente traz mais retorno.',
+            'solido' => 'Sua presença digital é estratégica, com constância, canais definidos e provas sociais usadas de forma intencional. Isso gera conversa e leads qualificados com previsibilidade.',
+        ],
         'perguntas' => [
             [
                 'id' => 'presenca_digital_1',
@@ -96,6 +106,11 @@ return [
     [
         'area' => 'Atendimento',
         'area_key' => 'atendimento',
+        'textos' => [
+            'critico' => 'Sem um fluxo estruturado de atendimento, cada conversa é no improviso. Isso faz você perder orçamentos e ceder na objeção de preço por falta de método.',
+            'construcao' => 'Você já tem um roteiro mental de atendimento e alguns argumentos prontos, mas o processo ainda não está formalizado nem é seguido com consistência, o que deixa sua conversão instável.',
+            'solido' => 'Seu atendimento segue um fluxo estruturado, com processo claro para lidar com objeções e follow-up definido, e você acompanha sua taxa de conversão de orçamento em contrato.',
+        ],
         'perguntas' => [
             [
                 'id' => 'atendimento_1',
@@ -142,6 +157,11 @@ return [
     [
         'area' => 'Organização de Processos',
         'area_key' => 'organizacao_processos',
+        'textos' => [
+            'critico' => 'Nada do que você faz está documentado. Isso faz o negócio depender 100% de você presente, sem escala e sem previsibilidade de prazos e entregas.',
+            'construcao' => 'Você já tem algumas anotações e ferramentas usadas de forma incompleta, mas ainda sem um processo documentado e seguido em todo projeto. Se precisasse se ausentar, ainda seria difícil alguém tocar seus projetos.',
+            'solido' => 'Seus processos estão documentados e você usa um sistema de gestão de projetos com consistência, com controle financeiro organizado. O negócio funcionaria mesmo na sua ausência temporária.',
+        ],
         'perguntas' => [
             [
                 'id' => 'organizacao_processos_1',
@@ -188,6 +208,11 @@ return [
     [
         'area' => 'Proposta',
         'area_key' => 'proposta',
+        'textos' => [
+            'critico' => 'Sua proposta comercial ainda é informal e não ancora o valor. Isso abre espaço para o cliente negociar o preço e para mal-entendidos sobre o escopo.',
+            'construcao' => 'Você já tem um modelo de proposta e até pacotes definidos, mas nem sempre usa isso de forma consistente, o que ainda deixa espaço para negociação de preço.',
+            'solido' => 'Sua proposta é profissional, com pacotes estruturados e escopo claro sobre o que está e o que não está incluso. O valor já chega bem ancorado ao cliente, que raramente tenta negociar.',
+        ],
         'perguntas' => [
             [
                 'id' => 'proposta_1',
@@ -234,6 +259,11 @@ return [
     [
         'area' => 'Contrato',
         'area_key' => 'contrato',
+        'textos' => [
+            'critico' => 'Faltam cláusulas essenciais — cancelamento, reajuste, direitos de imagem. Isso deixa seu negócio exposto a calote e a problemas jurídicos evitáveis.',
+            'construcao' => 'Você já usa contrato assinado, mas as cláusulas de cancelamento e direitos de imagem ainda são genéricas ou incompletas, o que ainda deixa brechas de risco.',
+            'solido' => 'Seu contrato é completo, com cláusulas claras de cancelamento, reajuste e direitos de imagem, o que protege seu negócio contra calote e problemas jurídicos.',
+        ],
         'perguntas' => [
             [
                 'id' => 'contrato_1',
@@ -280,6 +310,11 @@ return [
     [
         'area' => 'Estrutura de Produtos e Vendas',
         'area_key' => 'produtos_vendas',
+        'textos' => [
+            'critico' => 'É o ponto mais grave do diagnóstico — sem pacotes fixos nem precificação estruturada, todo orçamento começa do zero, o que trava seu crescimento e come sua margem.',
+            'construcao' => 'Você já tem pacotes e uma base de cálculo de preço, mas ainda muda com frequência e sem formalização, e a recorrência de clientes ainda não é uma estratégia estruturada.',
+            'solido' => 'Você tem pacotes e produtos claros, com preço estruturado e reajustado periodicamente, além de estratégia clara de recorrência. Isso dá previsibilidade e escala ao negócio.',
+        ],
         'perguntas' => [
             [
                 'id' => 'produtos_vendas_1',
