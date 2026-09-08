@@ -172,7 +172,7 @@ export default function Diagnosticos({ diagnosticos }: DiagnosticosProps) {
                     />
                 ) : (
                     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
-                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground md:grid">
+                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground lg:grid">
                             <div className="col-span-3">Usuário</div>
                             <div className="col-span-2">Telefone</div>
                             <div className="col-span-2">Resultado</div>
@@ -184,7 +184,7 @@ export default function Diagnosticos({ diagnosticos }: DiagnosticosProps) {
                             {diagnosticos.map((d) => (
                                 <li
                                     key={d.uuid}
-                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 md:grid-cols-12 md:items-center md:gap-4"
+                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 lg:grid-cols-12 lg:items-center lg:gap-4"
                                 >
                                     <div className="col-span-3 flex flex-col gap-1">
                                         <h3 className="text-sm font-medium">
@@ -208,24 +208,38 @@ export default function Diagnosticos({ diagnosticos }: DiagnosticosProps) {
                                         </div>
                                     </div>
 
-                                    <div className="col-span-2 flex items-center gap-1 text-sm text-muted-foreground">
-                                        <Phone className="size-3.5" />
-                                        {d.celular}
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-sm">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Telefone
+                                        </span>
+                                        <Phone className="size-3.5 shrink-0" />
+                                        <span>{d.celular}</span>
                                     </div>
 
-                                    <div className="col-span-2 text-base font-semibold">
-                                        {d.geral ?? '-'}
-                                        <span className="text-xs font-normal text-muted-foreground">
-                                            {' '}
-                                            / 100
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-base">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Resultado
+                                        </span>
+                                        <span className="font-semibold">
+                                            {d.geral ?? '-'}
+                                            <span className="text-xs font-normal text-muted-foreground">
+                                                {' '}
+                                                / 100
+                                            </span>
                                         </span>
                                     </div>
 
-                                    <div className="col-span-2">
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Faixa
+                                        </span>
                                         {faixaBadge(d.faixaGeral)}
                                     </div>
 
-                                    <div className="col-span-1">
+                                    <div className="col-span-1 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Grupo
+                                        </span>
                                         {d.participaGrupo ? (
                                             <Badge className="bg-green-600 hover:bg-green-700">
                                                 <MessageCircle className="size-3" />
@@ -238,36 +252,43 @@ export default function Diagnosticos({ diagnosticos }: DiagnosticosProps) {
                                         )}
                                     </div>
 
-                                    <div className="col-span-2 flex flex-wrap justify-end gap-1">
-                                        {d.resultadoLiberado ? (
+                                    <div className="col-span-2 flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-end lg:gap-1">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Ações
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                            {d.resultadoLiberado ? (
+                                                <ActionIconButton
+                                                    icon={LockOpen}
+                                                    label="Resultado liberado"
+                                                    className="bg-green-600 text-white hover:bg-green-700"
+                                                />
+                                            ) : (
+                                                <ActionIconButton
+                                                    icon={Lock}
+                                                    label="Liberar resultado"
+                                                    form={diagnosticoRelease.form(
+                                                        {
+                                                            uuid: d.uuid,
+                                                        },
+                                                    )}
+                                                />
+                                            )}
                                             <ActionIconButton
-                                                icon={LockOpen}
-                                                label="Resultado liberado"
-                                                className="bg-green-600 text-white hover:bg-green-700"
+                                                icon={Eye}
+                                                label="Ver resultado"
+                                                variant="outline"
+                                                href={
+                                                    diagnosticoShow({
+                                                        uuid: d.uuid,
+                                                    }).url
+                                                }
                                             />
-                                        ) : (
-                                            <ActionIconButton
-                                                icon={Lock}
-                                                label="Liberar resultado"
-                                                form={diagnosticoRelease.form({
-                                                    uuid: d.uuid,
-                                                })}
+                                            <DeleteDiagnosticoDialog
+                                                nome={d.nome}
+                                                uuid={d.uuid}
                                             />
-                                        )}
-                                        <ActionIconButton
-                                            icon={Eye}
-                                            label="Ver resultado"
-                                            variant="outline"
-                                            href={
-                                                diagnosticoShow({
-                                                    uuid: d.uuid,
-                                                }).url
-                                            }
-                                        />
-                                        <DeleteDiagnosticoDialog
-                                            nome={d.nome}
-                                            uuid={d.uuid}
-                                        />
+                                        </div>
                                     </div>
                                 </li>
                             ))}

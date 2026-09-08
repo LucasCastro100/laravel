@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PermutaStatus;
+use App\Enums\PermutaTipo;
 use Database\Factories\PermutaFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -23,6 +24,7 @@ use Illuminate\Support\Str;
  * @property float $valor
  * @property Carbon|null $data
  * @property PermutaStatus $status
+ * @property PermutaTipo $tipo
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $user
@@ -37,6 +39,7 @@ use Illuminate\Support\Str;
     'valor',
     'data',
     'status',
+    'tipo',
 ])]
 #[Hidden([])]
 class Permuta extends Model
@@ -65,6 +68,7 @@ class Permuta extends Model
             'valor' => 'decimal:2',
             'data' => 'date',
             'status' => PermutaStatus::class,
+            'tipo' => PermutaTipo::class,
         ];
     }
 
@@ -123,5 +127,33 @@ class Permuta extends Model
     {
         return $this->ownedBy($user)
             || ((int) $this->contato_id === (int) $user->id);
+    }
+
+    /**
+     * Whether this permuta counts as income ("ganho") for the given user.
+     *
+     * The situação defined by the creator decides each side: when the permuta
+     * is a "ganho" the creator earns it and the contact loses it; when it is
+     * a "despesa" the opposite happens.
+     */
+    public function isGanhoPara(User $user): bool
+    {
+        if ($this->ownedBy($user)) {
+            return $this->tipo->isGanho();
+        }
+
+        if ((int) $this->contato_id === (int) $user->id) {
+            return $this->tipo->isDespesa();
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether this permuta counts as an expense ("despesa") for the given user.
+     */
+    public function isDespesaPara(User $user): bool
+    {
+        return $this->ownOrLinkedBy($user) && ! $this->isGanhoPara($user);
     }
 }

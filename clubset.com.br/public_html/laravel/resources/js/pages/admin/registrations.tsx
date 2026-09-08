@@ -1,9 +1,6 @@
 import { ActionIconButton } from '@/components/action-icon-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { SearchSelect } from '@/components/ui/search-select';
 import {
     Dialog,
     DialogClose,
@@ -12,7 +9,10 @@ import {
     DialogFooter,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { registrations, verify, deactivate, destroy } from '@/routes/admin';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { SearchSelect } from '@/components/ui/search-select';
+import { deactivate, destroy, registrations, verify } from '@/routes/admin';
 import { Form, Head, router } from '@inertiajs/react';
 import {
     CheckCircle2,
@@ -146,7 +146,11 @@ export default function Registrations({
     );
 
     const handleDebouncedFilter = useCallback(
-        (key: 'nome' | 'cidade', setter: (v: string) => void, value: string) => {
+        (
+            key: 'nome' | 'cidade',
+            setter: (v: string) => void,
+            value: string,
+        ) => {
             setter(value);
             clearTimeout(debounceRef.current);
             debounceRef.current = setTimeout(() => {
@@ -189,7 +193,11 @@ export default function Registrations({
                                     placeholder="Buscar por nome..."
                                     value={nome}
                                     onChange={(e) =>
-                                        handleDebouncedFilter('nome', setNome, e.target.value)
+                                        handleDebouncedFilter(
+                                            'nome',
+                                            setNome,
+                                            e.target.value,
+                                        )
                                     }
                                     className="pl-8"
                                 />
@@ -203,7 +211,11 @@ export default function Registrations({
                                 placeholder="Cidade..."
                                 value={cidade}
                                 onChange={(e) =>
-                                    handleDebouncedFilter('cidade', setCidade, e.target.value)
+                                    handleDebouncedFilter(
+                                        'cidade',
+                                        setCidade,
+                                        e.target.value,
+                                    )
                                 }
                             />
                         </div>
@@ -227,7 +239,10 @@ export default function Registrations({
                                 type="checkbox"
                                 checked={filters.pending ?? false}
                                 onChange={(e) =>
-                                    applyFilter('pending', e.target.checked || undefined)
+                                    applyFilter(
+                                        'pending',
+                                        e.target.checked || undefined,
+                                    )
                                 }
                             />
                             Somente pendentes
@@ -241,20 +256,20 @@ export default function Registrations({
                     </div>
                 ) : (
                     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
-                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground md:grid">
-                            <div className="col-span-4">Usuário</div>
+                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground lg:grid">
+                            <div className="col-span-3">Usuário</div>
                             <div className="col-span-3">Cidade</div>
                             <div className="col-span-2">Nível</div>
                             <div className="col-span-2">Status</div>
-                            <div className="col-span-1 text-right">Ações</div>
+                            <div className="col-span-2 text-right">Ações</div>
                         </div>
                         <ul className="divide-y divide-border">
                             {users.map((user) => (
                                 <li
                                     key={user.id}
-                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 md:grid-cols-12 md:items-center md:gap-4"
+                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 lg:grid-cols-12 lg:items-center lg:gap-4"
                                 >
-                                    <div className="col-span-4 flex flex-col gap-1">
+                                    <div className="col-span-3 flex flex-col gap-1">
                                         <h3 className="text-sm font-medium">
                                             {user.name}
                                         </h3>
@@ -264,20 +279,31 @@ export default function Registrations({
                                         </span>
                                     </div>
 
-                                    <div className="col-span-3 flex items-center gap-1 text-sm text-muted-foreground">
-                                        <MapPin className="size-3.5" />
-                                        {user.city && user.region
-                                            ? `${user.city} - ${user.region}`
-                                            : '-'}
+                                    <div className="col-span-3 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-sm">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Cidade
+                                        </span>
+                                        <MapPin className="size-3.5 shrink-0" />
+                                        <span>
+                                            {user.city && user.region
+                                                ? `${user.city} - ${user.region}`
+                                                : '-'}
+                                        </span>
                                     </div>
 
-                                    <div className="col-span-2">
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Nível
+                                        </span>
                                         <Badge variant="outline">
                                             {roleLabel(user.role)}
                                         </Badge>
                                     </div>
 
-                                    <div className="col-span-2">
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Status
+                                        </span>
                                         {user.verifiedAt ? (
                                             <Badge
                                                 variant="default"
@@ -294,24 +320,31 @@ export default function Registrations({
                                         )}
                                     </div>
 
-                                    <div className="col-span-1 flex justify-end gap-1">
-                                        {!user.verifiedAt ? (
-                                            <ActionIconButton
-                                                icon={CheckCircle2}
-                                                label="Aceitar"
-                                                form={verify.form(user.id)}
-                                            />
-                                        ) : (
-                                            <ActionIconButton
-                                                icon={UserX}
-                                                label="Desativar"
-                                                variant="outline"
-                                                className="text-destructive hover:text-destructive"
-                                                form={deactivate.form(user.id)}
-                                            />
-                                        )}
+                                    <div className="col-span-2 flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-end lg:gap-1">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Ações
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                            {!user.verifiedAt ? (
+                                                <ActionIconButton
+                                                    icon={CheckCircle2}
+                                                    label="Aceitar"
+                                                    form={verify.form(user.id)}
+                                                />
+                                            ) : (
+                                                <ActionIconButton
+                                                    icon={UserX}
+                                                    label="Desativar"
+                                                    variant="outline"
+                                                    className="text-destructive hover:text-destructive"
+                                                    form={deactivate.form(
+                                                        user.id,
+                                                    )}
+                                                />
+                                            )}
 
-                                        <DeleteUserDialog user={user} />
+                                            <DeleteUserDialog user={user} />
+                                        </div>
                                     </div>
                                 </li>
                             ))}

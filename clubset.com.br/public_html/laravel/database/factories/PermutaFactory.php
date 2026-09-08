@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\PermutaStatus;
+use App\Enums\PermutaTipo;
 use App\Models\Permuta;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,6 +31,7 @@ class PermutaFactory extends Factory
             'valor' => fake()->randomFloat(2, 100, 5000),
             'data' => fake()->date(),
             'status' => PermutaStatus::Completed,
+            'tipo' => PermutaTipo::Ganho,
         ];
     }
 

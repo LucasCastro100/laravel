@@ -7,6 +7,7 @@ export default function AuthSimpleLayout({
     children,
     title,
     description,
+    brand = false,
 }: AuthLayoutProps) {
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
@@ -15,15 +16,23 @@ export default function AuthSimpleLayout({
                     <div className="flex flex-col items-center gap-4">
                         <Link
                             href={home()}
-                            className="flex flex-col items-center gap-2 font-medium"
+                            className="flex w-full flex-col items-center gap-2 font-medium"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                            </div>
+                            {brand ? (
+                                <img
+                                    src="/img/logos/clubSET_logo1.png"
+                                    alt={title ?? 'Clubset'}
+                                    className="h-24 w-auto"
+                                />
+                            ) : (
+                                <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
+                                    <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+                                </div>
+                            )}
                             <span className="sr-only">{title}</span>
                         </Link>
 
-                        <div className="space-y-2 text-center">
+                        <div className="w-full space-y-2 text-center">
                             <h1 className="text-xl font-medium">{title}</h1>
                             <p className="text-center text-sm text-muted-foreground">
                                 {description}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PermutaTipo;
 use App\Enums\UserRole;
 use App\Http\Requests\StorePermutaRequest;
 use App\Http\Requests\UpdatePermutaRequest;
@@ -170,6 +171,10 @@ class PermutaController extends Controller
     /**
      * Compute the current user's profit, expense and total.
      *
+     * A permuta increments the user's gains when the creator marked it as
+     * "ganho" or when the user was linked as the contact on a "despesa";
+     * otherwise it counts as an expense for that user.
+     *
      * @return array{ganhos: float, despesas: float, total: float}
      */
     private function summary(User $user): array
@@ -177,13 +182,27 @@ class PermutaController extends Controller
         $canonicalStatuses = ['concluida', 'pendente'];
 
         $ganhos = (float) Permuta::query()
-            ->where('user_id', $user->id)
             ->whereIn('status', $canonicalStatuses)
+            ->where(function ($query) use ($user) {
+                $query->where(fn ($q) => $q
+                    ->where('user_id', $user->id)
+                    ->where('tipo', PermutaTipo::Ganho->value))
+                    ->orWhere(fn ($q) => $q
+                        ->where('contato_id', $user->id)
+                        ->where('tipo', PermutaTipo::Despesa->value));
+            })
             ->sum('valor');
 
         $despesas = (float) Permuta::query()
-            ->where('contato_id', $user->id)
             ->whereIn('status', $canonicalStatuses)
+            ->where(function ($query) use ($user) {
+                $query->where(fn ($q) => $q
+                    ->where('user_id', $user->id)
+                    ->where('tipo', PermutaTipo::Despesa->value))
+                    ->orWhere(fn ($q) => $q
+                        ->where('contato_id', $user->id)
+                        ->where('tipo', PermutaTipo::Ganho->value));
+            })
             ->sum('valor');
 
         return [
@@ -226,6 +245,8 @@ class PermutaController extends Controller
             'data' => $permuta->data?->format('d/m/Y'),
             'status' => $permuta->status->value,
             'statusLabel' => $permuta->status->label(),
+            'tipo' => $permuta->tipo->value,
+            'isGanho' => $permuta->isGanhoPara($viewer),
             'isCreator' => $permuta->ownedBy($viewer),
             'contato' => [
                 'id' => $permuta->contato_id,

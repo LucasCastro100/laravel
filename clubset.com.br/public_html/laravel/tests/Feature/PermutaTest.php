@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermutaStatus;
+use App\Enums\PermutaTipo;
 use App\Enums\UserRole;
 use App\Models\Permuta;
 use App\Models\User;
@@ -46,6 +47,7 @@ test('a user can create a permuta linking a registered user', function () {
         'valor' => 250000,
         'data' => '2026-09-01',
         'status' => 'concluida',
+        'tipo' => 'ganho',
     ]);
 
     $response->assertRedirect(route('permutas.index'));
@@ -56,7 +58,63 @@ test('a user can create a permuta linking a registered user', function () {
         'contato_nome' => $contact->name,
         'valor' => 2500.00,
         'titulo' => 'Filmagem de casamento',
+        'tipo' => 'ganho',
     ]);
+});
+
+test('a user can create an inverted permuta as despesa, giving the gain to the contact', function () {
+    $creator = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
+
+    $response = $this->actingAs($creator)->post(route('permutas.store'), [
+        'contato_id' => $contact->id,
+        'titulo' => 'Consultoria comprada',
+        'valor' => 80000,
+        'data' => '2026-09-02',
+        'status' => 'concluida',
+        'tipo' => 'despesa',
+    ]);
+
+    $response->assertRedirect(route('permutas.index'));
+
+    $this->assertDatabaseHas('permutas', [
+        'user_id' => $creator->id,
+        'contato_id' => $contact->id,
+        'valor' => 800.00,
+        'tipo' => 'despesa',
+    ]);
+});
+
+test('the summary counts a despesa permuta as loss for the creator and gain for the contact', function () {
+    $creator = User::factory()->adminVerified()->create();
+    $contact = User::factory()->adminVerified()->create();
+
+    Permuta::factory()->create(['user_id' => $creator->id, 'valor' => 1500]);
+    Permuta::factory()->withContact($contact)->create([
+        'user_id' => $creator->id,
+        'valor' => 600,
+        'tipo' => PermutaTipo::Despesa,
+    ]);
+    Permuta::factory()->withContact($contact)->create([
+        'user_id' => $creator->id,
+        'valor' => 300,
+        'tipo' => PermutaTipo::Despesa,
+        'status' => PermutaStatus::Cancelled,
+    ]);
+
+    $creatorIndex = $this->actingAs($creator)->get(route('permutas.index'));
+    $creatorIndex->assertOk();
+    $creatorIndex->assertInertia(fn (Assert $page) => $page
+        ->where('summary.ganhos', 1500)
+        ->where('summary.despesas', 600)
+        ->where('summary.total', 900));
+
+    $contactIndex = $this->actingAs($contact)->get(route('permutas.index'));
+    $contactIndex->assertOk();
+    $contactIndex->assertInertia(fn (Assert $page) => $page
+        ->where('summary.ganhos', 600)
+        ->where('summary.despesas', 0)
+        ->where('summary.total', 600));
 });
 
 test('a user can create a permuta with a free-form person, registering them as a client', function () {

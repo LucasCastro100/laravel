@@ -47,6 +47,8 @@ interface PermutaItem {
     data: string | null;
     status: string;
     statusLabel: string;
+    tipo: string;
+    isGanho: boolean;
     isCreator: boolean;
     contato: {
         id: number | null;
@@ -110,8 +112,8 @@ function DeletePermutaDialog({ permuta }: { permuta: PermutaItem }) {
             <DialogContent>
                 <DialogTitle>Excluir permuta?</DialogTitle>
                 <DialogDescription>
-                    A permuta "{permuta.titulo ?? `#${permuta.id}`}" será excluída
-                    permanentemente. Esta ação não pode ser desfeita.
+                    A permuta "{permuta.titulo ?? `#${permuta.id}`}" será
+                    excluída permanentemente. Esta ação não pode ser desfeita.
                 </DialogDescription>
                 <DialogFooter>
                     <DialogClose asChild>
@@ -336,21 +338,21 @@ export default function PermutasIndex({
                     />
                 ) : (
                     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
-                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground md:grid">
-                            <div className="col-span-4">Permuta</div>
+                        <div className="hidden grid-cols-12 gap-4 border-b bg-muted/50 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground lg:grid">
+                            <div className="col-span-3">Permuta</div>
                             <div className="col-span-2">Status</div>
                             <div className="col-span-2">Vínculo</div>
-                            <div className="col-span-1">Valor</div>
-                            <div className="col-span-2">Data</div>
-                            <div className="col-span-1 text-right">Ações</div>
+                            <div className="col-span-2">Valor</div>
+                            <div className="col-span-1">Data</div>
+                            <div className="col-span-2 text-right">Ações</div>
                         </div>
                         <ul className="divide-y divide-border">
                             {filtered.map((permuta) => (
                                 <li
                                     key={permuta.id}
-                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 md:grid-cols-12 md:items-center md:gap-4"
+                                    className="grid grid-cols-1 gap-3 px-5 py-4 transition-colors hover:bg-muted/30 lg:grid-cols-12 lg:items-center lg:gap-4"
                                 >
-                                    <div className="col-span-4 flex flex-col gap-1">
+                                    <div className="col-span-3 flex flex-col gap-1">
                                         <div className="flex items-center gap-2">
                                             <h3 className="text-sm font-medium">
                                                 {permuta.titulo ??
@@ -376,52 +378,87 @@ export default function PermutasIndex({
                                         )}
                                     </div>
 
-                                    <div className="col-span-2">
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Status
+                                        </span>
                                         {statusBadge(
                                             permuta.status,
                                             permuta.statusLabel,
                                         )}
                                     </div>
 
-                                    <div className="col-span-2 flex items-center gap-2 text-sm text-muted-foreground">
-                                        <Repeat className="size-4 text-[#3fd6c9]" />
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-sm">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Vínculo
+                                        </span>
+                                        <Repeat className="size-4 shrink-0 text-[#3fd6c9]" />
                                         <span>{permuta.contato.nome}</span>
                                     </div>
 
-                                    <div className="col-span-1 text-base font-semibold">
-                                        {permuta.formattedValor}
+                                    <div className="col-span-2 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-base">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Valor
+                                        </span>
+                                        <span
+                                            className={
+                                                permuta.isGanho
+                                                    ? 'inline-flex items-center gap-1 font-semibold text-green-600'
+                                                    : 'inline-flex items-center gap-1 font-semibold text-red-600'
+                                            }
+                                        >
+                                            {permuta.isGanho ? (
+                                                <ArrowUpRight className="size-4" />
+                                            ) : (
+                                                <ArrowDownRight className="size-4" />
+                                            )}
+                                            {permuta.formattedValor}
+                                        </span>
                                     </div>
 
-                                    <div className="col-span-2 text-xs text-muted-foreground">
+                                    <div className="col-span-1 flex flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-2 lg:text-xs">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Data
+                                        </span>
                                         {permuta.data ?? 'Sem data'}
                                     </div>
 
-                                    <div className="col-span-1 flex justify-end gap-1">
-                                        {!permuta.contato.ehUsuario && (
-                                            <ActionIconButton
-                                                icon={Copy}
-                                                label="Compartilhar"
-                                                variant="ghost"
-                                                onClick={() =>
-                                                    copyLink(permuta.shareUrl)
-                                                }
-                                            />
-                                        )}
-                                        {permuta.isCreator && (
-                                            <>
+                                    <div className="col-span-2 flex items-center justify-between gap-2 border-t pt-3 lg:flex-row lg:items-center lg:justify-end lg:gap-1 lg:border-0 lg:pt-0">
+                                        <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:hidden">
+                                            Ações
+                                        </span>
+                                        <div className="flex items-center gap-1">
+                                            {!permuta.contato.ehUsuario && (
                                                 <ActionIconButton
-                                                    icon={Pencil}
-                                                    label="Editar"
+                                                    icon={Copy}
+                                                    label="Compartilhar"
                                                     variant="ghost"
-                                                    href={permutaEdit({
-                                                        permuta: permuta.id,
-                                                    }).url}
+                                                    onClick={() =>
+                                                        copyLink(
+                                                            permuta.shareUrl,
+                                                        )
+                                                    }
                                                 />
-                                                <DeletePermutaDialog
-                                                    permuta={permuta}
-                                                />
-                                            </>
-                                        )}
+                                            )}
+                                            {permuta.isCreator && (
+                                                <>
+                                                    <ActionIconButton
+                                                        icon={Pencil}
+                                                        label="Editar"
+                                                        variant="ghost"
+                                                        href={
+                                                            permutaEdit({
+                                                                permuta:
+                                                                    permuta.id,
+                                                            }).url
+                                                        }
+                                                    />
+                                                    <DeletePermutaDialog
+                                                        permuta={permuta}
+                                                    />
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 </li>
                             ))}

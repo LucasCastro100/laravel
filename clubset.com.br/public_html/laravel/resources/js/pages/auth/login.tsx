@@ -133,4 +133,5 @@ export default function Login({
 Login.layout = {
     title: 'Entrar',
     description: 'Acesse sua conta',
+    brand: true,
 };

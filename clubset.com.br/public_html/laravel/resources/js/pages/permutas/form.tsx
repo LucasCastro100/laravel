@@ -40,6 +40,7 @@ type PermutaForm = {
     valor: string;
     data: string;
     status: string;
+    tipo: string;
 };
 
 type Props = {
@@ -51,6 +52,7 @@ type Props = {
         valor: number;
         data: string | null;
         status: string;
+        tipo: string;
     } | null;
     usuarios: UsuarioOption[];
 };
@@ -82,6 +84,7 @@ export default function PermutaForm({ permuta, usuarios }: Props) {
             valor: editingValorCents,
             data: permuta?.data ?? '',
             status: permuta?.status ?? 'concluida',
+            tipo: permuta?.tipo ?? 'ganho',
         });
 
     useEffect(() => {
@@ -406,6 +409,39 @@ export default function PermutaForm({ permuta, usuarios }: Props) {
 
                                 <div className="grid gap-3 sm:grid-cols-2">
                                     <div className="grid gap-2">
+                                        <Label htmlFor="tipo">Situação</Label>
+                                        <div className="flex gap-1 rounded-md border p-1">
+                                            {(
+                                                [
+                                                    ['ganho', 'Ganho'],
+                                                    ['despesa', 'Despesa'],
+                                                ] as const
+                                            ).map(([value, label]) => (
+                                                <button
+                                                    key={value}
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setData('tipo', value)
+                                                    }
+                                                    className={cn(
+                                                        'flex-1 rounded px-3 py-1.5 text-sm font-medium transition-colors',
+                                                        data.tipo === value
+                                                            ? 'bg-primary text-primary-foreground'
+                                                            : 'text-muted-foreground hover:bg-muted',
+                                                    )}
+                                                >
+                                                    {label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            Ganho: você recebe e a outra parte
+                                            paga. Despesa: você paga e a outra
+                                            parte recebe.
+                                        </p>
+                                        <InputError message={errors.tipo} />
+                                    </div>
+                                    <div className="grid gap-2">
                                         <Label htmlFor="data">Data</Label>
                                         <Input
                                             id="data"
@@ -417,32 +453,33 @@ export default function PermutaForm({ permuta, usuarios }: Props) {
                                         />
                                         <InputError message={errors.data} />
                                     </div>
-                                    <div className="grid gap-2">
-                                        <Label>Status</Label>
-                                        <SearchSelect
-                                            options={[
-                                                {
-                                                    value: 'pendente',
-                                                    label: 'Pendente',
-                                                },
-                                                {
-                                                    value: 'concluida',
-                                                    label: 'Concluída',
-                                                },
-                                                {
-                                                    value: 'cancelada',
-                                                    label: 'Cancelada',
-                                                },
-                                            ]}
-                                            value={data.status}
-                                            onValueChange={(v) =>
-                                                setData('status', v)
-                                            }
-                                            placeholder="Status"
-                                            title="Status"
-                                        />
-                                        <InputError message={errors.status} />
-                                    </div>
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label>Status</Label>
+                                    <SearchSelect
+                                        options={[
+                                            {
+                                                value: 'pendente',
+                                                label: 'Pendente',
+                                            },
+                                            {
+                                                value: 'concluida',
+                                                label: 'Concluída',
+                                            },
+                                            {
+                                                value: 'cancelada',
+                                                label: 'Cancelada',
+                                            },
+                                        ]}
+                                        value={data.status}
+                                        onValueChange={(v) =>
+                                            setData('status', v)
+                                        }
+                                        placeholder="Status"
+                                        title="Status"
+                                    />
+                                    <InputError message={errors.status} />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -532,6 +569,16 @@ export default function PermutaForm({ permuta, usuarios }: Props) {
                                     </div>
                                     <div className="flex justify-between">
                                         <dt className="text-muted-foreground">
+                                            Situação
+                                        </dt>
+                                        <dd className="font-medium capitalize">
+                                            {data.tipo === 'despesa'
+                                                ? 'Despesa'
+                                                : 'Ganho'}
+                                        </dd>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <dt className="text-muted-foreground">
                                             Status
                                         </dt>
                                         <dd className="font-medium capitalize">
@@ -540,10 +587,18 @@ export default function PermutaForm({ permuta, usuarios }: Props) {
                                     </div>
                                 </dl>
 
-                                <p className="rounded-md bg-green-600/10 p-3 text-sm text-green-700">
+                                <p
+                                    className={cn(
+                                        'rounded-md p-3 text-sm',
+                                        data.tipo === 'despesa'
+                                            ? 'bg-red-600/10 text-red-700'
+                                            : 'bg-green-600/10 text-green-700',
+                                    )}
+                                >
                                     <Repeat className="mr-1 inline size-4" />
-                                    Ao lançar esta permuta, você a registrará
-                                    como ganho (entrada).
+                                    {data.tipo === 'despesa'
+                                        ? 'Ao lançar esta permuta, você a registrará como despesa (saída) e a pessoa vinculada receberá como ganho.'
+                                        : 'Ao lançar esta permuta, você a registrará como ganho (entrada) e a pessoa vinculada pagará como despesa.'}
                                 </p>
 
                                 <div className="flex items-center justify-between">

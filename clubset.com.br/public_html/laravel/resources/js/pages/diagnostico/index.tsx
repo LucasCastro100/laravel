@@ -88,6 +88,13 @@ export default function DiagnosticoIndex({
 
     const [renda, setRenda] = useState('');
 
+    const [nome, setNome] = useState('');
+    const [instagram, setInstagram] = useState('');
+    const [celular, setCelular] = useState('');
+    const [participaGrupo, setParticipaGrupo] = useState<boolean | null>(
+        null,
+    );
+
     const [selectedRegion, setSelectedRegion] = useState('');
     const [stateId, setStateId] = useState('');
     const [municipalityId, setMunicipalityId] = useState('');
@@ -95,8 +102,8 @@ export default function DiagnosticoIndex({
         MunicipalityOption[]
     >([]);
     const [loadingMunicipalities, setLoadingMunicipalities] = useState(false);
-    const [participaGrupo, setParticipaGrupo] = useState(false);
-    const [celular, setCelular] = useState('');
+    const [step0Enviado, setStep0Enviado] = useState(false);
+    const [step1Enviado, setStep1Enviado] = useState(false);
 
     const totalPerguntas = useMemo(
         () => areas.reduce((acc, area) => acc + area.perguntas.length, 0),
@@ -117,6 +124,43 @@ export default function DiagnosticoIndex({
     );
 
     const todasRespondidas = respondidas === totalPerguntas;
+
+    const step1Erros = useMemo(
+        () => ({
+            nome: !nome.trim(),
+            instagram: !instagram.trim(),
+            celular: !celular.trim(),
+            regiao: !selectedRegion,
+            estado: !stateId,
+            municipio: !municipalityId,
+            participaGrupo: participaGrupo === null,
+        }),
+        [
+            nome,
+            instagram,
+            celular,
+            selectedRegion,
+            stateId,
+            municipalityId,
+            participaGrupo,
+        ],
+    );
+
+    const step1Valido = Object.values(step1Erros).every((erro) => !erro);
+
+    const handleAvancar = () => {
+        if (step === 0 && !renda) {
+            setStep0Enviado(true);
+            return;
+        }
+
+        if (step === 1 && !step1Valido) {
+            setStep1Enviado(true);
+            return;
+        }
+
+        setStep((s) => Math.min(s + 1, steps.length - 1));
+    };
 
     const steps = [
         { label: 'Renda', icon: Wallet },
@@ -171,9 +215,13 @@ export default function DiagnosticoIndex({
         setStateId('');
         setMunicipalities([]);
         setMunicipalityId('');
-        setParticipaGrupo(false);
+        setParticipaGrupo(null);
         setCelular('');
         setRenda('');
+        setNome('');
+        setInstagram('');
+        setStep0Enviado(false);
+        setStep1Enviado(false);
         setStep(0);
     };
 
@@ -207,7 +255,7 @@ export default function DiagnosticoIndex({
                     action={diagnosticoStore().url}
                     className="space-y-8"
                 >
-                    {({ errors, processing }) => (
+                    {({ processing }) => (
                         <>
                             <Card
                                 className={step === 0 ? '' : 'hidden'}
@@ -246,6 +294,11 @@ export default function DiagnosticoIndex({
                                             <span>{opcao}</span>
                                         </label>
                                     ))}
+                                    {step0Enviado && !renda && (
+                                        <p className="text-xs text-destructive">
+                                            Selecione uma faixa de renda.
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
 
@@ -271,8 +324,23 @@ export default function DiagnosticoIndex({
                                                 <Input
                                                     id="nome"
                                                     name="nome"
+                                                    value={nome}
+                                                    onChange={(e) =>
+                                                        setNome(e.target.value)
+                                                    }
+                                                    aria-invalid={
+                                                        step1Enviado &&
+                                                        step1Erros.nome
+                                                    }
                                                     placeholder="Seu nome"
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.nome && (
+                                                        <p className="text-xs text-destructive">
+                                                            Nome é
+                                                            obrigatório.
+                                                        </p>
+                                                    )}
                                             </div>
                                             <div className="grid gap-2">
                                                 <Label htmlFor="instagram">
@@ -281,8 +349,25 @@ export default function DiagnosticoIndex({
                                                 <Input
                                                     id="instagram"
                                                     name="instagram"
+                                                    value={instagram}
+                                                    onChange={(e) =>
+                                                        setInstagram(
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    aria-invalid={
+                                                        step1Enviado &&
+                                                        step1Erros.instagram
+                                                    }
                                                     placeholder="@seuinstagram"
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.instagram && (
+                                                        <p className="text-xs text-destructive">
+                                                            Instagram é
+                                                            obrigatório.
+                                                        </p>
+                                                    )}
                                             </div>
                                             <div className="grid gap-2">
                                                 <Label htmlFor="celular">
@@ -303,9 +388,20 @@ export default function DiagnosticoIndex({
                                                             ),
                                                         )
                                                     }
+                                                    aria-invalid={
+                                                        step1Enviado &&
+                                                        step1Erros.celular
+                                                    }
                                                     placeholder="(11) 99999-9999"
                                                     inputMode="tel"
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.celular && (
+                                                        <p className="text-xs text-destructive">
+                                                            Celular é
+                                                            obrigatório.
+                                                        </p>
+                                                    )}
                                             </div>
                                         </div>
 
@@ -330,6 +426,13 @@ export default function DiagnosticoIndex({
                                                     title="Região"
                                                     clearable
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.regiao && (
+                                                        <p className="text-xs text-destructive">
+                                                            Região é
+                                                            obrigatória.
+                                                        </p>
+                                                    )}
                                             </div>
                                             <div className="grid gap-2">
                                                 <Label>Estado</Label>
@@ -346,6 +449,13 @@ export default function DiagnosticoIndex({
                                                     disabled={!selectedRegion}
                                                     title="Estado"
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.estado && (
+                                                        <p className="text-xs text-destructive">
+                                                            Estado é
+                                                            obrigatório.
+                                                        </p>
+                                                    )}
                                             </div>
                                             <div className="grid gap-2">
                                                 <Label>Município</Label>
@@ -370,6 +480,13 @@ export default function DiagnosticoIndex({
                                                     title="Município"
                                                     clearable
                                                 />
+                                                {step1Enviado &&
+                                                    step1Erros.municipio && (
+                                                        <p className="text-xs text-destructive">
+                                                            Município é
+                                                            obrigatório.
+                                                        </p>
+                                                    )}
                                             </div>
                                         </div>
 
@@ -386,6 +503,10 @@ export default function DiagnosticoIndex({
                                                         type="radio"
                                                         name="participa_grupo_whatsapp"
                                                         value="1"
+                                                        checked={
+                                                            participaGrupo ===
+                                                            true
+                                                        }
                                                         onChange={() =>
                                                             setParticipaGrupo(
                                                                 true,
@@ -399,6 +520,10 @@ export default function DiagnosticoIndex({
                                                         type="radio"
                                                         name="participa_grupo_whatsapp"
                                                         value="0"
+                                                        checked={
+                                                            participaGrupo ===
+                                                            false
+                                                        }
                                                         onChange={() =>
                                                             setParticipaGrupo(
                                                                 false,
@@ -408,6 +533,13 @@ export default function DiagnosticoIndex({
                                                     Não
                                                 </label>
                                             </div>
+                                            {step1Enviado &&
+                                                step1Erros.participaGrupo && (
+                                                    <p className="text-xs text-destructive">
+                                                        Informe se participa dos
+                                                        grupos WhatsApp.
+                                                    </p>
+                                                )}
                                             {participaGrupo && (
                                                 <div className="grid gap-2 pt-2">
                                                     <Label htmlFor="grupo_whatsapp_qual">
@@ -545,12 +677,15 @@ export default function DiagnosticoIndex({
                                 {step < steps.length - 1 ? (
                                     <Button
                                         type="button"
-                                        disabled={step === 0 && !renda}
-                                        onClick={() =>
-                                            setStep((s) =>
-                                                Math.min(s + 1, steps.length - 1),
-                                            )
+                                        disabled={
+                                            (step === 0 &&
+                                                step0Enviado &&
+                                                !renda) ||
+                                            (step === 1 &&
+                                                step1Enviado &&
+                                                !step1Valido)
                                         }
+                                        onClick={handleAvancar}
                                     >
                                         Avançar
                                         <ChevronRight className="size-4" />

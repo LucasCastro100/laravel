@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\PermutaStatus;
+use App\Enums\PermutaTipo;
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -35,6 +36,7 @@ class StorePermutaRequest extends FormRequest
             'valor' => ['required', 'numeric', 'min:0', 'max:9999999'],
             'data' => ['nullable', 'date'],
             'status' => ['required', Rule::enum(PermutaStatus::class)],
+            'tipo' => ['required', Rule::enum(PermutaTipo::class)],
         ];
     }
 
@@ -51,6 +53,7 @@ class StorePermutaRequest extends FormRequest
 
         $this->merge([
             'valor' => $valor,
+            'tipo' => $this->input('tipo', PermutaTipo::Ganho->value),
         ]);
     }
 

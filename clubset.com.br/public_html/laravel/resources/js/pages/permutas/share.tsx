@@ -11,6 +11,7 @@ interface PermutaShareProps {
         formattedValor: string;
         data: string | null;
         statusLabel: string;
+        tipo: string;
         isCreator: boolean;
         contato: { nome: string; ehUsuario: boolean };
     };
@@ -43,6 +44,14 @@ export default function PermutaShare({ permuta }: PermutaShareProps) {
                             <div className="flex justify-between">
                                 <dt className="text-muted-foreground">Data</dt>
                                 <dd>{permuta.data ?? '—'}</dd>
+                            </div>
+                            <div className="flex justify-between">
+                                <dt className="text-muted-foreground">
+                                    Situação
+                                </dt>
+                                <dd className="font-medium capitalize">
+                                    {permuta.tipo}
+                                </dd>
                             </div>
                             <div className="flex justify-between">
                                 <dt className="text-muted-foreground">
