@@ -1,0 +1,16 @@
+# Protege arquivos sensíveis do Laravel de acesso direto via web (estrutura public_html/laravel)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.env$ - [F,L]
+    RewriteRule ^\.env\..*$ - [F,L]
+    RewriteRule ^storage/logs/.*$ - [F,L]
+    RewriteRule ^vendor/.*$ - [F,L]
+    RewriteRule ^storage/framework/.*$ - [F,L]
+</IfModule>
+
+# Bloqueia acesso direto a arquivos sensíveis
+<FilesMatch "(^\.env|^\.env\.|\.gitignore$|composer\.json$|composer\.lock$|artisan$|package\.json$)" >
+    Require all denied
+</FilesMatch>
+
+Options -Indexes

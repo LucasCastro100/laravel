@@ -50,7 +50,7 @@ class CourseController extends Controller
 
             foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
                 if ($request->hasFile($field)) {
-                    $data[$field] = $this->uploadImage($request->file($field), $request->title);
+                    $data[$field] = $this->uploadImage($request->file($field), $request->title, $field);
                 }
             }
 
@@ -62,14 +62,29 @@ class CourseController extends Controller
         }
     }
 
-    private function uploadImage($imageFile, $title)
+    private function uploadImage($imageFile, $title, $field)
     {
         $filename = Str::slug(strtolower($title), '_') . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
-        $path = storage_path('app/public/courses');
+        $path = public_path('storage/courses');
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        $image = Image::read($imageFile)->resize(300, 200);
+
+        $image = Image::read($imageFile);
+
+        // Tamanhos adequados por tipo de imagem para melhor qualidade
+        switch ($field) {
+            case 'image_cover':
+                $image->resize(600, 600);
+                break;
+            case 'image_banner':
+                $image->resize(1920, 500);
+                break;
+            default: // certificate_background
+                $image->resize(1200, 900);
+                break;
+        }
+
         $image->save($path . '/' . $filename);
         return 'courses/' . $filename;
     }
@@ -119,7 +134,7 @@ class CourseController extends Controller
 
             foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
                 if ($request->hasFile($field)) {
-                    $data[$field] = $this->uploadImage($request->file($field), $request->title);
+                    $data[$field] = $this->uploadImage($request->file($field), $request->title, $field);
                 }
             }
 
@@ -134,6 +149,14 @@ class CourseController extends Controller
     {
         try {
             $course = Course::where('uuid', $uuid)->first();
+
+            // Remove as imagens associadas ao curso
+            foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
+                if (!empty($course->{$field}) && file_exists(public_path('storage/' . $course->{$field}))) {
+                    unlink(public_path('storage/' . $course->{$field}));
+                }
+            }
+
             $course->delete();
             return redirect()->route('course.index')->with('success', 'Curso excluído com sucesso!');
         } catch (\Exception $e) {

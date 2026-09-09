@@ -41,13 +41,13 @@ class ProfileController extends Controller
             // Usa o nome do usuário como base para o nome do arquivo
             $filename = Str::slug(strtolower($user->name), '_') . '.' . $imageFile->getClientOriginalExtension();
     
-            // Caminho para salvar
-            $path = 'app/public/users/';
-    
+// Caminho para salvar
+            $path = 'storage/users/';
+
             // Redimensiona e salva a imagem
             $image = Image::read($imageFile)->resize(300, 200);
-            $image->save(storage_path($path . $filename));
-    
+            $image->save(public_path($path . $filename));
+
             // Atualiza o caminho da imagem no usuário
             $user->image = 'users/' . $filename;
         }

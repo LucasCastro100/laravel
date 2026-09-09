@@ -21,7 +21,7 @@
                         @foreach ($tests as $index => $course)
                             <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer relative"
                             onclick="window.location.href = '{{ route('course.show', ['uuid' => $course->uuid]) }}'">
-                                <img src="{{ Storage::url($course->image_cover) }}" alt="Imagem do curso"
+                                <img src="{{ asset('storage/' . $course->image_cover) }}" alt="Imagem do curso"
                                     class="w-full h-48 object-cover">
                                 <div class="p-4">
                                     <div class="absolute top-2 right-2 flex row items-center justify-center gap-2 p-1 bg-gray-800 border-2 border-gray-500 rounded-md text-gray-100 text-xs">

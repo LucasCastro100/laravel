@@ -71,7 +71,6 @@
                                             <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
                                             <div class="text-center">
                                                 <p class="text-xs"><span class="font-medium text-blue-400">Clique para enviar</span></p>
-                                                <p class="text-xs mt-0.5">PNG, JPG, GIF</p>
                                             </div>
                                         </div>
                                     </template>
@@ -79,8 +78,9 @@
                                         <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                                     </template>
                                     <input type="file" id="dropzone-cover" name="image_cover" class="hidden" accept="image/*"
-                                        @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                        @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 600, 0.85, u=>preview=u);">
                                 </label>
+                                <p class="text-xs text-gray-500 mt-1.5">PNG, JPG, GIF (quadrada, ex.: 600x600)</p>
                             </div>
 
                             <div x-data="{ preview: null }">
@@ -93,7 +93,6 @@
                                             <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
                                             <div class="text-center">
                                                 <p class="text-xs"><span class="font-medium text-blue-400">Clique para enviar</span></p>
-                                                <p class="text-xs mt-0.5">PNG, JPG, GIF</p>
                                             </div>
                                         </div>
                                     </template>
@@ -101,8 +100,9 @@
                                         <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                                     </template>
                                     <input type="file" id="dropzone-banner" name="image_banner" class="hidden" accept="image/*"
-                                        @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                        @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 1920, 0.85, u=>preview=u);">
                                 </label>
+                                <p class="text-xs text-gray-500 mt-1.5">PNG, JPG, GIF (retangular, ex.: 1920x500)</p>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                                 <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                             </template>
                             <input type="file" id="dropzone-cert" name="certificate_background" class="hidden" accept="image/*"
-                                @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 1920, 0.9, u=>preview=u);">
                         </label>
                     </div>
 

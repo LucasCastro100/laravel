@@ -15,7 +15,7 @@
                             <x-course-card
                                 title="{{ $course->title }}"
                                 description="{{ $course->description }}"
-                                image="{{ Storage::url($course->image_cover) }}"
+                                image="{{ asset('storage/' . $course->image_cover) }}"
                             >
                                 <x-action-button href="{{ route('student.courseShow', ['uuid' => $course->uuid]) }}" variant="primary">Acessar</x-action-button>
                             </x-course-card>

@@ -48,7 +48,7 @@
 
             {{-- Tabelas com Tabs --}}
             <div class="bg-gray-900 rounded-2xl border border-gray-800 shadow-xl p-6">
-                <div x-data="{ tab: 'students' }">
+                <div x-data="{ tab: 'students', openDelete: false, deleteUrl: '', deleteTitle: '' }">
 
                     {{-- Tabs modernas --}}
                     <div class="flex gap-1 p-1 bg-gray-800 rounded-xl mb-6 w-full sm:w-fit overflow-x-auto">
@@ -154,6 +154,7 @@
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Nome</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Descrição</th>
                                             <th class="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Alunos</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-800">
@@ -163,6 +164,19 @@
                                                 <td class="px-4 py-3.5 text-gray-400 max-w-xs truncate">{{ $course->description }}</td>
                                                 <td class="px-4 py-3.5">
                                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400">{{ $course->total_students ?? 0 }}</span>
+                                                </td>
+                                                <td class="px-4 py-3.5 whitespace-nowrap">
+                                                    <div class="flex items-center gap-1">
+                                                        <a href="{{ route('course.edit', $course->uuid) }}"
+                                                            class="p-1.5 rounded-lg text-gray-500 hover:text-yellow-400 hover:bg-yellow-400/10 transition" title="Editar">
+                                                            <i class="fa-solid fa-pen text-xs"></i>
+                                                        </a>
+                                                        <button
+                                                            @click="openDelete = true; deleteUrl = '{{ route('course.destroy', $course->uuid) }}'; deleteTitle = {{ json_encode($course->title) }}"
+                                                            class="p-1.5 rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-400/10 transition" title="Excluir">
+                                                            <i class="fa-solid fa-trash text-xs"></i>
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -296,6 +310,44 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- Modal de Exclusão --}}
+                    <template x-if="openDelete">
+                        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+                            @click.self="openDelete = false">
+                            <div class="bg-gray-900 rounded-2xl border border-gray-800 shadow-2xl w-full max-w-sm p-6"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100">
+                                <div class="flex flex-col items-center text-center gap-3 mb-6">
+                                    <div class="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center">
+                                        <i class="fa-solid fa-triangle-exclamation text-red-400 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-semibold text-gray-100">Excluir Curso</h3>
+                                        <p class="text-sm text-gray-400 mt-1">
+                                            Tem certeza que deseja excluir <span class="text-gray-200 font-medium" x-text="deleteTitle"></span>?
+                                            Esta ação não pode ser desfeita.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button @click="openDelete = false"
+                                        class="flex-1 py-2.5 px-4 border border-gray-700 text-gray-300 rounded-xl hover:bg-gray-800 transition text-sm font-medium">
+                                        Cancelar
+                                    </button>
+                                    <form method="POST" :action="deleteUrl" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="w-full py-2.5 px-4 bg-red-600 hover:bg-red-500 text-white rounded-xl transition text-sm font-medium">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>

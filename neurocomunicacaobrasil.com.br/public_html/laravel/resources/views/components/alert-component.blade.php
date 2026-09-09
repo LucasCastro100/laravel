@@ -2,7 +2,7 @@
 
 <div 
     x-data="{ show: true }"
-    x-init="setTimeout(() => show = false, 5000)"
+    x-init="setTimeout(() => show = false, 8000)"
     x-show="show"
     x-transition.opacity
     class="transition-opacity duration-500"

@@ -11,10 +11,10 @@
 
     <meta property="og:site_name" content="Formação PNL">
     <meta property="og:title" content="Formação PNL">
-    <meta property="og:image" content="http://127.0.0.1:8000/img/icon.png" />
+    <meta property="og:image" content="{{ asset('img/icon.png') }}" />
     <meta property="og:image:width" content="2500">
     <meta property="og:image:height" content="965">
-    <meta property="og:url" content="http://127.0.0.1:8000/">
+    <meta property="og:url" content="{{ url('/') }}">
     <meta property="og:description" content="PNL" />
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">

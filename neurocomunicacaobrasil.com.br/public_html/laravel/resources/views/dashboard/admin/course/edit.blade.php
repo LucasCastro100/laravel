@@ -77,7 +77,7 @@
                                     :class="preview ? 'border-blue-500/50' : 'border-gray-700 bg-gray-800 hover:border-gray-500'">
                                     <template x-if="!preview">
                                         @if ($course->image_cover)
-                                            <img src="{{ Storage::url($course->image_cover) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
+                                            <img src="{{ asset('storage/' . $course->image_cover) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
                                             <div class="absolute bottom-2 left-0 right-0 text-center pointer-events-none">
                                                 <span class="text-xs text-gray-300 bg-gray-900/70 px-2 py-0.5 rounded">Clique para substituir</span>
                                             </div>
@@ -92,8 +92,9 @@
                                         <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                                     </template>
                                     <input type="file" id="dropzone-cover" name="image_cover" class="hidden" accept="image/*"
-                                        @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                        @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 600, 0.85, u=>preview=u);">
                                 </label>
+                                <p class="text-xs text-gray-500 mt-1.5">PNG, JPG, GIF (quadrada, ex.: 600x600)</p>
                             </div>
 
                             <div x-data="{ preview: null }">
@@ -103,7 +104,7 @@
                                     :class="preview ? 'border-blue-500/50' : 'border-gray-700 bg-gray-800 hover:border-gray-500'">
                                     <template x-if="!preview">
                                         @if ($course->image_banner)
-                                            <img src="{{ Storage::url($course->image_banner) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
+                                            <img src="{{ asset('storage/' . $course->image_banner) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
                                             <div class="absolute bottom-2 left-0 right-0 text-center pointer-events-none">
                                                 <span class="text-xs text-gray-300 bg-gray-900/70 px-2 py-0.5 rounded">Clique para substituir</span>
                                             </div>
@@ -118,8 +119,9 @@
                                         <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                                     </template>
                                     <input type="file" id="dropzone-banner" name="image_banner" class="hidden" accept="image/*"
-                                        @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                        @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 1920, 0.85, u=>preview=u);">
                                 </label>
+                                <p class="text-xs text-gray-500 mt-1.5">PNG, JPG, GIF (retangular, ex.: 1920x500)</p>
                             </div>
                         </div>
                     </div>
@@ -131,7 +133,7 @@
                             :class="preview ? 'border-blue-500/50' : 'border-gray-700 bg-gray-800 hover:border-gray-500'">
                             <template x-if="!preview">
                                 @if ($course->certificate_background)
-                                    <img src="{{ Storage::url($course->certificate_background) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
+                                    <img src="{{ asset('storage/' . $course->certificate_background) }}" class="absolute inset-0 w-full h-full object-contain p-1 opacity-60 pointer-events-none" />
                                     <div class="absolute bottom-2 left-0 right-0 text-center pointer-events-none">
                                         <span class="text-xs text-gray-300 bg-gray-900/70 px-2 py-0.5 rounded">Clique para substituir</span>
                                     </div>
@@ -147,7 +149,7 @@
                                 <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-1 pointer-events-none" />
                             </template>
                             <input type="file" id="dropzone-cert" name="certificate_background" class="hidden" accept="image/*"
-                                @change="const f=$event.target.files[0];if(f){const r=new FileReader();r.onload=e=>preview=e.target.result;r.readAsDataURL(f)}else{preview=null}">
+                                @change="const el=$event.target; if(!el.files.length){preview=null;return;} compressCourseImage(el, 1920, 0.9, u=>preview=u);">
                         </label>
                     </div>
 

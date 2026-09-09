@@ -51,12 +51,7 @@
                         </div>
                     </div>
 
-                    @if ($course->image_banner)
-                        <div class="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 w-full">
-                            <img src="{{ asset('storage/' . $course->image_banner) }}" alt="Banner do Curso"
-                                class="aspect-video w-full object-cover">
-                        </div>
-                    @endif
+                    <x-course-banner :src="$course->image_banner ? asset('storage/' . $course->image_banner) : null" />
 
                     <div class="w-full">
                         <div class="grid grid-cols-1 xl:grid-cols-[1.6fr_1.1fr] gap-6 w-full items-start">

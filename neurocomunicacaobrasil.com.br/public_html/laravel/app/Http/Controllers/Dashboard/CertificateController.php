@@ -37,12 +37,12 @@ class CertificateController extends Controller
 
         $validationCode = strtoupper(substr(md5($user->id . $course->id . now()), 0, 16));
 
-        $signaturePath = storage_path('app/public/signatures/signature.png');
+        $signaturePath = public_path('storage/signatures/signature.png');
         $signature = file_exists($signaturePath) ? $signaturePath : null;
 
         $backgroundPath = null;
         if ($course->certificate_background) {
-            $bg = storage_path('app/public/' . $course->certificate_background);
+            $bg = public_path('storage/' . $course->certificate_background);
             if (file_exists($bg)) {
                 $backgroundPath = $bg;
             }

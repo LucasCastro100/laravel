@@ -64,12 +64,7 @@
                     </div>
 
 
-                    @if ($course->image_banner)
-                        <div class="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 w-full">
-                            <img src="{{ asset('storage/' . $course->image_banner) }}" alt="Banner do Curso"
-        class="aspect-video w-full object-cover">
-                    </div>
-                @endif
+                    <x-course-banner :src="$course->image_banner ? asset('storage/' . $course->image_banner) : null" />
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
                         <!-- Card de Alunos -->

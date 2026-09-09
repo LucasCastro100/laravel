@@ -38,7 +38,7 @@
                         setTimeout(() => {
                             this.items = this.items.filter(i => i.id !== id);
                         }, 400);
-                    }, 4500);
+                    }, 8000);
                 }
             });
         });
@@ -119,6 +119,39 @@
           :class="openAside ? '' : 'md:!ml-[85px]'">
         {{ $slot }}
     </main>
+
+{{-- Compressão de imagem client-side (antes do upload) --}}
+    <script>
+        function compressCourseImage(input, maxSize = 1920, quality = 0.82, onDone) {
+            const file = input.files && input.files[0];
+            if (!file || !file.type.startsWith('image/')) { onDone && onDone(null); return; }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
+                    const w = Math.max(1, Math.round(img.width * ratio));
+                    const h = Math.max(1, Math.round(img.height * ratio));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    canvas.toBlob((blob) => {
+                        if (!blob) { onDone && onDone(null); return; }
+                        const name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+                        const dt = new DataTransfer();
+                        dt.items.add(new File([blob], name, { type: 'image/jpeg' }));
+                        input.files = dt.files;
+                        onDone && onDone(URL.createObjectURL(blob));
+                    }, 'image/jpeg', quality);
+                };
+                img.onerror = () => onDone && onDone(null);
+                img.src = e.target.result;
+            };
+            reader.onerror = () => onDone && onDone(null);
+            reader.readAsDataURL(file);
+        }
+    </script>
 
 </body>
 </html>

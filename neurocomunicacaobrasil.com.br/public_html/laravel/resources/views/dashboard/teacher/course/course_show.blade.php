@@ -63,12 +63,7 @@
                         </div>
                     </div>
 
-                    @if ($course->image_banner)
-                        <div class="overflow-hidden rounded-xl border border-gray-800 bg-gray-900 w-full">
-                            <img src="{{ asset('storage/' . $course->image_banner) }}" alt="Banner do Curso"
-                                class="aspect-video w-full object-cover">
-                        </div>
-                    @endif
+                    <x-course-banner :src="$course->image_banner ? asset('storage/' . $course->image_banner) : null" />
 
                     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                         <a href="{{ route('teacher.linkCourse', $course->uuid) }}"
