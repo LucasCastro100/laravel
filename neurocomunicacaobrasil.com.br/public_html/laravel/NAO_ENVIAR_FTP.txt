@@ -1,0 +1,24 @@
+ARQUIVOS QUE NÃO PODEM IR PARA O FTP
+====================================
+(estes também ficam fora do git - são só locais ou de configuração do servidor)
+
+laravel/.env
+laravel/.env.local
+laravel/.env.production
+laravel/.env.backup
+laravel/env-switch.sh
+laravel/.ftpignore
+laravel/database/database.sqlite
+laravel/tests/
+laravel/phpunit.xml
+laravel/phpunit copy.xml
+laravel/node_modules/
+laravel/.gitignore
+laravel/.bash_history
+laravel/.bash_profile
+laravel/authorized_keys
+laravel/dicas_laravel.txt
+laravel/storage/
+laravel/public/storage/
+laravel/.opencode/
+laravel/MIGRATION_PLAN.md

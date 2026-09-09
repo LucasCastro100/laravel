@@ -30,27 +30,29 @@ class CourseController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Course::class);
         return view('dashboard.teacher.course.create', ['title' => 'Novo Curso']);
     }
 
     public function edit(string $uuid)
     {
         $course = Course::where('uuid', $uuid)->firstOrFail();
+        $this->authorize('update', $course);
         return view('dashboard.teacher.course.edit', ['title' => 'Editar Curso', 'course' => $course]);
     }
 
     public function store(CourseRequest $request)
     {
-        try {       
-            $data = $request->except(['_token']);
-            $data['user_id'] = Auth::user()->id;
+        try {
+            $data = $request->validated();
+            $data['user_id'] = Auth::id();
             $data['certificate_enabled'] = $request->has('certificate_enabled');
             $data['price'] = $request->input('price') ?? 0;
             $data['payment_link'] = $request->input('payment_link') ?? '';
 
             foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
                 if ($request->hasFile($field)) {
-                    $data[$field] = $this->uploadImage($request->file($field), $request->title, $field);
+                    $data[$field] = $this->uploadImage($request->file($field), $field);
                 }
             }
 
@@ -58,83 +60,56 @@ class CourseController extends Controller
 
             return redirect()->route('course.index')->with('success', 'Curso criado com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso!'. $e->getMessage());
+            return redirect()->route('course.index')->with('error', 'Erro ao criar o curso! ' . $e->getMessage());
         }
-    }
-
-    private function uploadImage($imageFile, $title, $field)
-    {
-        $filename = Str::slug(strtolower($title), '_') . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
-        $path = public_path('storage/courses');
-        if (!is_dir($path)) {
-            mkdir($path, 0755, true);
-        }
-
-        $image = Image::read($imageFile);
-
-        // Tamanhos adequados por tipo de imagem para melhor qualidade
-        switch ($field) {
-            case 'image_cover':
-                $image->resize(600, 600);
-                break;
-            case 'image_banner':
-                $image->resize(1920, 500);
-                break;
-            default: // certificate_background
-                $image->resize(1200, 900);
-                break;
-        }
-
-        $image->save($path . '/' . $filename);
-        return 'courses/' . $filename;
     }
 
     public function show(string $uuid)
     {
         $course = Course::where('uuid', $uuid)
-            ->withCount('users')  // Contagem de usuários
-            ->withCount('modules')  // Contagem de módulos
-            ->with('modules.classrooms') // Carrega os módulos e as aulas associadas
+            ->withCount('users')
+            ->withCount('modules')
+            ->with('modules.classrooms')
             ->with(['modules' => function ($query) {
-                $query->withCount('classrooms')  // Conta as aulas de cada módulo
-                    ->with('classrooms');  // Carrega as aulas de cada módulo
+                $query->withCount('classrooms')
+                    ->with('classrooms');
             }])
             ->first();
 
-        // Alunos matriculados
+        $this->authorize('view', $course);
+
         $enrolledStudents = User::whereHas('courses', function ($q) use ($course) {
             $q->where('course_id', $course->id);
         })->with('student')->get();
 
-        // Alunos disponíveis (não matriculados neste curso)
         $availableStudents = Student::with('user')
             ->whereDoesntHave('user.courses', function ($q) use ($course) {
                 $q->where('course_id', $course->id);
             })
             ->get();
 
-        $dados = [
+        return view('dashboard.teacher.course.course_show', [
             'title' => $course->title,
             'course' => $course,
             'enrolledStudents' => $enrolledStudents,
             'availableStudents' => $availableStudents,
-        ];
-
-        return view('dashboard.teacher.course.course_show', $dados);
+        ]);
     }
 
     public function update(CourseRequest $request, string $uuid)
     {
         try {
             $course = Course::where('uuid', $uuid)->firstOrFail();
-            $data = $request->except(['_token']);
+            $this->authorize('update', $course);
+
+            $data = $request->validated();
             $data['certificate_enabled'] = $request->has('certificate_enabled');
             $data['price'] = $request->input('price') ?? 0;
             $data['payment_link'] = $request->input('payment_link') ?? '';
 
             foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
                 if ($request->hasFile($field)) {
-                    $data[$field] = $this->uploadImage($request->file($field), $request->title, $field);
+                    $data[$field] = $this->uploadImage($request->file($field), $field);
                 }
             }
 
@@ -149,8 +124,8 @@ class CourseController extends Controller
     {
         try {
             $course = Course::where('uuid', $uuid)->first();
+            $this->authorize('delete', $course);
 
-            // Remove as imagens associadas ao curso
             foreach (['image_cover', 'image_banner', 'certificate_background'] as $field) {
                 if (!empty($course->{$field}) && file_exists(public_path('storage/' . $course->{$field}))) {
                     unlink(public_path('storage/' . $course->{$field}));
@@ -162,5 +137,31 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('course.index')->with('error', 'Erro ao excluir o curso.');
         }
+    }
+
+    private function uploadImage($imageFile, $field)
+    {
+        $filename = $imageFile->hashName();
+        $path = public_path('storage/courses');
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        $image = Image::read($imageFile);
+
+        switch ($field) {
+            case 'image_cover':
+                $image->resize(600, 600);
+                break;
+            case 'image_banner':
+                $image->resize(1920, 500);
+                break;
+            default:
+                $image->resize(1200, 900);
+                break;
+        }
+
+        $image->save($path . '/' . $filename);
+        return 'courses/' . $filename;
     }
 }

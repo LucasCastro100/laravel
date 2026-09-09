@@ -8,6 +8,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        https: false,
+    },
     build: {
         outDir: '../build',
         emptyOutDir: true,

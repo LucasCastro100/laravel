@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -34,21 +33,18 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
     
-        // Lógica de imagem de perfil
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
-    
-            // Usa o nome do usuário como base para o nome do arquivo
-            $filename = Str::slug(strtolower($user->name), '_') . '.' . $imageFile->getClientOriginalExtension();
-    
-// Caminho para salvar
-            $path = 'storage/users/';
+            $filename = $imageFile->hashName();
 
-            // Redimensiona e salva a imagem
+            $path = public_path('storage/users');
+            if (!is_dir($path)) {
+                mkdir($path, 0755, true);
+            }
+
             $image = Image::read($imageFile)->resize(300, 200);
-            $image->save(public_path($path . $filename));
+            $image->save($path . '/' . $filename);
 
-            // Atualiza o caminho da imagem no usuário
             $user->image = 'users/' . $filename;
         }
     

@@ -31,17 +31,19 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::controller(TesteRepresentacionalController::class)->group(function () {
-    Route::get('/teste-representacional', 'index')->name('teste.representacional.index');
-    Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
-    Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
-});
+Route::middleware('throttle:60,1')->group(function () {
+    Route::controller(TesteRepresentacionalController::class)->group(function () {
+        Route::get('/teste-representacional', 'index')->name('teste.representacional.index');
+        Route::get('/teste-representacional/{uuid}', 'show')->name('teste.representacional.show');
+        Route::post('/teste-representacional', 'store')->name('teste.representacional.store');
+    });
 
-Route::controller(StripeController::class)->group(function () {
-    Route::get('/checkout/{uuid}', 'checkoutPage')->name('checkout.page');
-    Route::post('/checkout/{uuid}/create', 'createCheckoutSession')->name('checkout.create');
-    Route::get('/checkout/{uuid}/success', 'success')->name('checkout.success');
-    Route::get('/checkout/{uuid}/cancel', 'cancel')->name('checkout.cancel');
+    Route::controller(StripeController::class)->group(function () {
+        Route::get('/checkout/{uuid}', 'checkoutPage')->name('checkout.page');
+        Route::post('/checkout/{uuid}/create', 'createCheckoutSession')->name('checkout.create');
+        Route::get('/checkout/{uuid}/success', 'success')->name('checkout.success');
+        Route::get('/checkout/{uuid}/cancel', 'cancel')->name('checkout.cancel');
+    });
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

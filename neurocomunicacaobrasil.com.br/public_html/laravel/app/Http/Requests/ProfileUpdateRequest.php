@@ -33,11 +33,11 @@ class ProfileUpdateRequest extends FormRequest
             'phone' => [
                 'required',                
             ],
-            'iamge' => [
+            'image' => [
                 'nullable',
                 'image',
-                'mimes:jpeg,png,jpg,gif,svg',
-                'max:2048', // 2MB
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048',
             ],
         ];
     }
@@ -63,7 +63,7 @@ class ProfileUpdateRequest extends FormRequest
             'phone.required' => 'O campo telefone é obrigatório.',                                    
 
             'image.image' => 'O arquivo deve ser uma imagem.',
-            'image.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif, svg.',
+            'image.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg ou webp.',
             'image.max' => 'A imagem não pode ter mais de 2MB.',            
         ];
     }

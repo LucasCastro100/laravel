@@ -1,23 +1,18 @@
-# PROMPT GLOBAL & PADRÕES DO PROJETO
+# REGRAS GLOBAIS DO PROJETO
 
-## REGRA SUPREMA DE CONTEXTO
-Antes de iniciar qualquer tarefa, LEIA SEMPRE o arquivo `.opencode/MEMORY.md`. 
-Após concluir qualquer alteração significativa, ATUALIZE o arquivo `.opencode/MEMORY.md` com o resumo do que foi feito.
+## MEMÓRIA PERSISTENTE
+1. **Leitura Obrigatória:** ANTES de qualquer tarefa, leia nesta ordem:
+   - `.opencode/memory.md`
+   - `.opencode/rules/global.md` (este arquivo)
+   - `.opencode/rules/laravel-security.md` (se a tarefa envolver `app/`, `routes/` ou `resources/views/`)
+2. **Atualização Automática:** Ao concluir alterações, ATUALIZE `.opencode/memory.md` sem perguntar. Registre novos componentes, controllers, policies, rotas ou correções aplicadas com a data.
+3. **Notificação:** Ao finalizar, inclua no fim da resposta: `[Memória do projeto atualizada em .opencode/memory.md]`.
 
-## PADRÕES DE DESENVOLVIMENTO
+## PADRÕES DE CÓDIGO
+- **Componentização:** Se um trecho HTML/UI se repetir ou for extenso, crie/reutilize um componente em `resources/views/components/` (`<x-nome />`). Proibido código Blade limpo poluído com HTML repetido.
+- **Performance:** Faça consultas Eloquent otimizadas (`select` explícito) e evite queries N+1 usando `with()`. Prefira Alpine.js/JS nativo a bibliotecas pesadas.
+- **Segurança:** Sanitização estrita (`{{ }}`). Uso de `{!! !!}` apenas sob autorização explícita. Exija FormRequests para validações e valide autorização com Policies/Gates.
+- **Layout:** Mantenha estritamente o padrão de classes Tailwind CSS / CSS existente no projeto. Garanta responsividade nativa.
 
-### 1. Blade & Componentização
-- Avalie sempre a reutilização: Se um trecho HTML/UI for repetido mais de uma vez ou for extenso, CRIE UM COMPONENTE BLADE (`<x-nome-componente />`).
-- Evite código limpo poluído com HTML repetitivo direto na view.
-
-### 2. Velocidade & Performance
-- Priorize consultas Eloquent otimizadas (`select` de campos necessários, evitando *N+1* usando `with()`).
-- Minimize dependências JS pesadas nas views; prefira manipulação nativa/Alpine.js se aplicável.
-
-### 3. Segurança (Core)
-- Sanitização rigorosa (`{{ }}`). Uso de `{!! !!}` apenas sob autorização explícita.
-- Aplique FormRequests para validações e sempre verifique autorização via Policies/Gates.
-
-### 4. Padronização de Layout & UI
-- Mantenha estritamente o mesmo padrão de classes Tailwind CSS / CSS existente nos componentes do projeto.
-- Garanta responsividade nativa em todas as alterações de interface.
+## FORMATO DE SAÍDA
+- Seja enxuto e direto. Evite introduções longas ou explicações desnecessárias para economizar tokens.
